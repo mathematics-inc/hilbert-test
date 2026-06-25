@@ -1,0 +1,97 @@
+import Mathlib
+
+/-!
+Checked elementary pieces from Belyi's 1980 paper
+`On Galois Extensions of a Maximal Cyclotomic Field`.
+
+The full paper uses algebraic curves and descent.  This file isolates the
+explicit polynomial construction on the projective line:
+
+  `x ↦ x^m * (1 - x)^n`
+
+and proves the derivative formula and the algebraic cancellation at the middle
+critical point `m / (m + n)`.
+-/
+
+namespace Belyi1980
+
+noncomputable section
+
+open Real
+
+/-- The unscaled Belyi polynomial used after normalizing a rational triple to
+`{0, m/(m+n), 1}`. -/
+def auxPolynomial (m n : Nat) (x : Real) : Real :=
+  x ^ m * (1 - x) ^ n
+
+/-- The scaled polynomial whose middle critical value is normalized to `1`. -/
+def normalizedAuxPolynomial (m n : Nat) (x : Real) : Real :=
+  (((m + n : Nat) : Real) ^ (m + n) / ((m : Real) ^ m * (n : Real) ^ n)) *
+    auxPolynomial m n x
+
+/-- Derivative formula for `x^m * (1 - x)^n`. -/
+theorem hasDerivAt_auxPolynomial
+    (m n : Nat) (x : Real) :
+    HasDerivAt (fun y : Real => auxPolynomial m n y)
+      ((m : Real) * x ^ (m - 1) * (1 - x) ^ n -
+        (n : Real) * x ^ m * (1 - x) ^ (n - 1)) x := by
+  unfold auxPolynomial
+  have hxpow : HasDerivAt (fun y : Real => y ^ m) ((m : Real) * x ^ (m - 1)) x := by
+    simpa using hasDerivAt_pow m x
+  have honeSub : HasDerivAt (fun y : Real => 1 - y) (-1 : Real) x := by
+    simpa using (hasDerivAt_const (c := (1 : Real)) (x := x)).sub (hasDerivAt_id x)
+  have hright : HasDerivAt (fun y : Real => (1 - y) ^ n)
+      ((n : Real) * (1 - x) ^ (n - 1) * (-1 : Real)) x := by
+    simpa [one_mul] using honeSub.pow n
+  convert hxpow.mul hright using 1
+  ring
+
+/-- The middle critical point makes the linear factor in the derivative vanish. -/
+theorem middle_linear_factor_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (m : Real) * (1 - (m : Real) / ((m + n : Nat) : Real)) -
+        (n : Real) * ((m : Real) / ((m + n : Nat) : Real)) = 0 := by
+  have hden : ((m + n : Nat) : Real) ≠ 0 := by
+    exact_mod_cast (Nat.succ_le_iff.mp (Nat.succ_le_of_lt (Nat.add_pos_left hm n))).ne'
+  field_simp [hden]
+  ring
+
+/-- The middle point is strictly between zero and one. -/
+theorem middle_mem_unit_interval
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 < (m : Real) / ((m + n : Nat) : Real) ∧
+      (m : Real) / ((m + n : Nat) : Real) < 1 := by
+  have hmreal : 0 < (m : Real) := by exact_mod_cast hm
+  have hnreal : 0 < (n : Real) := by exact_mod_cast hn
+  have hden : 0 < ((m + n : Nat) : Real) := by exact_mod_cast Nat.add_pos_left hm n
+  constructor
+  · positivity
+  · rw [div_lt_one hden]
+    exact_mod_cast Nat.lt_add_of_pos_right hn
+
+/-- At the normalized middle point, `1 - m/(m+n) = n/(m+n)`. -/
+theorem one_sub_middle_eq_right_ratio
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    1 - (m : Real) / ((m + n : Nat) : Real) =
+      (n : Real) / ((m + n : Nat) : Real) := by
+  have hden : ((m + n : Nat) : Real) ≠ 0 := by
+    exact_mod_cast (Nat.succ_le_iff.mp (Nat.succ_le_of_lt (Nat.add_pos_left hm n))).ne'
+  field_simp [hden]
+
+/-- Belyi's scaling sends the middle critical point to `1`. -/
+theorem normalizedAuxPolynomial_middle_eq_one
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    normalizedAuxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
+  have hden : ((m + n : Nat) : Real) ≠ 0 := by
+    exact_mod_cast (Nat.succ_le_iff.mp (Nat.succ_le_of_lt (Nat.add_pos_left hm n))).ne'
+  have hmne : (m : Real) ≠ 0 := by exact_mod_cast hm.ne'
+  have hnne : (n : Real) ≠ 0 := by exact_mod_cast hn.ne'
+  unfold normalizedAuxPolynomial auxPolynomial
+  rw [one_sub_middle_eq_right_ratio hm hn]
+  rw [div_pow, div_pow]
+  rw [Nat.cast_add, pow_add]
+  field_simp [hden, hmne, hnne]
+
+end
+
+end Belyi1980

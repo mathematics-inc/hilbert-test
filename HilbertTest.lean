@@ -1,1 +1,7 @@
 import HilbertTest.NoncriticalBelyi.Elementary
+import HilbertTest.Belyi1980.Polynomial
+import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.Topology
+import HilbertTest.SourceStack.Schemes
+import HilbertTest.HilbertSteps.SourceStack
+import HilbertTest.HilbertSteps.Belyi1980

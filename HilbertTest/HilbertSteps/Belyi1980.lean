@@ -1,0 +1,47 @@
+import HilbertTest.Belyi1980.Polynomial
+
+/-!
+Hilbert-facing proof targets for the checked polynomial layer of Belyi's 1980
+paper.
+-/
+
+namespace HilbertTest
+namespace HilbertSteps
+namespace Belyi1980
+
+open Real
+
+theorem hilbert_hasDerivAt_auxPolynomial
+    (m n : Nat) (x : Real) :
+    HasDerivAt (fun y : Real => Belyi1980.auxPolynomial m n y)
+      ((m : Real) * x ^ (m - 1) * (1 - x) ^ n -
+        (n : Real) * x ^ m * (1 - x) ^ (n - 1)) x := by
+  exact Belyi1980.hasDerivAt_auxPolynomial m n x
+
+theorem hilbert_middle_linear_factor_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (m : Real) * (1 - (m : Real) / ((m + n : Nat) : Real)) -
+        (n : Real) * ((m : Real) / ((m + n : Nat) : Real)) = 0 := by
+  exact Belyi1980.middle_linear_factor_zero hm hn
+
+theorem hilbert_middle_mem_unit_interval
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 < (m : Real) / ((m + n : Nat) : Real) ∧
+      (m : Real) / ((m + n : Nat) : Real) < 1 := by
+  exact Belyi1980.middle_mem_unit_interval hm hn
+
+theorem hilbert_one_sub_middle_eq_right_ratio
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    1 - (m : Real) / ((m + n : Nat) : Real) =
+      (n : Real) / ((m + n : Nat) : Real) := by
+  exact Belyi1980.one_sub_middle_eq_right_ratio hm hn
+
+theorem hilbert_normalizedAuxPolynomial_middle_eq_one
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    Belyi1980.normalizedAuxPolynomial m n
+      ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
+  exact Belyi1980.normalizedAuxPolynomial_middle_eq_one hm hn
+
+end Belyi1980
+end HilbertSteps
+end HilbertTest

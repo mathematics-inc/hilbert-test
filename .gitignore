@@ -1,7 +1,11 @@
 *.pyc
 __pycache__
 /.lake/
-/data
+/data/*
+!/data/belyi_source_stack/
+!/data/belyi_source_stack/source_stack.jsonl
+!/data/belyi1980_polynomial/
+!/data/belyi1980_polynomial/polynomial.jsonl
 *.txt
 *.out
 outputs/
