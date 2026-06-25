@@ -55,8 +55,9 @@ formalization of the finite complex-set separation used in Lemma 2.3:
 linear-projectivization map induced by homogeneous coordinates
 `[X:Y] ↦ [Y:X - λY]`, including its action on affine points away from the pole,
 the pole, and infinity; it also checks affine-linear transformations
-`[X:Y] ↦ [aX + bY:Y]` for `a != 0`.  This is still below the scheme morphism
-layer.
+`[X:Y] ↦ [aX + bY:Y]` for `a != 0`.  Both classes of linear projective maps
+are checked as injective on projective points.  This is still below the scheme
+morphism layer.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound

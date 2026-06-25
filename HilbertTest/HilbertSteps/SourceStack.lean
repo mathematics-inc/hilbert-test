@@ -389,6 +389,11 @@ theorem hilbert_reciprocalTranslate_affinePoint_of_ne
       SourceStack.ProjectiveLine.affinePoint F ((r - lambda)⁻¹) := by
   exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_of_ne F lambda r hr
 
+theorem hilbert_reciprocalTranslate_injective
+    (lambda : F) :
+    Function.Injective (SourceStack.ProjectiveLine.reciprocalTranslate F lambda) := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_injective F lambda
+
 theorem hilbert_reciprocalTranslate_affinePoint_pole
     (lambda : F) :
     SourceStack.ProjectiveLine.reciprocalTranslate F lambda
@@ -423,6 +428,11 @@ theorem hilbert_affineLinearMap_affinePoint
         (SourceStack.ProjectiveLine.affinePoint F r) =
       SourceStack.ProjectiveLine.affinePoint F (a * r + b) := by
   exact SourceStack.ProjectiveLine.affineLinearMap_affinePoint F ha r
+
+theorem hilbert_affineLinearMap_injective
+    {a b : F} (ha : a ≠ 0) :
+    Function.Injective (SourceStack.ProjectiveLine.affineLinearMap F a b ha) := by
+  exact SourceStack.ProjectiveLine.affineLinearMap_injective F ha
 
 theorem hilbert_affineLinearMap_infinity
     {a b : F} (ha : a ≠ 0) :

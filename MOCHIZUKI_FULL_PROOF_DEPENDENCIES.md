@@ -48,7 +48,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   smaller cardinality and two of the four distinguished points have the same
   image; also the linear fractional reciprocal translate
   `[X:Y] -> [Y:X - lambda Y]` and its action on affine points, the pole, and
-  infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`.
+  infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`; both
+  classes of maps are checked as injective on projective points.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, and separatedness of `Proj`.

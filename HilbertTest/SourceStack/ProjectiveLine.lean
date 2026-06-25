@@ -156,6 +156,14 @@ def reciprocalTranslate (lambda : F) : P1 F → P1 F :=
   Projectivization.map (reciprocalTranslateLinear F lambda)
     (reciprocalTranslateLinear_injective F lambda)
 
+/-- Reciprocal translates are injective on the linear projective line. -/
+theorem reciprocalTranslate_injective
+    (lambda : F) :
+    Function.Injective (reciprocalTranslate F lambda) := by
+  unfold reciprocalTranslate
+  exact Projectivization.map_injective (reciprocalTranslateLinear F lambda)
+    (reciprocalTranslateLinear_injective F lambda)
+
 /-- Away from its pole, the reciprocal translate sends `[r:1]` to
 `[(r-lambda)^{-1}:1]`. -/
 theorem reciprocalTranslate_affinePoint_of_ne
@@ -238,6 +246,15 @@ theorem affineLinearMapLinear_injective
 /-- The projective-line map induced by `x ↦ a*x+b`. -/
 def affineLinearMap (a b : F) (ha : a ≠ 0) : P1 F → P1 F :=
   Projectivization.map (affineLinearMapLinear F a b)
+    (affineLinearMapLinear_injective F ha)
+
+/-- Affine linear maps with nonzero linear coefficient are injective on the
+linear projective line. -/
+theorem affineLinearMap_injective
+    {a b : F} (ha : a ≠ 0) :
+    Function.Injective (affineLinearMap F a b ha) := by
+  unfold affineLinearMap
+  exact Projectivization.map_injective (affineLinearMapLinear F a b)
     (affineLinearMapLinear_injective F ha)
 
 /-- Affine linear maps send affine points to affine points by the expected
