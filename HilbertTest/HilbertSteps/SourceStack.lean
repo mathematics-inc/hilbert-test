@@ -1714,6 +1714,30 @@ theorem hilbert_markedNoncritical_exists_belyiOpen_containing_finite_inside_open
   exact SourceStack.SchemeMarkedBelyi.markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     K X Φ map continuous_map exists_for_finite_disjoint hV hVcompl hT hTsub
 
+theorem hilbert_markedNoncritical_pointwise_cover_complement
+    (κ : Type*) [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ φ : Φ,
+      (markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ ∧
+        ∀ i, map φ (x i).1 ∉ markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedNoncritical_pointwise_cover_complement
+    K X Φ map continuous_map exists_for_finite_disjoint κ hS x
+
+theorem hilbert_markedNoncritical_finite_subcover_on_complement
+    (κ : Type*) [Finite κ] [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement
+    K X Φ map continuous_map exists_for_finite_disjoint κ hS
+
 end SchemeMarkedBelyi
 
 namespace RationalMaps

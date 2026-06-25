@@ -18,6 +18,7 @@ open SchemeProjectiveLine
 noncomputable section
 
 universe u v w
+universe z
 
 variable (K : Type u) [CommRing K] [IsDomain K]
 variable (X : Type v) [TopologicalSpace X]
@@ -132,6 +133,31 @@ theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_fini
   exact (markedNoncriticalExistence K X Φ map continuous_map
     exists_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       hV hVcompl hT hTsub
+
+theorem markedNoncritical_pointwise_cover_complement
+    (κ : Type z) [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ φ : Φ,
+      (markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ ∧
+        ∀ i, map φ (x i).1 ∉ markedPointSet K := by
+  rcases (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).pointwise_cover_complement hS x with ⟨φ, hφS, hφx⟩
+  exact ⟨φ, hφS, hφx⟩
+
+theorem markedNoncritical_finite_subcover_on_complement
+    (κ : Type z) [Finite κ] [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).finite_subcover_on_complement (κ := κ) hS
 
 end
 end SchemeMarkedBelyi
