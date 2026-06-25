@@ -8,6 +8,7 @@ import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.PullbackCarrier
+import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.UnramifiedEtale
@@ -39,6 +40,7 @@ open Set
 open CategoryTheory
 open CategoryTheory.Limits
 open CategoryTheory.Abelian
+open Topology
 open Opposite IsLocalRing
 open AlgebraicGeometry
 open HomogeneousLocalization
@@ -1811,6 +1813,76 @@ theorem hilbert_surjective_stableUnderBaseChange :
   exact SourceStack.PullbackCarrier.surjective_stableUnderBaseChange
 
 end PullbackCarrier
+
+namespace SurjectiveOnStalks
+
+universe u
+
+variable {X Y Z S : Scheme.{u}}
+
+theorem hilbert_stalkMap_surjective
+    (f : X ⟶ Y) [AlgebraicGeometry.SurjectiveOnStalks f] (x : X) :
+    Function.Surjective (f.stalkMap x) := by
+  exact SourceStack.SurjectiveOnStalks.stalkMap_surjective f x
+
+theorem hilbert_openImmersion_surjectiveOnStalks
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    AlgebraicGeometry.SurjectiveOnStalks f := by
+  exact SourceStack.SurjectiveOnStalks.openImmersion_surjectiveOnStalks f
+
+theorem hilbert_surjectiveOnStalks_multiplicative :
+    MorphismProperty.IsMultiplicative (@AlgebraicGeometry.SurjectiveOnStalks) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_multiplicative
+
+theorem hilbert_surjectiveOnStalks_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [AlgebraicGeometry.SurjectiveOnStalks f]
+    [AlgebraicGeometry.SurjectiveOnStalks g] :
+    AlgebraicGeometry.SurjectiveOnStalks (f ≫ g) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_comp f g
+
+theorem hilbert_surjectiveOnStalks_eq_stalkwise :
+    @AlgebraicGeometry.SurjectiveOnStalks =
+      AlgebraicGeometry.stalkwise (Function.Surjective ·) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_eq_stalkwise
+
+theorem hilbert_surjectiveOnStalks_isLocalAtTarget :
+    IsLocalAtTarget (@AlgebraicGeometry.SurjectiveOnStalks) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_isLocalAtTarget
+
+theorem hilbert_surjectiveOnStalks_isLocalAtSource :
+    IsLocalAtSource (@AlgebraicGeometry.SurjectiveOnStalks) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_isLocalAtSource
+
+theorem hilbert_surjectiveOnStalks_Spec_iff
+    {R S : CommRingCat.{u}} {φ : R ⟶ S} :
+    AlgebraicGeometry.SurjectiveOnStalks (Spec.map φ) ↔
+      RingHom.SurjectiveOnStalks φ.hom := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_Spec_iff
+
+theorem hilbert_surjectiveOnStalks_iff_of_isAffine
+    {f : X ⟶ Y} [IsAffine X] [IsAffine Y] :
+    AlgebraicGeometry.SurjectiveOnStalks f ↔
+      RingHom.SurjectiveOnStalks (f.app ⊤).hom := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_iff_of_isAffine
+
+theorem hilbert_surjectiveOnStalks_of_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [AlgebraicGeometry.SurjectiveOnStalks (f ≫ g)] :
+    AlgebraicGeometry.SurjectiveOnStalks f := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_of_comp f g
+
+theorem hilbert_surjectiveOnStalks_stableUnderBaseChange :
+    MorphismProperty.IsStableUnderBaseChange (@AlgebraicGeometry.SurjectiveOnStalks) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_stableUnderBaseChange
+
+theorem hilbert_surjectiveOnStalks_isEmbedding_pullback
+    (f : X ⟶ S) (g : Y ⟶ S)
+    [AlgebraicGeometry.SurjectiveOnStalks g] :
+    IsEmbedding (fun x ↦ ((pullback.fst f g).base x, (pullback.snd f g).base x)) := by
+  exact SourceStack.SurjectiveOnStalks.surjectiveOnStalks_isEmbedding_pullback f g
+
+end SurjectiveOnStalks
 
 namespace FieldTheory
 

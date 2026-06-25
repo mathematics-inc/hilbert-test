@@ -94,6 +94,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   from residue-field tensor data, carrier-equivalence and equality criteria,
   projection and pullback-map range formulas, existence of points above
   compatible pairs, and stability of surjectivity under base change.
+- `HilbertTest.SourceStack.SurjectiveOnStalks`: Mathlib scheme-morphism
+  wrappers for pointwise surjectivity of stalk maps, open-immersion examples,
+  composition/base-change stability, source and target locality, the affine
+  `Spec` criterion, descent from a surjective-on-stalks composite to the first
+  morphism, and the pullback-to-product carrier embedding theorem.
 - `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
   separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
   field, conjugacy-by-automorphism, normal-tower restriction wrappers, and the

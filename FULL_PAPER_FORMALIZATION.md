@@ -139,6 +139,16 @@ remaining missing input is the curve-level specialization that turns this
 general point-carrier API into statements about geometric points in the Belyi
 maps used by the paper.
 
+`HilbertTest/SourceStack/SurjectiveOnStalks.lean` checks the scheme-morphism
+source layer for morphisms whose stalk maps are all surjective: pointwise
+surjectivity of stalk maps, open-immersion examples, composition and base-change
+stability, source/target locality, the affine `Spec` criterion, descent from a
+surjective-on-stalks composite to the first morphism, and the embedding of a
+scheme pullback into the product of carrier spaces when the right leg is
+surjective on stalks.  The remaining missing input is the branch-locus
+specialization relating these general stalk properties to unramifiedness and
+critical values of finite curve maps.
+
 `HilbertTest/SourceStack/ProjectiveSpectrum.lean` checks the general `Proj`
 source layer available in Mathlib: projective basic opens, affine charts,
 affine-open chart ranges, affine basic opens, stalk localization, chart
