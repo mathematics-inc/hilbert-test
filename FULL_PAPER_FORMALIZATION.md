@@ -171,14 +171,13 @@ scheme-theoretic candidate `P^1_K = Proj K[X0,X1]`, proves the two homogeneous
 coordinates have degree one, checks that the two standard affine charts are
 open immersions with affine ranges covering `P^1_K`, identifies the coordinate
 chart overlap as `D_+(X0 * X1)`, proves separatedness of this `P^1_K`, and
-checks the homogeneous coordinate ideals `(X0)` and `(X1)` together with
-relevance witnesses saying the irrelevant ideal is not contained in either.
-It now also proves these two coordinate ideals are prime over a domain and
-packages the resulting `Proj` points `[0:1]` and `[1:0]` with their
-homogeneous ideals.  The remaining missing input is the analogous `(X0 - X1)`
-point for `1`, the API identifying the marked scheme points `0`, `1`, and
-`infinity` with the linear projective-line bookkeeping, and the bridge to
-rational functions.
+checks the homogeneous coordinate ideals `(X0)`, `(X1)`, and `(X0 - X1)`
+together with relevance witnesses saying the irrelevant ideal is not contained
+in any of them.  It proves these three coordinate ideals are prime over a
+domain and packages the resulting `Proj` points `[0:1]`, `[1:0]`, and `[1:1]`
+with their homogeneous ideals.  The remaining missing input is the API
+identifying the marked scheme points `0`, `1`, and `infinity` with the linear
+projective-line bookkeeping, and the bridge to rational functions.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

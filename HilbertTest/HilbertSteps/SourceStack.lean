@@ -1347,6 +1347,14 @@ theorem hilbert_x1Ideal_isHomogeneous :
     (x1Ideal K).IsHomogeneous (grading K) := by
   exact SourceStack.SchemeProjectiveLine.x1Ideal_isHomogeneous K
 
+theorem hilbert_x0SubX1_mem_degree_one :
+    X0SubX1 K ∈ grading K 1 := by
+  exact SourceStack.SchemeProjectiveLine.x0SubX1_mem_degree_one K
+
+theorem hilbert_x0SubX1Ideal_isHomogeneous :
+    (x0SubX1Ideal K).IsHomogeneous (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.x0SubX1Ideal_isHomogeneous K
+
 theorem hilbert_x0_mem_irrelevant :
     X0 K ∈ HomogeneousIdeal.irrelevant (grading K) := by
   exact SourceStack.SchemeProjectiveLine.x0_mem_irrelevant K
@@ -1375,18 +1383,52 @@ theorem hilbert_not_irrelevant_le_x1HomogeneousIdeal
     ¬ HomogeneousIdeal.irrelevant (grading K) ≤ x1HomogeneousIdeal K := by
   exact SourceStack.SchemeProjectiveLine.not_irrelevant_le_x1HomogeneousIdeal K
 
+theorem hilbert_x0_not_mem_x0SubX1Ideal
+    [Nontrivial K] :
+    X0 K ∉ x0SubX1Ideal K := by
+  exact SourceStack.SchemeProjectiveLine.x0_not_mem_x0SubX1Ideal K
+
+theorem hilbert_not_irrelevant_le_x0SubX1HomogeneousIdeal
+    [Nontrivial K] :
+    ¬ HomogeneousIdeal.irrelevant (grading K) ≤ x0SubX1HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.not_irrelevant_le_x0SubX1HomogeneousIdeal K
+
 theorem hilbert_x0PolynomialEquiv_X0 :
     x0PolynomialEquiv K (X0 K) = Polynomial.X := by
   exact SourceStack.SchemeProjectiveLine.x0PolynomialEquiv_X0 K
+
+theorem hilbert_x0PolynomialEquiv_X1 :
+    x0PolynomialEquiv K (X1 K) =
+      Polynomial.C (MvPolynomial.X (0 : Fin 1) : MvPolynomial (Fin 1) K) := by
+  exact SourceStack.SchemeProjectiveLine.x0PolynomialEquiv_X1 K
 
 theorem hilbert_x1PolynomialEquiv_X1 :
     x1PolynomialEquiv K (X1 K) = Polynomial.X := by
   exact SourceStack.SchemeProjectiveLine.x1PolynomialEquiv_X1 K
 
+theorem hilbert_x0PolynomialEquiv_X0SubX1 :
+    x0PolynomialEquiv K (X0SubX1 K) = x0SubX1PolynomialTarget K := by
+  exact SourceStack.SchemeProjectiveLine.x0PolynomialEquiv_X0SubX1 K
+
+theorem hilbert_x0SubX1Ideal_eq_comap_span_X_sub_C_X :
+    x0SubX1Ideal K =
+      Ideal.comap
+        (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({x0SubX1PolynomialTarget K} :
+          Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  exact SourceStack.SchemeProjectiveLine.x0SubX1Ideal_eq_comap_span_X_sub_C_X K
+
 theorem hilbert_polynomial_span_X_isPrime
     [IsDomain K] :
     (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime := by
   exact SourceStack.SchemeProjectiveLine.polynomial_span_X_isPrime K
+
+theorem hilbert_polynomial_span_X_sub_C_X_isPrime
+    [IsDomain K] :
+    (Ideal.span ({x0SubX1PolynomialTarget K} :
+      Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime := by
+  exact SourceStack.SchemeProjectiveLine.polynomial_span_X_sub_C_X_isPrime K
 
 theorem hilbert_x0Ideal_eq_comap_span_X :
     x0Ideal K =
@@ -1414,6 +1456,11 @@ theorem hilbert_x1Ideal_isPrime
     (x1Ideal K).IsPrime := by
   exact SourceStack.SchemeProjectiveLine.x1Ideal_isPrime K
 
+theorem hilbert_x0SubX1Ideal_isPrime
+    [IsDomain K] :
+    (x0SubX1Ideal K).IsPrime := by
+  exact SourceStack.SchemeProjectiveLine.x0SubX1Ideal_isPrime K
+
 theorem hilbert_zeroPoint_asHomogeneousIdeal
     [IsDomain K] :
     (zeroPoint K).asHomogeneousIdeal = x0HomogeneousIdeal K := by
@@ -1423,6 +1470,11 @@ theorem hilbert_infinityPoint_asHomogeneousIdeal
     [IsDomain K] :
     (infinityPoint K).asHomogeneousIdeal = x1HomogeneousIdeal K := by
   exact SourceStack.SchemeProjectiveLine.infinityPoint_asHomogeneousIdeal K
+
+theorem hilbert_onePoint_asHomogeneousIdeal
+    [IsDomain K] :
+    (onePoint K).asHomogeneousIdeal = x0SubX1HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_asHomogeneousIdeal K
 
 end SchemeProjectiveLine
 

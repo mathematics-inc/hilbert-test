@@ -75,10 +75,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `P^1_K = Proj K[X0,X1]`, degree-one coordinate facts, the two standard
   affine chart open immersions, chart ranges and affine-open facts, the
   `D_+(X0 * X1)` overlap, the two-chart cover, separatedness of `P^1_K`,
-  homogeneous coordinate ideals `(X0)` and `(X1)`, and relevance witnesses
-  showing the irrelevant ideal is not contained in either coordinate ideal.
-  It also checks polynomial-coordinate equivalences, primeness of `(X0)` and
-  `(X1)` over a domain, and the resulting `Proj` points `[0:1]` and `[1:0]`.
+  homogeneous coordinate ideals `(X0)`, `(X1)`, and `(X0-X1)`, and relevance
+  witnesses showing the irrelevant ideal is not contained in any of these
+  coordinate ideals.  It also checks polynomial-coordinate equivalences,
+  primeness of these three ideals over a domain, and the resulting `Proj`
+  points `[0:1]`, `[1:0]`, and `[1:1]`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -377,9 +378,9 @@ Lean-facing declarations needed:
   and chart-intersection projection identities.  The specialized construction
   `P^1_k = Proj k[X,Y]` and its two standard affine charts are now checked in
   `SourceStack.SchemeProjectiveLine`, together with homogeneous coordinate
-  ideals `(X0)` and `(X1)`, relevance witnesses, primeness of both coordinate
-  ideals, and the `Proj` points `[0:1]` and `[1:0]`; the missing item is the
-  `(X0-X1)` point and the API identifying the three marked points.
+  ideals `(X0)`, `(X1)`, and `(X0-X1)`, relevance witnesses, primeness of all
+  three coordinate ideals, and the `Proj` points `[0:1]`, `[1:0]`, and
+  `[1:1]`; the missing item is the API identifying the three marked points.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
