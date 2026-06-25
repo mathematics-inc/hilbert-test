@@ -10,11 +10,12 @@ namespace SourceStack
 
 section ImageCardinality
 
-variable {α β : Type*} [DecidableEq β]
+variable {α β : Type*}
 
 /-- If a map identifies two distinct elements of a finite set, then its image
 has strictly smaller cardinality than the original finite set. -/
 theorem card_image_lt_of_exists_distinct_same_image
+    [DecidableEq β]
     (s : Finset α) (f : α → β) {a b : α}
     (ha : a ∈ s) (hb : b ∈ s) (hab : a ≠ b) (hfab : f a = f b) :
     (s.image f).card < s.card := by
@@ -25,6 +26,15 @@ theorem card_image_lt_of_exists_distinct_same_image
     intro hcard
     exact hnot_inj ((Finset.card_image_iff (s := s) (f := f)).1 hcard)
   exact lt_of_le_of_ne Finset.card_image_le hne
+
+/-- Pigeonhole form: a map from a finite set into a strictly smaller finite set
+identifies two distinct source elements. -/
+theorem exists_distinct_same_image_of_maps_to_smaller
+    (s : Finset α) (t : Finset β) (f : α → β)
+    (hcard : t.card < s.card)
+    (hmap : ∀ a ∈ s, f a ∈ t) :
+    ∃ a ∈ s, ∃ b ∈ s, a ≠ b ∧ f a = f b :=
+  Finset.exists_ne_map_eq_of_card_lt_of_maps_to hcard hmap
 
 end ImageCardinality
 

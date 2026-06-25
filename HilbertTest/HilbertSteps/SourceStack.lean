@@ -23,13 +23,21 @@ open AlgebraicGeometry
 
 section FiniteSet
 
-variable {α β : Type*} [DecidableEq β]
+variable {α β : Type*}
 
 theorem hilbert_card_image_lt_of_exists_distinct_same_image
+    [DecidableEq β]
     (s : Finset α) (f : α → β) {a b : α}
     (ha : a ∈ s) (hb : b ∈ s) (hab : a ≠ b) (hfab : f a = f b) :
     (s.image f).card < s.card := by
   exact SourceStack.card_image_lt_of_exists_distinct_same_image s f ha hb hab hfab
+
+theorem hilbert_exists_distinct_same_image_of_maps_to_smaller
+    (s : Finset α) (t : Finset β) (f : α → β)
+    (hcard : t.card < s.card)
+    (hmap : ∀ a ∈ s, f a ∈ t) :
+    ∃ a ∈ s, ∃ b ∈ s, a ≠ b ∧ f a = f b := by
+  exact SourceStack.exists_distinct_same_image_of_maps_to_smaller s t f hcard hmap
 
 end FiniteSet
 
