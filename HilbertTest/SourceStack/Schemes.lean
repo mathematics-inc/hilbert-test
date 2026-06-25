@@ -64,6 +64,67 @@ theorem openImmersion_isSeparated
     IsSeparated f :=
   inferInstance
 
+/-- Affine morphisms are stable under composition. -/
+theorem affineHom_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsAffineHom f] [IsAffineHom g] :
+    IsAffineHom (f ≫ g) :=
+  inferInstance
+
+/-- Affine morphisms are stable under base change. -/
+theorem affineHom_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsAffineHom) :=
+  AlgebraicGeometry.isAffineHom_isStableUnderBaseChange
+
+/-- Affine morphisms are quasi-compact. -/
+theorem affineHom_quasiCompact
+    (f : X ⟶ Y) [IsAffineHom f] :
+    QuasiCompact f :=
+  inferInstance
+
+/-- Affine morphisms are separated. -/
+theorem affineHom_isSeparated
+    (f : X ⟶ Y) [IsAffineHom f] :
+    IsSeparated f :=
+  inferInstance
+
+/-- An affine morphism with affine target has affine source. -/
+theorem affineHom_isAffine_of_target
+    (f : X ⟶ Y) [IsAffineHom f] [IsAffine Y] :
+    IsAffine X :=
+  AlgebraicGeometry.isAffine_of_isAffineHom f
+
+/-- Finite morphisms are affine. -/
+theorem finite_isAffineHom
+    (f : X ⟶ Y) [IsFinite f] :
+    IsAffineHom f :=
+  inferInstance
+
+/-- Integral morphisms are stable under composition. -/
+theorem integralHom_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsIntegralHom f] [IsIntegralHom g] :
+    IsIntegralHom (f ≫ g) :=
+  MorphismProperty.comp_mem (@IsIntegralHom) f g inferInstance inferInstance
+
+/-- Integral morphisms are stable under base change. -/
+theorem integralHom_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsIntegralHom) :=
+  inferInstance
+
+/-- Integral morphisms stay integral after restricting the target to an open. -/
+theorem integralHom_restrict
+    (f : X ⟶ Y) [IsIntegralHom f] (U : Y.Opens) :
+    IsIntegralHom (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsIntegralHom) (f := f) inferInstance U
+
+/-- An integral morphism that is locally of finite type is finite. -/
+theorem finite_of_integralHom_and_locallyOfFiniteType
+    (f : X ⟶ Y) [IsIntegralHom f] [LocallyOfFiniteType f] :
+    IsFinite f :=
+  (IsFinite.iff_isIntegralHom_and_locallyOfFiniteType f).mpr
+    ⟨inferInstance, inferInstance⟩
+
 /-- Quasi-compact morphisms are stable under composition. -/
 theorem quasiCompact_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)

@@ -2275,6 +2275,56 @@ theorem hilbert_openImmersion_isSeparated
     IsSeparated f := by
   exact SourceStack.Schemes.openImmersion_isSeparated f
 
+theorem hilbert_affineHom_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsAffineHom f] [IsAffineHom g] :
+    IsAffineHom (f ≫ g) := by
+  exact SourceStack.Schemes.affineHom_comp f g
+
+theorem hilbert_affineHom_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsAffineHom) := by
+  exact SourceStack.Schemes.affineHom_stable_under_base_change
+
+theorem hilbert_affineHom_quasiCompact
+    (f : X ⟶ Y) [IsAffineHom f] :
+    QuasiCompact f := by
+  exact SourceStack.Schemes.affineHom_quasiCompact f
+
+theorem hilbert_affineHom_isSeparated
+    (f : X ⟶ Y) [IsAffineHom f] :
+    IsSeparated f := by
+  exact SourceStack.Schemes.affineHom_isSeparated f
+
+theorem hilbert_affineHom_isAffine_of_target
+    (f : X ⟶ Y) [IsAffineHom f] [IsAffine Y] :
+    IsAffine X := by
+  exact SourceStack.Schemes.affineHom_isAffine_of_target f
+
+theorem hilbert_finite_isAffineHom
+    (f : X ⟶ Y) [IsFinite f] :
+    IsAffineHom f := by
+  exact SourceStack.Schemes.finite_isAffineHom f
+
+theorem hilbert_integralHom_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsIntegralHom f] [IsIntegralHom g] :
+    IsIntegralHom (f ≫ g) := by
+  exact SourceStack.Schemes.integralHom_comp f g
+
+theorem hilbert_integralHom_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsIntegralHom) := by
+  exact SourceStack.Schemes.integralHom_stable_under_base_change
+
+theorem hilbert_integralHom_restrict
+    (f : X ⟶ Y) [IsIntegralHom f] (U : Y.Opens) :
+    IsIntegralHom (f ∣_ U) := by
+  exact SourceStack.Schemes.integralHom_restrict f U
+
+theorem hilbert_finite_of_integralHom_and_locallyOfFiniteType
+    (f : X ⟶ Y) [IsIntegralHom f] [LocallyOfFiniteType f] :
+    IsFinite f := by
+  exact SourceStack.Schemes.finite_of_integralHom_and_locallyOfFiniteType f
+
 theorem hilbert_quasiCompact_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [QuasiCompact f] [QuasiCompact g] :

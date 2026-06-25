@@ -163,9 +163,10 @@ Lean-facing declarations needed:
   those arithmetic Dedekind-domain objects.
 - nonconstant rational function `X -> P^1` induces a finite morphism.
   General quasi-compact scheme-morphism composition, base-change,
-  compact-preimage, affine-target, terminal-morphism, finite, and proper
-  wrappers are now checked in `SourceStack.Schemes`; the missing theorem is the
-  curve-specific finite-morphism construction.
+  compact-preimage, affine-target, terminal-morphism, finite, affine,
+  integral, and proper wrappers are now checked in `SourceStack.Schemes`,
+  including the bridge from integral plus locally finite type to finite.  The
+  missing theorem is the curve-specific finite-morphism construction.
 
 ### B. Divisors, line bundles, degree
 
