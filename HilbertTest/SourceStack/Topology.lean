@@ -150,6 +150,16 @@ theorem compactExhaustion_of_locallyCompact_secondCountable
     Nonempty (CompactExhaustion X) :=
   ⟨CompactExhaustion.choice X⟩
 
+/-- An open subspace of a locally compact second-countable space admits a
+compact exhaustion.  This packages the topological input used for the open sets
+`U_phi` in Mochizuki Corollary 3.2. -/
+theorem compactExhaustion_of_isOpen_subtype
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {U : Set X} (hU : IsOpen U) :
+    Nonempty (CompactExhaustion U) := by
+  haveI : LocallyCompactSpace U := hU.locallyCompactSpace
+  exact compactExhaustion_of_locallyCompact_secondCountable (X := U)
+
 /-- The compact sets in a compact exhaustion are compact. -/
 theorem compactExhaustion_isCompact
     (K : CompactExhaustion X) (n : ℕ) :

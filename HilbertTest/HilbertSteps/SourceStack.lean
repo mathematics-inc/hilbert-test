@@ -417,6 +417,12 @@ theorem hilbert_compactExhaustion_of_locallyCompact_secondCountable
     Nonempty (CompactExhaustion X) := by
   exact SourceStack.compactExhaustion_of_locallyCompact_secondCountable
 
+theorem hilbert_compactExhaustion_of_isOpen_subtype
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {U : Set X} (hU : IsOpen U) :
+    Nonempty (CompactExhaustion U) := by
+  exact SourceStack.compactExhaustion_of_isOpen_subtype hU
+
 theorem hilbert_compactExhaustion_isCompact
     (K : CompactExhaustion X) (n : ℕ) :
     IsCompact (K n) := by
