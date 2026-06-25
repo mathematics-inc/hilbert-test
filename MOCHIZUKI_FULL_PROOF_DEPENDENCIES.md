@@ -113,7 +113,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   over a scheme.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts,
   finite compact unions, compact product projections/products, and topological
-  proper-map compact-preimage/composition/closed-map wrappers.
+  proper-map compact-preimage/composition/closed-map wrappers, including the
+  finite union of coordinate projection images used to build the compact sets
+  `H_v` in Corollary 3.2.
 - `HilbertTest.SourceStack.BelyiCovers`: abstract Belyi-open and Belyi-cover
   consequences from finite branch sets and continuous map families, including
   the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
@@ -398,7 +400,8 @@ Lean-facing declarations needed:
   when second countable/countable dense hypotheses are available.
 - continuous image of a compact set is compact; finite unions of compact sets
   are compact; coordinate projections from product spaces preserve compactness.
-  These topological steps are already checked in `SourceStack.Topology`; the
+  These topological steps, including finite unions of coordinate projection
+  images, are already checked in `SourceStack.Topology`; the
   proper-morphism-to-proper-map bridge is checked in `SourceStack.Schemes`;
   topological proper-map compact-preimage facts are also checked in
   `SourceStack.Topology`; the missing step is the local-field point topology for

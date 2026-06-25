@@ -118,6 +118,17 @@ theorem compact_pi_projection_image
     IsCompact ((fun x : (j : κ) → Z j => x i) '' s) :=
   hs.image (continuous_apply i)
 
+/-- A finite union of coordinate projections of compact subsets of a product is
+compact.  This is the shape of the compact sets `H_v` in Mochizuki
+Corollary 3.2. -/
+theorem compact_iUnion_pi_projection_image
+    {ι κ : Type*} [Finite ι] {Z : κ → Type*}
+    [∀ i, TopologicalSpace (Z i)]
+    (K : ι → Set ((i : κ) → Z i))
+    (hK : ∀ i, IsCompact (K i)) (j : κ) :
+    IsCompact (⋃ i, (fun x : (l : κ) → Z l => x j) '' K i) :=
+  isCompact_iUnion fun i => (hK i).image (continuous_apply j)
+
 /-- Products of compact spaces are compact in Mathlib's product topology. -/
 theorem compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
