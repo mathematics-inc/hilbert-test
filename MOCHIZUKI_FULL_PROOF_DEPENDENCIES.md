@@ -354,8 +354,11 @@ Lean-facing declarations needed:
   The general topological part of openness is now checked in
   `SourceStack.Topology`: continuous preimages, finite intersections,
   complements of finite T1-subsets, and tuple-coordinate finite-avoidance
-  loci.  The missing part is the scheme/curve continuity and the
-  Belyi-specific nonemptiness/cover statement.
+  loci.  The abstract cover extraction is now checked in
+  `SourceStack.BelyiCovers`: pointwise existence of avoiding maps gives an
+  indexed open cover, and compactness extracts a finite subcover.  The missing
+  part is the scheme/curve continuity and the Belyi-specific
+  nonemptiness/cover statement.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.
   The scheme-level quasi-compact morphism composition/base-change/preimage

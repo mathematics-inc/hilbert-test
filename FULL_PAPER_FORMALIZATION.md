@@ -91,6 +91,12 @@ finite subcovers, continuous preimages of opens, finite intersections of opens,
 finite-set complements in T1 spaces, and tuple-coordinate finite-avoidance
 openness.
 
+`HilbertTest/SourceStack/BelyiCovers.lean` now formalizes the abstract
+Corollary 3.1 compactness step: a family of continuous maps with finite branch
+set gives open tuple-avoidance loci, pointwise avoidance gives an indexed open
+cover, and compactness extracts a finite subcover.  The remaining missing input
+is the curve-level theorem supplying those avoiding maps.
+
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
 type, smooth, etale, and separated.  It also checks that finite, smooth,

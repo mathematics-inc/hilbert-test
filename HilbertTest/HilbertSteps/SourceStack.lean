@@ -17,6 +17,7 @@ import HilbertTest.SourceStack.ArithmeticFunctionFields
 import HilbertTest.SourceStack.Cohomology
 import HilbertTest.SourceStack.SmoothKaehler
 import HilbertTest.SourceStack.Topology
+import HilbertTest.SourceStack.BelyiCovers
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
 
@@ -375,6 +376,33 @@ theorem hilbert_continuous_isProperMap_of_compactSpace
   exact SourceStack.continuous_isProperMap_of_compactSpace hf
 
 end Topology
+
+section BelyiCovers
+
+open SourceStack
+
+variable {X P Φ κ : Type*} [TopologicalSpace X] [TopologicalSpace P]
+variable (D : BelyiCoverData X P Φ)
+
+theorem hilbert_tupleAvoidSet_isOpen
+    [Finite κ] [T1Space P] (φ : Φ) :
+    IsOpen (D.tupleAvoidSet (κ := κ) φ) := by
+  exact SourceStack.BelyiCoverData.tupleAvoidSet_isOpen D φ
+
+theorem hilbert_tupleAvoidSet_cover_of_pointwise
+    [Finite κ]
+    (hcover : ∀ x : κ → X, ∃ φ : Φ, x ∈ D.tupleAvoidSet (κ := κ) φ) :
+    (Set.univ : Set (κ → X)) ⊆ ⋃ φ : Φ, D.tupleAvoidSet (κ := κ) φ := by
+  exact SourceStack.BelyiCoverData.tupleAvoidSet_cover_of_pointwise D hcover
+
+theorem hilbert_finite_subcover_of_pointwise
+    [Finite κ] [T1Space P] [CompactSpace (κ → X)]
+    (hcover : ∀ x : κ → X, ∃ φ : Φ, x ∈ D.tupleAvoidSet (κ := κ) φ) :
+    ∃ t : Finset Φ,
+      (⋃ φ ∈ t, D.tupleAvoidSet (κ := κ) φ) = (Set.univ : Set (κ → X)) := by
+  exact SourceStack.BelyiCoverData.finite_subcover_of_pointwise D hcover
+
+end BelyiCovers
 
 namespace LocalFields
 
