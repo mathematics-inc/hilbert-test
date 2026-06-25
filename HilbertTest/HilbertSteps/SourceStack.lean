@@ -1962,6 +1962,24 @@ theorem hilbert_partialMapMarkedCoverData_mem_belyiOpen_iff
       f.hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_mem_belyiOpen_iff K f x
 
+theorem hilbert_partialMapMarkedCoverData_belyiOpen_eq
+    (f : C.PartialMap (P1 K)) :
+    (partialMapMarkedCoverData K f).belyiOpen () =
+      {x : f.domain | f.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_belyiOpen_eq K f
+
+theorem hilbert_partialMapMarkedCoverData_belyiOpen_isOpen
+    [T1Space (P1 K)] (f : C.PartialMap (P1 K)) :
+    IsOpen ((partialMapMarkedCoverData K f).belyiOpen ()) := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_belyiOpen_isOpen K f
+
+theorem hilbert_partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    (f : C.PartialMap (P1 K)) {S : Set f.domain}
+    (hS : (partialMapMarkedCoverData K f).sendsSetToBranch S ()) :
+    (partialMapMarkedCoverData K f).belyiOpen () ⊆ Sᶜ := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    K f hS
+
 end PartialMapDomain
 
 end SchemeMarkedBelyi

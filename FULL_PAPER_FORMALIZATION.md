@@ -201,8 +201,9 @@ Corollary 1.2-style Belyi-open containment wrappers and the Corollary
 3.1-style pointwise-cover/finite-subcover wrappers to this marked scheme branch
 set, both for the raw projective-spectrum target and for maps whose target type
 is the scheme carrier `P1 K`.  It also turns a partial map to `P1 K` into
-one-map Belyi-cover data on its dense domain, with the same marked branch set.
-The remaining missing input is the bridge from
+one-map Belyi-cover data on its dense domain, with the same marked branch set,
+and checks the corresponding branch-avoidance Belyi open and containment
+facts.  The remaining missing input is the bridge from
 these marked scheme points to rational functions and branch-locus statements
 for morphisms to `P^1`.
 
