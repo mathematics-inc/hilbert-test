@@ -21,6 +21,9 @@ number fields, and local compactness.  They are recorded in the TeX source, but 
 complete proof in Lean would require a dedicated algebraic-geometry development
 rather than a direct Hilbert benchmark run.
 
+For the full-paper theorem inventory and the missing Mathlib infrastructure, see
+`FULL_PAPER_FORMALIZATION.md`.
+
 Lean entry point:
 
 ```bash
