@@ -172,6 +172,16 @@ theorem hilbert_proper_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsProper) := by
   exact SourceStack.Schemes.proper_stable_under_base_change
 
+theorem hilbert_universally_closed_isProperMap
+    (f : X ⟶ Y) [UniversallyClosed f] :
+    IsProperMap f.base := by
+  exact SourceStack.Schemes.universally_closed_isProperMap f
+
+theorem hilbert_proper_isProperMap
+    (f : X ⟶ Y) [IsProper f] :
+    IsProperMap f.base := by
+  exact SourceStack.Schemes.proper_isProperMap f
+
 theorem hilbert_etale_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsEtale f] [IsEtale g] :

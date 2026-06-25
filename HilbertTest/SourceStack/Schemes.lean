@@ -72,6 +72,18 @@ theorem proper_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsProper) :=
   inferInstance
 
+/-- A universally closed morphism has a topologically proper underlying map. -/
+theorem universally_closed_isProperMap
+    (f : X ⟶ Y) [UniversallyClosed f] :
+    IsProperMap f.base :=
+  f.isProperMap
+
+/-- A proper morphism has a topologically proper underlying map. -/
+theorem proper_isProperMap
+    (f : X ⟶ Y) [IsProper f] :
+    IsProperMap f.base :=
+  f.isProperMap
+
 /-- Étale morphisms are stable under composition. -/
 theorem etale_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)

@@ -29,7 +29,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
   `0`, `1`, `infinity` and the branch finset `{0,1,infinity}`.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
-  stability wrappers around Mathlib.
+  stability wrappers around Mathlib, plus the bridge from proper scheme
+  morphisms to topologically proper underlying maps.
 - `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
@@ -229,7 +230,9 @@ Lean-facing declarations needed:
 - open subsets of locally compact spaces admit relatively compact exhaustion
   when second countable/countable dense hypotheses are available.
 - continuous image of a compact set is compact.  This topological step is already
-  checked in `SourceStack.Topology`; the missing step is the AG/topology bridge.
+  checked in `SourceStack.Topology`; the proper-morphism-to-proper-map bridge is
+  checked in `SourceStack.Schemes`; the missing step is the local-field point
+  topology and proper-variety compactness theorem.
 
 ## Dependency order for actual implementation
 
