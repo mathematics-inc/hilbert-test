@@ -42,6 +42,13 @@ def infinity : P1 K :=
     have h0 := congr_fun h 0
     simp at h0)
 
+/-- The affine point `[r:1]` on the projective line. -/
+def affinePoint (r : K) : P1 K :=
+  Projectivization.mk K ![r, (1 : K)] (by
+    intro h
+    have h1 := congr_fun h 1
+    simp at h1)
+
 theorem zero_ne_infinity : zero K ≠ infinity K := by
   intro h
   unfold zero infinity at h
@@ -70,6 +77,43 @@ theorem one_ne_infinity : one K ≠ infinity K := by
   have h1 := congr_fun ha 1
   simp at h0 h1
 
+theorem affinePoint_zero :
+    affinePoint K 0 = zero K := rfl
+
+theorem affinePoint_one :
+    affinePoint K 1 = one K := rfl
+
+theorem affinePoint_ne_infinity (r : K) :
+    affinePoint K r ≠ infinity K := by
+  intro h
+  unfold affinePoint infinity at h
+  rw [Projectivization.mk_eq_mk_iff'] at h
+  obtain ⟨a, ha⟩ := h
+  have h1 := congr_fun ha 1
+  simp at h1
+
+theorem affinePoint_ne_zero {r : K} (hr : r ≠ 0) :
+    affinePoint K r ≠ zero K := by
+  intro h
+  unfold affinePoint zero at h
+  rw [Projectivization.mk_eq_mk_iff'] at h
+  obtain ⟨a, ha⟩ := h
+  have h0 := congr_fun ha 0
+  have h1 := congr_fun ha 1
+  simp at h0 h1
+  exact hr h0.symm
+
+theorem affinePoint_ne_one {r : K} (hr : r ≠ 1) :
+    affinePoint K r ≠ one K := by
+  intro h
+  unfold affinePoint one at h
+  rw [Projectivization.mk_eq_mk_iff'] at h
+  obtain ⟨a, ha⟩ := h
+  have h0 := congr_fun ha 0
+  have h1 := congr_fun ha 1
+  simp at h0 h1
+  exact hr (h0.symm.trans h1)
+
 /-- The finite branch set `{0,1,∞}` as a finset of linear projective points. -/
 noncomputable def branchFinset : Finset (P1 K) :=
   by
@@ -91,6 +135,41 @@ theorem infinity_mem_branchFinset : infinity K ∈ branchFinset K := by
 theorem branchFinset_card : (branchFinset K).card = 3 := by
   classical
   simp [branchFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K]
+
+/-- The finite set `{0,r,1,∞}` from Mochizuki Lemma 2.1. -/
+noncomputable def fourPointFinset (r : K) : Finset (P1 K) :=
+  by
+    classical
+    exact {zero K, affinePoint K r, one K, infinity K}
+
+theorem zero_mem_fourPointFinset (r : K) :
+    zero K ∈ fourPointFinset K r := by
+  classical
+  simp [fourPointFinset]
+
+theorem affinePoint_mem_fourPointFinset (r : K) :
+    affinePoint K r ∈ fourPointFinset K r := by
+  classical
+  simp [fourPointFinset]
+
+theorem one_mem_fourPointFinset (r : K) :
+    one K ∈ fourPointFinset K r := by
+  classical
+  simp [fourPointFinset]
+
+theorem infinity_mem_fourPointFinset (r : K) :
+    infinity K ∈ fourPointFinset K r := by
+  classical
+  simp [fourPointFinset]
+
+theorem fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
+    (fourPointFinset K r).card = 4 := by
+  classical
+  have hzA : zero K ≠ affinePoint K r := (affinePoint_ne_zero K hr0).symm
+  have hA1 : affinePoint K r ≠ one K := affinePoint_ne_one K hr1
+  have hAinf : affinePoint K r ≠ infinity K := affinePoint_ne_infinity K r
+  simp [fourPointFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K,
+    hzA, hA1, hAinf]
 
 end ProjectiveLine
 
