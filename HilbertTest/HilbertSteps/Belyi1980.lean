@@ -82,6 +82,13 @@ theorem hilbert_normalizedAuxPolynomial_middle_eq_one
       ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
   exact Belyi1980.normalizedAuxPolynomial_middle_eq_one hm hn
 
+theorem hilbert_auxPolynomial_middle_eq_power_product
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    Belyi1980.auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) =
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  exact Belyi1980.auxPolynomial_middle_eq_power_product hm hn
+
 theorem hilbert_normalizedAuxPolynomial_basic_data
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     Belyi1980.normalizedAuxPolynomial m n 0 = 0 ∧
@@ -104,6 +111,16 @@ theorem hilbert_middle_power_product_le_quarter
     ((m : Real) / ((m + n : Nat) : Real)) ^ m *
         ((n : Real) / ((m + n : Nat) : Real)) ^ n <= 1 / 4 := by
   exact Belyi1980.middle_power_product_le_quarter hm hn
+
+theorem hilbert_auxPolynomial_middle_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 < Belyi1980.auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) := by
+  exact Belyi1980.auxPolynomial_middle_pos hm hn
+
+theorem hilbert_auxPolynomial_middle_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    Belyi1980.auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) <= 1 / 4 := by
+  exact Belyi1980.auxPolynomial_middle_le_quarter hm hn
 
 end Belyi1980
 end HilbertSteps

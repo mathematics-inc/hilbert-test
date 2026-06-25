@@ -82,8 +82,8 @@ kernel.  It also checks the finite-field counting handoff: if the sum of the
 cardinalities of finitely many subspaces is smaller than the ambient finite
 vector space, one can choose a vector outside all of them.
 
-`HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
-positivity and AM-GM bound
+`HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
+identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
 Lemma 2.1.
 

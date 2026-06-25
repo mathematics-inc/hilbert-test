@@ -23,9 +23,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   derivative formula, factored derivative, and middle critical-point evaluation.
 - `HilbertTest.Belyi1980.Polynomial`: the Belyi 1980 polynomial derivative,
   endpoint values at `0` and `1`, the middle critical point with derivative
-  value `0`, normalized value `1`, and the middle-value positivity/`<= 1/4`
-  bound used for Mochizuki Lemma 2.1, plus a packaged theorem combining the
-  normalized endpoint values, middle criticality, and middle value.
+  value `0`, normalized value `1`, the unscaled middle-value product identity,
+  and the middle-value positivity/`<= 1/4` bound used for Mochizuki Lemma 2.1,
+  plus a packaged theorem combining the normalized endpoint values, middle
+  criticality, and middle value.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
   for proper subspaces over an infinite field, the `finrank` inequality bridge
   from Riemann-Roch dimensions to proper subspaces, the finite nonzero

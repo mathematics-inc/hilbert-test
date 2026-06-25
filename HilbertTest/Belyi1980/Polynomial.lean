@@ -168,6 +168,16 @@ theorem normalizedAuxPolynomial_middle_eq_one
   rw [Nat.cast_add, pow_add]
   field_simp [hden, hmne, hnne]
 
+/-- The unscaled middle critical value is the product
+`(m/(m+n))^m * (n/(m+n))^n`. -/
+theorem auxPolynomial_middle_eq_power_product
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) =
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  unfold auxPolynomial
+  rw [one_sub_middle_eq_right_ratio hm hn]
+
 /-- The basic normalized Belyi polynomial data used for the three-point
 construction: `0` and `1` map to `0`, the middle point is critical, and the
 middle critical value is normalized to `1`. -/
@@ -244,6 +254,21 @@ theorem middle_power_product_le_quarter
     rw [div_le_iff₀ (mul_pos hden_sum_pos hden_sum_pos)]
     nlinarith
   exact le_trans hpowprod_le hab_le_quarter
+
+/-- The unscaled auxiliary polynomial has positive value at the middle critical
+point. -/
+theorem auxPolynomial_middle_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 < auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) := by
+  rw [auxPolynomial_middle_eq_power_product hm hn]
+  exact middle_power_product_pos hm hn
+
+/-- The unscaled auxiliary polynomial has middle critical value at most `1/4`. -/
+theorem auxPolynomial_middle_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    auxPolynomial m n ((m : Real) / ((m + n : Nat) : Real)) <= 1 / 4 := by
+  rw [auxPolynomial_middle_eq_power_product hm hn]
+  exact middle_power_product_le_quarter hm hn
 
 end
 
