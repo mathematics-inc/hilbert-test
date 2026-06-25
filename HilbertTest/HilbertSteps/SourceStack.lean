@@ -4,6 +4,7 @@ import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
+import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
 
@@ -22,6 +23,7 @@ namespace HilbertSteps
 open Set
 open CategoryTheory
 open AlgebraicGeometry
+open scoped TensorProduct
 
 section FiniteSet
 
@@ -238,6 +240,112 @@ theorem hilbert_genericPoint_eq_of_isOpenImmersion
   exact SourceStack.FunctionFields.genericPoint_eq_of_isOpenImmersion f
 
 end FunctionFields
+
+namespace UnramifiedEtale
+
+universe u v w
+
+theorem hilbert_formallyUnramified_iff_subsingleton_kaehlerDifferential
+    (R : Type v) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A] :
+    Algebra.FormallyUnramified R A ↔ Subsingleton (Ω[A⁄R]) := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_iff_subsingleton_kaehlerDifferential R A
+
+theorem hilbert_formallyUnramified_iff_comp_injective
+    (R : Type v) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A] :
+    Algebra.FormallyUnramified R A ↔
+      ∀ ⦃B : Type u⦄ [CommRing B] [Algebra R B] (I : Ideal B),
+        I ^ 2 = ⊥ →
+          Function.Injective ((Ideal.Quotient.mkₐ R I).comp :
+            (A →ₐ[R] B) → A →ₐ[R] B ⧸ I) := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_iff_comp_injective R A
+
+theorem hilbert_formallyUnramified_comp
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    (B : Type w) [CommRing B] [Algebra R B] [Algebra A B]
+    [IsScalarTower R A B]
+    [Algebra.FormallyUnramified R A] [Algebra.FormallyUnramified A B] :
+    Algebra.FormallyUnramified R B := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_comp R A B
+
+theorem hilbert_formallyUnramified_of_comp
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    (B : Type w) [CommRing B] [Algebra R B] [Algebra A B]
+    [IsScalarTower R A B]
+    [Algebra.FormallyUnramified R B] :
+    Algebra.FormallyUnramified A B := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_of_comp R A B
+
+theorem hilbert_formallyUnramified_base_change
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    (B : Type w) [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A] :
+    Algebra.FormallyUnramified B (B ⊗[R] A) := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_base_change B
+
+theorem hilbert_formallyUnramified_iff_isSeparable
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.EssFiniteType K L] :
+    Algebra.FormallyUnramified K L ↔ Algebra.IsSeparable K L := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_iff_isSeparable K L
+
+theorem hilbert_formallyEtale_iff_unramified_and_smooth
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A] :
+    Algebra.FormallyEtale R A ↔
+      Algebra.FormallyUnramified R A ∧ Algebra.FormallySmooth R A := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_iff_unramified_and_smooth R A
+
+theorem hilbert_formallyEtale_to_formallyUnramified
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A]
+    [Algebra.FormallyEtale R A] :
+    Algebra.FormallyUnramified R A := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_to_formallyUnramified R A
+
+theorem hilbert_formallyEtale_comp
+    (R : Type u) [CommRing R]
+    (A B : Type u) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra A B] [IsScalarTower R A B]
+    [Algebra.FormallyEtale R A] [Algebra.FormallyEtale A B] :
+    Algebra.FormallyEtale R B := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_comp R A B
+
+theorem hilbert_formallyEtale_base_change
+    {R : Type u} [CommRing R]
+    {A : Type u} [CommRing A] [Algebra R A]
+    (B : Type u) [CommRing B] [Algebra R B]
+    [Algebra.FormallyEtale R A] :
+    Algebra.FormallyEtale B (B ⊗[R] A) := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_base_change B
+
+theorem hilbert_formallyEtale_iff_isSeparable
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.EssFiniteType K L] :
+    Algebra.FormallyEtale K L ↔ Algebra.IsSeparable K L := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_iff_isSeparable K L
+
+theorem hilbert_etale_comp
+    (R : Type u) [CommRing R]
+    (A B : Type u) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra A B] [IsScalarTower R A B]
+    [Algebra.Etale R A] [Algebra.Etale A B] :
+    Algebra.Etale R B := by
+  exact SourceStack.UnramifiedEtale.etale_comp R A B
+
+theorem hilbert_etale_base_change
+    (R : Type u) [CommRing R]
+    (A B : Type u) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Etale R A] :
+    Algebra.Etale B (B ⊗[R] A) := by
+  exact SourceStack.UnramifiedEtale.etale_base_change R A B
+
+end UnramifiedEtale
 
 namespace Schemes
 

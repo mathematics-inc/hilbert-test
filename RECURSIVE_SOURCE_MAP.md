@@ -259,7 +259,7 @@ follows.
 | Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
 | Finite image cardinality and pigeonhole | Elementary finite-set theory; Mochizuki Lemma 2.2 induction | Checked in `SourceStack.FiniteSet` |
 | Finite morphisms to `P^1` | Stacks Project finite morphisms; Scherr-Zieve Proposition 2.1 | Checked general closed-immersion/finite/proper/separated/universally-closed stability and characterization wrappers in `SourceStack.Schemes`; still needs the curve-specific theorem that a nonconstant rational function on a proper curve induces a finite morphism |
-| Branch locus and noncriticality | Stacks Project unramified/etale morphisms; SGA 1 for covers | Define branch locus as complement of the maximal open over which a finite morphism is unramified |
+| Branch locus and noncriticality | Stacks Project unramified/etale morphisms; SGA 1 for covers | Checked algebraic formal-unramified/formal-etale and separability source facts in `SourceStack.UnramifiedEtale`; still needs scheme-level unramified morphisms, branch locus, and finite-cover specialization |
 | Divisors from finite point sets | Stacks Project Divisors; Liu Chapter 7; Hartshorne II.6 | Effective Cartier divisors on smooth curves and `O(D)` |
 | Degree and canonical bundle | Stacks Project Algebraic Curves 53.4-53.5; Liu 7.3; Hartshorne IV | Degree of line bundles and `deg omega = 2g - 2` |
 | Riemann-Roch spaces | Scherr-Zieve Lemma 2.2; Stacks Algebraic Curves 53.5; Liu 7.3 | `dim L(D)` and enough rational functions with prescribed poles |

@@ -41,6 +41,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   stability wrappers around Mathlib, closed-immersion and separated/universally
   closed bridges, plus the bridge from proper scheme morphisms to topologically
   proper underlying maps.
+- `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
+  formal-etale source facts, including the Kähler-differential characterization,
+  square-zero lift uniqueness, composition/base-change stability, and
+  separability equivalences over essentially finite type field extensions.
 - `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
