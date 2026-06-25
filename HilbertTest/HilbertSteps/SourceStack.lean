@@ -378,6 +378,47 @@ theorem hilbert_affinePoint_ne_one {r : K} (hr : r ≠ 1) :
       SourceStack.ProjectiveLine.one K := by
   exact SourceStack.ProjectiveLine.affinePoint_ne_one K hr
 
+section FractionalLinear
+
+variable (F : Type*) [Field F]
+
+theorem hilbert_reciprocalTranslate_affinePoint_of_ne
+    (lambda r : F) (hr : r ≠ lambda) :
+    SourceStack.ProjectiveLine.reciprocalTranslate F lambda
+        (SourceStack.ProjectiveLine.affinePoint F r) =
+      SourceStack.ProjectiveLine.affinePoint F ((r - lambda)⁻¹) := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_of_ne F lambda r hr
+
+theorem hilbert_reciprocalTranslate_affinePoint_pole
+    (lambda : F) :
+    SourceStack.ProjectiveLine.reciprocalTranslate F lambda
+        (SourceStack.ProjectiveLine.affinePoint F lambda) =
+      SourceStack.ProjectiveLine.infinity F := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_pole F lambda
+
+theorem hilbert_reciprocalTranslate_infinity
+    (lambda : F) :
+    SourceStack.ProjectiveLine.reciprocalTranslate F lambda
+      (SourceStack.ProjectiveLine.infinity F) =
+        SourceStack.ProjectiveLine.zero F := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_infinity F lambda
+
+theorem hilbert_reciprocalTranslate_affinePoint_ne_infinity
+    (lambda r : F) (hr : r ≠ lambda) :
+    SourceStack.ProjectiveLine.reciprocalTranslate F lambda
+        (SourceStack.ProjectiveLine.affinePoint F r) ≠
+      SourceStack.ProjectiveLine.infinity F := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity F lambda r hr
+
+theorem hilbert_reciprocalTranslate_affinePoint_ne_zero
+    (lambda r : F) (hr : r ≠ lambda) :
+    SourceStack.ProjectiveLine.reciprocalTranslate F lambda
+        (SourceStack.ProjectiveLine.affinePoint F r) ≠
+      SourceStack.ProjectiveLine.zero F := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_ne_zero F lambda r hr
+
+end FractionalLinear
+
 theorem hilbert_zero_mem_branchFinset :
     SourceStack.ProjectiveLine.zero K ∈ SourceStack.ProjectiveLine.branchFinset K := by
   exact SourceStack.ProjectiveLine.zero_mem_branchFinset K

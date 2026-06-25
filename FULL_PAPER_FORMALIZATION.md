@@ -51,6 +51,11 @@ formalization of the finite complex-set separation used in Lemma 2.3:
 - the reciprocal translate estimate for `z ↦ 1 / (z - lambda)`,
 - the rational-pole refinement when `β` is rational.
 
+`HilbertTest/SourceStack/ProjectiveLine.lean` now also checks the corresponding
+linear-projectivization map induced by homogeneous coordinates
+`[X:Y] ↦ [Y:X - λY]`, including its action on affine points away from the pole,
+the pole, and infinity.  This is still below the scheme morphism layer.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
@@ -104,7 +109,8 @@ available as ready-to-use Mathlib components:
 1. Finish the finite-set image/cardinality packaging for Lemma 2.1 over the
    scheme/projective-line model; the formal derivative and middle critical-point
    calculation over `ℚ[X]` are now checked.
-2. Finish the scheme-`P^1` morphism packaging for Lemma 2.3.
+2. Finish the scheme-`P^1` morphism packaging for Lemma 2.3; the analytic
+   estimate and the linear-projectivization reciprocal map are now checked.
 3. Build a projective-line API sufficient for Lemma 2.2 and Lemma 2.4.
 4. Add a Belyi-map definition over `P^1` using Mathlib's scheme morphism
    properties.

@@ -115,6 +115,96 @@ theorem affinePoint_ne_one {r : K} (hr : r ≠ 1) :
   simp at h0 h1
   exact hr (h0.symm.trans h1)
 
+section FractionalLinear
+
+variable (F : Type*) [Field F]
+
+/-- The linear map on homogeneous coordinates inducing
+`x ↦ 1 / (x - lambda)` on the affine chart. -/
+def reciprocalTranslateLinear (lambda : F) : (Fin 2 → F) →ₗ[F] (Fin 2 → F) where
+  toFun v := ![v 1, v 0 - lambda * v 1]
+  map_add' v w := by
+    ext i
+    fin_cases i
+    · simp
+    · simp
+      ring
+  map_smul' c v := by
+    ext i
+    fin_cases i
+    · simp
+    · simp
+      ring
+
+/-- The homogeneous-coordinate map for `x ↦ 1 / (x - lambda)` is injective. -/
+theorem reciprocalTranslateLinear_injective
+    (lambda : F) :
+    Function.Injective (reciprocalTranslateLinear F lambda) := by
+  intro v w h
+  have h0 := congr_fun h 0
+  have h1 := congr_fun h 1
+  simp [reciprocalTranslateLinear] at h0 h1
+  funext i
+  fin_cases i
+  · have h1' : v 0 - lambda * w 1 = w 0 - lambda * w 1 := by
+      simpa [h0] using h1
+    exact sub_left_inj.mp h1'
+  · exact h0
+
+/-- The projective-line map induced by `x ↦ 1 / (x - lambda)`. -/
+def reciprocalTranslate (lambda : F) : P1 F → P1 F :=
+  Projectivization.map (reciprocalTranslateLinear F lambda)
+    (reciprocalTranslateLinear_injective F lambda)
+
+/-- Away from its pole, the reciprocal translate sends `[r:1]` to
+`[(r-lambda)^{-1}:1]`. -/
+theorem reciprocalTranslate_affinePoint_of_ne
+    (lambda r : F) (hr : r ≠ lambda) :
+    reciprocalTranslate F lambda (affinePoint F r) =
+      affinePoint F ((r - lambda)⁻¹) := by
+  have hdiff : r - lambda ≠ 0 := sub_ne_zero.mpr hr
+  unfold reciprocalTranslate affinePoint reciprocalTranslateLinear
+  rw [Projectivization.map_mk]
+  rw [Projectivization.mk_eq_mk_iff']
+  refine ⟨r - lambda, ?_⟩
+  ext i
+  fin_cases i
+  · simp [hdiff]
+  · simp
+
+/-- The pole maps to infinity under the reciprocal translate. -/
+theorem reciprocalTranslate_affinePoint_pole
+    (lambda : F) :
+    reciprocalTranslate F lambda (affinePoint F lambda) =
+      infinity F := by
+  unfold reciprocalTranslate affinePoint infinity reciprocalTranslateLinear
+  rw [Projectivization.map_mk]
+  simp
+
+/-- Infinity maps to zero under the reciprocal translate. -/
+theorem reciprocalTranslate_infinity
+    (lambda : F) :
+    reciprocalTranslate F lambda (infinity F) = zero F := by
+  unfold reciprocalTranslate infinity zero reciprocalTranslateLinear
+  rw [Projectivization.map_mk]
+  simp
+
+/-- Away from the pole, affine points do not map to infinity. -/
+theorem reciprocalTranslate_affinePoint_ne_infinity
+    (lambda r : F) (hr : r ≠ lambda) :
+    reciprocalTranslate F lambda (affinePoint F r) ≠ infinity F := by
+  rw [reciprocalTranslate_affinePoint_of_ne F lambda r hr]
+  exact affinePoint_ne_infinity F _
+
+/-- Away from the pole, affine points do not map to zero. -/
+theorem reciprocalTranslate_affinePoint_ne_zero
+    (lambda r : F) (hr : r ≠ lambda) :
+    reciprocalTranslate F lambda (affinePoint F r) ≠ zero F := by
+  rw [reciprocalTranslate_affinePoint_of_ne F lambda r hr]
+  exact affinePoint_ne_zero F (inv_ne_zero (sub_ne_zero.mpr hr))
+
+end FractionalLinear
+
 /-- The finite branch set `{0,1,∞}` as a finset of linear projective points. -/
 noncomputable def branchFinset : Finset (P1 K) :=
   by

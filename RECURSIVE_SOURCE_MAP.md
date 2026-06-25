@@ -78,8 +78,10 @@ Formalization use:
 - Fractional linear transformations with rational coefficients.
 - Complex finite-set separation for reciprocal translates.  The analytic
   estimate and rational-pole refinement are checked in
-  `HilbertTest.SourceStack.ComplexSeparation`; the remaining work is to express
-  it as a scheme `P^1` morphism statement.
+  `HilbertTest.SourceStack.ComplexSeparation`, and the corresponding linear
+  projective-line map `[X:Y] -> [Y:X - lambda Y]` is checked in
+  `HilbertTest.SourceStack.ProjectiveLine`; the remaining work is to express it
+  as a scheme `P^1` morphism statement.
 - General `Proj` infrastructure for the scheme-theoretic projective line.  This
   fork now checks Mathlib's projective basic opens, affine charts, chart ranges,
   stalk localization, and separatedness wrappers in
@@ -305,9 +307,9 @@ follows.
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
 | Rational maps/function fields | Mathlib `AlgebraicGeometry.RationalMap`; Mathlib `AlgebraicGeometry.FunctionField`; Stacks Project rational maps and function fields | Checked dense-domain, representative, equivalence, and function-field reconstruction wrappers in `SourceStack.RationalMaps`; checked function-field injection/fraction-field/generic-point wrappers in `SourceStack.FunctionFields`; still needs curve-specific divisors/Riemann-Roch |
 | Scheme points and residue fields | Mathlib `AlgebraicGeometry.ResidueField` and `Stalk`; Stacks Project points/stalks/residue fields | Checked evaluation, residue-field functoriality, `Spec O_{X,x}` and `Spec kappa(x)` maps, ranges, and field/local-ring-valued point equivalences in `SourceStack.ResidueFields`; still needs algebraic-point specialization for curves and `P^1` |
-| Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including the image-cardinality drop when the four-point set maps into the branch triple |
+| Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including the image-cardinality drop when the four-point set maps into the branch triple; also checked the reciprocal-translate linear projective map used in Lemma 2.3 |
 | Scheme-theoretic projective line base | Mathlib `AlgebraicGeometry.ProjectiveSpectrum`; Stacks Project Proj/projective space | Checked general `Proj` basic opens, affine charts, chart ranges, stalk localization, and separatedness in `SourceStack.ProjectiveSpectrum`; still needs the specialized `P^1 = Proj k[X,Y]` marked-point API |
-| Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
+| Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`, with the matching linear projective reciprocal map in `SourceStack.ProjectiveLine`; still needs scheme `P^1` packaging |
 | Finite image cardinality and pigeonhole | Elementary finite-set theory; Mochizuki Lemma 2.2 induction | Checked collision, subset-image drop, and four-points-to-three-images cardinality-drop packages in `SourceStack.FiniteSet` |
 | Algebraic point Galois conjugacy | Mathlib field theory; Stacks Project field extensions; standard primitive-element theorem | Checked primitive-element, finite adjoin, separability, normal/Galois, splitting, minimal-polynomial conjugacy, and normal-tower restriction wrappers in `SourceStack.FieldTheory`; still needs `P^1(Qbar)` point/model bridge |
 | Lemma 2.1 auxiliary polynomial separation | Mochizuki Lemma 2.1; Belyi 1980 polynomial calculation | Checked real-polynomial ratio, positivity, scaled separation, and unit-interval separation consequences in `NoncriticalBelyi.Elementary`; checked the `ℚ[X]` endpoint, derivative, factored derivative, and middle critical-point calculation in `NoncriticalBelyi.Polynomial`; still needs full scheme `P^1` finite-set/ramification packaging |
