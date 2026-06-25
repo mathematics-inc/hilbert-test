@@ -1374,6 +1374,30 @@ theorem hilbert_residueFieldCongr_refl
       Iso.refl (X.residueField x) := by
   exact SourceStack.ResidueFields.residueFieldCongr_refl
 
+theorem hilbert_residueFieldCongr_symm
+    {x y : X} (h : x = y) :
+    (Scheme.residueFieldCongr h).symm = Scheme.residueFieldCongr h.symm := by
+  exact SourceStack.ResidueFields.residueFieldCongr_symm h
+
+theorem hilbert_residueFieldCongr_inv
+    {x y : X} (h : x = y) :
+    (Scheme.residueFieldCongr h).inv =
+      (Scheme.residueFieldCongr h.symm).hom := by
+  exact SourceStack.ResidueFields.residueFieldCongr_inv h
+
+theorem hilbert_residueFieldCongr_trans
+    {x y z : X} (hxy : x = y) (hyz : y = z) :
+    Scheme.residueFieldCongr hxy ≪≫ Scheme.residueFieldCongr hyz =
+      Scheme.residueFieldCongr (hxy.trans hyz) := by
+  exact SourceStack.ResidueFields.residueFieldCongr_trans hxy hyz
+
+theorem hilbert_residueFieldCongr_trans_hom
+    {x y z : X} (hxy : x = y) (hyz : y = z) :
+    (Scheme.residueFieldCongr hxy).hom ≫
+        (Scheme.residueFieldCongr hyz).hom =
+      (Scheme.residueFieldCongr (hxy.trans hyz)).hom := by
+  exact SourceStack.ResidueFields.residueFieldCongr_trans_hom hxy hyz
+
 theorem hilbert_residue_residueFieldCongr
     {x y : X} (h : x = y) :
     X.residue x ≫ (Scheme.residueFieldCongr h).hom =
@@ -1415,15 +1439,42 @@ theorem hilbert_residue_descResidueField
     X.residue x ≫ Scheme.descResidueField f = f := by
   exact SourceStack.ResidueFields.residue_descResidueField f
 
+theorem hilbert_affineOpen_fromSpecStalk_eq_fromSpecStalk
+    {U : X.Opens} (hU : IsAffineOpen U) {x : X} (hxU : x ∈ U) :
+    hU.fromSpecStalk hxU = X.fromSpecStalk x := by
+  exact SourceStack.ResidueFields.affineOpen_fromSpecStalk_eq_fromSpecStalk hU hxU
+
 theorem hilbert_fromSpecStalk_closedPoint
     (x : X) :
     (X.fromSpecStalk x).base (closedPoint (X.presheaf.stalk x)) = x := by
   exact SourceStack.ResidueFields.fromSpecStalk_closedPoint x
 
+theorem hilbert_fromSpecStalk_app
+    {U : X.Opens} {x : X} (hxU : x ∈ U) :
+    (X.fromSpecStalk x).app U =
+      X.presheaf.germ U x hxU ≫
+        (Scheme.ΓSpecIso (X.presheaf.stalk x)).inv ≫
+          (Spec (X.presheaf.stalk x)).presheaf.map (homOfLE le_top).op := by
+  exact SourceStack.ResidueFields.fromSpecStalk_app hxU
+
+theorem hilbert_fromSpecStalk_appTop
+    {x : X} :
+    (X.fromSpecStalk x).appTop =
+      X.presheaf.germ ⊤ x trivial ≫
+        (Scheme.ΓSpecIso (X.presheaf.stalk x)).inv ≫
+          (Spec (X.presheaf.stalk x)).presheaf.map (homOfLE le_top).op := by
+  exact SourceStack.ResidueFields.fromSpecStalk_appTop
+
 theorem hilbert_range_fromSpecStalk
     (x : X) :
     Set.range (X.fromSpecStalk x).base = { y | y ⤳ x } := by
   exact SourceStack.ResidueFields.range_fromSpecStalk x
+
+theorem hilbert_Spec_map_stalkSpecializes_fromSpecStalk
+    {x y : X} (h : x ⤳ y) :
+    Spec.map (X.presheaf.stalkSpecializes h) ≫ X.fromSpecStalk y =
+      X.fromSpecStalk x := by
+  exact SourceStack.ResidueFields.Spec_map_stalkSpecializes_fromSpecStalk h
 
 theorem hilbert_Spec_map_stalkMap_fromSpecStalk
     (f : X ⟶ Y) (x : X) :
@@ -1431,10 +1482,91 @@ theorem hilbert_Spec_map_stalkMap_fromSpecStalk
       X.fromSpecStalk x ≫ f := by
   exact SourceStack.ResidueFields.Spec_map_stalkMap_fromSpecStalk f x
 
+theorem hilbert_Spec_fromSpecStalk
+    (R : CommRingCat.{u}) (x : Spec R) :
+    (Spec R).fromSpecStalk x =
+      Spec.map ((Scheme.ΓSpecIso R).inv ≫ (Spec R).presheaf.germ ⊤ x trivial) := by
+  exact SourceStack.ResidueFields.Spec_fromSpecStalk R x
+
+theorem hilbert_Opens_fromSpecStalkOfMem_ι
+    (U : X.Opens) (x : X) (hxU : x ∈ U) :
+    U.fromSpecStalkOfMem x hxU ≫ U.ι = X.fromSpecStalk x := by
+  exact SourceStack.ResidueFields.Opens_fromSpecStalkOfMem_ι U x hxU
+
+theorem hilbert_fromSpecStalk_toSpecΓ
+    (X : Scheme.{u}) (x : X) :
+    X.fromSpecStalk x ≫ X.toSpecΓ =
+      Spec.map (X.presheaf.germ ⊤ x trivial) := by
+  exact SourceStack.ResidueFields.fromSpecStalk_toSpecΓ X x
+
+theorem hilbert_Opens_fromSpecStalkOfMem_toSpecΓ
+    (U : X.Opens) (x : X) (hxU : x ∈ U) :
+    U.fromSpecStalkOfMem x hxU ≫ U.toSpecΓ =
+      Spec.map (X.presheaf.germ U x hxU) := by
+  exact SourceStack.ResidueFields.Opens_fromSpecStalkOfMem_toSpecΓ U x hxU
+
+theorem hilbert_stalkClosedPointIso_exists
+    (R : CommRingCat.{u}) [IsLocalRing R] :
+    Nonempty ((Spec R).presheaf.stalk (closedPoint R) ≅ R) := by
+  exact SourceStack.ResidueFields.stalkClosedPointIso_exists R
+
+theorem hilbert_stalkClosedPointIso_inv
+    (R : CommRingCat.{u}) [IsLocalRing R] :
+    (stalkClosedPointIso R).inv = StructureSheaf.toStalk R _ := by
+  exact SourceStack.ResidueFields.stalkClosedPointIso_inv R
+
+theorem hilbert_germ_stalkClosedPointIso_hom
+    (R : CommRingCat.{u}) [IsLocalRing R] :
+    (Spec R).presheaf.germ ⊤ (closedPoint R) trivial ≫
+        (stalkClosedPointIso R).hom =
+      (Scheme.ΓSpecIso R).hom := by
+  exact SourceStack.ResidueFields.germ_stalkClosedPointIso_hom R
+
+theorem hilbert_Spec_stalkClosedPointIso
+    (R : CommRingCat.{u}) [IsLocalRing R] :
+    Spec.map (stalkClosedPointIso R).inv =
+      (Spec R).fromSpecStalk (closedPoint R) := by
+  exact SourceStack.ResidueFields.Spec_stalkClosedPointIso R
+
+theorem hilbert_stalkClosedPointTo_isLocalHom
+    {R : CommRingCat.{u}} [IsLocalRing R] (f : Spec R ⟶ X) :
+    IsLocalHom (Scheme.stalkClosedPointTo f).hom := by
+  exact SourceStack.ResidueFields.stalkClosedPointTo_isLocalHom f
+
+theorem hilbert_preimage_eq_top_of_closedPoint_mem
+    {R : CommRingCat.{u}} [IsLocalRing R] (f : Spec R ⟶ X)
+    {U : X.Opens} (hU : f.base (closedPoint R) ∈ U) :
+    f ⁻¹ᵁ U = ⊤ := by
+  exact SourceStack.ResidueFields.preimage_eq_top_of_closedPoint_mem f hU
+
+theorem hilbert_stalkClosedPointTo_comp
+    {R : CommRingCat.{u}} [IsLocalRing R] (f : Spec R ⟶ X) (g : X ⟶ Y) :
+    Scheme.stalkClosedPointTo (f ≫ g) =
+      g.stalkMap _ ≫ Scheme.stalkClosedPointTo f := by
+  exact SourceStack.ResidueFields.stalkClosedPointTo_comp f g
+
+theorem hilbert_stalkClosedPointTo_fromSpecStalk
+    (x : X) :
+    Scheme.stalkClosedPointTo (X.fromSpecStalk x) =
+      (X.presheaf.stalkCongr
+        (Inseparable.of_eq (by rw [Scheme.fromSpecStalk_closedPoint]))).hom := by
+  exact SourceStack.ResidueFields.stalkClosedPointTo_fromSpecStalk x
+
+theorem hilbert_Spec_stalkClosedPointTo_fromSpecStalk
+    {R : CommRingCat.{u}} [IsLocalRing R] (f : Spec R ⟶ X) :
+    Spec.map (Scheme.stalkClosedPointTo f) ≫ X.fromSpecStalk _ = f := by
+  exact SourceStack.ResidueFields.Spec_stalkClosedPointTo_fromSpecStalk f
+
 theorem hilbert_fromSpecResidueField_apply
     (x : X) (s : Spec (X.residueField x)) :
     (X.fromSpecResidueField x).base s = x := by
   exact SourceStack.ResidueFields.fromSpecResidueField_apply x s
+
+theorem hilbert_residueFieldCongr_fromSpecResidueField
+    {x y : X} (h : x = y) :
+    Spec.map (Scheme.residueFieldCongr h).hom ≫ X.fromSpecResidueField x =
+      X.fromSpecResidueField y := by
+  exact SourceStack.ResidueFields.residueFieldCongr_fromSpecResidueField h
 
 theorem hilbert_range_fromSpecResidueField
     (x : X) :
@@ -1453,6 +1585,14 @@ theorem hilbert_descResidueField_fromSpecResidueField
     Spec.map (Scheme.descResidueField f) ≫ X.fromSpecResidueField x =
       Spec.map f ≫ X.fromSpecStalk x := by
   exact SourceStack.ResidueFields.descResidueField_fromSpecResidueField f
+
+theorem hilbert_descResidueField_stalkClosedPointTo_fromSpecResidueField
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : Spec (CommRingCat.of K) ⟶ X) :
+    Spec.map (@Scheme.descResidueField (CommRingCat.of K) _ X _
+        (Scheme.stalkClosedPointTo f) _) ≫
+      X.fromSpecResidueField (f.base (closedPoint K)) = f := by
+  exact SourceStack.ResidueFields.descResidueField_stalkClosedPointTo_fromSpecResidueField K X f
 
 theorem hilbert_SpecToEquivOfField_exists
     (K : Type u) [Field K] (X : Scheme.{u}) :

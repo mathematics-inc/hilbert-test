@@ -57,9 +57,12 @@ Formalization target:
   field-valued points is now checked in
   `HilbertTest.SourceStack.ResidueFields`, including residue-field evaluation
   on basic opens, evaluation naturality, residue-field congruences, descent from
-  local stalk maps, and equality criteria for field-valued and local-ring-valued
-  point data; the remaining target-layer work is to specialize it to curve and
-  `P^1(Qbar)` points.
+  local stalk maps, formulas for canonical stalk-spectrum maps on sheaves and
+  global sections, open-subscheme and specialization compatibility, closed-point
+  stalk isomorphisms for local rings, reconstruction of local-ring-valued and
+  field-valued points, and equality criteria for field-valued and
+  local-ring-valued point data; the remaining target-layer work is to specialize
+  it to curve and `P^1(Qbar)` points.
 
 Why Scherr-Zieve is preferable:
 
@@ -334,7 +337,7 @@ follows.
 | Maps from sections | Mathlib `AlgebraicGeometry.AffineSpace`; Stacks/Vakil maps to affine/projective space from sections | Checked affine-space `homOfVector`, coordinate pullback, over-morphism equivalence, affine-base spectrum identification, and functoriality in `SourceStack.AffineSpace`; still needs the projective line-bundle version |
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
 | Rational maps/function fields | Mathlib `AlgebraicGeometry.RationalMap`; Mathlib `AlgebraicGeometry.FunctionField`; Stacks Project rational maps and function fields | Checked dense-domain, representative, equivalence, and function-field reconstruction wrappers in `SourceStack.RationalMaps`; checked germ injectivity, generic-point membership, affine and affine-open fraction-field identifications, affine-chart generic-point identification, stalk/function-field fraction-field facts, and section/stalk/function-field scalar towers in `SourceStack.FunctionFields`; still needs curve-specific divisors/Riemann-Roch |
-| Scheme points and residue fields | Mathlib `AlgebraicGeometry.ResidueField` and `Stalk`; Stacks Project points/stalks/residue fields | Checked evaluation, empty-basic-open criterion by residue-field evaluation, evaluation naturality, residue-field functoriality and congruence, `Spec O_{X,x}` and `Spec kappa(x)` maps, ranges, descent from local stalk maps, `Spec kappa(x)`/`Spec O_{X,x}` compatibility, and field/local-ring-valued point equality criteria in `SourceStack.ResidueFields`; still needs algebraic-point specialization for curves and `P^1` |
+| Scheme points and residue fields | Mathlib `AlgebraicGeometry.ResidueField` and `Stalk`; Stacks Project points/stalks/residue fields | Checked evaluation, empty-basic-open criterion by residue-field evaluation, evaluation naturality, residue-field functoriality and congruence, `Spec O_{X,x}` and `Spec kappa(x)` maps, ranges, sheaf/global-section formulas for `Spec O_{X,x}`, specialization and open-subscheme compatibility, closed-point stalk isomorphisms for local rings, descent from local stalk maps, reconstruction of local-ring-valued and field-valued points from closed-point stalk/residue-field maps, `Spec kappa(x)`/`Spec O_{X,x}` compatibility, and field/local-ring-valued point equality criteria in `SourceStack.ResidueFields`; still needs algebraic-point specialization for curves and `P^1` |
 | Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including both finset and finite-set wrappers, injectivity of affine coordinates, the affine-or-infinity point classification, affine-chart membership tests for the branch and four-point sets, the image-cardinality drop when the four-point set maps into the branch triple, and the Lemma 2.2 package saying any finite set containing the four-point set has smaller image when it maps into the branch triple; also checked injective reciprocal-translate and affine-linear projective maps used in Lemmas 2.3-2.4 |
 | Scheme-theoretic projective line base | Mathlib `AlgebraicGeometry.ProjectiveSpectrum`; Stacks Project Proj/projective space | Checked general `Proj` basic opens, affine charts, chart ranges, stalk localization, chart compatibility with the structure morphism, standard-chart intersections, separatedness, and projective zero-locus/vanishing-ideal topology in `SourceStack.ProjectiveSpectrum`; still needs the specialized `P^1 = Proj k[X,Y]` marked-point API |
 | Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`, with matching linear projective reciprocal and affine-linear maps in `SourceStack.ProjectiveLine`; still needs scheme `P^1` packaging |

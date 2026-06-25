@@ -118,11 +118,15 @@ functions.
 residue-field source layer available in Mathlib: point evaluation of sections,
 emptiness of basic opens by residue-field evaluation, naturality of evaluations
 under scheme morphisms, residue-field maps and congruences, canonical morphisms
-`Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, descent of local stalk maps to
-residue fields, compatibility of `Spec kappa(x)` maps with `Spec O_{X,x}` maps,
-and equality criteria for field-valued and local-ring-valued point data.  The
-remaining missing input is the specialization of these general facts to
-algebraic points on curves and the marked points of scheme-theoretic `P^1`.
+`Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, their formulas on sheaves and
+global sections, specialization compatibility, open-subscheme compatibility,
+closed-point stalk isomorphisms for local rings, descent of local stalk maps to
+residue fields, reconstruction of local-ring-valued and field-valued points from
+their closed-point stalk/residue-field maps, compatibility of
+`Spec kappa(x)` maps with `Spec O_{X,x}` maps, and equality criteria for
+field-valued and local-ring-valued point data.  The remaining missing input is
+the specialization of these general facts to algebraic points on curves and the
+marked points of scheme-theoretic `P^1`.
 
 `HilbertTest/SourceStack/ProjectiveSpectrum.lean` checks the general `Proj`
 source layer available in Mathlib: projective basic opens, affine charts,
