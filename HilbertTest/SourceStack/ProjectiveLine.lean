@@ -1,3 +1,4 @@
+import HilbertTest.SourceStack.FiniteSet
 import Mathlib.LinearAlgebra.Projectivization.Basic
 import Mathlib.Data.Matrix.Notation
 
@@ -190,6 +191,20 @@ theorem image_fourPointFinset_card_lt_of_maps_to_branch
     simpa [branchFinset_card K] using hle
   rw [fourPointFinset_card K hr0 hr1]
   omega
+
+/-- If a map sends the four distinguished points `{0,r,1,∞}` into the branch
+triple `{0,1,∞}`, then two of the four distinguished points have the same
+image. -/
+theorem exists_distinct_same_image_fourPoint_of_maps_to_branch
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (f : P1 K → P1 K)
+    (hmap : ∀ x ∈ fourPointFinset K r, f x ∈ branchFinset K) :
+    ∃ x ∈ fourPointFinset K r, ∃ y ∈ fourPointFinset K r, x ≠ y ∧ f x = f y := by
+  have hcard : (branchFinset K).card < (fourPointFinset K r).card := by
+    rw [branchFinset_card K, fourPointFinset_card K hr0 hr1]
+    norm_num
+  exact exists_distinct_same_image_of_maps_to_smaller
+    (fourPointFinset K r) (branchFinset K) f hcard hmap
 
 end ProjectiveLine
 

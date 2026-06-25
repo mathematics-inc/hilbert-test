@@ -39,7 +39,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `{0,1,infinity}` with cardinality `3`, plus affine points `[r:1]` and the
   four-point finset `{0,r,1,infinity}` with cardinality `4` when `r != 0,1`;
   if that four-point set maps into the branch triple, its image has strictly
-  smaller cardinality.
+  smaller cardinality and two of the four distinguished points have the same
+  image.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, and separatedness of `Proj`.

@@ -406,6 +406,17 @@ theorem hilbert_image_fourPointFinset_card_lt_of_maps_to_branch
   exact SourceStack.ProjectiveLine.image_fourPointFinset_card_lt_of_maps_to_branch
     K hr0 hr1 f hmap
 
+theorem hilbert_exists_distinct_same_image_fourPoint_of_maps_to_branch
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ SourceStack.ProjectiveLine.fourPointFinset K r,
+      f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ∃ x ∈ SourceStack.ProjectiveLine.fourPointFinset K r,
+      ∃ y ∈ SourceStack.ProjectiveLine.fourPointFinset K r,
+        x ≠ y ∧ f x = f y := by
+  exact SourceStack.ProjectiveLine.exists_distinct_same_image_fourPoint_of_maps_to_branch
+    K hr0 hr1 f hmap
+
 end ProjectiveLine
 
 namespace ProjectiveSpectrum

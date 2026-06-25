@@ -72,7 +72,9 @@ Formalization use:
 - Finite sets of algebraic points on `P^1`.
 - Finite image-cardinality bookkeeping.  This fork checks the generic theorems
   that identifying two points strictly lowers finite-set image cardinality and
-  that mapping into a strictly smaller finite target identifies two points.
+  that mapping into a strictly smaller finite target identifies two points; it
+  also checks the projective-line specialization that the four distinguished
+  points `{0,r,1,∞}` collide under any map into `{0,1,∞}` when `r != 0,1`.
 - Fractional linear transformations with rational coefficients.
 - Complex finite-set separation for reciprocal translates.  The analytic
   estimate and rational-pole refinement are checked in
