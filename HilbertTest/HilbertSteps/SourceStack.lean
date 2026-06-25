@@ -120,6 +120,28 @@ theorem hilbert_exists_vector_nonzero_on_finite_linear_forms
     ∃ v : V, ∀ f ∈ s, f v ≠ 0 := by
   exact SourceStack.exists_vector_nonzero_on_finite_linear_forms s hf
 
+omit [Infinite K] in
+theorem hilbert_mem_commonKernel_iff
+    {σ : Type*} (s : Finset σ) (f : σ → V →ₗ[K] K) (v : V) :
+    v ∈ SourceStack.commonKernel (K := K) (V := V) s f ↔
+      ∀ i ∈ s, f i v = 0 := by
+  exact SourceStack.mem_commonKernel_iff s f v
+
+theorem hilbert_exists_vector_in_subspace_nonzero_on_finite_linear_forms
+    {ι : Type*} (W : Subspace K V) (s : Finset ι) (f : ι → V →ₗ[K] K)
+    (hf : ∀ i ∈ s, (f i).comp W.subtype ≠ 0) :
+    ∃ v : V, v ∈ W ∧ ∀ i ∈ s, f i v ≠ 0 := by
+  exact SourceStack.exists_vector_in_subspace_nonzero_on_finite_linear_forms W s f hf
+
+theorem hilbert_exists_vector_vanishing_and_nonzero_on_finite_linear_forms
+    {σ τ : Type*} (S : Finset σ) (T : Finset τ)
+    (vanish : σ → V →ₗ[K] K) (avoid : τ → V →ₗ[K] K)
+    (havoid : ∀ j ∈ T,
+      (avoid j).comp (SourceStack.commonKernel (K := K) (V := V) S vanish).subtype ≠ 0) :
+    ∃ v : V, (∀ i ∈ S, vanish i v = 0) ∧ ∀ j ∈ T, avoid j v ≠ 0 := by
+  exact SourceStack.exists_vector_vanishing_and_nonzero_on_finite_linear_forms
+    S T vanish avoid havoid
+
 end LinearAlgebra
 
 section ComplexSeparation

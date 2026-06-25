@@ -61,6 +61,14 @@ that affine coordinates are injective, every point is affine or infinity, and
 membership in the branch/four-point sets reduces to coordinate membership on
 the affine chart.  This is still below the scheme morphism layer.
 
+`HilbertTest/SourceStack/LinearAlgebra.lean` checks the Scherr-Zieve linear
+source layer over infinite fields: finite unions of proper subspaces do not
+cover, finitely many nonzero linear forms have a common nonvanishing vector,
+and the constrained common-kernel form needed after Riemann-Roch supplies
+evaluations chooses a vector vanishing on one finite family of linear forms and
+nonvanishing on another when the avoid forms remain nonzero on the common
+kernel.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

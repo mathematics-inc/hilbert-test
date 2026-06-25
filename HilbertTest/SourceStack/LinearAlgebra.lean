@@ -86,6 +86,47 @@ theorem exists_vector_nonzero_on_finite_linear_forms
   exact exists_vector_avoiding_kernels_of_nonzero_linear_maps
     (K := K) (V := V) s (fun f => f) hf
 
+/-- The common kernel of a finite family of linear forms.  This is the
+linear-algebra abstraction of imposing vanishing at a finite set of points. -/
+noncomputable def commonKernel
+    {σ : Type*} (s : Finset σ) (f : σ → V →ₗ[K] K) : Subspace K V :=
+  ⨅ i : {i // i ∈ s}, LinearMap.ker (f i.1)
+
+omit [Infinite K] in
+/-- Membership in the common kernel is exactly simultaneous vanishing of all
+linear forms in the finite family. -/
+theorem mem_commonKernel_iff
+    {σ : Type*} (s : Finset σ) (f : σ → V →ₗ[K] K) (v : V) :
+    v ∈ commonKernel (K := K) (V := V) s f ↔ ∀ i ∈ s, f i v = 0 := by
+  simp [commonKernel]
+
+/-- Scherr-Zieve constrained-section linear algebra: inside a given subspace,
+finitely many nonzero linear forms can be made simultaneously nonzero. -/
+theorem exists_vector_in_subspace_nonzero_on_finite_linear_forms
+    {ι : Type*} (W : Subspace K V) (s : Finset ι) (f : ι → V →ₗ[K] K)
+    (hf : ∀ i ∈ s, (f i).comp W.subtype ≠ 0) :
+    ∃ v : V, v ∈ W ∧ ∀ i ∈ s, f i v ≠ 0 := by
+  obtain ⟨w, hw⟩ :=
+    exists_vector_avoiding_kernels_of_nonzero_linear_maps
+      (K := K) (V := W) s (fun i => (f i).comp W.subtype) hf
+  exact ⟨w, w.property, by intro i hi; exact hw i hi⟩
+
+/-- Scherr-Zieve/Riemann-Roch handoff: if the "avoid" evaluations remain
+nonzero after restricting to the common kernel of the "vanish" evaluations,
+then there is a vector vanishing on the first finite set and nonvanishing on
+the second. -/
+theorem exists_vector_vanishing_and_nonzero_on_finite_linear_forms
+    {σ τ : Type*} (S : Finset σ) (T : Finset τ)
+    (vanish : σ → V →ₗ[K] K) (avoid : τ → V →ₗ[K] K)
+    (havoid : ∀ j ∈ T,
+      (avoid j).comp (commonKernel (K := K) (V := V) S vanish).subtype ≠ 0) :
+    ∃ v : V, (∀ i ∈ S, vanish i v = 0) ∧ ∀ j ∈ T, avoid j v ≠ 0 := by
+  obtain ⟨v, hvW, hvavoid⟩ :=
+    exists_vector_in_subspace_nonzero_on_finite_linear_forms
+      (K := K) (V := V) (commonKernel (K := K) (V := V) S vanish)
+      T avoid havoid
+  exact ⟨v, (mem_commonKernel_iff (K := K) (V := V) S vanish v).mp hvW, hvavoid⟩
+
 end InfiniteField
 
 end SourceStack
