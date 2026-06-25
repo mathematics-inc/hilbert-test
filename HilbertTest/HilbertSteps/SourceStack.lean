@@ -9,6 +9,7 @@ import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
+import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
@@ -31,6 +32,7 @@ open Opposite IsLocalRing
 open AlgebraicGeometry
 open HomogeneousLocalization
 open scoped TensorProduct
+open scoped Pointwise
 open scoped IntermediateField Polynomial
 open scoped AlgebraicGeometry
 
@@ -922,6 +924,268 @@ theorem hilbert_etale_base_change
   exact SourceStack.UnramifiedEtale.etale_base_change R A B
 
 end UnramifiedEtale
+
+namespace Ramification
+
+universe u v w x
+
+theorem hilbert_algebraUnramified_formallyUnramified
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    [Algebra.Unramified R A] :
+    Algebra.FormallyUnramified R A := by
+  exact SourceStack.Ramification.algebraUnramified_formallyUnramified R A
+
+theorem hilbert_algebraUnramified_finiteType
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    [Algebra.Unramified R A] :
+    Algebra.FiniteType R A := by
+  exact SourceStack.Ramification.algebraUnramified_finiteType R A
+
+theorem hilbert_algebraUnramified_of_equiv
+    {R : Type u} [CommRing R]
+    {A : Type v} {B : Type w}
+    [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Unramified R A]
+    (e : A ≃ₐ[R] B) :
+    Algebra.Unramified R B := by
+  exact SourceStack.Ramification.algebraUnramified_of_equiv e
+
+theorem hilbert_algebraUnramified_of_isLocalization_Away
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    (r : R) [IsLocalization.Away r A] :
+    Algebra.Unramified R A := by
+  exact SourceStack.Ramification.algebraUnramified_of_isLocalization_Away r
+
+theorem hilbert_algebraUnramified_comp
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    (B : Type w) [CommRing B] [Algebra R B] [Algebra A B]
+    [IsScalarTower R A B]
+    [Algebra.Unramified R A] [Algebra.Unramified A B] :
+    Algebra.Unramified R B := by
+  exact SourceStack.Ramification.algebraUnramified_comp R A B
+
+theorem hilbert_algebraUnramified_baseChange
+    (R : Type u) [CommRing R]
+    (A : Type v) [CommRing A] [Algebra R A]
+    (B : Type w) [CommRing B] [Algebra R B]
+    [Algebra.Unramified R A] :
+    Algebra.Unramified B (B ⊗[R] A) := by
+  exact SourceStack.Ramification.algebraUnramified_baseChange R A B
+
+theorem hilbert_formallyUnramified_of_field_isSeparable
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.IsSeparable K L] :
+    Algebra.FormallyUnramified K L := by
+  exact SourceStack.Ramification.formallyUnramified_of_field_isSeparable K L
+
+theorem hilbert_formallyUnramified_isSeparable_of_field
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.FormallyUnramified K L] [Algebra.EssFiniteType K L] :
+    Algebra.IsSeparable K L := by
+  exact SourceStack.Ramification.formallyUnramified_isSeparable_of_field K L
+
+theorem hilbert_formallyUnramified_iff_field_isSeparable
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.EssFiniteType K L] :
+    Algebra.FormallyUnramified K L ↔ Algebra.IsSeparable K L := by
+  exact SourceStack.Ramification.formallyUnramified_iff_field_isSeparable K L
+
+theorem hilbert_formallyUnramified_localization_base
+    {R : Type u} {Rₘ : Type v} {Sₘ : Type w}
+    [CommRing R] [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R Sₘ] [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ]
+    [Algebra.FormallyUnramified R Sₘ] :
+    Algebra.FormallyUnramified Rₘ Sₘ := by
+  exact SourceStack.Ramification.formallyUnramified_localization_base M
+
+theorem hilbert_formallyUnramified_localization_map
+    {R : Type u} {S : Type v} {Rₘ : Type w} {Sₘ : Type x}
+    [CommRing R] [CommRing S] [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R S] [Algebra R Sₘ] [Algebra S Sₘ]
+    [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ] [IsScalarTower R S Sₘ]
+    [IsLocalization (Submonoid.map (algebraMap R S) M) Sₘ]
+    [Algebra.FormallyUnramified R S] :
+    Algebra.FormallyUnramified Rₘ Sₘ := by
+  exact SourceStack.Ramification.formallyUnramified_localization_map
+    (R := R) (S := S) (Rₘ := Rₘ) (Sₘ := Sₘ) M
+
+theorem hilbert_formallyUnramified_iff_exists_tensorProduct
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.EssFiniteType R S] :
+    Algebra.FormallyUnramified R S ↔
+      ∃ t : S ⊗[R] S,
+        (∀ s, ((1 : S) ⊗ₜ[R] s - s ⊗ₜ[R] (1 : S)) * t = 0) ∧
+          Algebra.TensorProduct.lmul' R t = 1 := by
+  exact SourceStack.Ramification.formallyUnramified_iff_exists_tensorProduct R S
+
+theorem hilbert_formallyUnramified_pi_iff
+    {R : Type (max u v)} {I : Type v} [Finite I]
+    (A : I → Type (max u v))
+    [CommRing R] [(i : I) → CommRing (A i)]
+    [(i : I) → Algebra R (A i)] :
+    Algebra.FormallyUnramified R ((i : I) → A i) ↔
+      ∀ i, Algebra.FormallyUnramified R (A i) := by
+  exact SourceStack.Ramification.formallyUnramified_pi_iff A
+
+theorem hilbert_ramificationIdx_spec
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S} {n : ℕ}
+    (hle : Ideal.map f p ≤ P ^ n)
+    (hgt : ¬ Ideal.map f p ≤ P ^ (n + 1)) :
+    Ideal.ramificationIdx f p P = n := by
+  exact SourceStack.Ramification.ramificationIdx_spec hle hgt
+
+theorem hilbert_ramificationIdx_bot
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {P : Ideal S} :
+    Ideal.ramificationIdx f (⊥ : Ideal R) P = 0 := by
+  exact SourceStack.Ramification.ramificationIdx_bot
+
+theorem hilbert_ramificationIdx_of_not_le
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S}
+    (h : ¬ Ideal.map f p ≤ P) :
+    Ideal.ramificationIdx f p P = 0 := by
+  exact SourceStack.Ramification.ramificationIdx_of_not_le h
+
+theorem hilbert_le_pow_ramificationIdx
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S} :
+    Ideal.map f p ≤ P ^ Ideal.ramificationIdx f p P := by
+  exact SourceStack.Ramification.le_pow_ramificationIdx
+
+theorem hilbert_le_comap_pow_ramificationIdx
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S} :
+    p ≤ Ideal.comap f (P ^ Ideal.ramificationIdx f p P) := by
+  exact SourceStack.Ramification.le_comap_pow_ramificationIdx
+
+theorem hilbert_le_comap_of_ramificationIdx_ne_zero
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S}
+    (h : Ideal.ramificationIdx f p P ≠ 0) :
+    p ≤ Ideal.comap f P := by
+  exact SourceStack.Ramification.le_comap_of_ramificationIdx_ne_zero h
+
+theorem hilbert_ramificationIdx_eq_normalizedFactors_count
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S}
+    [IsDedekindDomain S] [DecidableEq (Ideal S)]
+    (hp0 : Ideal.map f p ≠ ⊥)
+    (hP : P.IsPrime) (hP0 : P ≠ ⊥) :
+    Ideal.ramificationIdx f p P =
+      Multiset.count P (UniqueFactorizationMonoid.normalizedFactors (Ideal.map f p)) := by
+  exact SourceStack.Ramification.ramificationIdx_eq_normalizedFactors_count hp0 hP hP0
+
+theorem hilbert_ramificationIdx_ne_zero_of_dedekind
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {f : R →+* S} {p : Ideal R} {P : Ideal S}
+    [IsDedekindDomain S]
+    (hp0 : Ideal.map f p ≠ ⊥)
+    (hP : P.IsPrime)
+    (hle : Ideal.map f p ≤ P) :
+    Ideal.ramificationIdx f p P ≠ 0 := by
+  exact SourceStack.Ramification.ramificationIdx_ne_zero_of_dedekind hp0 hP hle
+
+theorem hilbert_inertiaDeg_algebraMap
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    (p : Ideal R) (P : Ideal S)
+    [Algebra R S] [P.LiesOver p] [p.IsMaximal] :
+    Ideal.inertiaDeg p P = Module.finrank (R ⧸ p) (S ⧸ P) := by
+  exact SourceStack.Ramification.inertiaDeg_algebraMap p P
+
+theorem hilbert_inertiaDeg_pos
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    (p : Ideal R) (P : Ideal S)
+    [Algebra R S] [p.IsMaximal] [Module.Finite R S] [P.LiesOver p] :
+    0 < Ideal.inertiaDeg p P := by
+  exact SourceStack.Ramification.inertiaDeg_pos p P
+
+theorem hilbert_ramificationIdx_tower
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {T : Type w} [CommRing T]
+    [IsDedekindDomain S] [IsDedekindDomain T]
+    {f : R →+* S} {g : S →+* T}
+    {p : Ideal R} {P : Ideal S} {Q : Ideal T}
+    [P.IsPrime] [Q.IsPrime]
+    (hg0 : Ideal.map g P ≠ ⊥)
+    (hfg : Ideal.map (g.comp f) p ≠ ⊥)
+    (hg : Ideal.map g P ≤ Q) :
+    Ideal.ramificationIdx (g.comp f) p Q =
+      Ideal.ramificationIdx f p P * Ideal.ramificationIdx g P Q := by
+  exact SourceStack.Ramification.ramificationIdx_tower hg0 hfg hg
+
+theorem hilbert_ramificationIdx_algebra_tower
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {T : Type w} [CommRing T]
+    [Algebra R S] [Algebra S T] [Algebra R T] [IsScalarTower R S T]
+    [IsDedekindDomain S] [IsDedekindDomain T]
+    {p : Ideal R} {P : Ideal S} {Q : Ideal T}
+    [P.IsPrime] [Q.IsPrime]
+    (hg0 : Ideal.map (algebraMap S T) P ≠ ⊥)
+    (hfg : Ideal.map (algebraMap R T) p ≠ ⊥)
+    (hg : Ideal.map (algebraMap S T) P ≤ Q) :
+    Ideal.ramificationIdx (algebraMap R T) p Q =
+      Ideal.ramificationIdx (algebraMap R S) p P *
+        Ideal.ramificationIdx (algebraMap S T) P Q := by
+  exact SourceStack.Ramification.ramificationIdx_algebra_tower hg0 hfg hg
+
+theorem hilbert_inertiaDeg_algebra_tower
+    {R : Type u} [CommRing R] {S : Type v} [CommRing S]
+    {T : Type w} [CommRing T]
+    [Algebra R S] [Algebra S T] [Algebra R T] [IsScalarTower R S T]
+    (p : Ideal R) (P : Ideal S) (I : Ideal T)
+    [p.IsMaximal] [P.IsMaximal] [P.LiesOver p] [I.LiesOver P] :
+    Ideal.inertiaDeg p I = Ideal.inertiaDeg p P * Ideal.inertiaDeg P I := by
+  exact SourceStack.Ramification.inertiaDeg_algebra_tower p P I
+
+theorem hilbert_sum_ramification_inertia
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    (p : Ideal R)
+    (K : Type w) [Field K]
+    (L : Type x) [Field L]
+    [IsDedekindDomain R] [IsDedekindDomain S]
+    [Algebra R K] [IsFractionRing R K]
+    [Algebra S L] [IsFractionRing S L]
+    [Algebra K L] [Algebra R L]
+    [IsScalarTower R S L] [IsScalarTower R K L]
+    [Module.Finite R S] [p.IsMaximal]
+    (hp0 : p ≠ ⊥) :
+    (∑ P ∈ @Multiset.toFinset (Ideal S) (Classical.decEq (Ideal S))
+        (UniqueFactorizationMonoid.factors (Ideal.map (algebraMap R S) p)),
+        Ideal.ramificationIdx (algebraMap R S) p P * Ideal.inertiaDeg p P) =
+      Module.finrank K L := by
+  exact SourceStack.Ramification.sum_ramification_inertia R S p K L hp0
+
+theorem hilbert_decompositionSubgroup_eq_stabilizer
+    (K : Type u) {L : Type v} [Field K] [Field L] [Algebra K L]
+    (A : ValuationSubring L) :
+    ValuationSubring.decompositionSubgroup K A =
+      MulAction.stabilizer (L ≃ₐ[K] L) A := by
+  exact SourceStack.Ramification.decompositionSubgroup_eq_stabilizer K A
+
+theorem hilbert_inertiaSubgroup_eq_ker
+    (K : Type u) {L : Type v} [Field K] [Field L] [Algebra K L]
+    (A : ValuationSubring L) :
+    ValuationSubring.inertiaSubgroup K A =
+      MonoidHom.ker
+        (MulSemiringAction.toRingAut
+          (ValuationSubring.decompositionSubgroup K A)
+          (IsLocalRing.ResidueField A)) := by
+  exact SourceStack.Ramification.inertiaSubgroup_eq_ker K A
+
+end Ramification
 
 namespace Schemes
 

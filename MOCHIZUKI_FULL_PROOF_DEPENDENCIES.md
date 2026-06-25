@@ -65,6 +65,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
   separability equivalences over essentially finite type field extensions.
+- `HilbertTest.SourceStack.Ramification`: ring-theoretic unramified algebra
+  facts, the finite-type tensor-product criterion for formal unramifiedness,
+  Dedekind-domain ramification-index and inertia-degree facts, tower laws, the
+  fundamental `sum e*f = [L:K]` identity, and valuation decomposition/inertia
+  subgroup definitions.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
@@ -198,6 +203,10 @@ Lean-facing declarations needed:
   of `{0,1,infinity}`.
 - behavior of branch loci under composition.
 - composition with a `P^1 -> P^1` Belyi map preserves Belyi-ness.
+The ring-theoretic ramification and inertia facts needed below this geometric
+branch-locus layer are now checked in `SourceStack.Ramification`; the missing
+piece is still the curve/scheme specialization that turns local ramification
+indices into branch-locus statements for finite maps of smooth curves.
 
 ### F. `P^1` rational-function layer
 

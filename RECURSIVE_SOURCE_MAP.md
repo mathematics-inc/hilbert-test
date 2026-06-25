@@ -149,6 +149,11 @@ Current Mathlib status:
   base-change facts where Mathlib v4.15 exposes them directly.
 - It also checks Mathlib's bridge from universally closed/proper morphisms to
   topologically proper underlying maps.
+- The commutative-algebra layer for unramified algebras and ramification over
+  Dedekind domains is checked in `HilbertTest.SourceStack.Ramification`,
+  including the tensor-product criterion, ramification/inertia tower laws, the
+  `sum e*f = [L:K]` identity, and decomposition/inertia subgroups of valuation
+  subrings.
 - The curve/divisor/ramification API needed to use them for Belyi maps does not
   yet exist as a coherent package.
 
