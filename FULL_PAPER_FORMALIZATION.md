@@ -96,6 +96,14 @@ finite subcovers, continuous preimages of opens, finite intersections of opens,
 finite-set complements in T1 spaces, and tuple-coordinate finite-avoidance
 openness.
 
+`HilbertTest/SourceStack/LocalFields.lean` checks local-field topology facts
+available in Mathlib: compactness of the p-adic integers, properness/local
+compactness/completeness/second countability/sigma compactness and compact
+exhaustions for `ℚ_p`, locally compact/second-countable/sigma-compact
+infinite-place completions of number fields, compact exhaustions for those
+completions, the isometric closed embedding into `ℂ`, and real/complex
+infinite-place isometry models.
+
 `HilbertTest/SourceStack/BelyiCovers.lean` now formalizes the abstract
 Corollary 3.1 compactness step: a family of continuous maps with finite branch
 set gives open tuple-avoidance loci, pointwise avoidance gives an indexed open

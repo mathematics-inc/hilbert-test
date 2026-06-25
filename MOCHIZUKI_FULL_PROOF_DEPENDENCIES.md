@@ -134,9 +134,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   wrappers for a target with a branch-complement open, dominant morphisms etale
   over that open, the preimage Belyi open, and the restriction/open-immersion
   identity for the Belyi open.
-- `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
-  locally compact infinite-place completion wrappers currently available in
-  Mathlib.
+- `HilbertTest.SourceStack.LocalFields`: p-adic compactness, properness,
+  second-countability, sigma-compactness, and compact-exhaustion wrappers, plus
+  locally compact/second-countable/sigma-compact infinite-place completions,
+  compact exhaustions, and real/complex infinite-place isometry models.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
 - `data/belyi_source_stack`, `data/belyi1980_polynomial`, and

@@ -567,10 +567,62 @@ theorem hilbert_padic_completeSpace
     CompleteSpace ℚ_[p] := by
   exact SourceStack.LocalFields.padic_completeSpace p
 
+theorem hilbert_padic_secondCountableTopology
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    SecondCountableTopology ℚ_[p] := by
+  exact SourceStack.LocalFields.padic_secondCountableTopology p
+
+theorem hilbert_padic_sigmaCompactSpace
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    SigmaCompactSpace ℚ_[p] := by
+  exact SourceStack.LocalFields.padic_sigmaCompactSpace p
+
+theorem hilbert_padic_compactExhaustion_exists
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    Nonempty (CompactExhaustion ℚ_[p]) := by
+  exact SourceStack.LocalFields.padic_compactExhaustion_exists p
+
 theorem hilbert_infinitePlace_completion_locallyCompactSpace
     {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
     LocallyCompactSpace v.Completion := by
   exact SourceStack.LocalFields.infinitePlace_completion_locallyCompactSpace v
+
+theorem hilbert_infinitePlace_completion_isometry_extensionEmbedding
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    Isometry (NumberField.InfinitePlace.Completion.extensionEmbedding v) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_isometry_extensionEmbedding v
+
+theorem hilbert_infinitePlace_completion_isClosed_image_extensionEmbedding
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    IsClosed (Set.range (NumberField.InfinitePlace.Completion.extensionEmbedding v)) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_isClosed_image_extensionEmbedding v
+
+theorem hilbert_infinitePlace_completion_secondCountableTopology
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    SecondCountableTopology v.Completion := by
+  exact SourceStack.LocalFields.infinitePlace_completion_secondCountableTopology v
+
+theorem hilbert_infinitePlace_completion_sigmaCompactSpace
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    SigmaCompactSpace v.Completion := by
+  exact SourceStack.LocalFields.infinitePlace_completion_sigmaCompactSpace v
+
+theorem hilbert_infinitePlace_completion_compactExhaustion_exists
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    Nonempty (CompactExhaustion v.Completion) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_compactExhaustion_exists v
+
+theorem hilbert_infinitePlace_completion_isometryEquivComplex_exists
+    {K : Type*} [Field K] {v : NumberField.InfinitePlace K}
+    (hv : NumberField.InfinitePlace.IsComplex v) :
+    Nonempty (v.Completion ≃ᵢ ℂ) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_isometryEquivComplex_exists hv
+
+theorem hilbert_infinitePlace_completion_isometryEquivReal_exists
+    {K : Type*} [Field K] {v : NumberField.InfinitePlace K}
+    (hv : NumberField.InfinitePlace.IsReal v) :
+    Nonempty (v.Completion ≃ᵢ ℝ) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_isometryEquivReal_exists hv
 
 end LocalFields
 
