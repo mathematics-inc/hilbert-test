@@ -43,7 +43,10 @@ Formalization target:
 - Define Belyi maps as finite morphisms `C -> P^1` whose branch locus is
   contained in `{0, 1, infinity}`.
 - Prove existence with prescribed finite-point behavior.
-- Derive Zariski-base and finite-collection corollaries.
+- Derive Zariski-base and finite-collection corollaries.  The abstract
+  finite-branch-set topological consequences of these corollaries are now
+  checked in `HilbertTest.SourceStack.BelyiCovers`; the remaining target-layer
+  work is to connect actual curve Belyi maps to that interface.
 - The general residue-field/stalk representation of scheme points and
   field-valued points is now checked in
   `HilbertTest.SourceStack.ResidueFields`; the remaining target-layer work is

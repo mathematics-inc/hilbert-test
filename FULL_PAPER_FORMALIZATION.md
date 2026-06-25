@@ -99,6 +99,11 @@ fixed-set version over `X \ S`, restricting the map family to maps sending `S`
 to the branch set.  The remaining missing input is the curve-level theorem
 supplying those avoiding maps.
 
+The same module also formalizes the abstract Corollary 1.2 consequence: if a
+map sends a set `A` to the branch set and sends a chosen point outside the
+branch set, its Belyi open is open, contains the point, and is contained in
+`Aᶜ`.
+
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
 type, smooth, etale, and separated.  It also checks that finite, smooth,

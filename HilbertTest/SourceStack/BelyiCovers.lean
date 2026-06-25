@@ -99,6 +99,41 @@ theorem finite_subcover_on_complement_of_pointwise
   rcases hcover x with ⟨φ, hφS, hφx⟩
   exact ⟨⟨φ, hφS⟩, hφx⟩
 
+/-- The Belyi open attached to a map: the preimage of the complement of the
+finite branch set. -/
+def belyiOpen (φ : Φ) : Set X :=
+  {x : X | D.map φ x ∉ D.branch}
+
+/-- Belyi opens are open in the abstract topological setting. -/
+theorem belyiOpen_isOpen [T1Space P] (φ : Φ) : IsOpen (D.belyiOpen φ) := by
+  exact isOpen_avoid_finite_preimage (D.continuous_map φ) D.branch_finite
+
+/-- If a map sends a subset to the branch set, then its Belyi open is contained
+in the complement of that subset. -/
+theorem belyiOpen_subset_compl_of_sendsSetToBranch
+    {A : Set X} {φ : Φ} (hφA : D.sendsSetToBranch A φ) :
+    D.belyiOpen φ ⊆ Aᶜ := by
+  intro x hx hxA
+  exact hx (hφA x hxA)
+
+/-- Membership in the abstract Belyi open is branch-set avoidance. -/
+theorem mem_belyiOpen_iff (φ : Φ) (x : X) :
+    x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch :=
+  Iff.rfl
+
+/-- Abstract form of the formal step behind Corollary 1.2: if the existence
+theorem supplies a map sending `A` to the branch set while a point avoids the
+branch set, then there is a Belyi open containing the point and contained in
+`Aᶜ`. -/
+theorem exists_belyiOpen_inside_of_point_avoidance
+    [T1Space P] {A : Set X} {x : X}
+    (h : ∃ φ : Φ, D.sendsSetToBranch A φ ∧ D.map φ x ∉ D.branch) :
+    ∃ φ : Φ, IsOpen (D.belyiOpen φ) ∧ x ∈ D.belyiOpen φ ∧ D.belyiOpen φ ⊆ Aᶜ := by
+  rcases h with ⟨φ, hφA, hφx⟩
+  exact
+    ⟨φ, D.belyiOpen_isOpen φ, hφx,
+      D.belyiOpen_subset_compl_of_sendsSetToBranch hφA⟩
+
 end BelyiCoverData
 
 end SourceStack

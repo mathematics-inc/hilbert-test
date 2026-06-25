@@ -417,6 +417,27 @@ theorem hilbert_finite_subcover_on_complement_of_pointwise
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.BelyiCoverData.finite_subcover_on_complement_of_pointwise D hcover
 
+theorem hilbert_belyiOpen_isOpen
+    [T1Space P] (φ : Φ) :
+    IsOpen (D.belyiOpen φ) := by
+  exact SourceStack.BelyiCoverData.belyiOpen_isOpen D φ
+
+theorem hilbert_belyiOpen_subset_compl_of_sendsSetToBranch
+    {A : Set X} {φ : Φ} (hφA : D.sendsSetToBranch A φ) :
+    D.belyiOpen φ ⊆ Aᶜ := by
+  exact SourceStack.BelyiCoverData.belyiOpen_subset_compl_of_sendsSetToBranch D hφA
+
+theorem hilbert_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch := by
+  exact SourceStack.BelyiCoverData.mem_belyiOpen_iff D φ x
+
+theorem hilbert_exists_belyiOpen_inside_of_point_avoidance
+    [T1Space P] {A : Set X} {x : X}
+    (h : ∃ φ : Φ, D.sendsSetToBranch A φ ∧ D.map φ x ∉ D.branch) :
+    ∃ φ : Φ, IsOpen (D.belyiOpen φ) ∧ x ∈ D.belyiOpen φ ∧ D.belyiOpen φ ⊆ Aᶜ := by
+  exact SourceStack.BelyiCoverData.exists_belyiOpen_inside_of_point_avoidance D h
+
 end BelyiCovers
 
 namespace LocalFields

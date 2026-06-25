@@ -114,6 +114,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts,
   finite compact unions, compact product projections/products, and topological
   proper-map compact-preimage/composition/closed-map wrappers.
+- `HilbertTest.SourceStack.BelyiCovers`: abstract Belyi-open and Belyi-cover
+  consequences from finite branch sets and continuous map families, including
+  the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
+  extraction step over `X \ S`.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
   locally compact infinite-place completion wrappers currently available in
   Mathlib.
