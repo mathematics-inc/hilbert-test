@@ -176,7 +176,9 @@ together with relevance witnesses saying the irrelevant ideal is not contained
 in any of them.  It proves these three coordinate ideals are prime over a
 domain and packages the resulting `Proj` points `[0:1]`, `[1:0]`, and `[1:1]`
 with their homogeneous ideals, as a finite marked-point triple of cardinality
-three.
+three.  It also checks the expected standard-chart behavior: `[0:1]` lies on
+the `X1` chart and not the `X0` chart, `[1:0]` lies on the `X0` chart and not
+the `X1` chart, and `[1:1]` lies on both standard charts.
 
 `HilbertTest/SourceStack/MarkedProjectiveLine.lean` now provides a common
 three-label indexing layer for the linear projective-line branch triple and

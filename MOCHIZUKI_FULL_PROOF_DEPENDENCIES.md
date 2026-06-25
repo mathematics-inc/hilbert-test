@@ -80,7 +80,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   coordinate ideals.  It also checks polynomial-coordinate equivalences,
   primeness of these three ideals over a domain, and the resulting `Proj`
   points `[0:1]`, `[1:0]`, and `[1:1]`, packaged as a finite marked-point
-  triple of cardinality three.
+  triple of cardinality three, with their expected membership/nonmembership in
+  the two standard affine charts.
 - `HilbertTest.SourceStack.MarkedProjectiveLine`: a common three-label index
   for the linear and scheme-theoretic marked triples, with image equalities to
   the existing finsets and injectivity of both label maps.
@@ -387,7 +388,8 @@ Lean-facing declarations needed:
   `SourceStack.SchemeProjectiveLine`, together with homogeneous coordinate
   ideals `(X0)`, `(X1)`, and `(X0-X1)`, relevance witnesses, primeness of all
   three coordinate ideals, and the `Proj` points `[0:1]`, `[1:0]`, and
-  `[1:1]`, packaged as a finite marked-point triple; `MarkedProjectiveLine`
+  `[1:1]`, packaged as a finite marked-point triple with standard-chart
+  membership facts; `MarkedProjectiveLine`
   now gives this scheme triple and the linear branch triple a shared injective
   three-label index.  `SchemeMarkedBelyi` now instantiates the abstract
   finite-branch-set cover interface with this scheme marked triple.  The

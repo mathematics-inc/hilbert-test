@@ -630,6 +630,49 @@ theorem mem_markedPointSet_iff (p : _root_.ProjectiveSpectrum (grading K)) :
     p ∈ markedPointSet K ↔ p ∈ markedPointFinset K :=
   Iff.rfl
 
+theorem zeroPoint_mem_x1_basicOpen :
+    zeroPoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  change X1 K ∉ x0Ideal K
+  exact x1_not_mem_x0Ideal K
+
+theorem zeroPoint_not_mem_x0_basicOpen :
+    zeroPoint K ∉ Proj.basicOpen (grading K) (X0 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  push_neg
+  change X0 K ∈ x0Ideal K
+  exact Ideal.mem_span_singleton_self (X0 K)
+
+theorem onePoint_mem_x0_basicOpen :
+    onePoint K ∈ Proj.basicOpen (grading K) (X0 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  exact x0_not_mem_x0SubX1Ideal K
+
+theorem onePoint_mem_x1_basicOpen :
+    onePoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  intro hx1
+  have hx01 : X0SubX1 K ∈ x0SubX1Ideal K :=
+    Ideal.mem_span_singleton_self (X0SubX1 K)
+  have hx0 : X0 K ∈ x0SubX1Ideal K := by
+    have hsum : X0SubX1 K + X1 K = X0 K := by
+      simp [X0SubX1]
+    simpa [hsum] using add_mem hx01 hx1
+  exact x0_not_mem_x0SubX1Ideal K hx0
+
+theorem infinityPoint_mem_x0_basicOpen :
+    infinityPoint K ∈ Proj.basicOpen (grading K) (X0 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  change X0 K ∉ x1Ideal K
+  exact x0_not_mem_x1Ideal K
+
+theorem infinityPoint_not_mem_x1_basicOpen :
+    infinityPoint K ∉ Proj.basicOpen (grading K) (X1 K) := by
+  rw [ProjectiveSpectrum.basicOpen_mem_iff]
+  push_neg
+  change X1 K ∈ x1Ideal K
+  exact Ideal.mem_span_singleton_self (X1 K)
+
 end Domain
 
 end

@@ -1523,6 +1523,36 @@ theorem hilbert_mem_markedPointSet_iff
     p ∈ markedPointSet K ↔ p ∈ markedPointFinset K := by
   exact SourceStack.SchemeProjectiveLine.mem_markedPointSet_iff K p
 
+theorem hilbert_zeroPoint_mem_x1_basicOpen
+    [IsDomain K] :
+    zeroPoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_mem_x1_basicOpen K
+
+theorem hilbert_zeroPoint_not_mem_x0_basicOpen
+    [IsDomain K] :
+    zeroPoint K ∉ Proj.basicOpen (grading K) (X0 K) := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_not_mem_x0_basicOpen K
+
+theorem hilbert_onePoint_mem_x0_basicOpen
+    [IsDomain K] :
+    onePoint K ∈ Proj.basicOpen (grading K) (X0 K) := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_mem_x0_basicOpen K
+
+theorem hilbert_onePoint_mem_x1_basicOpen
+    [IsDomain K] :
+    onePoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_mem_x1_basicOpen K
+
+theorem hilbert_infinityPoint_mem_x0_basicOpen
+    [IsDomain K] :
+    infinityPoint K ∈ Proj.basicOpen (grading K) (X0 K) := by
+  exact SourceStack.SchemeProjectiveLine.infinityPoint_mem_x0_basicOpen K
+
+theorem hilbert_infinityPoint_not_mem_x1_basicOpen
+    [IsDomain K] :
+    infinityPoint K ∉ Proj.basicOpen (grading K) (X1 K) := by
+  exact SourceStack.SchemeProjectiveLine.infinityPoint_not_mem_x1_basicOpen K
+
 end SchemeProjectiveLine
 
 namespace MarkedProjectiveLine
