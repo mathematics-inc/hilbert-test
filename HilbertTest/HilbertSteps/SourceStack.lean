@@ -1,3 +1,4 @@
+import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
@@ -19,6 +20,18 @@ namespace HilbertSteps
 open Set
 open CategoryTheory
 open AlgebraicGeometry
+
+section FiniteSet
+
+variable {α β : Type*} [DecidableEq β]
+
+theorem hilbert_card_image_lt_of_exists_distinct_same_image
+    (s : Finset α) (f : α → β) {a b : α}
+    (ha : a ∈ s) (hb : b ∈ s) (hab : a ≠ b) (hfab : f a = f b) :
+    (s.image f).card < s.card := by
+  exact SourceStack.card_image_lt_of_exists_distinct_same_image s f ha hb hab hfab
+
+end FiniteSet
 
 section LinearAlgebra
 

@@ -22,6 +22,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   positivity/`<= 1/4` bound used for Mochizuki Lemma 2.1.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
   for proper subspaces over an infinite field.
+- `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop when a map
+  identifies two distinct points, used in the Lemma 2.2 induction bookkeeping.
 - `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is
