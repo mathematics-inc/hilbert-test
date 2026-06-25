@@ -189,9 +189,11 @@ existing linear and scheme finsets and that both label maps are injective.
 Belyi-cover finite-branch-set interface to the checked scheme-theoretic marked
 triple on `Proj K[X0,X1]`, including the specialized cover data, membership in
 the resulting Belyi open as avoidance of the marked triple, and the specialized
-noncritical finite-set existence interface.  The remaining missing input is
-the bridge from these marked scheme points to rational functions and
-branch-locus statements for morphisms to `P^1`.
+noncritical finite-set existence interface.  It also specializes the abstract
+Corollary 1.2-style Belyi-open containment wrappers to this marked scheme
+branch set.  The remaining missing input is the bridge from these marked scheme
+points to rational functions and branch-locus statements for morphisms to
+`P^1`.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

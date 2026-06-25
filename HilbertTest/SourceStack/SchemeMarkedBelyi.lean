@@ -79,6 +79,60 @@ theorem markedNoncriticalExistence_toCoverData_branch :
     (markedNoncriticalExistence K X Φ map continuous_map
       exists_for_finite_disjoint).toBelyiCoverData.branch = markedPointSet K := rfl
 
+theorem markedNoncritical_exists_belyiOpen_inside_complement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {A : Set X} (hA : A.Finite) {x : X} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Aᶜ := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_inside_complement hA hxA
+
+theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_complement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S T : Set X} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Sᶜ := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_complement hS hT hdis
+
+theorem markedNoncritical_exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {V : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_inside_open_of_finite_complement hV hVcompl hxV
+
+theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hV hVcompl hT hTsub
+
 end
 end SchemeMarkedBelyi
 end SourceStack
