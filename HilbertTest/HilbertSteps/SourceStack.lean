@@ -4,6 +4,7 @@ import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
+import HilbertTest.SourceStack.SchemeProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
@@ -1250,6 +1251,95 @@ theorem hilbert_pullbackAwayιIso_inv_snd
     𝒜 f_deg hm g_deg hm' hx
 
 end ProjectiveSpectrum
+
+namespace SchemeProjectiveLine
+
+open SourceStack.SchemeProjectiveLine
+
+universe u
+
+variable (K : Type u) [CommRing K]
+
+theorem hilbert_p1_eq_proj :
+    P1 K = Proj (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.p1_eq_proj K
+
+theorem hilbert_x0_mem_degree_one :
+    X0 K ∈ grading K 1 := by
+  exact SourceStack.SchemeProjectiveLine.x0_mem_degree_one K
+
+theorem hilbert_x1_mem_degree_one :
+    X1 K ∈ grading K 1 := by
+  exact SourceStack.SchemeProjectiveLine.x1_mem_degree_one K
+
+theorem hilbert_x0x1_mem_degree_two :
+    X0 K * X1 K ∈ grading K 2 := by
+  exact SourceStack.SchemeProjectiveLine.x0x1_mem_degree_two K
+
+theorem hilbert_x0_chart_isOpenImmersion :
+    IsOpenImmersion
+      (Proj.awayι (grading K) (X0 K) (x0_mem_degree_one K) Nat.zero_lt_one) := by
+  exact SourceStack.SchemeProjectiveLine.x0_chart_isOpenImmersion K
+
+theorem hilbert_x1_chart_isOpenImmersion :
+    IsOpenImmersion
+      (Proj.awayι (grading K) (X1 K) (x1_mem_degree_one K) Nat.zero_lt_one) := by
+  exact SourceStack.SchemeProjectiveLine.x1_chart_isOpenImmersion K
+
+theorem hilbert_x0_chart_range :
+    (Proj.awayι (grading K) (X0 K) (x0_mem_degree_one K) Nat.zero_lt_one).opensRange =
+      Proj.basicOpen (grading K) (X0 K) := by
+  exact SourceStack.SchemeProjectiveLine.x0_chart_range K
+
+theorem hilbert_x1_chart_range :
+    (Proj.awayι (grading K) (X1 K) (x1_mem_degree_one K) Nat.zero_lt_one).opensRange =
+      Proj.basicOpen (grading K) (X1 K) := by
+  exact SourceStack.SchemeProjectiveLine.x1_chart_range K
+
+theorem hilbert_x0_basicOpen_isAffineOpen :
+    IsAffineOpen (Proj.basicOpen (grading K) (X0 K)) := by
+  exact SourceStack.SchemeProjectiveLine.x0_basicOpen_isAffineOpen K
+
+theorem hilbert_x1_basicOpen_isAffineOpen :
+    IsAffineOpen (Proj.basicOpen (grading K) (X1 K)) := by
+  exact SourceStack.SchemeProjectiveLine.x1_basicOpen_isAffineOpen K
+
+theorem hilbert_basicOpen_x0x1_eq_inf :
+    Proj.basicOpen (grading K) (X0 K * X1 K) =
+      Proj.basicOpen (grading K) (X0 K) ⊓ Proj.basicOpen (grading K) (X1 K) := by
+  exact SourceStack.SchemeProjectiveLine.basicOpen_x0x1_eq_inf K
+
+theorem hilbert_coordinate_chart_intersection_exists :
+    Nonempty (Limits.pullback
+      (Proj.awayι (grading K) (X0 K) (x0_mem_degree_one K) Nat.zero_lt_one)
+      (Proj.awayι (grading K) (X1 K) (x1_mem_degree_one K) Nat.zero_lt_one) ≅
+      Spec (CommRingCat.of (Away (grading K) (X0 K * X1 K)))) := by
+  exact SourceStack.SchemeProjectiveLine.coordinate_chart_intersection_exists K
+
+theorem hilbert_p1_isSeparated :
+    (P1 K).IsSeparated := by
+  exact SourceStack.SchemeProjectiveLine.p1_isSeparated K
+
+theorem hilbert_irrelevant_homogeneousComponent_zero
+    (p : CoordinateRing K)
+    (hp : p ∈ HomogeneousIdeal.irrelevant (grading K)) :
+    MvPolynomial.homogeneousComponent 0 p = 0 := by
+  exact SourceStack.SchemeProjectiveLine.irrelevant_homogeneousComponent_zero K p hp
+
+theorem hilbert_irrelevant_le_span_coordinates :
+    (HomogeneousIdeal.irrelevant (grading K)).toIdeal ≤
+      Ideal.span (Set.range fun i : Fin 2 => (MvPolynomial.X i : CoordinateRing K)) := by
+  exact SourceStack.SchemeProjectiveLine.irrelevant_le_span_coordinates K
+
+theorem hilbert_standard_affine_chart_cover :
+    (⨆ i : Fin 2, Proj.basicOpen (grading K) (MvPolynomial.X i : CoordinateRing K)) = ⊤ := by
+  exact SourceStack.SchemeProjectiveLine.standard_affine_chart_cover K
+
+theorem hilbert_two_chart_cover :
+    Proj.basicOpen (grading K) (X0 K) ⊔ Proj.basicOpen (grading K) (X1 K) = ⊤ := by
+  exact SourceStack.SchemeProjectiveLine.two_chart_cover K
+
+end SchemeProjectiveLine
 
 namespace RationalMaps
 

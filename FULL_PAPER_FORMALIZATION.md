@@ -164,9 +164,16 @@ affine-open chart ranges, affine basic opens, stalk localization, chart
 compatibility with the structure morphism, the canonical basic-open-to-`Spec`
 map on global sections, chart refinement maps, intersections of standard
 affine charts with projection identities, separatedness of `Proj`, and the
-underlying projective-spectrum zero-locus/vanishing-ideal topology.  The
-remaining missing input is the specialized scheme `P^1 = Proj k[X,Y]` with
-marked `0`, `1`, and `infinity` points connected to rational functions.
+underlying projective-spectrum zero-locus/vanishing-ideal topology.
+
+`HilbertTest/SourceStack/SchemeProjectiveLine.lean` now defines the
+scheme-theoretic candidate `P^1_K = Proj K[X0,X1]`, proves the two homogeneous
+coordinates have degree one, checks that the two standard affine charts are
+open immersions with affine ranges covering `P^1_K`, identifies the coordinate
+chart overlap as `D_+(X0 * X1)`, and proves separatedness of this `P^1_K`.
+The remaining missing input is the identification of marked scheme points
+`0`, `1`, and `infinity` with the linear projective-line bookkeeping and with
+rational functions.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
