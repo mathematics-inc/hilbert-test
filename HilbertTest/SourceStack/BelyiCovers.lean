@@ -62,6 +62,43 @@ theorem finite_subcover_of_pointwise
     (fun φ => D.tupleAvoidSet_isOpen (κ := κ) φ)
     (D.tupleAvoidSet_cover_of_pointwise (κ := κ) hcover)
 
+/-- A map sends a fixed subset of the source to the finite branch set.  In
+Corollary 3.1 this is the condition `phi(S) subset {0,1,infinity}`. -/
+def sendsSetToBranch (S : Set X) (φ : Φ) : Prop :=
+  ∀ x ∈ S, D.map φ x ∈ D.branch
+
+/-- Restrict the source to the complement of a fixed set and restrict the map
+family to maps that send that fixed set to the branch set. -/
+def complementCoverData (S : Set X) :
+    BelyiCoverData {x : X // x ∉ S} P {φ : Φ // D.sendsSetToBranch S φ} where
+  branch := D.branch
+  branch_finite := D.branch_finite
+  map φ x := D.map φ.1 x.1
+  continuous_map φ := (D.continuous_map φ.1).comp continuous_subtype_val
+
+/-- The complement-restricted tuple-avoidance set is just coordinate avoidance
+for the underlying maps. -/
+theorem complement_tupleAvoidSet_eq
+    [Finite κ] (S : Set X) (φ : {φ : Φ // D.sendsSetToBranch S φ}) :
+    (D.complementCoverData S).tupleAvoidSet (κ := κ) φ =
+      {x : κ → {x : X // x ∉ S} | ∀ i, D.map φ.1 (x i).1 ∉ D.branch} := by
+  rfl
+
+/-- If the noncritical Belyi existence theorem supplies, for every tuple in
+`X \\ S`, a map sending `S` to the branch set and avoiding the branch set on the
+tuple, then compactness extracts finitely many such maps. -/
+theorem finite_subcover_on_complement_of_pointwise
+    [Finite κ] [T1Space P] {S : Set X} [CompactSpace (κ → {x : X // x ∉ S})]
+    (hcover : ∀ x : κ → {x : X // x ∉ S},
+      ∃ φ : Φ, D.sendsSetToBranch S φ ∧ ∀ i, D.map φ (x i).1 ∉ D.branch) :
+    ∃ t : Finset {φ : Φ // D.sendsSetToBranch S φ},
+      (⋃ φ ∈ t, (D.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  apply BelyiCoverData.finite_subcover_of_pointwise (D.complementCoverData S)
+  intro x
+  rcases hcover x with ⟨φ, hφS, hφx⟩
+  exact ⟨⟨φ, hφS⟩, hφx⟩
+
 end BelyiCoverData
 
 end SourceStack

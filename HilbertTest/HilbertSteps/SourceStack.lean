@@ -402,6 +402,21 @@ theorem hilbert_finite_subcover_of_pointwise
       (⋃ φ ∈ t, D.tupleAvoidSet (κ := κ) φ) = (Set.univ : Set (κ → X)) := by
   exact SourceStack.BelyiCoverData.finite_subcover_of_pointwise D hcover
 
+theorem hilbert_complement_tupleAvoidSet_eq
+    [Finite κ] (S : Set X) (φ : {φ : Φ // D.sendsSetToBranch S φ}) :
+    (D.complementCoverData S).tupleAvoidSet (κ := κ) φ =
+      {x : κ → {x : X // x ∉ S} | ∀ i, D.map φ.1 (x i).1 ∉ D.branch} := by
+  exact SourceStack.BelyiCoverData.complement_tupleAvoidSet_eq D S φ
+
+theorem hilbert_finite_subcover_on_complement_of_pointwise
+    [Finite κ] [T1Space P] {S : Set X} [CompactSpace (κ → {x : X // x ∉ S})]
+    (hcover : ∀ x : κ → {x : X // x ∉ S},
+      ∃ φ : Φ, D.sendsSetToBranch S φ ∧ ∀ i, D.map φ (x i).1 ∉ D.branch) :
+    ∃ t : Finset {φ : Φ // D.sendsSetToBranch S φ},
+      (⋃ φ ∈ t, (D.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact SourceStack.BelyiCoverData.finite_subcover_on_complement_of_pointwise D hcover
+
 end BelyiCovers
 
 namespace LocalFields

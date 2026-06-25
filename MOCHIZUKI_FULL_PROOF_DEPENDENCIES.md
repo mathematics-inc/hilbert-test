@@ -356,8 +356,9 @@ Lean-facing declarations needed:
   complements of finite T1-subsets, and tuple-coordinate finite-avoidance
   loci.  The abstract cover extraction is now checked in
   `SourceStack.BelyiCovers`: pointwise existence of avoiding maps gives an
-  indexed open cover, and compactness extracts a finite subcover.  The missing
-  part is the scheme/curve continuity and the Belyi-specific
+  indexed open cover, compactness extracts a finite subcover, and the
+  complement version restricts to maps sending the fixed set `S` to the branch
+  set.  The missing part is the scheme/curve continuity and the Belyi-specific
   nonemptiness/cover statement.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.

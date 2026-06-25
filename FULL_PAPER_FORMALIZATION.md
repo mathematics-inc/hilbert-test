@@ -94,8 +94,10 @@ openness.
 `HilbertTest/SourceStack/BelyiCovers.lean` now formalizes the abstract
 Corollary 3.1 compactness step: a family of continuous maps with finite branch
 set gives open tuple-avoidance loci, pointwise avoidance gives an indexed open
-cover, and compactness extracts a finite subcover.  The remaining missing input
-is the curve-level theorem supplying those avoiding maps.
+cover, and compactness extracts a finite subcover.  It also formalizes the
+fixed-set version over `X \ S`, restricting the map family to maps sending `S`
+to the branch set.  The remaining missing input is the curve-level theorem
+supplying those avoiding maps.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
