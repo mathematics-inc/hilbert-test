@@ -267,7 +267,7 @@ follows.
 | Basepoint-free/very ample line bundles | Vakil Class 44; Hartshorne IV.3; Stacks Algebraic Curves 53.7 | `deg L >= 2g` gives global generation; `deg L >= 2g+1` gives closed immersion |
 | Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Choose a section avoiding finitely many hyperplanes |
 | Descent and field of definition | Weil; Dèbes-Emsalem; Dèbes-Douai; Sijsling-Voight | Galois-stable marked maps descend to the intended field |
-| Local compactness in Corollary 3.2 | Lorscheid; Serre/Cassels local fields; Stacks properness | Checked compact image, finite subcover, and topological proper-map compact-preimage wrappers in `SourceStack.Topology`; still needs the algebraic theorem that proper varieties over local fields have compact point spaces in the strong topology |
+| Local compactness in Corollary 3.2 | Lorscheid; Serre/Cassels local fields; Stacks properness | Checked compact image, finite subcover, and topological proper-map compact-preimage wrappers in `SourceStack.Topology`; checked p-adic and infinite-place completion compactness/local-compactness wrappers in `SourceStack.LocalFields`; still needs the algebraic theorem that proper varieties over arbitrary local fields have compact point spaces in the strong topology |
 | Bottom algebra | Stacks Algebra/More on Algebra/Modules; Atiyah-Macdonald; Eisenbud | Localization, finite modules, integral extensions, Kahler differentials, DVRs |
 
 This matrix is deliberately not only a reading list.  Each row identifies the

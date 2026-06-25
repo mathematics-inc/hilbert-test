@@ -8,6 +8,7 @@ import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
+import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
 import HilbertTest.HilbertSteps.SourceStack
 import HilbertTest.HilbertSteps.Belyi1980

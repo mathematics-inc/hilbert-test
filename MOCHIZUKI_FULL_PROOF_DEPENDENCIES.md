@@ -48,6 +48,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   separability equivalences over essentially finite type field extensions.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
+- `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
+  locally compact infinite-place completion wrappers currently available in
+  Mathlib.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
 - `data/belyi_source_stack`, `data/belyi1980_polynomial`, and
@@ -249,7 +252,8 @@ Lean-facing declarations needed:
   checked in `SourceStack.Topology`; the proper-morphism-to-proper-map bridge is
   checked in `SourceStack.Schemes`; topological proper-map compact-preimage
   facts are also checked in `SourceStack.Topology`; the missing step is the
-  local-field point topology and proper-variety compactness theorem.
+  local-field point topology for arbitrary proper varieties and the full
+  proper-variety compactness theorem.
 
 ## Dependency order for actual implementation
 

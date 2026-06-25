@@ -6,6 +6,7 @@ import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
+import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
 
 /-!
@@ -147,6 +148,35 @@ theorem hilbert_continuous_isProperMap_of_compactSpace
   exact SourceStack.continuous_isProperMap_of_compactSpace hf
 
 end Topology
+
+namespace LocalFields
+
+theorem hilbert_padicInt_compactSpace
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    CompactSpace ℤ_[p] := by
+  exact SourceStack.LocalFields.padicInt_compactSpace p
+
+theorem hilbert_padic_properSpace
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    ProperSpace ℚ_[p] := by
+  exact SourceStack.LocalFields.padic_properSpace p
+
+theorem hilbert_padic_locallyCompactSpace
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    LocallyCompactSpace ℚ_[p] := by
+  exact SourceStack.LocalFields.padic_locallyCompactSpace p
+
+theorem hilbert_padic_completeSpace
+    (p : ℕ) [Fact (Nat.Prime p)] :
+    CompleteSpace ℚ_[p] := by
+  exact SourceStack.LocalFields.padic_completeSpace p
+
+theorem hilbert_infinitePlace_completion_locallyCompactSpace
+    {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
+    LocallyCompactSpace v.Completion := by
+  exact SourceStack.LocalFields.infinitePlace_completion_locallyCompactSpace v
+
+end LocalFields
 
 namespace ProjectiveLine
 
