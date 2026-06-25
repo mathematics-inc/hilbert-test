@@ -1,4 +1,5 @@
 import HilbertTest.NoncriticalBelyi.Elementary
+import HilbertTest.NoncriticalBelyi.Polynomial
 import HilbertTest.Belyi1980.Polynomial
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra

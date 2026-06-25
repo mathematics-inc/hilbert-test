@@ -32,6 +32,15 @@ formalization of elementary real-polynomial inequalities used in Lemma 2.1:
 - offset-ratio inequalities used in the odd-`n` case after adding `f₀`,
 - `|f x| <= 1` for `x in [0, 1]`.
 
+`HilbertTest/NoncriticalBelyi/Polynomial.lean` contains the corresponding
+no-`sorry` algebraic polynomial layer over `ℚ[X]`:
+
+- endpoint evaluations of `X^m * (X - 1)^n` at `0` and `1`,
+- the formal derivative formula,
+- the factored derivative
+  `X^(m-1) * (X-1)^(n-1) * ((m+n)X - m)`,
+- vanishing of the derivative at the middle point `m/(m+n)`.
+
 `HilbertTest/SourceStack/ComplexSeparation.lean` contains a no-`sorry` Lean
 formalization of the finite complex-set separation used in Lemma 2.3:
 
@@ -92,8 +101,9 @@ available as ready-to-use Mathlib components:
 0. Optionally formalize the page-9 polynomial construction in Belyi's
    *On Galois Extensions of a Maximal Cyclotomic Field*; see
    `BELYI_1980_ASSESSMENT.md`.
-1. Complete Lemma 2.1 over `Polynomial ℚ`, including the derivative calculation
-   and the finite-set image/cardinality argument.
+1. Finish the finite-set image/cardinality packaging for Lemma 2.1 over the
+   scheme/projective-line model; the formal derivative and middle critical-point
+   calculation over `ℚ[X]` are now checked.
 2. Finish the scheme-`P^1` morphism packaging for Lemma 2.3.
 3. Build a projective-line API sufficient for Lemma 2.2 and Lemma 2.4.
 4. Add a Belyi-map definition over `P^1` using Mathlib's scheme morphism

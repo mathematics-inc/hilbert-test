@@ -1,4 +1,5 @@
 import HilbertTest.NoncriticalBelyi.Elementary
+import HilbertTest.NoncriticalBelyi.Polynomial
 
 /-!
 Hilbert-facing targets for the checked elementary part of Mochizuki's
@@ -9,7 +10,7 @@ namespace HilbertTest
 namespace HilbertSteps
 namespace MochizukiElementary
 
-open Real
+open Real Polynomial
 
 theorem hilbert_beta_ge_two_of_condition
     {beta C : Real}
@@ -173,6 +174,47 @@ theorem hilbert_belyi_aux_beta_ne_unit_interval_value
       NoncriticalBelyi.belyiAux m n x := by
   exact NoncriticalBelyi.belyi_aux_beta_ne_unit_interval_value
     hm hn hbeta hx0 hx1
+
+theorem hilbert_paperPolynomial_eval_zero
+    {m n : Nat} (hm : 0 < m) :
+    (NoncriticalBelyi.paperPolynomial m n).eval 0 = 0 := by
+  exact NoncriticalBelyi.paperPolynomial_eval_zero hm
+
+theorem hilbert_paperPolynomial_eval_one
+    {m n : Nat} (hn : 0 < n) :
+    (NoncriticalBelyi.paperPolynomial m n).eval 1 = 0 := by
+  exact NoncriticalBelyi.paperPolynomial_eval_one hn
+
+theorem hilbert_derivative_paperPolynomial
+    (m n : Nat) :
+    derivative (NoncriticalBelyi.paperPolynomial m n) =
+      C (m : ℚ) * X ^ (m - 1) * (X - 1) ^ n +
+        C (n : ℚ) * X ^ m * (X - 1) ^ (n - 1) := by
+  exact NoncriticalBelyi.derivative_paperPolynomial m n
+
+theorem hilbert_derivative_paperPolynomial_factor
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    derivative (NoncriticalBelyi.paperPolynomial m n) =
+      X ^ (m - 1) * (X - 1) ^ (n - 1) *
+        (C (((m + n : Nat) : ℚ)) * X - C (m : ℚ)) := by
+  exact NoncriticalBelyi.derivative_paperPolynomial_factor hm hn
+
+theorem hilbert_derivative_paperPolynomial_eval_middle_eq_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (derivative (NoncriticalBelyi.paperPolynomial m n)).eval
+      ((m : ℚ) / (((m + n : Nat) : ℚ))) = 0 := by
+  exact NoncriticalBelyi.derivative_paperPolynomial_eval_middle_eq_zero hm hn
+
+theorem hilbert_paperPolynomial_basic_data
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (NoncriticalBelyi.paperPolynomial m n).eval 0 = 0 ∧
+      (NoncriticalBelyi.paperPolynomial m n).eval 1 = 0 ∧
+      derivative (NoncriticalBelyi.paperPolynomial m n) =
+        X ^ (m - 1) * (X - 1) ^ (n - 1) *
+          (C (((m + n : Nat) : ℚ)) * X - C (m : ℚ)) ∧
+      (derivative (NoncriticalBelyi.paperPolynomial m n)).eval
+        ((m : ℚ) / (((m + n : Nat) : ℚ))) = 0 := by
+  exact NoncriticalBelyi.paperPolynomial_basic_data hm hn
 
 end MochizukiElementary
 end HilbertSteps

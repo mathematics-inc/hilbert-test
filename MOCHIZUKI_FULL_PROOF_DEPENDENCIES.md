@@ -18,6 +18,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   domination of `beta` by the auxiliary polynomial at `beta >= 2`, plus the
   odd-case offset-ratio estimates and checked strict-separation consequences
   for positive points and unit-interval values.
+- `HilbertTest.NoncriticalBelyi.Polynomial`: the algebraic `ℚ[X]` polynomial
+  `X^m * (X - 1)^n` from Mochizuki Lemma 2.1, its endpoint values, formal
+  derivative formula, factored derivative, and middle critical-point evaluation.
 - `HilbertTest.Belyi1980.Polynomial`: the Belyi 1980 polynomial derivative,
   endpoint values at `0` and `1`, the middle critical point with derivative
   value `0`, normalized value `1`, and the middle-value positivity/`<= 1/4`
@@ -271,7 +274,9 @@ Lean-facing declarations needed:
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
 - derivative criterion for ramification of polynomial maps on affine charts.
-- full formal version of Mochizuki Lemma 2.1 over `Q`.
+- full scheme/`P^1` version of Mochizuki Lemma 2.1 over `Q`; the formal
+  `ℚ[X]` derivative and critical-point calculation are checked, but the
+  projective morphism and ramification packaging remains.
 - Lemma 2.2 induction reducing finite rational sets.
 - Lemma 2.3: the analytic complex finite-set separation, reciprocal translate
   estimate, and rational-pole refinement are checked in
