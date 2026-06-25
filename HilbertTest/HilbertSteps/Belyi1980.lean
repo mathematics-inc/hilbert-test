@@ -82,6 +82,16 @@ theorem hilbert_normalizedAuxPolynomial_middle_eq_one
       ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
   exact Belyi1980.normalizedAuxPolynomial_middle_eq_one hm hn
 
+theorem hilbert_normalizedAuxPolynomial_basic_data
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    Belyi1980.normalizedAuxPolynomial m n 0 = 0 ∧
+      Belyi1980.normalizedAuxPolynomial m n 1 = 0 ∧
+      HasDerivAt (fun y : Real => Belyi1980.normalizedAuxPolynomial m n y) 0
+        ((m : Real) / ((m + n : Nat) : Real)) ∧
+      Belyi1980.normalizedAuxPolynomial m n
+        ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
+  exact Belyi1980.normalizedAuxPolynomial_basic_data hm hn
+
 theorem hilbert_middle_power_product_pos
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     0 <

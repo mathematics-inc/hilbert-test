@@ -168,6 +168,22 @@ theorem normalizedAuxPolynomial_middle_eq_one
   rw [Nat.cast_add, pow_add]
   field_simp [hden, hmne, hnne]
 
+/-- The basic normalized Belyi polynomial data used for the three-point
+construction: `0` and `1` map to `0`, the middle point is critical, and the
+middle critical value is normalized to `1`. -/
+theorem normalizedAuxPolynomial_basic_data
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    normalizedAuxPolynomial m n 0 = 0 ∧
+      normalizedAuxPolynomial m n 1 = 0 ∧
+      HasDerivAt (fun y : Real => normalizedAuxPolynomial m n y) 0
+        ((m : Real) / ((m + n : Nat) : Real)) ∧
+      normalizedAuxPolynomial m n
+        ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
+  exact ⟨normalizedAuxPolynomial_zero hm,
+    normalizedAuxPolynomial_one hn,
+    hasDerivAt_normalizedAuxPolynomial_middle_zero hm hn,
+    normalizedAuxPolynomial_middle_eq_one hm hn⟩
+
 /-- The absolute value of the middle critical value
 `(m/(m+n))^m * (n/(m+n))^n` is positive. -/
 theorem middle_power_product_pos
