@@ -1161,6 +1161,16 @@ universe u
 
 variable {X Y : Scheme.{u}}
 
+theorem hilbert_germ_injective_of_isIntegral
+    [IsIntegral X] {U : X.Opens} (x : X) (hx : x ∈ U) :
+    Function.Injective (X.presheaf.germ U x hx) := by
+  exact SourceStack.FunctionFields.germ_injective_of_isIntegral x hx
+
+theorem hilbert_genericPoint_mem_open
+    [IrreducibleSpace X] (U : X.Opens) [Nonempty U] :
+    genericPoint X ∈ U := by
+  exact SourceStack.FunctionFields.genericPoint_mem_open U
+
 theorem hilbert_germToFunctionField_injective
     [IsIntegral X] (U : X.Opens) [Nonempty U] :
     Function.Injective (X.germToFunctionField U) := by
@@ -1170,6 +1180,38 @@ theorem hilbert_functionField_isFractionRing_of_isAffineOpen
     [IsIntegral X] (U : X.Opens) (hU : IsAffineOpen U) [Nonempty U] :
     IsFractionRing Γ(X, U) X.functionField := by
   exact SourceStack.FunctionFields.functionField_isFractionRing_of_isAffineOpen U hU
+
+theorem hilbert_functionField_isFractionRing_of_affine
+    (R : CommRingCat.{u}) [IsDomain R] :
+    IsFractionRing R (Spec R).functionField := by
+  exact SourceStack.FunctionFields.functionField_isFractionRing_of_affine R
+
+theorem hilbert_genericPoint_eq_bot_of_affine
+    (R : CommRingCat.{u}) [IsDomain R] :
+    genericPoint (Spec R) = (⊥ : PrimeSpectrum R) := by
+  exact SourceStack.FunctionFields.genericPoint_eq_bot_of_affine R
+
+theorem hilbert_isIntegral_open
+    [IsIntegral X] (U : X.Opens) [Nonempty U] :
+    IsIntegral U := by
+  exact SourceStack.FunctionFields.isIntegral_open U
+
+theorem hilbert_stalk_isFractionRing_functionField
+    [IsIntegral X] (x : X) :
+    IsFractionRing (X.presheaf.stalk x) X.functionField := by
+  exact SourceStack.FunctionFields.stalk_isFractionRing_functionField x
+
+theorem hilbert_primeIdealOf_genericPoint
+    [IsIntegral X] {U : X.Opens} (hU : IsAffineOpen U) [Nonempty U] :
+    hU.primeIdealOf
+        ⟨genericPoint X, SourceStack.FunctionFields.genericPoint_mem_open (X := X) U⟩ =
+      genericPoint (Spec Γ(X, U)) := by
+  exact SourceStack.FunctionFields.primeIdealOf_genericPoint hU
+
+theorem hilbert_functionField_isScalarTower
+    [IrreducibleSpace X] (U : X.Opens) (x : U) [Nonempty U] :
+    IsScalarTower Γ(X, U) (X.presheaf.stalk x) X.functionField := by
+  exact SourceStack.FunctionFields.functionField_isScalarTower U x
 
 theorem hilbert_genericPoint_eq_of_isOpenImmersion
     (f : X ⟶ Y) [IsOpenImmersion f]

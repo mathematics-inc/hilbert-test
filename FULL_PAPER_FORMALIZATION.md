@@ -102,6 +102,18 @@ derivative-nonvanishing consequences.  It also checks polynomial-composition
 evaluation, the derivative chain rule, and the corresponding derivative
 nonvanishing condition for compositions.
 
+`HilbertTest/SourceStack/RationalMaps.lean` and
+`HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
+source layer available in Mathlib: dense-domain and partial-map representative
+wrappers, function-field reconstruction and uniqueness for rational maps out of
+integral schemes, injectivity of germs on integral schemes, generic-point
+membership in nonempty opens, fraction-field identifications for affine schemes
+and nonempty affine opens, affine-chart generic-point identification, stalks
+with the scheme function field as fraction field, and the section/stalk/function
+field scalar-tower bridge.  The remaining missing input is the curve-specific
+divisor and Riemann-Roch machinery that produces the required rational
+functions.
+
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,

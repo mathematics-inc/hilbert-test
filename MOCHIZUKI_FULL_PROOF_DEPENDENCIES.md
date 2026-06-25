@@ -73,8 +73,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
-  integral schemes, nonempty affine opens, and generic-point behavior under open
-  immersions.
+  integral schemes, nonempty affine opens, affine schemes, stalk/function-field
+  fraction-field identifications, generic-point membership and affine-chart
+  identification, section/stalk/function-field scalar towers, and
+  generic-point behavior under open immersions.
 - `HilbertTest.SourceStack.ResidueFields`: Mathlib residue-field and stalk
   wrappers for point evaluations, residue-field maps, canonical morphisms
   `Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, their ranges/functoriality, and
