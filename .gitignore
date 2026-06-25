@@ -6,6 +6,8 @@ __pycache__
 !/data/belyi_source_stack/source_stack.jsonl
 !/data/belyi1980_polynomial/
 !/data/belyi1980_polynomial/polynomial.jsonl
+!/data/mochizuki_elementary/
+!/data/mochizuki_elementary/lemma21.jsonl
 *.txt
 *.out
 outputs/
