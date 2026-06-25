@@ -14,6 +14,7 @@ import HilbertTest.SourceStack.DedekindDvr
 import HilbertTest.SourceStack.FractionalIdeals
 import HilbertTest.SourceStack.ArithmeticFunctionFields
 import HilbertTest.SourceStack.Cohomology
+import HilbertTest.SourceStack.SmoothKaehler
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
@@ -1731,6 +1732,132 @@ theorem hilbert_scheme_modules_abelian
   exact SourceStack.Cohomology.scheme_modules_abelian X
 
 end Cohomology
+
+namespace SmoothKaehler
+
+universe u v
+
+theorem hilbert_formallySmooth_exists_lift
+    {R : Type u} [CommSemiring R]
+    {A : Type u} [Semiring A] [Algebra R A]
+    {B : Type u} [CommRing B] [Algebra R B]
+    [Algebra.FormallySmooth R A]
+    (I : Ideal B) (hI : IsNilpotent I) (g : A →ₐ[R] B ⧸ I) :
+    ∃ f : A →ₐ[R] B, (Ideal.Quotient.mkₐ R I).comp f = g := by
+  exact SourceStack.SmoothKaehler.formallySmooth_exists_lift I hI g
+
+theorem hilbert_formallySmooth_polynomial
+    (R : Type u) [CommSemiring R] :
+    Algebra.FormallySmooth R R[X] := by
+  exact SourceStack.SmoothKaehler.formallySmooth_polynomial R
+
+theorem hilbert_formallySmooth_mvPolynomial
+    (R : Type u) [CommSemiring R] (σ : Type u) :
+    Algebra.FormallySmooth R (MvPolynomial σ R) := by
+  exact SourceStack.SmoothKaehler.formallySmooth_mvPolynomial R σ
+
+theorem hilbert_formallySmooth_comp
+    (R : Type u) [CommSemiring R]
+    (A : Type u) [CommSemiring A] [Algebra R A]
+    (B : Type u) [Semiring B] [Algebra R B] [Algebra A B]
+    [IsScalarTower R A B]
+    [Algebra.FormallySmooth R A] [Algebra.FormallySmooth A B] :
+    Algebra.FormallySmooth R B := by
+  exact SourceStack.SmoothKaehler.formallySmooth_comp R A B
+
+theorem hilbert_formallySmooth_base_change
+    {R : Type u} [CommSemiring R]
+    {A : Type u} [Semiring A] [Algebra R A]
+    (B : Type u) [CommSemiring B] [Algebra R B]
+    [Algebra.FormallySmooth R A] :
+    Algebra.FormallySmooth B (B ⊗[R] A) := by
+  exact SourceStack.SmoothKaehler.formallySmooth_base_change B
+
+theorem hilbert_formallySmooth_localization_map
+    {R S Rₘ Sₘ : Type u}
+    [CommRing R] [CommRing S] [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R S] [Algebra R Sₘ] [Algebra S Sₘ]
+    [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ] [IsScalarTower R S Sₘ]
+    [IsLocalization M Rₘ] [IsLocalization (Submonoid.map (algebraMap R S) M) Sₘ]
+    [Algebra.FormallySmooth R S] :
+    Algebra.FormallySmooth Rₘ Sₘ := by
+  exact SourceStack.SmoothKaehler.formallySmooth_localization_map
+    (R := R) (S := S) (Rₘ := Rₘ) (Sₘ := Sₘ) M
+
+theorem hilbert_formallySmooth_pi_iff
+    {R : Type (max u v)} {I : Type u} (A : I → Type (max u v))
+    [CommRing R] [(i : I) → CommRing (A i)]
+    [(i : I) → Algebra R (A i)] [Finite I] :
+    Algebra.FormallySmooth R ((i : I) → A i) ↔
+      ∀ i, Algebra.FormallySmooth R (A i) := by
+  exact SourceStack.SmoothKaehler.formallySmooth_pi_iff A
+
+theorem hilbert_smooth_of_isLocalization_Away
+    {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
+    (r : R) [IsLocalization.Away r A] :
+    Algebra.Smooth R A := by
+  exact SourceStack.SmoothKaehler.smooth_of_isLocalization_Away r
+
+theorem hilbert_smooth_comp
+    (R : Type u) [CommRing R]
+    (A B : Type u) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra A B] [IsScalarTower R A B]
+    [Algebra.Smooth R A] [Algebra.Smooth A B] :
+    Algebra.Smooth R B := by
+  exact SourceStack.SmoothKaehler.smooth_comp R A B
+
+theorem hilbert_smooth_baseChange
+    (R : Type u) [CommRing R]
+    (A B : Type u) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra.Smooth R A] :
+    Algebra.Smooth B (B ⊗[R] A) := by
+  exact SourceStack.SmoothKaehler.smooth_baseChange R A B
+
+theorem hilbert_formallySmooth_iff_injective_and_projective
+    {R P S : Type u} [CommRing R] [CommRing P] [CommRing S]
+    [Algebra R P] [Algebra P S] [Algebra R S] [IsScalarTower R P S]
+    (hf : Function.Surjective (algebraMap P S))
+    [Algebra.FormallySmooth R P] :
+    Algebra.FormallySmooth R S ↔
+      Function.Injective (KaehlerDifferential.kerCotangentToTensor R P S) ∧
+        Module.Projective S (Ω[S⁄R]) := by
+  exact SourceStack.SmoothKaehler.formallySmooth_iff_injective_and_projective hf
+
+theorem hilbert_formallySmooth_iff_subsingleton_and_projective
+    {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] :
+    Algebra.FormallySmooth R S ↔
+      Subsingleton (Algebra.H1Cotangent R S) ∧ Module.Projective S (Ω[S⁄R]) := by
+  exact SourceStack.SmoothKaehler.formallySmooth_iff_subsingleton_and_projective
+
+theorem hilbert_kaehler_ideal_fg
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.EssFiniteType R S] :
+    (KaehlerDifferential.ideal R S).FG := by
+  exact SourceStack.SmoothKaehler.kaehler_ideal_fg R S
+
+theorem hilbert_kaehler_finite
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.EssFiniteType R S] :
+    Module.Finite S (Ω[S⁄R]) := by
+  exact SourceStack.SmoothKaehler.kaehler_finite R S
+
+theorem hilbert_kaehler_polynomialEquiv_D
+    (R : Type u) [CommRing R] (P : R[X]) :
+    (KaehlerDifferential.polynomialEquiv R)
+      ((KaehlerDifferential.D R R[X]) P) =
+        Polynomial.derivative P := by
+  exact SourceStack.SmoothKaehler.kaehler_polynomialEquiv_D R P
+
+theorem hilbert_kaehler_mvPolynomialBasis_repr_D_X
+    (R : Type u) [CommRing R] (σ : Type v) (i : σ) :
+    (KaehlerDifferential.mvPolynomialBasis R σ).repr
+      ((KaehlerDifferential.D R (MvPolynomial σ R)) (MvPolynomial.X i)) =
+        Finsupp.single i 1 := by
+  exact SourceStack.SmoothKaehler.kaehler_mvPolynomialBasis_repr_D_X R σ i
+
+end SmoothKaehler
 
 namespace Schemes
 

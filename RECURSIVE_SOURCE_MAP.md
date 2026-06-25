@@ -154,6 +154,10 @@ Current Mathlib status:
 - Several morphism properties already exist.
 - This fork checks wrappers for finite, smooth, proper, and etale composition or
   base-change facts where Mathlib v4.15 exposes them directly.
+- The commutative-algebra layer for formal smoothness and Kähler differentials
+  is checked in `HilbertTest.SourceStack.SmoothKaehler`, including nilpotent
+  lifting, stability under base change/localization, Kähler characterizations of
+  formal smoothness, and polynomial differential computations.
 - It also checks Mathlib's bridge from universally closed/proper morphisms to
   topologically proper underlying maps.
 - The commutative-algebra layer for unramified algebras and ramification over

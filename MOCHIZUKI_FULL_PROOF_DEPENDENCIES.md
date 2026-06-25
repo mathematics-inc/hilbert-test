@@ -68,6 +68,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
   separability equivalences over essentially finite type field extensions.
+- `HilbertTest.SourceStack.SmoothKaehler`: formal smooth lifting, polynomial
+  formal smoothness, composition/base-change/localization stability, smooth
+  algebra stability, Kähler-differential characterizations of formal smoothness,
+  finite generation of differentials, and polynomial differential computations.
 - `HilbertTest.SourceStack.Ramification`: ring-theoretic unramified algebra
   facts, the finite-type tensor-product criterion for formal unramifiedness,
   Dedekind-domain ramification-index and inertia-degree facts, tower laws, the
@@ -189,6 +193,9 @@ Lean-facing declarations needed:
   point in a finite set.  The infinite-field vector-space part is already
   checked in `SourceStack.LinearAlgebra`; the missing part is identifying the
   nonvanishing conditions as proper subspaces/hyperplanes.
+The commutative-algebra smoothness/differential layer below smooth-curve
+cohomology is now checked in `SourceStack.SmoothKaehler`; the missing layer is
+the geometric sheaf of differentials/canonical bundle and its curve cohomology.
 
 ### D. Constructing the curve-to-`P^1` reduction
 
