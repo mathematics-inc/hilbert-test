@@ -128,6 +128,17 @@ field-valued and local-ring-valued point data.  The remaining missing input is
 the specialization of these general facts to algebraic points on curves and the
 marked points of scheme-theoretic `P^1`.
 
+`HilbertTest/SourceStack/PullbackCarrier.lean` checks Mathlib's point-carrier
+description of scheme fiber products: triplets of points with common image in
+the base, the residue-field tensor product attached to such triplets, canonical
+maps from tensor spectra to pullbacks, reconstruction of pullback points from
+residue-field tensor data, the carrier equivalence for pullback points, range
+formulas for pullback projections and pullback maps, existence of points above
+compatible pairs, and stability of surjectivity under base change.  The
+remaining missing input is the curve-level specialization that turns this
+general point-carrier API into statements about geometric points in the Belyi
+maps used by the paper.
+
 `HilbertTest/SourceStack/ProjectiveSpectrum.lean` checks the general `Proj`
 source layer available in Mathlib: projective basic opens, affine charts,
 affine-open chart ranges, affine basic opens, stalk localization, chart

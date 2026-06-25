@@ -88,6 +88,12 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   points from closed-point stalk/residue-field maps, compatibility of
   `Spec kappa(x)` with `Spec O_{X,x}`, and equality criteria for field-valued
   and local-ring-valued points.
+- `HilbertTest.SourceStack.PullbackCarrier`: Mathlib scheme-pullback point
+  wrappers for compatible point triplets over a base, residue-field tensor
+  products, tensor-spectrum maps to pullbacks, reconstruction of pullback points
+  from residue-field tensor data, carrier-equivalence and equality criteria,
+  projection and pullback-map range formulas, existence of points above
+  compatible pairs, and stability of surjectivity under base change.
 - `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
   separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
   field, conjugacy-by-automorphism, normal-tower restriction wrappers, and the

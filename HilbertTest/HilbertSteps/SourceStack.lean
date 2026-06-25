@@ -7,6 +7,7 @@ import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
+import HilbertTest.SourceStack.PullbackCarrier
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.UnramifiedEtale
@@ -36,6 +37,7 @@ namespace HilbertSteps
 
 open Set
 open CategoryTheory
+open CategoryTheory.Limits
 open CategoryTheory.Abelian
 open Opposite IsLocalRing
 open AlgebraicGeometry
@@ -1622,6 +1624,193 @@ theorem hilbert_SpecToEquivOfLocalRing_eq_iff
   exact SourceStack.ResidueFields.SpecToEquivOfLocalRing_eq_iff
 
 end ResidueFields
+
+namespace PullbackCarrier
+
+universe u
+
+variable {X Y S : Scheme.{u}} {f : X ⟶ S} {g : Y ⟶ S}
+
+theorem hilbert_triplet_mk'_exists
+    (x : X) (y : Y) (h : f.base x = g.base y) :
+    Nonempty (Scheme.Pullback.Triplet f g) := by
+  exact SourceStack.PullbackCarrier.triplet_mk'_exists x y h
+
+theorem hilbert_triplet_tensor_nontrivial
+    (T : Scheme.Pullback.Triplet f g) :
+    Nontrivial T.tensor := by
+  exact SourceStack.PullbackCarrier.triplet_tensor_nontrivial T
+
+theorem hilbert_triplet_tensorInl_exists
+    (T : Scheme.Pullback.Triplet f g) :
+    Nonempty (X.residueField T.x ⟶ T.tensor) := by
+  exact SourceStack.PullbackCarrier.triplet_tensorInl_exists T
+
+theorem hilbert_triplet_tensorInr_exists
+    (T : Scheme.Pullback.Triplet f g) :
+    Nonempty (Y.residueField T.y ⟶ T.tensor) := by
+  exact SourceStack.PullbackCarrier.triplet_tensorInr_exists T
+
+theorem hilbert_triplet_Spec_map_tensor_isPullback
+    (T : Scheme.Pullback.Triplet f g) :
+    IsPullback
+      (Spec.map T.tensorInl) (Spec.map T.tensorInr)
+      (Spec.map ((S.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x))
+      (Spec.map ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y)) := by
+  exact SourceStack.PullbackCarrier.triplet_Spec_map_tensor_isPullback T
+
+theorem hilbert_triplet_Spec_map_tensorInl_fromSpecResidueField
+    (T : Scheme.Pullback.Triplet f g) :
+    (Spec.map T.tensorInl ≫ X.fromSpecResidueField T.x) ≫ f =
+      (Spec.map T.tensorInr ≫ Y.fromSpecResidueField T.y) ≫ g := by
+  exact SourceStack.PullbackCarrier.triplet_Spec_map_tensorInl_fromSpecResidueField T
+
+theorem hilbert_triplet_SpecTensorTo_exists
+    (T : Scheme.Pullback.Triplet f g) :
+    Nonempty (Spec T.tensor ⟶ pullback f g) := by
+  exact SourceStack.PullbackCarrier.triplet_SpecTensorTo_exists T
+
+theorem hilbert_triplet_specTensorTo_base_fst
+    (T : Scheme.Pullback.Triplet f g) (p : Spec T.tensor) :
+    (pullback.fst f g).base (T.SpecTensorTo.base p) = T.x := by
+  exact SourceStack.PullbackCarrier.triplet_specTensorTo_base_fst T p
+
+theorem hilbert_triplet_specTensorTo_base_snd
+    (T : Scheme.Pullback.Triplet f g) (p : Spec T.tensor) :
+    (pullback.snd f g).base (T.SpecTensorTo.base p) = T.y := by
+  exact SourceStack.PullbackCarrier.triplet_specTensorTo_base_snd T p
+
+theorem hilbert_triplet_specTensorTo_fst
+    (T : Scheme.Pullback.Triplet f g) :
+    T.SpecTensorTo ≫ pullback.fst f g =
+      Spec.map T.tensorInl ≫ X.fromSpecResidueField T.x := by
+  exact SourceStack.PullbackCarrier.triplet_specTensorTo_fst T
+
+theorem hilbert_triplet_specTensorTo_snd
+    (T : Scheme.Pullback.Triplet f g) :
+    T.SpecTensorTo ≫ pullback.snd f g =
+      Spec.map T.tensorInr ≫ Y.fromSpecResidueField T.y := by
+  exact SourceStack.PullbackCarrier.triplet_specTensorTo_snd T
+
+theorem hilbert_triplet_ofPoint_exists
+    (t : ↑(pullback f g)) :
+    Nonempty (Scheme.Pullback.Triplet f g) := by
+  exact SourceStack.PullbackCarrier.triplet_ofPoint_exists t
+
+theorem hilbert_triplet_ofPoint_SpecTensorTo
+    (T : Scheme.Pullback.Triplet f g) (p : Spec T.tensor) :
+    Scheme.Pullback.Triplet.ofPoint (T.SpecTensorTo.base p) = T := by
+  exact SourceStack.PullbackCarrier.triplet_ofPoint_SpecTensorTo T p
+
+theorem hilbert_residueFieldCongr_inv_residueFieldMap_ofPoint
+    (t : ↑(pullback f g)) :
+    ((S.residueFieldCongr (Scheme.Pullback.Triplet.ofPoint t).hx).inv ≫
+        f.residueFieldMap (Scheme.Pullback.Triplet.ofPoint t).x) ≫
+      (pullback.fst f g).residueFieldMap t =
+    ((S.residueFieldCongr (Scheme.Pullback.Triplet.ofPoint t).hy).inv ≫
+        g.residueFieldMap (Scheme.Pullback.Triplet.ofPoint t).y) ≫
+      (pullback.snd f g).residueFieldMap t := by
+  exact SourceStack.PullbackCarrier.residueFieldCongr_inv_residueFieldMap_ofPoint t
+
+theorem hilbert_ofPointTensor_exists
+    (t : ↑(pullback f g)) :
+    Nonempty ((Scheme.Pullback.Triplet.ofPoint t).tensor ⟶
+      (pullback f g).residueField t) := by
+  exact SourceStack.PullbackCarrier.ofPointTensor_exists t
+
+theorem hilbert_ofPointTensor_SpecTensorTo
+    (t : ↑(pullback f g)) :
+    Spec.map (Scheme.Pullback.ofPointTensor t) ≫
+        (Scheme.Pullback.Triplet.ofPoint t).SpecTensorTo =
+      (pullback f g).fromSpecResidueField t := by
+  exact SourceStack.PullbackCarrier.ofPointTensor_SpecTensorTo t
+
+theorem hilbert_SpecTensorTo_SpecOfPoint
+    (t : ↑(pullback f g)) :
+    (Scheme.Pullback.Triplet.ofPoint t).SpecTensorTo.base
+        (Scheme.Pullback.SpecOfPoint t) = t := by
+  exact SourceStack.PullbackCarrier.SpecTensorTo_SpecOfPoint t
+
+theorem hilbert_tensorCongr_SpecTensorTo
+    {T T' : Scheme.Pullback.Triplet f g} (h : T = T') :
+    Spec.map (Scheme.Pullback.Triplet.tensorCongr h).hom ≫ T.SpecTensorTo =
+      T'.SpecTensorTo := by
+  exact SourceStack.PullbackCarrier.tensorCongr_SpecTensorTo h
+
+theorem hilbert_carrierEquiv_eq_iff
+    {T₁ T₂ : Σ T : Scheme.Pullback.Triplet f g, Spec T.tensor} :
+    T₁ = T₂ ↔
+      ∃ e : T₁.1 = T₂.1,
+        (Spec.map (Scheme.Pullback.Triplet.tensorCongr e).inv).base T₁.2 =
+          T₂.2 := by
+  exact SourceStack.PullbackCarrier.carrierEquiv_eq_iff
+
+theorem hilbert_carrierEquiv_exists :
+    Nonempty (↑(pullback f g) ≃
+      Σ T : Scheme.Pullback.Triplet f g, Spec T.tensor) := by
+  exact SourceStack.PullbackCarrier.carrierEquiv_exists
+
+theorem hilbert_carrierEquiv_symm_fst
+    (T : Scheme.Pullback.Triplet f g) (p : Spec T.tensor) :
+    (pullback.fst f g).base (Scheme.Pullback.carrierEquiv.symm ⟨T, p⟩) = T.x := by
+  exact SourceStack.PullbackCarrier.carrierEquiv_symm_fst T p
+
+theorem hilbert_carrierEquiv_symm_snd
+    (T : Scheme.Pullback.Triplet f g) (p : Spec T.tensor) :
+    (pullback.snd f g).base (Scheme.Pullback.carrierEquiv.symm ⟨T, p⟩) = T.y := by
+  exact SourceStack.PullbackCarrier.carrierEquiv_symm_snd T p
+
+theorem hilbert_triplet_exists_preimage
+    (T : Scheme.Pullback.Triplet f g) :
+    ∃ t : ↑(pullback f g),
+      (pullback.fst f g).base t = T.x ∧
+        (pullback.snd f g).base t = T.y := by
+  exact SourceStack.PullbackCarrier.triplet_exists_preimage T
+
+theorem hilbert_exists_preimage_pullback
+    (x : X) (y : Y) (h : f.base x = g.base y) :
+    ∃ z : ↑(pullback f g),
+      (pullback.fst f g).base z = x ∧
+        (pullback.snd f g).base z = y := by
+  exact SourceStack.PullbackCarrier.exists_preimage_pullback x y h
+
+theorem hilbert_range_fst
+    (f : X ⟶ S) (g : Y ⟶ S) :
+    Set.range (pullback.fst f g).base = f.base ⁻¹' Set.range g.base := by
+  exact SourceStack.PullbackCarrier.range_fst f g
+
+theorem hilbert_range_snd
+    (f : X ⟶ S) (g : Y ⟶ S) :
+    Set.range (pullback.snd f g).base = g.base ⁻¹' Set.range f.base := by
+  exact SourceStack.PullbackCarrier.range_snd f g
+
+theorem hilbert_range_fst_comp
+    (f : X ⟶ S) (g : Y ⟶ S) :
+    Set.range (pullback.fst f g ≫ f).base =
+      Set.range f.base ∩ Set.range g.base := by
+  exact SourceStack.PullbackCarrier.range_fst_comp f g
+
+theorem hilbert_range_snd_comp
+    (f : X ⟶ S) (g : Y ⟶ S) :
+    Set.range (pullback.snd f g ≫ g).base =
+      Set.range f.base ∩ Set.range g.base := by
+  exact SourceStack.PullbackCarrier.range_snd_comp f g
+
+theorem hilbert_range_map
+    {X' Y' S' : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S)
+    (f' : X' ⟶ S') (g' : Y' ⟶ S') (i₁ : X ⟶ X')
+    (i₂ : Y ⟶ Y') (i₃ : S ⟶ S')
+    (e₁ : f ≫ i₃ = i₁ ≫ f') (e₂ : g ≫ i₃ = i₂ ≫ g') [Mono i₃] :
+    Set.range (pullback.map f g f' g' i₁ i₂ i₃ e₁ e₂).base =
+      (pullback.fst f' g').base ⁻¹' Set.range i₁.base ∩
+        (pullback.snd f' g').base ⁻¹' Set.range i₂.base := by
+  exact SourceStack.PullbackCarrier.range_map f g f' g' i₁ i₂ i₃ e₁ e₂
+
+theorem hilbert_surjective_stableUnderBaseChange :
+    MorphismProperty.IsStableUnderBaseChange (@Surjective) := by
+  exact SourceStack.PullbackCarrier.surjective_stableUnderBaseChange
+
+end PullbackCarrier
 
 namespace FieldTheory
 
