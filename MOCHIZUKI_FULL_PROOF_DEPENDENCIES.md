@@ -96,10 +96,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
   finite/smooth/separated/proper/etale morphisms, closed-immersion and
-  separated/universally closed bridges, plus the bridge from proper scheme
-  morphisms to closed/topologically proper underlying maps, universally-closed
-  restriction/quasi-compactness, and compactness of schemes universally closed or
-  proper over a field.  It also checks
+  separated/universally closed bridges, finite-to-affine and
+  finite-to-separated wrappers, plus the bridge from proper scheme morphisms to
+  closed/topologically proper underlying maps, universally-closed
+  restriction/quasi-compactness, and compactness of schemes universally closed
+  or proper over a field.  It also checks
   quasi-separated composition/base-change and affine/terminal bridges, together
   with qcqs global-section localization and power-clearing lemmas on basic
   opens.
@@ -209,8 +210,10 @@ Lean-facing declarations needed:
   compact-preimage, affine-target, terminal-morphism, finite, affine,
   integral, proper, quasi-separated, and qcqs section-localization wrappers are
   now checked in `SourceStack.Schemes`, including the bridge from integral plus
-  locally finite type to finite.  The missing theorem is the curve-specific
-  finite-morphism construction.
+  locally finite type to finite and the direct finite-to-separated bridge.  The
+  missing theorem is the curve-specific finite-morphism construction; pinned
+  Mathlib also does not yet provide the integral/universally-closed bridge
+  needed to derive finite-implies-proper.
 
 ### B. Divisors, line bundles, degree
 

@@ -2915,6 +2915,11 @@ theorem hilbert_finite_isAffineHom
     IsAffineHom f := by
   exact SourceStack.Schemes.finite_isAffineHom f
 
+theorem hilbert_finite_isSeparated
+    (f : X ⟶ Y) [IsFinite f] :
+    IsSeparated f := by
+  exact SourceStack.Schemes.finite_isSeparated f
+
 theorem hilbert_integralHom_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsIntegralHom f] [IsIntegralHom g] :

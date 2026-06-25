@@ -180,11 +180,12 @@ needed for Belyi open restrictions: composition, monomorphism, locally finite
 type, smooth, etale, and separated.  It also checks that finite, smooth,
 separated, proper, and etale morphisms keep those properties after restricting
 the target to an open subscheme, and it checks quasi-compact composition,
-base-change, compact-preimage, finite/proper implication, and compact-space
+base-change, compact-preimage, proper-to-compact-space bridges, and compact-space
 bridge wrappers.  The same file now checks affine-morphism composition,
 base-change, quasi-compactness, separatedness, affine-target source-affineness,
-finite-implies-affine, integral-morphism composition/base-change/restriction,
-and the finite iff integral plus locally finite type bridge.  It also checks
+finite-implies-affine, finite-implies-separated,
+integral-morphism composition/base-change/restriction, and the finite iff
+integral plus locally finite type bridge.  It also checks
 universally-closed restriction, quasi-compactness, closed-map and proper-map
 bridges, and compactness of schemes universally closed or proper over a field.
 It also now

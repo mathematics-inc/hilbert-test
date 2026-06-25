@@ -101,6 +101,12 @@ theorem finite_isAffineHom
     IsAffineHom f :=
   inferInstance
 
+/-- Finite morphisms are separated. -/
+theorem finite_isSeparated
+    (f : X ⟶ Y) [IsFinite f] :
+    IsSeparated f :=
+  inferInstance
+
 /-- Integral morphisms are stable under composition. -/
 theorem integralHom_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
