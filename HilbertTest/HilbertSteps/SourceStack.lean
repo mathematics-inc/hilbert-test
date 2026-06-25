@@ -1950,6 +1950,11 @@ theorem hilbert_partialMapMarkedCoverData_branch_finite
     (partialMapMarkedCoverData K f).branch.Finite := by
   exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_branch_finite K f
 
+theorem hilbert_partialMapMarkedCoverData_map_apply
+    (f : C.PartialMap (P1 K)) (x : f.domain) :
+    (partialMapMarkedCoverData K f).map () x = f.hom.base x := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_map_apply K f x
+
 theorem hilbert_partialMapMarkedCoverData_sendsSetToBranch_iff
     (f : C.PartialMap (P1 K)) (S : Set f.domain) :
     (partialMapMarkedCoverData K f).sendsSetToBranch S () ↔
@@ -1989,6 +1994,17 @@ theorem hilbert_rationalMapMarkedCoverData_branch_finite
     [IsReduced C] (f : C ⤏ P1 K) :
     (rationalMapMarkedCoverData K f).branch.Finite := by
   exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_branch_finite K f
+
+theorem hilbert_rationalMapMarkedCoverData_map_apply
+    [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :
+    (rationalMapMarkedCoverData K f).map () x = f.toPartialMap.hom.base x := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_map_apply K f x
+
+theorem hilbert_rationalMapMarkedCoverData_sendsSetToBranch_iff
+    [IsReduced C] (f : C ⤏ P1 K) (S : Set f.domain) :
+    (rationalMapMarkedCoverData K f).sendsSetToBranch S () ↔
+      ∀ x ∈ S, f.toPartialMap.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_sendsSetToBranch_iff K f S
 
 theorem hilbert_rationalMapMarkedCoverData_mem_belyiOpen_iff
     [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :

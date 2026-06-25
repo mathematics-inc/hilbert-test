@@ -326,6 +326,11 @@ theorem partialMapMarkedCoverData_branch_finite
     (partialMapMarkedCoverData K f).branch.Finite := by
   exact markedSchemePointSet_finite K
 
+theorem partialMapMarkedCoverData_map_apply
+    (f : C.PartialMap (P1 K)) (x : f.domain) :
+    (partialMapMarkedCoverData K f).map () x = f.hom.base x := by
+  rfl
+
 theorem partialMapMarkedCoverData_sendsSetToBranch_iff
     (f : C.PartialMap (P1 K)) (S : Set f.domain) :
     (partialMapMarkedCoverData K f).sendsSetToBranch S () ↔
@@ -373,6 +378,17 @@ theorem rationalMapMarkedCoverData_branch_finite
     [IsReduced C] (f : C ⤏ P1 K) :
     (rationalMapMarkedCoverData K f).branch.Finite := by
   exact markedSchemePointSet_finite K
+
+theorem rationalMapMarkedCoverData_map_apply
+    [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :
+    (rationalMapMarkedCoverData K f).map () x = f.toPartialMap.hom.base x := by
+  rfl
+
+theorem rationalMapMarkedCoverData_sendsSetToBranch_iff
+    [IsReduced C] (f : C ⤏ P1 K) (S : Set f.domain) :
+    (rationalMapMarkedCoverData K f).sendsSetToBranch S () ↔
+      ∀ x ∈ S, f.toPartialMap.hom.base x ∈ markedSchemePointSet K := by
+  rfl
 
 theorem rationalMapMarkedCoverData_mem_belyiOpen_iff
     [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :
