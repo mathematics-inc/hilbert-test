@@ -67,6 +67,10 @@ Formalization use:
 
 - Finite sets of algebraic points on `P^1`.
 - Fractional linear transformations with rational coefficients.
+- Complex finite-set separation for reciprocal translates.  The analytic
+  estimate and rational-pole refinement are checked in
+  `HilbertTest.SourceStack.ComplexSeparation`; the remaining work is to express
+  it as a scheme `P^1` morphism statement.
 - Polynomial/rational functions whose critical values are controlled.
 - The explicit Belyi polynomial
   `(m+n)^(m+n)/(m^m*n^n) * t^m * (1 - t)^n`
@@ -243,6 +247,7 @@ follows.
 | --- | --- | --- |
 | Smooth proper connected curves | Stacks Project, Algebraic Curves; Liu, Chapters 3-4 and 7 | A bundled curve structure over a field, eventually as a one-dimensional smooth proper connected scheme |
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
+| Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
 | Finite morphisms to `P^1` | Stacks Project finite morphisms; Scherr-Zieve Proposition 2.1 | Nonconstant rational function on a proper curve induces a finite morphism |
 | Branch locus and noncriticality | Stacks Project unramified/etale morphisms; SGA 1 for covers | Define branch locus as complement of the maximal open over which a finite morphism is unramified |
 | Divisors from finite point sets | Stacks Project Divisors; Liu Chapter 7; Hartshorne II.6 | Effective Cartier divisors on smooth curves and `O(D)` |
@@ -261,7 +266,8 @@ formalized without hiding content behind axioms.
 ## Recommended formalization path
 
 1. Finish the elementary `P^1` rational-function layer:
-   Lemma 2.1 of Mochizuki plus Scherr-Zieve Lemmas 3.1-3.3.
+   the remaining rational/scheme forms of Mochizuki Lemmas 2.1-2.4 plus
+   Scherr-Zieve Lemmas 3.1-3.3.
 2. Define a temporary `CurveLike` interface with divisors, Riemann-Roch spaces,
    genus, and finite morphisms to `P^1`; prove Scherr-Zieve Proposition 2.1
    against this interface.

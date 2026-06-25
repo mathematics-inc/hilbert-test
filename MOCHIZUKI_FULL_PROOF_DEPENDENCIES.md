@@ -19,6 +19,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   the middle critical point, and normalized value `1`.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
   for proper subspaces over an infinite field.
+- `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
+  separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
+  `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is
+  rational.
 - `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
   `0`, `1`, `infinity` and the branch finset `{0,1,infinity}`.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/etale morphism stability
@@ -164,8 +168,10 @@ Lean-facing declarations needed:
 - derivative criterion for ramification of polynomial maps on affine charts.
 - full formal version of Mochizuki Lemma 2.1 over `Q`.
 - Lemma 2.2 induction reducing finite rational sets.
-- Lemma 2.3: choose `lambda` near `beta` so `1/(x-lambda)` separates a finite
-  set.
+- Lemma 2.3: the analytic complex finite-set separation, reciprocal translate
+  estimate, and rational-pole refinement are checked in
+  `SourceStack.ComplexSeparation`; still missing is the scheme-`P^1` morphism
+  packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.
 
@@ -225,8 +231,8 @@ Lean-facing declarations needed:
 ## Dependency order for actual implementation
 
 1. Finish the `P^1` rational-function layer:
-   scheme `P^1`, polynomial maps, derivative/ramification criterion, Lemmas
-   2.1-2.4.
+   scheme `P^1`, polynomial maps, derivative/ramification criterion, the
+   remaining rational/scheme forms of Lemmas 2.1-2.4.
 2. Implement curve/divisor/line-bundle degree APIs.
 3. Implement Riemann-Roch or import its curve-level consequences as checked
    Mathlib theorems.

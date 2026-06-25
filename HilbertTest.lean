@@ -1,6 +1,7 @@
 import HilbertTest.NoncriticalBelyi.Elementary
 import HilbertTest.Belyi1980.Polynomial
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes

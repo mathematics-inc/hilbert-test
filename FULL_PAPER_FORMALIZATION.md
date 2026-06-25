@@ -30,6 +30,16 @@ formalization of elementary real-polynomial inequalities used in Lemma 2.1:
 - `f(beta) > 1` under the hypotheses used in the paper,
 - `|f x| <= 1` for `x in [0, 1]`.
 
+`HilbertTest/SourceStack/ComplexSeparation.lean` contains a no-`sorry` Lean
+formalization of the finite complex-set separation used in Lemma 2.3:
+
+- positive nearest-point distance from `β` to a finite complex set not
+  containing `β`,
+- existence of a point `lambda` near `β` that separates the finite set by any
+  prescribed factor `C > 0`,
+- the reciprocal translate estimate for `z ↦ 1 / (z - lambda)`,
+- the rational-pole refinement when `β` is rational.
+
 The checked output is:
 
 ```text
@@ -77,7 +87,7 @@ available as ready-to-use Mathlib components:
    `BELYI_1980_ASSESSMENT.md`.
 1. Complete Lemma 2.1 over `Polynomial ℚ`, including the derivative calculation
    and the finite-set image/cardinality argument.
-2. Formalize Lemma 2.3 over `ℂ` and its rational specialization.
+2. Finish the scheme-`P^1` morphism packaging for Lemma 2.3.
 3. Build a projective-line API sufficient for Lemma 2.2 and Lemma 2.4.
 4. Add a Belyi-map definition over `P^1` using Mathlib's scheme morphism
    properties.

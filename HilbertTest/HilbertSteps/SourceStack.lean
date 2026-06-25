@@ -1,4 +1,5 @@
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
@@ -36,6 +37,43 @@ theorem hilbert_scherr_zieve_exists_vector_avoiding_finite_proper_subspaces
   exact SourceStack.scherr_zieve_exists_vector_avoiding_finite_proper_subspaces s hproper
 
 end LinearAlgebra
+
+section ComplexSeparation
+
+theorem hilbert_finset_complex_inf_norm_sub_pos
+    (S : Finset ℂ) (β : ℂ) (hS : S.Nonempty) (hβ : β ∉ S) :
+    0 < S.inf' hS (fun α : ℂ => ‖α - β‖) := by
+  exact SourceStack.finset_complex_inf_norm_sub_pos S β hS hβ
+
+theorem hilbert_exists_complex_point_nearby_separating_finset
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      (∀ α ∈ S, lam ≠ α) ∧
+      ∀ α ∈ S, C * ‖β - lam‖ ≤ ‖α - lam‖ := by
+  exact SourceStack.exists_complex_point_nearby_separating_finset S β C hC hβ
+
+theorem hilbert_exists_reciprocal_translate_separating_finset
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      (∀ α ∈ S, lam ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact SourceStack.exists_reciprocal_translate_separating_finset S β C hC hβ
+
+theorem hilbert_exists_rational_reciprocal_translate_separating_finset
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (∀ α ∈ S, (lam : ℂ) ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact SourceStack.exists_rational_reciprocal_translate_separating_finset S β C hC hβ
+
+end ComplexSeparation
 
 section Topology
 
