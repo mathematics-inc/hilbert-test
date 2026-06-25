@@ -134,6 +134,37 @@ theorem schemePoint_injective
       SchemeProjectiveLine.onePoint_ne_infinityPoint K,
       (SchemeProjectiveLine.onePoint_ne_infinityPoint K).symm] at h ⊢
 
+theorem linearPoint_mem_branchFinset
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    linearPoint K label ∈ ProjectiveLine.branchFinset K := by
+  classical
+  rw [← linearPointFinset_eq_branchFinset]
+  exact Finset.mem_image_of_mem (linearPoint K) (Finset.mem_univ label)
+
+theorem schemePoint_mem_markedPointFinset
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    schemePoint K label ∈ SchemeProjectiveLine.markedPointFinset K := by
+  classical
+  rw [← schemePointFinset_eq_markedPointFinset]
+  exact Finset.mem_image_of_mem (schemePoint K) (Finset.mem_univ label)
+
+theorem linearPointFinset_card
+    (K : Type u) [Field K] :
+    (linearPointFinset K).card = 3 := by
+  rw [linearPointFinset_eq_branchFinset]
+  exact ProjectiveLine.branchFinset_card K
+
+theorem schemePointFinset_card
+    (K : Type u) [Field K] :
+    (schemePointFinset K).card = 3 := by
+  rw [schemePointFinset_eq_markedPointFinset]
+  exact SchemeProjectiveLine.markedPointFinset_card K
+
+theorem linearPointFinset_card_eq_schemePointFinset_card
+    (K : Type u) [Field K] :
+    (linearPointFinset K).card = (schemePointFinset K).card := by
+  rw [linearPointFinset_card K, schemePointFinset_card K]
+
 end MarkedProjectiveLine
 end SourceStack
 end HilbertTest

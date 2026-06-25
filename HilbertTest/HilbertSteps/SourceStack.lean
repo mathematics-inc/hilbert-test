@@ -1550,6 +1550,31 @@ theorem hilbert_schemePoint_injective
     Function.Injective (schemePoint K) := by
   exact SourceStack.MarkedProjectiveLine.schemePoint_injective K
 
+theorem hilbert_linearPoint_mem_branchFinset
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    linearPoint K label ∈ SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.MarkedProjectiveLine.linearPoint_mem_branchFinset K label
+
+theorem hilbert_schemePoint_mem_markedPointFinset
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    schemePoint K label ∈ SourceStack.SchemeProjectiveLine.markedPointFinset K := by
+  exact SourceStack.MarkedProjectiveLine.schemePoint_mem_markedPointFinset K label
+
+theorem hilbert_linearPointFinset_card
+    (K : Type u) [Field K] :
+    (linearPointFinset K).card = 3 := by
+  exact SourceStack.MarkedProjectiveLine.linearPointFinset_card K
+
+theorem hilbert_schemePointFinset_card
+    (K : Type u) [Field K] :
+    (schemePointFinset K).card = 3 := by
+  exact SourceStack.MarkedProjectiveLine.schemePointFinset_card K
+
+theorem hilbert_linearPointFinset_card_eq_schemePointFinset_card
+    (K : Type u) [Field K] :
+    (linearPointFinset K).card = (schemePointFinset K).card := by
+  exact SourceStack.MarkedProjectiveLine.linearPointFinset_card_eq_schemePointFinset_card K
+
 end MarkedProjectiveLine
 
 namespace RationalMaps
