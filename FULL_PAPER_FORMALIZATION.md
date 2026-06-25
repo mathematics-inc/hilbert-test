@@ -40,6 +40,11 @@ formalization of the finite complex-set separation used in Lemma 2.3:
 - the reciprocal translate estimate for `z ↦ 1 / (z - lambda)`,
 - the rational-pole refinement when `β` is rational.
 
+`HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
+positivity and AM-GM bound
+`(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
+Lemma 2.1.
+
 The checked output is:
 
 ```text

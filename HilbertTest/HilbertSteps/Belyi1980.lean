@@ -42,6 +42,19 @@ theorem hilbert_normalizedAuxPolynomial_middle_eq_one
       ((m : Real) / ((m + n : Nat) : Real)) = 1 := by
   exact Belyi1980.normalizedAuxPolynomial_middle_eq_one hm hn
 
+theorem hilbert_middle_power_product_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 <
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  exact Belyi1980.middle_power_product_pos hm hn
+
+theorem hilbert_middle_power_product_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n <= 1 / 4 := by
+  exact Belyi1980.middle_power_product_le_quarter hm hn
+
 end Belyi1980
 end HilbertSteps
 end HilbertTest

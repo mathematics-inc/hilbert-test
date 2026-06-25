@@ -92,6 +92,67 @@ theorem normalizedAuxPolynomial_middle_eq_one
   rw [Nat.cast_add, pow_add]
   field_simp [hden, hmne, hnne]
 
+/-- The absolute value of the middle critical value
+`(m/(m+n))^m * (n/(m+n))^n` is positive. -/
+theorem middle_power_product_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 <
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  have hden : 0 < ((m + n : Nat) : Real) := by
+    exact_mod_cast Nat.add_pos_left hm n
+  have hmreal : 0 < (m : Real) := by exact_mod_cast hm
+  have hnreal : 0 < (n : Real) := by exact_mod_cast hn
+  positivity
+
+/-- The middle critical value is at most `1/4`, a compressed AM-GM version of
+the case analysis used in Mochizuki's proof of Lemma 2.1. -/
+theorem middle_power_product_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n <= 1 / 4 := by
+  let a : Real := (m : Real) / ((m + n : Nat) : Real)
+  let b : Real := (n : Real) / ((m + n : Nat) : Real)
+  have hden_pos : 0 < ((m + n : Nat) : Real) := by
+    exact_mod_cast Nat.add_pos_left hm n
+  have ha_nonneg : 0 <= a := by
+    dsimp [a]
+    positivity
+  have hb_nonneg : 0 <= b := by
+    dsimp [b]
+    positivity
+  have ha_le_one : a <= 1 := by
+    dsimp [a]
+    rw [div_le_one hden_pos]
+    exact_mod_cast Nat.le_add_right m n
+  have hb_le_one : b <= 1 := by
+    dsimp [b]
+    rw [div_le_one hden_pos]
+    exact_mod_cast Nat.le_add_left n m
+  have ha_pow_le : a ^ m <= a := by
+    exact pow_le_of_le_one ha_nonneg ha_le_one hm.ne'
+  have hb_pow_le : b ^ n <= b := by
+    exact pow_le_of_le_one hb_nonneg hb_le_one hn.ne'
+  have hpowprod_le : a ^ m * b ^ n <= a * b := by
+    exact mul_le_mul ha_pow_le hb_pow_le (pow_nonneg hb_nonneg n) ha_nonneg
+  have hab_le_quarter : a * b <= 1 / 4 := by
+    dsimp [a, b]
+    have hamgm : 4 * (m : Real) * (n : Real) <= ((m : Real) + (n : Real)) ^ 2 := by
+      simpa using four_mul_le_sq_add (m : Real) (n : Real)
+    rw [Nat.cast_add]
+    have hden_sum_pos : 0 < (m : Real) + (n : Real) := by
+      rwa [← Nat.cast_add]
+    have hprod_eq :
+        (m : Real) / ((m : Real) + (n : Real)) *
+            ((n : Real) / ((m : Real) + (n : Real))) =
+          ((m : Real) * (n : Real)) /
+            (((m : Real) + (n : Real)) * ((m : Real) + (n : Real))) := by
+      field_simp [ne_of_gt hden_sum_pos]
+    rw [hprod_eq]
+    rw [div_le_iff₀ (mul_pos hden_sum_pos hden_sum_pos)]
+    nlinarith
+  exact le_trans hpowprod_le hab_le_quarter
+
 end
 
 end Belyi1980
