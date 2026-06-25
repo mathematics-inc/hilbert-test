@@ -96,7 +96,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes, with direct
-  variants for rational maps whose target is scheme-theoretic `P1 K`.
+  variants for rational maps whose target is scheme-theoretic `P1 K`, including
+  domain/restriction/local-stalk wrappers for partial maps to `P1 K`.
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
   integral schemes, nonempty affine opens, affine schemes, stalk/function-field
   fraction-field identifications, generic-point membership and affine-chart

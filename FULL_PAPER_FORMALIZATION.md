@@ -107,12 +107,14 @@ nonvanishing condition for compositions.
 source layer available in Mathlib: dense-domain and partial-map representative
 wrappers, function-field reconstruction and uniqueness for rational maps out of
 integral schemes, the same rational-map wrappers specialized to target
-`P1 K`, injectivity of germs on integral schemes, generic-point membership in
-nonempty opens, fraction-field identifications for affine schemes and nonempty
-affine opens, affine-chart generic-point identification, stalks with the scheme
-function field as fraction field, and the section/stalk/function-field
-scalar-tower bridge.  The remaining missing input is the curve-specific divisor
-and Riemann-Roch machinery that produces the required rational functions.
+`P1 K`, and `P1 K`-target domain/restriction/local-stalk wrappers for partial
+maps.  They also check injectivity of germs on integral schemes, generic-point
+membership in nonempty opens, fraction-field identifications for affine schemes
+and nonempty affine opens, affine-chart generic-point identification, stalks
+with the scheme function field as fraction field, and the section/stalk/function
+field scalar-tower bridge.  The remaining missing input is the curve-specific
+divisor and Riemann-Roch machinery that produces the required rational
+functions.
 
 `HilbertTest/SourceStack/ResidueFields.lean` checks the scheme point and
 residue-field source layer available in Mathlib: point evaluation of sections,

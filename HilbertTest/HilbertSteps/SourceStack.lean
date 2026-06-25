@@ -2033,6 +2033,71 @@ theorem hilbert_p1PartialMap_fromFunctionField_restrict
     (f.restrict U hU hU').fromFunctionField = f.fromFunctionField := by
   exact SourceStack.RationalMaps.p1PartialMap_fromFunctionField_restrict K f hU hU'
 
+theorem hilbert_p1PartialMap_restrict_domain
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').domain = U := by
+  exact SourceStack.RationalMaps.p1PartialMap_restrict_domain K f hU hU'
+
+theorem hilbert_p1PartialMap_restrict_hom
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').hom = X.homOfLE hU' ≫ f.hom := by
+  exact SourceStack.RationalMaps.p1PartialMap_restrict_hom K f hU hU'
+
+theorem hilbert_p1PartialMap_restrict_id
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :
+    f.restrict f.domain f.dense_domain le_rfl = f := by
+  exact SourceStack.RationalMaps.p1PartialMap_restrict_id K f
+
+theorem hilbert_p1PartialMap_le_domain_toRationalMap
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :
+    f.domain ≤ f.toRationalMap.domain := by
+  exact SourceStack.RationalMaps.p1PartialMap_le_domain_toRationalMap K f
+
+theorem hilbert_p1RationalMap_mem_domain
+    (K : Type u) [CommRing K]
+    {f : X ⤏ SourceStack.SchemeProjectiveLine.P1 K} {x : X} :
+    x ∈ f.domain ↔
+      ∃ g : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K),
+        x ∈ g.domain ∧ g.toRationalMap = f := by
+  exact SourceStack.RationalMaps.p1RationalMap_mem_domain K
+
+theorem hilbert_p1PartialMap_compHom_domain
+    (K : Type u) [CommRing K] {Z : Scheme.{u}}
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (g : SourceStack.SchemeProjectiveLine.P1 K ⟶ Z) :
+    (f.compHom g).domain = f.domain := by
+  exact SourceStack.RationalMaps.p1PartialMap_compHom_domain K f g
+
+theorem hilbert_p1PartialMap_compHom_hom
+    (K : Type u) [CommRing K] {Z : Scheme.{u}}
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (g : SourceStack.SchemeProjectiveLine.P1 K ⟶ Z) :
+    (f.compHom g).hom = f.hom ≫ g := by
+  exact SourceStack.RationalMaps.p1PartialMap_compHom_hom K f g
+
+theorem hilbert_p1PartialMap_fromSpecStalkOfMem_eq
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    {x : X} (hx : x ∈ f.domain) :
+    f.fromSpecStalkOfMem hx =
+      f.domain.fromSpecStalkOfMem x hx ≫ f.hom := by
+  exact SourceStack.RationalMaps.p1PartialMap_fromSpecStalkOfMem_eq K f hx
+
+theorem hilbert_p1PartialMap_fromSpecStalkOfMem_restrict
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain)
+    {x : X} (hx : x ∈ U) :
+    (f.restrict U hU hU').fromSpecStalkOfMem hx =
+      f.fromSpecStalkOfMem (hU' hx) := by
+  exact SourceStack.RationalMaps.p1PartialMap_fromSpecStalkOfMem_restrict K f hU hU' hx
+
 theorem hilbert_p1RationalMap_fromFunctionField_toRationalMap
     (K : Type u) [CommRing K] [IrreducibleSpace X]
     (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :

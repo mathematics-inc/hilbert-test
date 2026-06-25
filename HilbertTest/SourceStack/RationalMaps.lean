@@ -138,6 +138,74 @@ theorem p1PartialMap_fromFunctionField_restrict
     (f.restrict U hU hU').fromFunctionField = f.fromFunctionField :=
   partialMap_fromFunctionField_restrict f hU hU'
 
+/-- Restricting a partial map to `P1 K` changes its domain to the chosen dense
+open. -/
+theorem p1PartialMap_restrict_domain
+    (f : X.PartialMap (P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').domain = U :=
+  rfl
+
+/-- The morphism underlying a restricted partial map to `P1 K` is obtained by
+precomposing with the inclusion of dense opens. -/
+theorem p1PartialMap_restrict_hom
+    (f : X.PartialMap (P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').hom = X.homOfLE hU' ≫ f.hom :=
+  rfl
+
+/-- Restricting a partial map to `P1 K` to its own domain does not change it. -/
+theorem p1PartialMap_restrict_id
+    (f : X.PartialMap (P1 K)) :
+    f.restrict f.domain f.dense_domain le_rfl = f :=
+  Scheme.PartialMap.restrict_id f
+
+/-- A partial map's domain is contained in the domain of its rational-map class,
+specialized to target `P1 K`. -/
+theorem p1PartialMap_le_domain_toRationalMap
+    (f : X.PartialMap (P1 K)) :
+    f.domain ≤ f.toRationalMap.domain :=
+  Scheme.PartialMap.le_domain_toRationalMap f
+
+/-- Membership in the domain of a rational map to `P1 K` is witnessed by a
+partial-map representative defined at that point. -/
+theorem p1RationalMap_mem_domain
+    {f : X ⤏ P1 K} {x : X} :
+    x ∈ f.domain ↔ ∃ g : X.PartialMap (P1 K), x ∈ g.domain ∧ g.toRationalMap = f :=
+  Scheme.RationalMap.mem_domain
+
+/-- Composing a partial map to `P1 K` with an honest morphism on the right does
+not change the partial-map domain. -/
+theorem p1PartialMap_compHom_domain
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
+    (f.compHom g).domain = f.domain :=
+  rfl
+
+/-- The morphism underlying a right-composition of a partial map to `P1 K` is
+the composition of the underlying morphisms. -/
+theorem p1PartialMap_compHom_hom
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
+    (f.compHom g).hom = f.hom ≫ g :=
+  rfl
+
+/-- At a point in the domain of a partial map to `P1 K`, the induced map from
+`Spec O_{X,x}` is the canonical local map followed by the underlying morphism. -/
+theorem p1PartialMap_fromSpecStalkOfMem_eq
+    (f : X.PartialMap (P1 K)) {x : X} (hx : x ∈ f.domain) :
+    f.fromSpecStalkOfMem hx =
+      f.domain.fromSpecStalkOfMem x hx ≫ f.hom :=
+  rfl
+
+/-- Restricting a partial map to `P1 K` to a smaller dense open does not change
+the induced local map from `Spec O_{X,x}` at points of the smaller open. -/
+theorem p1PartialMap_fromSpecStalkOfMem_restrict
+    (f : X.PartialMap (P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain)
+    {x : X} (hx : x ∈ U) :
+    (f.restrict U hU hU').fromSpecStalkOfMem hx =
+      f.fromSpecStalkOfMem (hU' hx) :=
+  Scheme.PartialMap.fromSpecStalkOfMem_restrict f hU hU' hx
+
 /-- The function-field map associated to a partial map to `P1 K` agrees with
 the one associated to its rational-map class. -/
 theorem p1RationalMap_fromFunctionField_toRationalMap
