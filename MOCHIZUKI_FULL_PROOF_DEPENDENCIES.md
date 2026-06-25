@@ -117,7 +117,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.BelyiCovers`: abstract Belyi-open and Belyi-cover
   consequences from finite branch sets and continuous map families, including
   the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
-  extraction step over `X \ S`.
+  extraction step over `X \ S`; it also exposes a `NoncriticalBelyiExistence`
+  interface matching the finite disjoint-set conclusion of Theorem 2.5 and
+  derives the pointwise tuple-cover hypothesis from that interface.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
   locally compact infinite-place completion wrappers currently available in
   Mathlib.
@@ -362,8 +364,10 @@ Lean-facing declarations needed:
   `SourceStack.BelyiCovers`: pointwise existence of avoiding maps gives an
   indexed open cover, compactness extracts a finite subcover, and the
   complement version restricts to maps sending the fixed set `S` to the branch
-  set.  The missing part is the scheme/curve continuity and the Belyi-specific
-  nonemptiness/cover statement.
+  set.  The module also checks that a Theorem 2.5-style finite disjoint-set
+  existence interface implies the needed pointwise tuple-cover hypothesis.  The
+  missing part is the actual curve/Riemann-Roch construction instantiating that
+  interface with genuine Belyi maps.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.
   The scheme-level quasi-compact morphism composition/base-change/preimage

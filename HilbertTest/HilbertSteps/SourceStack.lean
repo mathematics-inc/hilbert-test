@@ -438,6 +438,23 @@ theorem hilbert_exists_belyiOpen_inside_of_point_avoidance
     ∃ φ : Φ, IsOpen (D.belyiOpen φ) ∧ x ∈ D.belyiOpen φ ∧ D.belyiOpen φ ⊆ Aᶜ := by
   exact SourceStack.BelyiCoverData.exists_belyiOpen_inside_of_point_avoidance D h
 
+variable (E : NoncriticalBelyiExistence X P Φ)
+
+theorem hilbert_noncritical_pointwise_cover_complement
+    [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ φ : Φ, E.toBelyiCoverData.sendsSetToBranch S φ ∧
+      ∀ i, E.map φ (x i).1 ∉ E.branch := by
+  exact SourceStack.NoncriticalBelyiExistence.pointwise_cover_complement E hS x
+
+theorem hilbert_noncritical_finite_subcover_on_complement
+    [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
+    [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // E.toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t, (E.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact SourceStack.NoncriticalBelyiExistence.finite_subcover_on_complement E hS
+
 end BelyiCovers
 
 namespace LocalFields

@@ -136,5 +136,53 @@ theorem exists_belyiOpen_inside_of_point_avoidance
 
 end BelyiCoverData
 
+/-- Abstract source interface for Mochizuki Theorem 2.5: for finite disjoint
+sets `S` and `T`, there is a map sending `S` into the branch set and avoiding
+the branch set on `T`.  The curve/divisor/Riemann-Roch work is precisely what
+is needed to instantiate this interface for smooth proper connected curves. -/
+structure NoncriticalBelyiExistence
+    (X P Φ : Type*) [TopologicalSpace X] [TopologicalSpace P]
+    extends BelyiCoverData X P Φ where
+  exists_for_finite_disjoint :
+    ∀ {S T : Set X}, S.Finite → T.Finite → Disjoint S T →
+      ∃ φ : Φ, toBelyiCoverData.sendsSetToBranch S φ ∧
+        ∀ x ∈ T, map φ x ∉ branch
+
+namespace NoncriticalBelyiExistence
+
+variable {X P Φ κ : Type*} [TopologicalSpace X] [TopologicalSpace P]
+variable (D : NoncriticalBelyiExistence X P Φ)
+
+/-- Theorem 2.5-style finite-set existence gives the pointwise tuple-cover
+hypothesis over the complement of a fixed finite set. -/
+theorem pointwise_cover_complement
+    [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ φ : Φ, D.toBelyiCoverData.sendsSetToBranch S φ ∧
+      ∀ i, D.map φ (x i).1 ∉ D.branch := by
+  let T : Set X := Set.range fun i : κ => (x i).1
+  have hT : T.Finite := Set.finite_range _
+  have hdis : Disjoint S T := by
+    rw [Set.disjoint_left]
+    intro y hyS hyT
+    rcases hyT with ⟨i, rfl⟩
+    exact (x i).2 hyS
+  rcases D.exists_for_finite_disjoint hS hT hdis with ⟨φ, hφS, hφT⟩
+  exact ⟨φ, hφS, fun i => hφT (x i).1 ⟨i, rfl⟩⟩
+
+/-- Abstract Corollary 3.1 from a Theorem 2.5-style existence interface:
+compactness extracts finitely many maps satisfying the fixed-set condition and
+covering all tuples in the complement. -/
+theorem finite_subcover_on_complement
+    [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
+    [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // D.toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t, (D.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact D.toBelyiCoverData.finite_subcover_on_complement_of_pointwise
+    (fun x => D.pointwise_cover_complement hS x)
+
+end NoncriticalBelyiExistence
+
 end SourceStack
 end HilbertTest

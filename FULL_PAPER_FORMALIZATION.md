@@ -103,6 +103,9 @@ The same module also formalizes the abstract Corollary 1.2 consequence: if a
 map sends a set `A` to the branch set and sends a chosen point outside the
 branch set, its Belyi open is open, contains the point, and is contained in
 `Aᶜ`.
+It now includes a `NoncriticalBelyiExistence` interface matching the finite
+disjoint-set conclusion of Theorem 2.5 and proves from it the pointwise
+tuple-cover hypothesis and finite-subcover conclusion over `X \ S`.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
