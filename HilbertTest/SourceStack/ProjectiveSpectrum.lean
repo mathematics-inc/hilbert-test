@@ -244,6 +244,15 @@ theorem basicOpenToSpec_exists
     Nonempty ((Proj.basicOpen 𝒜 f).toScheme ⟶ Spec (.of (Away 𝒜 f))) :=
   ⟨Proj.basicOpenToSpec 𝒜 f⟩
 
+/-- Formula for the top component of the canonical map from a projective basic
+open to the corresponding degree-zero localization spectrum. -/
+theorem basicOpenToSpec_app_top
+    (f : A) :
+    (Proj.basicOpenToSpec 𝒜 f).app ⊤ =
+      (Scheme.ΓSpecIso _).hom ≫ Proj.awayToSection 𝒜 f ≫
+        (Proj.basicOpen 𝒜 f).topIso.inv :=
+  Proj.basicOpenToSpec_app_top 𝒜 f
+
 /-- The standard affine chart map is compatible with the structure morphism to
 `Spec A₀`. -/
 theorem awayι_toSpecZero
@@ -264,6 +273,27 @@ theorem specMap_awayMap_awayι
           (hm.trans_le (m.le_add_right m')) :=
   Proj.SpecMap_awayMap_awayι 𝒜 f_deg hm g_deg hx
 
+/-- The ring map between degree-zero localizations is compatible with sections
+on projective basic opens. -/
+theorem awayMap_awayToSection
+    {f : A} {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m')
+    {x : A} (hx : x = f * g) :
+    CommRingCat.ofHom (awayMap 𝒜 g_deg hx) ≫ Proj.awayToSection 𝒜 x =
+      Proj.awayToSection 𝒜 f ≫
+        (Proj 𝒜).presheaf.map
+          (homOfLE (Proj.basicOpen_mono _ _ _ ⟨_, hx⟩)).op :=
+  Proj.awayMap_awayToSection 𝒜 g_deg hx
+
+/-- The map from a refined projective basic open to a localization spectrum
+commutes with the corresponding localization map. -/
+theorem basicOpenToSpec_SpecMap_awayMap
+    {f : A} {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m')
+    {x : A} (hx : x = f * g) :
+    Proj.basicOpenToSpec 𝒜 x ≫ Spec.map (CommRingCat.ofHom (awayMap 𝒜 g_deg hx)) =
+      (Proj 𝒜).homOfLE (Proj.basicOpen_mono _ _ _ ⟨_, hx⟩) ≫
+        Proj.basicOpenToSpec 𝒜 f :=
+  Proj.basicOpenToSpec_SpecMap_awayMap 𝒜 g_deg hx
+
 /-- The intersection of two standard affine charts is the standard affine chart
 of their product. -/
 theorem pullbackAwayιIso_exists
@@ -273,6 +303,58 @@ theorem pullbackAwayιIso_exists
     Nonempty (Limits.pullback (Proj.awayι 𝒜 f f_deg hm) (Proj.awayι 𝒜 g g_deg hm') ≅
       Spec (CommRingCat.of (Away 𝒜 x))) :=
   ⟨Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx⟩
+
+/-- The chart-intersection isomorphism is compatible with the product affine
+chart map to `Proj`. -/
+theorem pullbackAwayιIso_hom_awayι
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    (Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx).hom ≫
+      Proj.awayι 𝒜 x (hx ▸ SetLike.mul_mem_graded f_deg g_deg)
+        (hm.trans_le (m.le_add_right m')) =
+      Limits.pullback.fst _ _ ≫ Proj.awayι 𝒜 f f_deg hm :=
+  Proj.pullbackAwayιIso_hom_awayι 𝒜 f_deg hm g_deg hm' hx
+
+/-- The chart-intersection isomorphism followed by the left localization map is
+the first pullback projection. -/
+theorem pullbackAwayιIso_hom_SpecMap_awayMap_left
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    (Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx).hom ≫
+      Spec.map (CommRingCat.ofHom (awayMap 𝒜 g_deg hx)) =
+        Limits.pullback.fst _ _ :=
+  Proj.pullbackAwayιIso_hom_SpecMap_awayMap_left 𝒜 f_deg hm g_deg hm' hx
+
+/-- The chart-intersection isomorphism followed by the right localization map
+is the second pullback projection. -/
+theorem pullbackAwayιIso_hom_SpecMap_awayMap_right
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    (Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx).hom ≫
+      Spec.map (CommRingCat.ofHom (awayMap 𝒜 f_deg (hx.trans (mul_comm _ _)))) =
+        Limits.pullback.snd _ _ :=
+  Proj.pullbackAwayιIso_hom_SpecMap_awayMap_right 𝒜 f_deg hm g_deg hm' hx
+
+/-- First projection formula for the inverse chart-intersection isomorphism. -/
+theorem pullbackAwayιIso_inv_fst
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    (Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx).inv ≫ Limits.pullback.fst _ _ =
+      Spec.map (CommRingCat.ofHom (awayMap 𝒜 g_deg hx)) :=
+  Proj.pullbackAwayιIso_inv_fst 𝒜 f_deg hm g_deg hm' hx
+
+/-- Second projection formula for the inverse chart-intersection isomorphism. -/
+theorem pullbackAwayιIso_inv_snd
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    (Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx).inv ≫ Limits.pullback.snd _ _ =
+      Spec.map (CommRingCat.ofHom (awayMap 𝒜 f_deg (hx.trans (mul_comm _ _)))) :=
+  Proj.pullbackAwayιIso_inv_snd 𝒜 f_deg hm g_deg hm' hx
 
 end ProjectiveSpectrum
 end SourceStack

@@ -67,8 +67,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure
-  morphism, intersections of standard affine charts, separatedness of `Proj`,
-  and projective-spectrum zero-locus/vanishing-ideal topology.
+  morphism, the canonical basic-open-to-`Spec` map on global sections, chart
+  refinement maps, intersections of standard affine charts with projection
+  identities, separatedness of `Proj`, and projective-spectrum
+  zero-locus/vanishing-ideal topology.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -363,9 +365,10 @@ Lean-facing declarations needed:
 - scheme-theoretic `P^1_k` connected to the linear projectivization layer.
   Mathlib's general `Proj` layer is now wrapped in
   `SourceStack.ProjectiveSpectrum`, including standard affine chart
-  compatibility and intersections; the missing item is the specialized
-  construction and API identifying `P^1_k` as `Proj k[X,Y]` with its three
-  marked points.
+  compatibility, canonical basic-open-to-`Spec` maps, chart refinement maps,
+  and chart-intersection projection identities; the missing item is the
+  specialized construction and API identifying `P^1_k` as `Proj k[X,Y]` with
+  its three marked points.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
