@@ -39,6 +39,12 @@ theorem mem_imageSet_of_mem {S : Set E} {x : E} (p : F[X]) (hx : x ∈ S) :
     Polynomial.aeval x p ∈ imageSet F E S p :=
   ⟨x, hx, rfl⟩
 
+/-- Polynomial image sets are monotone in the input set. -/
+theorem imageSet_mono {S T : Set E} (hST : S ⊆ T) (p : F[X]) :
+    imageSet F E S p ⊆ imageSet F E T p := by
+  rintro y ⟨x, hxS, rfl⟩
+  exact ⟨x, hST hxS, rfl⟩
+
 /-- The root set of the derivative of a polynomial is finite. -/
 theorem derivative_rootSet_finite (p : F[X]) :
     (p.derivative.rootSet E).Finite :=
@@ -103,6 +109,33 @@ theorem imageSet_subset_replacementSet (S : Set E) (p : F[X]) :
 theorem criticalValueSet_subset_replacementSet (S : Set E) (p : F[X]) :
     criticalValueSet F E p ⊆ replacementSet F E S p :=
   Set.subset_union_right
+
+/-- Membership in the Lemma 2.4 replacement set is membership in the ordinary
+image or in the critical-value set. -/
+theorem mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
+    y ∈ replacementSet F E S p ↔
+      y ∈ imageSet F E S p ∨ y ∈ criticalValueSet F E p := by
+  simp [replacementSet]
+
+/-- Ordinary image points belong to the Lemma 2.4 replacement set. -/
+theorem mem_replacementSet_of_mem_imageSet {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∈ imageSet F E S p) :
+    y ∈ replacementSet F E S p :=
+  (mem_replacementSet_iff F E p y).2 (Or.inl hy)
+
+/-- Critical values belong to the Lemma 2.4 replacement set. -/
+theorem mem_replacementSet_of_mem_criticalValueSet {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∈ criticalValueSet F E p) :
+    y ∈ replacementSet F E S p :=
+  (mem_replacementSet_iff F E p y).2 (Or.inr hy)
+
+/-- Replacement sets are monotone in the finite input set. -/
+theorem replacementSet_mono {S T : Set E} (hST : S ⊆ T) (p : F[X]) :
+    replacementSet F E S p ⊆ replacementSet F E T p := by
+  intro y hy
+  rcases (mem_replacementSet_iff F E p y).1 hy with hy | hy
+  · exact mem_replacementSet_of_mem_imageSet F E (imageSet_mono F E hST p hy)
+  · exact mem_replacementSet_of_mem_criticalValueSet F E hy
 
 /-- Nonmembership in the replacement set is simultaneous nonmembership in the
 ordinary image and the critical-value set. -/

@@ -97,7 +97,7 @@ roots of a derivative.
 for the same Lemma 2.4 reduction: derivative root sets are finite, nonzero
 derivative root membership is evaluation to zero, polynomial images of finite
 sets are finite, and the named replacement set `p(S) ∪ p(rootSet p')` has
-checked finiteness, inclusion, nonmembership, separation, and
+checked finiteness, inclusion, membership, monotonicity, nonmembership, separation, and
 derivative-nonvanishing consequences.  It also checks polynomial-composition
 evaluation, the derivative chain rule, and the corresponding derivative
 nonvanishing condition for compositions.

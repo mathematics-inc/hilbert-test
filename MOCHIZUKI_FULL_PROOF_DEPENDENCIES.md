@@ -138,7 +138,7 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.PolynomialMaps`: finiteness of derivative root sets,
   derivative-root membership by evaluation, finite polynomial images, and
   a named Lemma 2.4 replacement set `p(S) ∪ p(rootSet p')` with finiteness,
-  inclusion, nonmembership, separation-from-`p(S)`, and noncritical-value
+  inclusion, membership, monotonicity, nonmembership, separation-from-`p(S)`, and noncritical-value
   derivative-nonvanishing wrappers; also composition evaluation and chain-rule
   derivative-nonvanishing wrappers.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism

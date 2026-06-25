@@ -3119,6 +3119,15 @@ theorem hilbert_imageSet_finite {S : Set E} (hS : S.Finite) (p : F[X]) :
     (SourceStack.PolynomialMaps.imageSet F E S p).Finite := by
   exact SourceStack.PolynomialMaps.imageSet_finite F E hS p
 
+theorem hilbert_mem_imageSet_of_mem {S : Set E} {x : E} (p : F[X]) (hx : x ∈ S) :
+    Polynomial.aeval x p ∈ SourceStack.PolynomialMaps.imageSet F E S p := by
+  exact SourceStack.PolynomialMaps.mem_imageSet_of_mem F E p hx
+
+theorem hilbert_imageSet_mono {S T : Set E} (hST : S ⊆ T) (p : F[X]) :
+    SourceStack.PolynomialMaps.imageSet F E S p ⊆
+      SourceStack.PolynomialMaps.imageSet F E T p := by
+  exact SourceStack.PolynomialMaps.imageSet_mono F E hST p
+
 theorem hilbert_criticalValueSet_finite (p : F[X]) :
     (SourceStack.PolynomialMaps.criticalValueSet F E p).Finite := by
   exact SourceStack.PolynomialMaps.criticalValueSet_finite F E p
@@ -3154,6 +3163,29 @@ theorem hilbert_criticalValueSet_subset_replacementSet (S : Set E) (p : F[X]) :
     SourceStack.PolynomialMaps.criticalValueSet F E p ⊆
       SourceStack.PolynomialMaps.replacementSet F E S p := by
   exact SourceStack.PolynomialMaps.criticalValueSet_subset_replacementSet F E S p
+
+theorem hilbert_mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
+    y ∈ SourceStack.PolynomialMaps.replacementSet F E S p ↔
+      y ∈ SourceStack.PolynomialMaps.imageSet F E S p ∨
+        y ∈ SourceStack.PolynomialMaps.criticalValueSet F E p := by
+  exact SourceStack.PolynomialMaps.mem_replacementSet_iff F E p y
+
+theorem hilbert_mem_replacementSet_of_mem_imageSet
+    {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∈ SourceStack.PolynomialMaps.imageSet F E S p) :
+    y ∈ SourceStack.PolynomialMaps.replacementSet F E S p := by
+  exact SourceStack.PolynomialMaps.mem_replacementSet_of_mem_imageSet F E hy
+
+theorem hilbert_mem_replacementSet_of_mem_criticalValueSet
+    {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∈ SourceStack.PolynomialMaps.criticalValueSet F E p) :
+    y ∈ SourceStack.PolynomialMaps.replacementSet F E S p := by
+  exact SourceStack.PolynomialMaps.mem_replacementSet_of_mem_criticalValueSet F E hy
+
+theorem hilbert_replacementSet_mono {S T : Set E} (hST : S ⊆ T) (p : F[X]) :
+    SourceStack.PolynomialMaps.replacementSet F E S p ⊆
+      SourceStack.PolynomialMaps.replacementSet F E T p := by
+  exact SourceStack.PolynomialMaps.replacementSet_mono F E hST p
 
 theorem hilbert_not_mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
     y ∉ SourceStack.PolynomialMaps.replacementSet F E S p ↔
