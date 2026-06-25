@@ -547,6 +547,89 @@ theorem infinityPoint_asHomogeneousIdeal :
 theorem onePoint_asHomogeneousIdeal :
     (onePoint K).asHomogeneousIdeal = x0SubX1HomogeneousIdeal K := rfl
 
+theorem zeroPoint_ne_infinityPoint :
+    zeroPoint K ≠ infinityPoint K := by
+  intro h
+  have hI : x0HomogeneousIdeal K = x1HomogeneousIdeal K := by
+    simpa [zeroPoint_asHomogeneousIdeal, infinityPoint_asHomogeneousIdeal] using
+      congrArg _root_.ProjectiveSpectrum.asHomogeneousIdeal h
+  have hx : X1 K ∈ x0Ideal K := by
+    change X1 K ∈ (x0HomogeneousIdeal K).toIdeal
+    rw [hI]
+    change X1 K ∈ x1Ideal K
+    exact Ideal.mem_span_singleton_self (X1 K)
+  exact x1_not_mem_x0Ideal K hx
+
+theorem zeroPoint_ne_onePoint :
+    zeroPoint K ≠ onePoint K := by
+  intro h
+  have hI : x0HomogeneousIdeal K = x0SubX1HomogeneousIdeal K := by
+    simpa [zeroPoint_asHomogeneousIdeal, onePoint_asHomogeneousIdeal] using
+      congrArg _root_.ProjectiveSpectrum.asHomogeneousIdeal h
+  have hx : X0 K ∈ x0SubX1Ideal K := by
+    change X0 K ∈ (x0SubX1HomogeneousIdeal K).toIdeal
+    rw [← hI]
+    change X0 K ∈ x0Ideal K
+    exact Ideal.mem_span_singleton_self (X0 K)
+  exact x0_not_mem_x0SubX1Ideal K hx
+
+theorem onePoint_ne_infinityPoint :
+    onePoint K ≠ infinityPoint K := by
+  intro h
+  have hI : x0SubX1HomogeneousIdeal K = x1HomogeneousIdeal K := by
+    simpa [onePoint_asHomogeneousIdeal, infinityPoint_asHomogeneousIdeal] using
+      congrArg _root_.ProjectiveSpectrum.asHomogeneousIdeal h
+  have hx1 : X1 K ∈ x0SubX1Ideal K := by
+    change X1 K ∈ (x0SubX1HomogeneousIdeal K).toIdeal
+    rw [hI]
+    change X1 K ∈ x1Ideal K
+    exact Ideal.mem_span_singleton_self (X1 K)
+  have hx01 : X0SubX1 K ∈ x0SubX1Ideal K :=
+    Ideal.mem_span_singleton_self (X0SubX1 K)
+  have hx0 : X0 K ∈ x0SubX1Ideal K := by
+    have hsum : X0SubX1 K + X1 K = X0 K := by
+      simp [X0SubX1]
+    simpa [hsum] using add_mem hx01 hx1
+  exact x0_not_mem_x0SubX1Ideal K hx0
+
+/-- The three marked scheme points `0`, `1`, and `∞` on `Proj K[X₀,X₁]`. -/
+noncomputable def markedPointFinset : Finset (_root_.ProjectiveSpectrum (grading K)) := by
+  classical
+  exact {zeroPoint K, onePoint K, infinityPoint K}
+
+theorem zeroPoint_mem_markedPointFinset :
+    zeroPoint K ∈ markedPointFinset K := by
+  classical
+  simp [markedPointFinset]
+
+theorem onePoint_mem_markedPointFinset :
+    onePoint K ∈ markedPointFinset K := by
+  classical
+  simp [markedPointFinset]
+
+theorem infinityPoint_mem_markedPointFinset :
+    infinityPoint K ∈ markedPointFinset K := by
+  classical
+  simp [markedPointFinset]
+
+theorem markedPointFinset_card :
+    (markedPointFinset K).card = 3 := by
+  classical
+  simp [markedPointFinset, zeroPoint_ne_onePoint K, zeroPoint_ne_infinityPoint K,
+    onePoint_ne_infinityPoint K]
+
+/-- The three marked scheme points `0`, `1`, and `∞` as a set. -/
+noncomputable def markedPointSet : Set (_root_.ProjectiveSpectrum (grading K)) :=
+  markedPointFinset K
+
+theorem markedPointSet_finite :
+    (markedPointSet K).Finite :=
+  (markedPointFinset K).finite_toSet
+
+theorem mem_markedPointSet_iff (p : _root_.ProjectiveSpectrum (grading K)) :
+    p ∈ markedPointSet K ↔ p ∈ markedPointFinset K :=
+  Iff.rfl
+
 end Domain
 
 end

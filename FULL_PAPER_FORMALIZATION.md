@@ -175,9 +175,10 @@ checks the homogeneous coordinate ideals `(X0)`, `(X1)`, and `(X0 - X1)`
 together with relevance witnesses saying the irrelevant ideal is not contained
 in any of them.  It proves these three coordinate ideals are prime over a
 domain and packages the resulting `Proj` points `[0:1]`, `[1:0]`, and `[1:1]`
-with their homogeneous ideals.  The remaining missing input is the API
-identifying the marked scheme points `0`, `1`, and `infinity` with the linear
-projective-line bookkeeping, and the bridge to rational functions.
+with their homogeneous ideals, as a finite marked-point triple of cardinality
+three.  The remaining missing input is the API identifying the marked scheme
+points `0`, `1`, and `infinity` with the linear projective-line bookkeeping,
+and the bridge to rational functions.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

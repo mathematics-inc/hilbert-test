@@ -1476,6 +1476,51 @@ theorem hilbert_onePoint_asHomogeneousIdeal
     (onePoint K).asHomogeneousIdeal = x0SubX1HomogeneousIdeal K := by
   exact SourceStack.SchemeProjectiveLine.onePoint_asHomogeneousIdeal K
 
+theorem hilbert_zeroPoint_ne_infinityPoint
+    [IsDomain K] :
+    zeroPoint K ≠ infinityPoint K := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_ne_infinityPoint K
+
+theorem hilbert_zeroPoint_ne_onePoint
+    [IsDomain K] :
+    zeroPoint K ≠ onePoint K := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_ne_onePoint K
+
+theorem hilbert_onePoint_ne_infinityPoint
+    [IsDomain K] :
+    onePoint K ≠ infinityPoint K := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_ne_infinityPoint K
+
+theorem hilbert_zeroPoint_mem_markedPointFinset
+    [IsDomain K] :
+    zeroPoint K ∈ markedPointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_mem_markedPointFinset K
+
+theorem hilbert_onePoint_mem_markedPointFinset
+    [IsDomain K] :
+    onePoint K ∈ markedPointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_mem_markedPointFinset K
+
+theorem hilbert_infinityPoint_mem_markedPointFinset
+    [IsDomain K] :
+    infinityPoint K ∈ markedPointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.infinityPoint_mem_markedPointFinset K
+
+theorem hilbert_markedPointFinset_card
+    [IsDomain K] :
+    (markedPointFinset K).card = 3 := by
+  exact SourceStack.SchemeProjectiveLine.markedPointFinset_card K
+
+theorem hilbert_markedPointSet_finite
+    [IsDomain K] :
+    (markedPointSet K).Finite := by
+  exact SourceStack.SchemeProjectiveLine.markedPointSet_finite K
+
+theorem hilbert_mem_markedPointSet_iff
+    [IsDomain K] (p : _root_.ProjectiveSpectrum (grading K)) :
+    p ∈ markedPointSet K ↔ p ∈ markedPointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.mem_markedPointSet_iff K p
+
 end SchemeProjectiveLine
 
 namespace RationalMaps
