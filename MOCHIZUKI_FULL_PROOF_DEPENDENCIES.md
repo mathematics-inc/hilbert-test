@@ -33,7 +33,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
   `0`, `1`, `infinity`, their distinctness, and the branch finset
   `{0,1,infinity}` with cardinality `3`, plus affine points `[r:1]` and the
-  four-point finset `{0,r,1,infinity}` with cardinality `4` when `r != 0,1`.
+  four-point finset `{0,r,1,infinity}` with cardinality `4` when `r != 0,1`;
+  if that four-point set maps into the branch triple, its image has strictly
+  smaller cardinality.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.

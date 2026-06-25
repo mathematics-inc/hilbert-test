@@ -171,6 +171,26 @@ theorem fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
   simp [fourPointFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K,
     hzA, hA1, hAinf]
 
+/-- If a map sends the four-point set `{0,r,1,∞}` into the branch triple
+`{0,1,∞}`, then the image of the four-point set has strictly smaller
+cardinality. -/
+theorem image_fourPointFinset_card_lt_of_maps_to_branch
+    [DecidableEq (P1 K)]
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (f : P1 K → P1 K)
+    (hmap : ∀ x ∈ fourPointFinset K r, f x ∈ branchFinset K) :
+    ((fourPointFinset K r).image f).card < (fourPointFinset K r).card := by
+  have hsubset : (fourPointFinset K r).image f ⊆ branchFinset K := by
+    intro y hy
+    rcases Finset.mem_image.mp hy with ⟨x, hx, rfl⟩
+    exact hmap x hx
+  have hle : ((fourPointFinset K r).image f).card ≤ (branchFinset K).card :=
+    Finset.card_le_card hsubset
+  have hle3 : ((fourPointFinset K r).image f).card ≤ 3 := by
+    simpa [branchFinset_card K] using hle
+  rw [fourPointFinset_card K hr0 hr1]
+  omega
+
 end ProjectiveLine
 
 end SourceStack

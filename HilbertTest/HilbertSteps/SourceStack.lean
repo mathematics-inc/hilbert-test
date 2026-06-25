@@ -275,6 +275,17 @@ theorem hilbert_fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
     (SourceStack.ProjectiveLine.fourPointFinset K r).card = 4 := by
   exact SourceStack.ProjectiveLine.fourPointFinset_card K hr0 hr1
 
+theorem hilbert_image_fourPointFinset_card_lt_of_maps_to_branch
+    [DecidableEq (SourceStack.ProjectiveLine.P1 K)]
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ SourceStack.ProjectiveLine.fourPointFinset K r,
+      f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ((SourceStack.ProjectiveLine.fourPointFinset K r).image f).card <
+      (SourceStack.ProjectiveLine.fourPointFinset K r).card := by
+  exact SourceStack.ProjectiveLine.image_fourPointFinset_card_lt_of_maps_to_branch
+    K hr0 hr1 f hmap
+
 end ProjectiveLine
 
 namespace RationalMaps
