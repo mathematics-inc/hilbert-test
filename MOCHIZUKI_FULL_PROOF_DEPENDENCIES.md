@@ -97,7 +97,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes, with direct
   variants for rational maps whose target is scheme-theoretic `P1 K`, including
-  domain/restriction/local-stalk wrappers for partial maps to `P1 K`.
+  domain/restriction/local-stalk wrappers and the named continuous dense-domain
+  map for partial maps to `P1 K`.
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
   integral schemes, nonempty affine opens, affine schemes, stalk/function-field
   fraction-field identifications, generic-point membership and affine-chart
@@ -404,7 +405,8 @@ Lean-facing declarations needed:
   finite-branch-set cover interface with this scheme marked triple, including
   the Corollary 1.2-style open-containment wrappers and Corollary 3.1-style
   finite-subcover wrappers, both for the raw projective-spectrum target and for
-  maps whose target type is the scheme carrier `P1 K`.  The missing item is the
+  maps whose target type is the scheme carrier `P1 K`, plus one-map Belyi-cover
+  data attached to a partial map's dense domain.  The missing item is the
   morphism/rational-function API using these marked points as the branch target.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.

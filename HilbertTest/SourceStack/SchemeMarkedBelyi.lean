@@ -1,5 +1,6 @@
 import HilbertTest.SourceStack.BelyiCovers
 import HilbertTest.SourceStack.SchemeProjectiveLine
+import HilbertTest.SourceStack.RationalMaps
 
 /-!
 Scheme-theoretic marked-branch instantiation for the abstract Belyi cover API.
@@ -14,6 +15,7 @@ namespace SourceStack
 namespace SchemeMarkedBelyi
 
 open SchemeProjectiveLine
+open AlgebraicGeometry
 
 noncomputable section
 
@@ -300,6 +302,43 @@ theorem markedSchemeNoncritical_finite_subcover_on_complement
     exists_scheme_for_finite_disjoint).finite_subcover_on_complement (κ := κ) hS
 
 end SchemeCarrierTarget
+
+section PartialMapDomain
+
+variable {C : Scheme.{u}}
+
+/-- A partial map to `P1 K` gives a one-map Belyi-cover datum on its dense
+domain, with branch set the checked scheme marked triple. -/
+def partialMapMarkedCoverData
+    (f : C.PartialMap (P1 K)) :
+    BelyiCoverData f.domain (P1 K) Unit where
+  branch := markedSchemePointSet K
+  branch_finite := markedSchemePointSet_finite K
+  map _ := RationalMaps.p1PartialMapDomainMap K f
+  continuous_map _ := RationalMaps.continuous_p1PartialMapDomainMap K f
+
+theorem partialMapMarkedCoverData_branch
+    (f : C.PartialMap (P1 K)) :
+    (partialMapMarkedCoverData K f).branch = markedSchemePointSet K := rfl
+
+theorem partialMapMarkedCoverData_branch_finite
+    (f : C.PartialMap (P1 K)) :
+    (partialMapMarkedCoverData K f).branch.Finite := by
+  exact markedSchemePointSet_finite K
+
+theorem partialMapMarkedCoverData_sendsSetToBranch_iff
+    (f : C.PartialMap (P1 K)) (S : Set f.domain) :
+    (partialMapMarkedCoverData K f).sendsSetToBranch S () ↔
+      ∀ x ∈ S, f.hom.base x ∈ markedSchemePointSet K := by
+  rfl
+
+theorem partialMapMarkedCoverData_mem_belyiOpen_iff
+    (f : C.PartialMap (P1 K)) (x : f.domain) :
+    x ∈ (partialMapMarkedCoverData K f).belyiOpen () ↔
+      f.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+end PartialMapDomain
 
 end
 end SchemeMarkedBelyi

@@ -108,7 +108,8 @@ source layer available in Mathlib: dense-domain and partial-map representative
 wrappers, function-field reconstruction and uniqueness for rational maps out of
 integral schemes, the same rational-map wrappers specialized to target
 `P1 K`, and `P1 K`-target domain/restriction/local-stalk wrappers for partial
-maps.  They also check injectivity of germs on integral schemes, generic-point
+maps, including the named continuous map from a partial map's dense domain into
+`P1 K`.  They also check injectivity of germs on integral schemes, generic-point
 membership in nonempty opens, fraction-field identifications for affine schemes
 and nonempty affine opens, affine-chart generic-point identification, stalks
 with the scheme function field as fraction field, and the section/stalk/function
@@ -199,7 +200,9 @@ noncritical finite-set existence interface.  It also specializes the abstract
 Corollary 1.2-style Belyi-open containment wrappers and the Corollary
 3.1-style pointwise-cover/finite-subcover wrappers to this marked scheme branch
 set, both for the raw projective-spectrum target and for maps whose target type
-is the scheme carrier `P1 K`.  The remaining missing input is the bridge from
+is the scheme carrier `P1 K`.  It also turns a partial map to `P1 K` into
+one-map Belyi-cover data on its dense domain, with the same marked branch set.
+The remaining missing input is the bridge from
 these marked scheme points to rational functions and branch-locus statements
 for morphisms to `P^1`.
 

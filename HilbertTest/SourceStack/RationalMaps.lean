@@ -174,6 +174,23 @@ theorem p1RationalMap_mem_domain
     x ∈ f.domain ↔ ∃ g : X.PartialMap (P1 K), x ∈ g.domain ∧ g.toRationalMap = f :=
   Scheme.RationalMap.mem_domain
 
+/-- The underlying continuous map from the dense domain of a partial map to
+`P1 K`. -/
+noncomputable def p1PartialMapDomainMap
+    (f : X.PartialMap (P1 K)) :
+    f.domain → P1 K :=
+  f.hom.base
+
+theorem p1PartialMapDomainMap_apply
+    (f : X.PartialMap (P1 K)) (x : f.domain) :
+    p1PartialMapDomainMap K f x = f.hom.base x :=
+  rfl
+
+theorem continuous_p1PartialMapDomainMap
+    (f : X.PartialMap (P1 K)) :
+    Continuous (p1PartialMapDomainMap K f) :=
+  f.hom.continuous
+
 /-- Composing a partial map to `P1 K` with an honest morphism on the right does
 not change the partial-map domain. -/
 theorem p1PartialMap_compHom_domain

@@ -1936,6 +1936,34 @@ theorem hilbert_markedSchemeNoncritical_finite_subcover_on_complement
 
 end SchemeCarrierTarget
 
+section PartialMapDomain
+
+variable {C : Scheme.{u}}
+
+theorem hilbert_partialMapMarkedCoverData_branch
+    (f : C.PartialMap (P1 K)) :
+    (partialMapMarkedCoverData K f).branch = markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_branch K f
+
+theorem hilbert_partialMapMarkedCoverData_branch_finite
+    (f : C.PartialMap (P1 K)) :
+    (partialMapMarkedCoverData K f).branch.Finite := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_branch_finite K f
+
+theorem hilbert_partialMapMarkedCoverData_sendsSetToBranch_iff
+    (f : C.PartialMap (P1 K)) (S : Set f.domain) :
+    (partialMapMarkedCoverData K f).sendsSetToBranch S () ↔
+      ∀ x ∈ S, f.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_sendsSetToBranch_iff K f S
+
+theorem hilbert_partialMapMarkedCoverData_mem_belyiOpen_iff
+    (f : C.PartialMap (P1 K)) (x : f.domain) :
+    x ∈ (partialMapMarkedCoverData K f).belyiOpen () ↔
+      f.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_mem_belyiOpen_iff K f x
+
+end PartialMapDomain
+
 end SchemeMarkedBelyi
 
 namespace RationalMaps
@@ -2066,6 +2094,19 @@ theorem hilbert_p1RationalMap_mem_domain
       ∃ g : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K),
         x ∈ g.domain ∧ g.toRationalMap = f := by
   exact SourceStack.RationalMaps.p1RationalMap_mem_domain K
+
+theorem hilbert_p1PartialMapDomainMap_apply
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (x : f.domain) :
+    SourceStack.RationalMaps.p1PartialMapDomainMap K f x = f.hom.base x := by
+  exact SourceStack.RationalMaps.p1PartialMapDomainMap_apply K f x
+
+theorem hilbert_continuous_p1PartialMapDomainMap
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :
+    Continuous (SourceStack.RationalMaps.p1PartialMapDomainMap K f) := by
+  exact SourceStack.RationalMaps.continuous_p1PartialMapDomainMap K f
 
 theorem hilbert_p1PartialMap_compHom_domain
     (K : Type u) [CommRing K] {Z : Scheme.{u}}
