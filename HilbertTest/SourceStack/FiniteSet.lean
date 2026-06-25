@@ -36,6 +36,32 @@ theorem exists_distinct_same_image_of_maps_to_smaller
     ∃ a ∈ s, ∃ b ∈ s, a ≠ b ∧ f a = f b :=
   Finset.exists_ne_map_eq_of_card_lt_of_maps_to hcard hmap
 
+/-- If a subset has strictly smaller image cardinality, then the image of the
+ambient finite set has strictly smaller cardinality. -/
+theorem card_image_lt_of_subset_with_smaller_subimage
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hcard : (u.image f).card < u.card) :
+    (s.image f).card < s.card := by
+  obtain ⟨a, ha, b, hb, hab, hfab⟩ :=
+    exists_distinct_same_image_of_maps_to_smaller
+      u (u.image f) f hcard (by intro x hx; exact Finset.mem_image_of_mem f hx)
+  exact card_image_lt_of_exists_distinct_same_image s f (hu ha) (hu hb) hab hfab
+
+/-- Lemma 2.2 cardinality package: four distinguished elements in a finite set
+whose images occupy at most three values force a strict image-cardinality drop
+for the whole finite set. -/
+theorem card_image_lt_of_subset_card_four_image_le_three
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hucard : u.card = 4)
+    (himage : (u.image f).card ≤ 3) :
+    (s.image f).card < s.card := by
+  have hcard : (u.image f).card < u.card := by omega
+  exact card_image_lt_of_subset_with_smaller_subimage s u f hu hcard
+
 end ImageCardinality
 
 end SourceStack

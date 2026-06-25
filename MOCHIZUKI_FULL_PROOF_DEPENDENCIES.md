@@ -24,7 +24,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
   for proper subspaces over an infinite field.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
-  pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping.
+  pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
+  four-distinguished-points-to-three-images cardinality-drop package.
 - `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is

@@ -44,6 +44,24 @@ theorem hilbert_exists_distinct_same_image_of_maps_to_smaller
     ∃ a ∈ s, ∃ b ∈ s, a ≠ b ∧ f a = f b := by
   exact SourceStack.exists_distinct_same_image_of_maps_to_smaller s t f hcard hmap
 
+theorem hilbert_card_image_lt_of_subset_with_smaller_subimage
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hcard : (u.image f).card < u.card) :
+    (s.image f).card < s.card := by
+  exact SourceStack.card_image_lt_of_subset_with_smaller_subimage s u f hu hcard
+
+theorem hilbert_card_image_lt_of_subset_card_four_image_le_three
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hucard : u.card = 4)
+    (himage : (u.image f).card ≤ 3) :
+    (s.image f).card < s.card := by
+  exact SourceStack.card_image_lt_of_subset_card_four_image_le_three
+    s u f hu hucard himage
+
 end FiniteSet
 
 section LinearAlgebra
