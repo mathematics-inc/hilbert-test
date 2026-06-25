@@ -194,8 +194,10 @@ the resulting Belyi open as avoidance of the marked triple, and the specialized
 noncritical finite-set existence interface.  It also specializes the abstract
 Corollary 1.2-style Belyi-open containment wrappers and the Corollary
 3.1-style pointwise-cover/finite-subcover wrappers to this marked scheme branch
-set.  The remaining missing input is the bridge from these marked scheme points
-to rational functions and branch-locus statements for morphisms to `P^1`.
+set, both for the raw projective-spectrum target and for maps whose target type
+is the scheme carrier `P1 K`.  The remaining missing input is the bridge from
+these marked scheme points to rational functions and branch-locus statements
+for morphisms to `P^1`.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

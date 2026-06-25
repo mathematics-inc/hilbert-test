@@ -1768,6 +1768,133 @@ theorem hilbert_markedNoncritical_finite_subcover_on_complement
   exact SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement
     K X Φ map continuous_map exists_for_finite_disjoint κ hS
 
+section SchemeCarrierTarget
+
+variable (schemeMap : Φ → X → P1 K)
+variable (continuous_schemeMap : ∀ φ, Continuous (schemeMap φ))
+
+theorem hilbert_markedSchemeCoverData_branch :
+    (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).branch =
+      markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeCoverData_branch
+    K X Φ schemeMap continuous_schemeMap
+
+theorem hilbert_markedSchemeCoverData_sendsSetToBranch_iff
+    (S : Set X) (φ : Φ) :
+    (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).sendsSetToBranch S φ ↔
+      ∀ x ∈ S, schemeMap φ x ∈ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeCoverData_sendsSetToBranch_iff
+    K X Φ schemeMap continuous_schemeMap S φ
+
+theorem hilbert_markedSchemeCoverData_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).belyiOpen φ ↔
+      schemeMap φ x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeCoverData_mem_belyiOpen_iff
+    K X Φ schemeMap continuous_schemeMap φ x
+
+theorem hilbert_markedSchemeCoverData_branch_finite :
+    (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).branch.Finite := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeCoverData_branch_finite
+    K X Φ schemeMap continuous_schemeMap
+
+variable (exists_scheme_for_finite_disjoint :
+  ∀ {S T : Set X}, S.Finite → T.Finite → Disjoint S T →
+    ∃ φ : Φ, (∀ x ∈ S, schemeMap φ x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, schemeMap φ x ∉ markedSchemePointSet K)
+
+theorem hilbert_markedSchemeNoncriticalExistence_branch :
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).branch = markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncriticalExistence_branch
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint
+
+theorem hilbert_markedSchemeNoncriticalExistence_toCoverData_branch :
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).toBelyiCoverData.branch =
+      markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncriticalExistence_toCoverData_branch
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint
+
+theorem hilbert_markedSchemeNoncritical_exists_belyiOpen_inside_complement
+    [T1Space (P1 K)]
+    {A : Set X} (hA : A.Finite) {x : X} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Aᶜ := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_exists_belyiOpen_inside_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint hA hxA
+
+theorem hilbert_markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_complement
+    [T1Space (P1 K)]
+    {S T : Set X} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Sᶜ := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint hS hT hdis
+
+theorem hilbert_markedSchemeNoncritical_exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {V : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_exists_belyiOpen_inside_open_of_finite_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint hV hVcompl hxV
+
+theorem hilbert_markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint hV hVcompl hT hTsub
+
+theorem hilbert_markedSchemeNoncritical_pointwise_cover_complement
+    (κ : Type*) [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ φ : Φ,
+      (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ ∧
+        ∀ i, schemeMap φ (x i).1 ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_pointwise_cover_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint κ hS x
+
+theorem hilbert_markedSchemeNoncritical_finite_subcover_on_complement
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_subcover_on_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint κ hS
+
+end SchemeCarrierTarget
+
 end SchemeMarkedBelyi
 
 namespace RationalMaps

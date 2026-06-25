@@ -90,7 +90,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   finite-branch-set cover and noncritical-existence interfaces to the checked
   scheme-theoretic marked triple on `Proj K[X0,X1]`, including the specialized
   Corollary 1.2-style Belyi-open containment wrappers and Corollary 3.1-style
-  pointwise-cover/finite-subcover wrappers.
+  pointwise-cover/finite-subcover wrappers, both for the raw projective-spectrum
+  target and for maps whose target type is the scheme carrier `P1 K`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -398,8 +399,9 @@ Lean-facing declarations needed:
   three-label index.  `SchemeMarkedBelyi` now instantiates the abstract
   finite-branch-set cover interface with this scheme marked triple, including
   the Corollary 1.2-style open-containment wrappers and Corollary 3.1-style
-  finite-subcover wrappers.  The missing item is the morphism/rational-function
-  API using these marked points as the branch target.
+  finite-subcover wrappers, both for the raw projective-spectrum target and for
+  maps whose target type is the scheme carrier `P1 K`.  The missing item is the
+  morphism/rational-function API using these marked points as the branch target.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
