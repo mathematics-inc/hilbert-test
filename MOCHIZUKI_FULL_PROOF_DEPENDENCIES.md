@@ -162,6 +162,10 @@ Lean-facing declarations needed:
   missing is the specialization tying a smooth proper curve's function field to
   those arithmetic Dedekind-domain objects.
 - nonconstant rational function `X -> P^1` induces a finite morphism.
+  General quasi-compact scheme-morphism composition, base-change,
+  compact-preimage, affine-target, terminal-morphism, finite, and proper
+  wrappers are now checked in `SourceStack.Schemes`; the missing theorem is the
+  curve-specific finite-morphism construction.
 
 ### B. Divisors, line bundles, degree
 
@@ -348,6 +352,10 @@ Lean-facing declarations needed:
   avoids `{0,1,infinity}` is open and nonempty.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.
+  The scheme-level quasi-compact morphism composition/base-change/preimage
+  facts and the compact-space/quasi-compact terminal morphism bridge are now
+  checked in `SourceStack.Schemes`; the remaining work is the curve-specific
+  product/open complement construction and the Belyi-open family itself.
 
 ### I. Corollary 3.2: local compactness layer
 

@@ -3,6 +3,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.AlgebraicGeometry.Morphisms.Etale
 import Mathlib.AlgebraicGeometry.Morphisms.OpenImmersion
+import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 
 /-!
 Source-stack scheme-morphism lemmas corresponding to Stacks Project facts used
@@ -14,6 +15,7 @@ restriction/base change.
 noncomputable section
 
 open CategoryTheory
+open CategoryTheory.Limits
 
 namespace HilbertTest
 namespace SourceStack
@@ -60,6 +62,50 @@ theorem openImmersion_isEtale
 theorem openImmersion_isSeparated
     (f : X ⟶ Y) [IsOpenImmersion f] :
     IsSeparated f :=
+  inferInstance
+
+/-- Quasi-compact morphisms are stable under composition. -/
+theorem quasiCompact_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [QuasiCompact f] [QuasiCompact g] :
+    QuasiCompact (f ≫ g) :=
+  inferInstance
+
+/-- Quasi-compact morphisms are stable under base change. -/
+theorem quasiCompact_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@QuasiCompact) :=
+  inferInstance
+
+/-- A quasi-compact morphism pulls compact open subsets back to compact
+subsets. -/
+theorem quasiCompact_isCompact_preimage
+    (f : X ⟶ Y) [QuasiCompact f] {U : Set Y}
+    (hUopen : IsOpen U) (hUcompact : IsCompact U) :
+    IsCompact (f.base ⁻¹' U) :=
+  QuasiCompact.isCompact_preimage U hUopen hUcompact
+
+/-- A scheme is compact exactly when its terminal morphism is quasi-compact. -/
+theorem compactSpace_iff_quasiCompact (X : Scheme.{u}) :
+    CompactSpace X ↔ QuasiCompact (terminal.from X) :=
+  AlgebraicGeometry.compactSpace_iff_quasiCompact X
+
+/-- Over an affine target, quasi-compactness of a morphism is compactness of
+the source. -/
+theorem quasiCompact_over_affine_iff
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsAffine Y] :
+    QuasiCompact f ↔ CompactSpace X :=
+  AlgebraicGeometry.quasiCompact_over_affine_iff f
+
+/-- Finite morphisms are quasi-compact. -/
+theorem finite_quasiCompact
+    (f : X ⟶ Y) [IsFinite f] :
+    QuasiCompact f :=
+  inferInstance
+
+/-- Proper morphisms are quasi-compact. -/
+theorem proper_quasiCompact
+    (f : X ⟶ Y) [IsProper f] :
+    QuasiCompact f :=
   inferInstance
 
 /-- Closed immersions are stable under composition. -/

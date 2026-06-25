@@ -91,7 +91,9 @@ basic topological proper-map compact-preimage/composition/closed-map wrappers.
 needed for Belyi open restrictions: composition, monomorphism, locally finite
 type, smooth, etale, and separated.  It also checks that finite, smooth,
 separated, proper, and etale morphisms keep those properties after restricting
-the target to an open subscheme.
+the target to an open subscheme, and it checks quasi-compact composition,
+base-change, compact-preimage, finite/proper implication, and compact-space
+bridge wrappers.
 
 The checked output is:
 

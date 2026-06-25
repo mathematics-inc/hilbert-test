@@ -2234,6 +2234,41 @@ theorem hilbert_openImmersion_isSeparated
     IsSeparated f := by
   exact SourceStack.Schemes.openImmersion_isSeparated f
 
+theorem hilbert_quasiCompact_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [QuasiCompact f] [QuasiCompact g] :
+    QuasiCompact (f ≫ g) := by
+  exact SourceStack.Schemes.quasiCompact_comp f g
+
+theorem hilbert_quasiCompact_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@QuasiCompact) := by
+  exact SourceStack.Schemes.quasiCompact_stable_under_base_change
+
+theorem hilbert_quasiCompact_isCompact_preimage
+    (f : X ⟶ Y) [QuasiCompact f] {U : Set Y}
+    (hUopen : IsOpen U) (hUcompact : IsCompact U) :
+    IsCompact (f.base ⁻¹' U) := by
+  exact SourceStack.Schemes.quasiCompact_isCompact_preimage f hUopen hUcompact
+
+theorem hilbert_compactSpace_iff_quasiCompact (X : Scheme.{u}) :
+    CompactSpace X ↔ QuasiCompact (CategoryTheory.Limits.terminal.from X) := by
+  exact SourceStack.Schemes.compactSpace_iff_quasiCompact X
+
+theorem hilbert_quasiCompact_over_affine_iff
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsAffine Y] :
+    QuasiCompact f ↔ CompactSpace X := by
+  exact SourceStack.Schemes.quasiCompact_over_affine_iff f
+
+theorem hilbert_finite_quasiCompact
+    (f : X ⟶ Y) [IsFinite f] :
+    QuasiCompact f := by
+  exact SourceStack.Schemes.finite_quasiCompact f
+
+theorem hilbert_proper_quasiCompact
+    (f : X ⟶ Y) [IsProper f] :
+    QuasiCompact f := by
+  exact SourceStack.Schemes.proper_quasiCompact f
+
 theorem hilbert_closedImmersion_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsClosedImmersion f] [IsClosedImmersion g] :
