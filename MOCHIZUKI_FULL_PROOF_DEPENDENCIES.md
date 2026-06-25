@@ -73,7 +73,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   around Mathlib's field theory API.
 - `HilbertTest.SourceStack.PolynomialMaps`: finiteness of derivative root sets,
   derivative-root membership by evaluation, finite polynomial images, and
-  finiteness of the Lemma 2.4 replacement set `p(S) ∪ p(rootSet p')`.
+  a named Lemma 2.4 replacement set `p(S) ∪ p(rootSet p')` with finiteness,
+  inclusion, and nonmembership wrappers.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, closed-immersion and separated/universally
   closed bridges, plus the bridge from proper scheme morphisms to topologically
@@ -298,7 +299,7 @@ Lean-facing declarations needed:
   polynomials.  The underlying primitive-element, separability, normal/Galois,
   splitting, minimal-polynomial conjugacy, and derivative-root degree-drop facts
   are checked in `SourceStack.FieldTheory`; finite polynomial images and the
-  finite replacement set `p(S) ∪ p(rootSet p')` are checked in
+  named replacement-set API for `p(S) ∪ p(rootSet p')` are checked in
   `SourceStack.PolynomialMaps`; what remains is the `P^1(Qbar)` point/model
   layer and rational-map packaging needed to apply those field facts to Belyi
   maps.

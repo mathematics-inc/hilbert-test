@@ -1007,11 +1007,51 @@ theorem hilbert_polynomial_image_finite {S : Set E} (hS : S.Finite) (p : F[X]) :
     ((fun x : E => Polynomial.aeval x p) '' S).Finite := by
   exact SourceStack.PolynomialMaps.polynomial_image_finite F E hS p
 
+theorem hilbert_imageSet_finite {S : Set E} (hS : S.Finite) (p : F[X]) :
+    (SourceStack.PolynomialMaps.imageSet F E S p).Finite := by
+  exact SourceStack.PolynomialMaps.imageSet_finite F E hS p
+
+theorem hilbert_criticalValueSet_finite (p : F[X]) :
+    (SourceStack.PolynomialMaps.criticalValueSet F E p).Finite := by
+  exact SourceStack.PolynomialMaps.criticalValueSet_finite F E p
+
+theorem hilbert_mem_criticalValueSet_of_mem_derivative_root
+    {p : F[X]} {x : E} (hx : x ∈ p.derivative.rootSet E) :
+    Polynomial.aeval x p ∈ SourceStack.PolynomialMaps.criticalValueSet F E p := by
+  exact SourceStack.PolynomialMaps.mem_criticalValueSet_of_mem_derivative_root F E hx
+
+theorem hilbert_mem_criticalValueSet_of_derivative_aeval_eq_zero
+    {p : F[X]} (hpder : p.derivative ≠ 0) {x : E}
+    (hx : Polynomial.aeval x p.derivative = 0) :
+    Polynomial.aeval x p ∈ SourceStack.PolynomialMaps.criticalValueSet F E p := by
+  exact SourceStack.PolynomialMaps.mem_criticalValueSet_of_derivative_aeval_eq_zero
+    F E hpder hx
+
 theorem hilbert_polynomial_image_union_derivative_root_image_finite
     {S : Set E} (hS : S.Finite) (p : F[X]) :
     (((fun x : E => Polynomial.aeval x p) '' S) ∪
       ((fun x : E => Polynomial.aeval x p) '' p.derivative.rootSet E)).Finite := by
   exact SourceStack.PolynomialMaps.polynomial_image_union_derivative_root_image_finite F E hS p
+
+theorem hilbert_replacementSet_finite {S : Set E} (hS : S.Finite) (p : F[X]) :
+    (SourceStack.PolynomialMaps.replacementSet F E S p).Finite := by
+  exact SourceStack.PolynomialMaps.replacementSet_finite F E hS p
+
+theorem hilbert_imageSet_subset_replacementSet (S : Set E) (p : F[X]) :
+    SourceStack.PolynomialMaps.imageSet F E S p ⊆
+      SourceStack.PolynomialMaps.replacementSet F E S p := by
+  exact SourceStack.PolynomialMaps.imageSet_subset_replacementSet F E S p
+
+theorem hilbert_criticalValueSet_subset_replacementSet (S : Set E) (p : F[X]) :
+    SourceStack.PolynomialMaps.criticalValueSet F E p ⊆
+      SourceStack.PolynomialMaps.replacementSet F E S p := by
+  exact SourceStack.PolynomialMaps.criticalValueSet_subset_replacementSet F E S p
+
+theorem hilbert_not_mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
+    y ∉ SourceStack.PolynomialMaps.replacementSet F E S p ↔
+      y ∉ SourceStack.PolynomialMaps.imageSet F E S p ∧
+        y ∉ SourceStack.PolynomialMaps.criticalValueSet F E p := by
+  exact SourceStack.PolynomialMaps.not_mem_replacementSet_iff F E p y
 
 end PolynomialMaps
 
