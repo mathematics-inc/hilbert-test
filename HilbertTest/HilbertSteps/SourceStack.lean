@@ -442,6 +442,21 @@ theorem hilbert_compactExhaustion_exists_superset_of_isCompact
     ∃ n, t ⊆ K n := by
   exact SourceStack.compactExhaustion_exists_superset_of_isCompact K ht
 
+theorem hilbert_compactExhaustion_iUnion_interior_eq
+    (K : CompactExhaustion X) :
+    (⋃ n, interior (K n)) = Set.univ := by
+  exact SourceStack.compactExhaustion_iUnion_interior_eq K
+
+theorem hilbert_compactExhaustion_interior_isOpen
+    (K : CompactExhaustion X) (n : ℕ) :
+    IsOpen (interior (K n)) := by
+  exact SourceStack.compactExhaustion_interior_isOpen K n
+
+theorem hilbert_compactExhaustion_closure_interior_isCompact
+    [T2Space X] (K : CompactExhaustion X) (n : ℕ) :
+    IsCompact (closure (interior (K n))) := by
+  exact SourceStack.compactExhaustion_closure_interior_isCompact K n
+
 theorem hilbert_locallyCompact_exists_compact_subset
     [LocallyCompactSpace X] {x : X} {U : Set X}
     (hU : IsOpen U) (hx : x ∈ U) :

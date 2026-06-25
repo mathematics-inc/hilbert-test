@@ -181,6 +181,32 @@ theorem compactExhaustion_exists_superset_of_isCompact
     ∃ n, s ⊆ K n :=
   K.exists_superset_of_isCompact hs
 
+/-- The interiors of a compact exhaustion form an open exhaustion. -/
+theorem compactExhaustion_iUnion_interior_eq
+    (K : CompactExhaustion X) :
+    (⋃ n, interior (K n)) = Set.univ := by
+  apply Set.eq_univ_of_forall
+  intro x
+  have hx : x ∈ ⋃ n, K n := by
+    rw [K.iUnion_eq]
+    trivial
+  rcases Set.mem_iUnion.mp hx with ⟨n, hxn⟩
+  exact Set.mem_iUnion.mpr ⟨n + 1, K.subset_interior_succ n hxn⟩
+
+/-- Each interior in a compact exhaustion is open. -/
+theorem compactExhaustion_interior_isOpen
+    (K : CompactExhaustion X) (n : ℕ) :
+    IsOpen (interior (K n)) :=
+  isOpen_interior
+
+/-- In a Hausdorff space, the closure of each interior in a compact exhaustion
+is compact.  This is the compact-closure step used in Mochizuki Corollary 3.2. -/
+theorem compactExhaustion_closure_interior_isCompact
+    [T2Space X] (K : CompactExhaustion X) (n : ℕ) :
+    IsCompact (closure (interior (K n))) := by
+  exact (K.isCompact n).of_isClosed_subset isClosed_closure
+    (closure_minimal interior_subset (K.isCompact n).isClosed)
+
 /-- In a locally compact space, every open neighborhood of a point contains a
 compact set whose interior still contains the point. -/
 theorem locallyCompact_exists_compact_subset
