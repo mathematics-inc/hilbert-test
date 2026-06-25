@@ -67,8 +67,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure
-  morphism, intersections of standard affine charts, and separatedness of
-  `Proj`.
+  morphism, intersections of standard affine charts, separatedness of `Proj`,
+  and projective-spectrum zero-locus/vanishing-ideal topology.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.

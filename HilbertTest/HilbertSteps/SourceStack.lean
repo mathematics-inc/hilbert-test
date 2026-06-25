@@ -1002,6 +1002,86 @@ theorem hilbert_basicOpen_mono_of_dvd
     Proj.basicOpen 𝒜 g ≤ Proj.basicOpen 𝒜 f := by
   exact SourceStack.ProjectiveSpectrum.basicOpen_mono_of_dvd 𝒜 hfg
 
+theorem hilbert_zeroLocus_mem_iff
+    (s : Set A) (x : _root_.ProjectiveSpectrum 𝒜) :
+    x ∈ _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ↔
+      s ⊆ x.asHomogeneousIdeal := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_mem_iff 𝒜 s x
+
+theorem hilbert_isClosed_zeroLocus
+    (s : Set A) :
+    IsClosed (_root_.ProjectiveSpectrum.zeroLocus 𝒜 s) := by
+  exact SourceStack.ProjectiveSpectrum.isClosed_zeroLocus 𝒜 s
+
+theorem hilbert_zeroLocus_singleton_zero :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({0} : Set A) = Set.univ := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_singleton_zero 𝒜
+
+theorem hilbert_zeroLocus_singleton_one :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({1} : Set A) = ∅ := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_singleton_one 𝒜
+
+theorem hilbert_zeroLocus_union
+    (s t : Set A) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 (s ∪ t) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ∩
+        _root_.ProjectiveSpectrum.zeroLocus 𝒜 t := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_union 𝒜 s t
+
+theorem hilbert_zeroLocus_singleton_mul
+    (f g : A) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({f * g} : Set A) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 {f} ∪
+        _root_.ProjectiveSpectrum.zeroLocus 𝒜 {g} := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_singleton_mul 𝒜 f g
+
+theorem hilbert_zeroLocus_singleton_pow
+    (f : A) (n : ℕ) (hn : 0 < n) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({f ^ n} : Set A) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 {f} := by
+  exact SourceStack.ProjectiveSpectrum.zeroLocus_singleton_pow 𝒜 f n hn
+
+theorem hilbert_mem_vanishingIdeal_iff
+    (t : Set (_root_.ProjectiveSpectrum 𝒜)) (f : A) :
+    f ∈ _root_.ProjectiveSpectrum.vanishingIdeal t ↔
+      ∀ x ∈ t, f ∈ x.asHomogeneousIdeal := by
+  exact SourceStack.ProjectiveSpectrum.mem_vanishingIdeal_iff 𝒜 t f
+
+theorem hilbert_vanishingIdeal_singleton
+    (x : _root_.ProjectiveSpectrum 𝒜) :
+    _root_.ProjectiveSpectrum.vanishingIdeal {x} = x.asHomogeneousIdeal := by
+  exact SourceStack.ProjectiveSpectrum.vanishingIdeal_singleton 𝒜 x
+
+theorem hilbert_subset_zeroLocus_iff_subset_vanishingIdeal
+    (t : Set (_root_.ProjectiveSpectrum 𝒜)) (s : Set A) :
+    t ⊆ _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ↔
+      s ⊆ _root_.ProjectiveSpectrum.vanishingIdeal t := by
+  exact SourceStack.ProjectiveSpectrum.subset_zeroLocus_iff_subset_vanishingIdeal 𝒜 t s
+
+theorem hilbert_topological_basicOpen_eq_zeroLocus_compl
+    (r : A) :
+    (_root_.ProjectiveSpectrum.basicOpen 𝒜 r :
+      Set (_root_.ProjectiveSpectrum 𝒜)) =
+        (_root_.ProjectiveSpectrum.zeroLocus 𝒜 {r})ᶜ := by
+  exact SourceStack.ProjectiveSpectrum.topological_basicOpen_eq_zeroLocus_compl 𝒜 r
+
+theorem hilbert_isOpen_topological_basicOpen
+    {a : A} :
+    IsOpen (_root_.ProjectiveSpectrum.basicOpen 𝒜 a :
+      Set (_root_.ProjectiveSpectrum 𝒜)) := by
+  exact SourceStack.ProjectiveSpectrum.isOpen_topological_basicOpen 𝒜
+
+theorem hilbert_mem_compl_zeroLocus_iff_not_mem
+    {f : A} {I : _root_.ProjectiveSpectrum 𝒜} :
+    I ∈ (_root_.ProjectiveSpectrum.zeroLocus 𝒜 {f})ᶜ ↔
+      f ∉ I.asHomogeneousIdeal := by
+  exact SourceStack.ProjectiveSpectrum.mem_compl_zeroLocus_iff_not_mem 𝒜
+
+theorem hilbert_le_iff_mem_closure
+    (x y : _root_.ProjectiveSpectrum 𝒜) :
+    x ≤ y ↔ y ∈ closure {x} := by
+  exact SourceStack.ProjectiveSpectrum.le_iff_mem_closure 𝒜 x y
+
 theorem hilbert_basicOpen_eq_iSup_proj
     (f : A) :
     Proj.basicOpen 𝒜 f =

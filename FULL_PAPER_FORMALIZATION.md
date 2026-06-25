@@ -114,6 +114,15 @@ field scalar-tower bridge.  The remaining missing input is the curve-specific
 divisor and Riemann-Roch machinery that produces the required rational
 functions.
 
+`HilbertTest/SourceStack/ProjectiveSpectrum.lean` checks the general `Proj`
+source layer available in Mathlib: projective basic opens, affine charts,
+affine-open chart ranges, affine basic opens, stalk localization, chart
+compatibility with the structure morphism, intersections of standard affine
+charts, separatedness of `Proj`, and the underlying projective-spectrum
+zero-locus/vanishing-ideal topology.  The remaining missing input is the
+specialized scheme `P^1 = Proj k[X,Y]` with marked `0`, `1`, and `infinity`
+points connected to rational functions.
+
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,

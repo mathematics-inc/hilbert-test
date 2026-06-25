@@ -59,6 +59,102 @@ theorem basicOpen_mono_of_dvd
     Proj.basicOpen 𝒜 g ≤ Proj.basicOpen 𝒜 f :=
   Proj.basicOpen_mono 𝒜 f g hfg
 
+/-- Projective zero-locus membership is containment in the homogeneous ideal. -/
+theorem zeroLocus_mem_iff
+    (s : Set A) (x : _root_.ProjectiveSpectrum 𝒜) :
+    x ∈ _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ↔
+      s ⊆ x.asHomogeneousIdeal :=
+  _root_.ProjectiveSpectrum.mem_zeroLocus 𝒜 x s
+
+/-- Projective zero loci are closed. -/
+theorem isClosed_zeroLocus
+    (s : Set A) :
+    IsClosed (_root_.ProjectiveSpectrum.zeroLocus 𝒜 s) :=
+  _root_.ProjectiveSpectrum.isClosed_zeroLocus 𝒜 s
+
+/-- The zero locus of `{0}` is all of projective spectrum. -/
+theorem zeroLocus_singleton_zero :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({0} : Set A) = Set.univ :=
+  _root_.ProjectiveSpectrum.zeroLocus_singleton_zero 𝒜
+
+/-- The zero locus of `{1}` is empty. -/
+theorem zeroLocus_singleton_one :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({1} : Set A) = ∅ :=
+  _root_.ProjectiveSpectrum.zeroLocus_singleton_one 𝒜
+
+/-- Zero loci turn unions into intersections. -/
+theorem zeroLocus_union
+    (s t : Set A) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 (s ∪ t) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ∩
+        _root_.ProjectiveSpectrum.zeroLocus 𝒜 t :=
+  _root_.ProjectiveSpectrum.zeroLocus_union 𝒜 s t
+
+/-- The zero locus of a product is the union of the two zero loci. -/
+theorem zeroLocus_singleton_mul
+    (f g : A) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({f * g} : Set A) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 {f} ∪
+        _root_.ProjectiveSpectrum.zeroLocus 𝒜 {g} :=
+  _root_.ProjectiveSpectrum.zeroLocus_singleton_mul 𝒜 f g
+
+/-- Positive powers do not change singleton zero loci. -/
+theorem zeroLocus_singleton_pow
+    (f : A) (n : ℕ) (hn : 0 < n) :
+    _root_.ProjectiveSpectrum.zeroLocus 𝒜 ({f ^ n} : Set A) =
+      _root_.ProjectiveSpectrum.zeroLocus 𝒜 {f} :=
+  _root_.ProjectiveSpectrum.zeroLocus_singleton_pow 𝒜 f n hn
+
+/-- Membership in a vanishing ideal means vanishing at every point of the set. -/
+theorem mem_vanishingIdeal_iff
+    (t : Set (_root_.ProjectiveSpectrum 𝒜)) (f : A) :
+    f ∈ _root_.ProjectiveSpectrum.vanishingIdeal t ↔
+      ∀ x ∈ t, f ∈ x.asHomogeneousIdeal :=
+  _root_.ProjectiveSpectrum.mem_vanishingIdeal t f
+
+/-- The vanishing ideal of a singleton is the point's homogeneous ideal. -/
+theorem vanishingIdeal_singleton
+    (x : _root_.ProjectiveSpectrum 𝒜) :
+    _root_.ProjectiveSpectrum.vanishingIdeal {x} = x.asHomogeneousIdeal :=
+  _root_.ProjectiveSpectrum.vanishingIdeal_singleton x
+
+/-- A set lies in a zero locus iff the defining set lies in its vanishing ideal. -/
+theorem subset_zeroLocus_iff_subset_vanishingIdeal
+    (t : Set (_root_.ProjectiveSpectrum 𝒜)) (s : Set A) :
+    t ⊆ _root_.ProjectiveSpectrum.zeroLocus 𝒜 s ↔
+      s ⊆ _root_.ProjectiveSpectrum.vanishingIdeal t :=
+  _root_.ProjectiveSpectrum.subset_zeroLocus_iff_subset_vanishingIdeal 𝒜 t s
+
+/-- A topological projective basic open is the complement of a singleton zero
+locus. -/
+theorem topological_basicOpen_eq_zeroLocus_compl
+    (r : A) :
+    (_root_.ProjectiveSpectrum.basicOpen 𝒜 r :
+      Set (_root_.ProjectiveSpectrum 𝒜)) =
+        (_root_.ProjectiveSpectrum.zeroLocus 𝒜 {r})ᶜ :=
+  _root_.ProjectiveSpectrum.basicOpen_eq_zeroLocus_compl 𝒜 r
+
+/-- Topological projective basic opens are open. -/
+theorem isOpen_topological_basicOpen
+    {a : A} :
+    IsOpen (_root_.ProjectiveSpectrum.basicOpen 𝒜 a :
+      Set (_root_.ProjectiveSpectrum 𝒜)) :=
+  _root_.ProjectiveSpectrum.isOpen_basicOpen 𝒜
+
+/-- A point lies outside a singleton zero locus iff the element is not in its
+homogeneous ideal. -/
+theorem mem_compl_zeroLocus_iff_not_mem
+    {f : A} {I : _root_.ProjectiveSpectrum 𝒜} :
+    I ∈ (_root_.ProjectiveSpectrum.zeroLocus 𝒜 {f})ᶜ ↔
+      f ∉ I.asHomogeneousIdeal :=
+  _root_.ProjectiveSpectrum.mem_compl_zeroLocus_iff_not_mem 𝒜
+
+/-- The specialization order is membership in the closure of a singleton. -/
+theorem le_iff_mem_closure
+    (x y : _root_.ProjectiveSpectrum 𝒜) :
+    x ≤ y ↔ y ∈ closure {x} :=
+  _root_.ProjectiveSpectrum.le_iff_mem_closure 𝒜 x y
+
 /-- A basic open is the supremum of the basic opens of its homogeneous
 components. -/
 theorem basicOpen_eq_iSup_proj
