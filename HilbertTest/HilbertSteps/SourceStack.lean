@@ -1601,6 +1601,17 @@ theorem hilbert_schemePointFinset_eq_markedPointFinset
     schemePointFinset K = SourceStack.SchemeProjectiveLine.markedPointFinset K := by
   exact SourceStack.MarkedProjectiveLine.schemePointFinset_eq_markedPointFinset K
 
+theorem hilbert_schemeCarrierPointFinset_eq_markedSchemePointFinset
+    (K : Type u) [Field K] :
+    schemeCarrierPointFinset K =
+      SourceStack.SchemeProjectiveLine.markedSchemePointFinset K := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPointFinset_eq_markedSchemePointFinset K
+
+theorem hilbert_schemeCarrierPointSet_eq_markedSchemePointSet
+    (K : Type u) [Field K] :
+    schemeCarrierPointSet K = SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPointSet_eq_markedSchemePointSet K
+
 theorem hilbert_linearPoint_injective
     (K : Type u) [Field K] :
     Function.Injective (linearPoint K) := by
@@ -1610,6 +1621,11 @@ theorem hilbert_schemePoint_injective
     (K : Type u) [Field K] :
     Function.Injective (schemePoint K) := by
   exact SourceStack.MarkedProjectiveLine.schemePoint_injective K
+
+theorem hilbert_schemeCarrierPoint_injective
+    (K : Type u) [Field K] :
+    Function.Injective (schemeCarrierPoint K) := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPoint_injective K
 
 theorem hilbert_linearPoint_mem_branchFinset
     (K : Type u) [Field K] (label : MarkedPointLabel) :
@@ -1621,6 +1637,16 @@ theorem hilbert_schemePoint_mem_markedPointFinset
     schemePoint K label ∈ SourceStack.SchemeProjectiveLine.markedPointFinset K := by
   exact SourceStack.MarkedProjectiveLine.schemePoint_mem_markedPointFinset K label
 
+theorem hilbert_schemeCarrierPoint_mem_markedSchemePointFinset
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    schemeCarrierPoint K label ∈ SourceStack.SchemeProjectiveLine.markedSchemePointFinset K := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPoint_mem_markedSchemePointFinset K label
+
+theorem hilbert_schemeCarrierPoint_mem_markedSchemePointSet
+    (K : Type u) [Field K] (label : MarkedPointLabel) :
+    schemeCarrierPoint K label ∈ SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPoint_mem_markedSchemePointSet K label
+
 theorem hilbert_linearPointFinset_card
     (K : Type u) [Field K] :
     (linearPointFinset K).card = 3 := by
@@ -1631,10 +1657,25 @@ theorem hilbert_schemePointFinset_card
     (schemePointFinset K).card = 3 := by
   exact SourceStack.MarkedProjectiveLine.schemePointFinset_card K
 
+theorem hilbert_schemeCarrierPointFinset_card
+    (K : Type u) [Field K] :
+    (schemeCarrierPointFinset K).card = 3 := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPointFinset_card K
+
+theorem hilbert_schemeCarrierPointSet_finite
+    (K : Type u) [Field K] :
+    (schemeCarrierPointSet K).Finite := by
+  exact SourceStack.MarkedProjectiveLine.schemeCarrierPointSet_finite K
+
 theorem hilbert_linearPointFinset_card_eq_schemePointFinset_card
     (K : Type u) [Field K] :
     (linearPointFinset K).card = (schemePointFinset K).card := by
   exact SourceStack.MarkedProjectiveLine.linearPointFinset_card_eq_schemePointFinset_card K
+
+theorem hilbert_linearPointFinset_card_eq_schemeCarrierPointFinset_card
+    (K : Type u) [Field K] :
+    (linearPointFinset K).card = (schemeCarrierPointFinset K).card := by
+  exact SourceStack.MarkedProjectiveLine.linearPointFinset_card_eq_schemeCarrierPointFinset_card K
 
 end MarkedProjectiveLine
 

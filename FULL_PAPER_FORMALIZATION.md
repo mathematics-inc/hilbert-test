@@ -185,7 +185,9 @@ branch set directly.  It also checks the expected standard-chart behavior:
 `HilbertTest/SourceStack/MarkedProjectiveLine.lean` now provides a common
 three-label indexing layer for the linear projective-line branch triple and
 the scheme-theoretic marked triple, proving that the label images are the
-existing linear and scheme finsets and that both label maps are injective.
+existing linear and scheme finsets and that both label maps are injective.  It
+also checks the same image, membership, injectivity, cardinality, and finiteness
+facts with the scheme codomain written directly as the carrier `P1 K`.
 
 `HilbertTest/SourceStack/SchemeMarkedBelyi.lean` now specializes the abstract
 Belyi-cover finite-branch-set interface to the checked scheme-theoretic marked

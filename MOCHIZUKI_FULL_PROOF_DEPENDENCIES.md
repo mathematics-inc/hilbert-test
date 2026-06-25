@@ -85,7 +85,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   two standard affine charts.
 - `HilbertTest.SourceStack.MarkedProjectiveLine`: a common three-label index
   for the linear and scheme-theoretic marked triples, with image equalities to
-  the existing finsets and injectivity of both label maps.
+  the existing finsets and injectivity of both label maps, including the
+  scheme-carrier `P1 K` finset/set image.
 - `HilbertTest.SourceStack.SchemeMarkedBelyi`: specialization of the abstract
   finite-branch-set cover and noncritical-existence interfaces to the checked
   scheme-theoretic marked triple on `Proj K[X0,X1]`, including the specialized
@@ -396,7 +397,8 @@ Lean-facing declarations needed:
   membership facts and re-exported as a finset and finite set on the scheme
   carrier `P1 K`; `MarkedProjectiveLine`
   now gives this scheme triple and the linear branch triple a shared injective
-  three-label index.  `SchemeMarkedBelyi` now instantiates the abstract
+  three-label index, including the image set on the scheme carrier `P1 K`.
+  `SchemeMarkedBelyi` now instantiates the abstract
   finite-branch-set cover interface with this scheme marked triple, including
   the Corollary 1.2-style open-containment wrappers and Corollary 3.1-style
   finite-subcover wrappers, both for the raw projective-spectrum target and for
