@@ -78,6 +78,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.FractionalIdeals`: fractional-ideal arithmetic
   wrappers for coercing integral ideals, functorial maps, principal fractional
   ideals, denominator decomposition, ideal extension, and absolute norms.
+- `HilbertTest.SourceStack.ArithmeticFunctionFields`: Mathlib's arithmetic
+  function-field layer for finite extensions of `Fq(t)`, rings of integers as
+  Dedekind domains under separability, and the valuation at infinity on `Fq(t)`.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
@@ -122,6 +125,11 @@ Lean-facing declarations needed:
 - base change of curves to field extensions.
 - genus `genus X`.
 - function field of a curve and rational functions.
+  The scheme-theoretic function field of an integral scheme is checked in
+  `SourceStack.FunctionFields`, and the arithmetic `Fq(t)`/ring-of-integers
+  source layer is checked in `SourceStack.ArithmeticFunctionFields`; still
+  missing is the specialization tying a smooth proper curve's function field to
+  those arithmetic Dedekind-domain objects.
 - nonconstant rational function `X -> P^1` induces a finite morphism.
 
 ### B. Divisors, line bundles, degree

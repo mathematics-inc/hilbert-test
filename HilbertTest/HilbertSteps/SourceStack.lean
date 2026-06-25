@@ -12,6 +12,7 @@ import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
 import HilbertTest.SourceStack.FractionalIdeals
+import HilbertTest.SourceStack.ArithmeticFunctionFields
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
@@ -1571,6 +1572,109 @@ theorem hilbert_coeIdeal_absNorm
   exact SourceStack.FractionalIdeals.coeIdeal_absNorm I
 
 end FractionalIdeals
+
+namespace ArithmeticFunctionFields
+
+universe u v w
+
+theorem hilbert_functionField_iff_finiteDimensional
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    (Fqt : Type w) [Field Fqt] [Algebra Fq[X] Fqt]
+    [IsFractionRing Fq[X] Fqt]
+    [Algebra (RatFunc Fq) F] [Algebra Fqt F] [Algebra Fq[X] F]
+    [IsScalarTower Fq[X] Fqt F] [IsScalarTower Fq[X] (RatFunc Fq) F] :
+    FunctionField Fq F ↔ FiniteDimensional Fqt F := by
+  exact SourceStack.ArithmeticFunctionFields.functionField_iff_finiteDimensional Fq F Fqt
+
+theorem hilbert_polynomial_algebraMap_injective
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F] :
+    Function.Injective (algebraMap Fq[X] F) := by
+  exact SourceStack.ArithmeticFunctionFields.polynomial_algebraMap_injective Fq F
+
+namespace RingOfIntegers
+
+theorem hilbert_isDomain
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F] [Algebra Fq[X] F] :
+    IsDomain (FunctionField.ringOfIntegers Fq F) := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isDomain Fq F
+
+theorem hilbert_not_isField
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F] :
+    ¬ IsField (FunctionField.ringOfIntegers Fq F) := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.not_isField Fq F
+
+theorem hilbert_isFractionRing
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F]
+    [FunctionField Fq F] :
+    IsFractionRing (FunctionField.ringOfIntegers Fq F) F := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isFractionRing Fq F
+
+theorem hilbert_isDedekindDomain
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F]
+    [FunctionField Fq F] [Algebra.IsSeparable (RatFunc Fq) F] :
+    IsDedekindDomain (FunctionField.ringOfIntegers Fq F) := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isDedekindDomain Fq F
+
+end RingOfIntegers
+
+namespace InftyValuation
+
+theorem hilbert_map_mul
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)]
+    (x y : RatFunc Fq) :
+    FunctionField.inftyValuationDef Fq (x * y) =
+      FunctionField.inftyValuationDef Fq x * FunctionField.inftyValuationDef Fq y := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.map_mul Fq x y
+
+theorem hilbert_map_add_le_max
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)]
+    (x y : RatFunc Fq) :
+    FunctionField.inftyValuationDef Fq (x + y) ≤
+      max (FunctionField.inftyValuationDef Fq x) (FunctionField.inftyValuationDef Fq y) := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.map_add_le_max Fq x y
+
+theorem hilbert_C
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)]
+    {k : Fq} (hk : k ≠ 0) :
+    FunctionField.inftyValuationDef Fq (RatFunc.C k) =
+      Multiplicative.ofAdd (0 : ℤ) := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.C Fq hk
+
+theorem hilbert_X
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)] :
+    FunctionField.inftyValuationDef Fq RatFunc.X =
+      Multiplicative.ofAdd (1 : ℤ) := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.X Fq
+
+theorem hilbert_polynomial
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)]
+    {p : Fq[X]} (hp : p ≠ 0) :
+    FunctionField.inftyValuationDef Fq (algebraMap Fq[X] (RatFunc Fq) p) =
+      Multiplicative.ofAdd (p.natDegree : ℤ) := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.polynomial Fq hp
+
+theorem hilbert_FqtInfty_field
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)] :
+    Nonempty (Field (FunctionField.FqtInfty Fq)) := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.FqtInfty_field Fq
+
+end InftyValuation
+
+end ArithmeticFunctionFields
 
 namespace Schemes
 

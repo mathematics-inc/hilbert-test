@@ -110,6 +110,11 @@ Formalization use:
 - Existence of rational functions with prescribed poles.
 - A nonconstant rational function on a proper curve gives a finite morphism to
   `P^1`.
+- Arithmetic function-field facts for finite extensions of `Fq(t)`, rings of
+  integers, and the infinity valuation are checked in
+  `HilbertTest.SourceStack.ArithmeticFunctionFields`; the missing bridge is the
+  algebraic-geometry identification of smooth curve function fields with this
+  arithmetic model when appropriate.
 - Global sections of a generated line bundle give a morphism to projective
   space.
 - The affine-space analogue of maps from global coordinate sections is checked
