@@ -12,6 +12,7 @@ import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
+import HilbertTest.SourceStack.DedekindDvr
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes

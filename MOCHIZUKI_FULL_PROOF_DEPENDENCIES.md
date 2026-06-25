@@ -70,6 +70,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   Dedekind-domain ramification-index and inertia-degree facts, tower laws, the
   fundamental `sum e*f = [L:K]` identity, and valuation decomposition/inertia
   subgroup definitions.
+- `HilbertTest.SourceStack.DedekindDvr`: dimension-one prime ideal facts,
+  Dedekind-domain localization at primes, the theorem that nonzero prime
+  localizations of a Dedekind domain are DVRs, the local-DVR definition of
+  Dedekind domains, DVR uniformizers, prime-power ideal generation, and the DVR
+  additive valuation laws.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
@@ -204,9 +209,11 @@ Lean-facing declarations needed:
 - behavior of branch loci under composition.
 - composition with a `P^1 -> P^1` Belyi map preserves Belyi-ness.
 The ring-theoretic ramification and inertia facts needed below this geometric
-branch-locus layer are now checked in `SourceStack.Ramification`; the missing
-piece is still the curve/scheme specialization that turns local ramification
-indices into branch-locus statements for finite maps of smooth curves.
+branch-locus layer are now checked in `SourceStack.Ramification`, and the
+Dedekind/DVR local algebra underneath codimension-one ramification is checked in
+`SourceStack.DedekindDvr`; the missing piece is still the curve/scheme
+specialization that turns local ramification indices into branch-locus
+statements for finite maps of smooth curves.
 
 ### F. `P^1` rational-function layer
 
