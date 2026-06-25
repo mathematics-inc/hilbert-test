@@ -180,6 +180,15 @@ composition/base-change stability, separability equivalences over essentially
 finite type field extensions, and ring-level unramified algebra wrappers for
 one-element localizations, composition, and base change.
 
+`HilbertTest/SourceStack/Ramification.lean` checks the deeper
+commutative-algebra source layer for ramification: algebraic unramifiedness,
+formal-unramified localization, the finite-type tensor-product criterion and
+distinguished tensor element identities, finite generation of free finite-type
+formally unramified algebras, flat/projective transfer along finite-type
+formally unramified algebras, Dedekind-domain ramification-index and
+inertia-degree facts, tower laws, the fundamental `sum e*f = [L:K]` identity,
+and valuation decomposition/inertia subgroup definitions.
+
 The checked output is:
 
 ```text

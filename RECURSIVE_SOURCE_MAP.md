@@ -184,9 +184,11 @@ Current Mathlib status:
   universally closed or proper over a field.
 - The commutative-algebra layer for unramified algebras and ramification over
   Dedekind domains is checked in `HilbertTest.SourceStack.Ramification`,
-  including the tensor-product criterion, ramification/inertia tower laws, the
-  `sum e*f = [L:K]` identity, and decomposition/inertia subgroups of valuation
-  subrings.
+  including the finite-type tensor-product criterion, the distinguished tensor
+  element identities, finite generation of free finite-type formally
+  unramified algebras, flat/projective transfer, ramification/inertia tower
+  laws, the `sum e*f = [L:K]` identity, and decomposition/inertia subgroups of
+  valuation subrings.
 - The local algebra supporting codimension-one curve ramification is checked in
   `HilbertTest.SourceStack.DedekindDvr`: dimension-one prime behavior,
   Dedekind localization at nonzero primes, DVR uniformizers, prime-power ideals,

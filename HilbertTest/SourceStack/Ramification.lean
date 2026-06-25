@@ -138,6 +138,74 @@ theorem formallyUnramified_iff_exists_tensorProduct
           Algebra.TensorProduct.lmul' R t = 1 :=
   Algebra.FormallyUnramified.iff_exists_tensorProduct
 
+/-- The tensor element supplied by finite-type formal unramifiedness. -/
+noncomputable def formallyUnramified_tensorElem
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S] :
+    S ⊗[R] S :=
+  Algebra.FormallyUnramified.elem R S
+
+/-- The tensor element annihilates each generator `1 ⊗ s - s ⊗ 1`. -/
+theorem formallyUnramified_one_tmul_sub_tmul_one_mul_tensorElem
+    {R : Type u} [CommRing R]
+    {S : Type v} [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    (s : S) :
+    ((1 : S) ⊗ₜ[R] s - s ⊗ₜ[R] (1 : S)) *
+        formallyUnramified_tensorElem R S = 0 :=
+  Algebra.FormallyUnramified.one_tmul_sub_tmul_one_mul_elem s
+
+/-- Multiplication by the tensor element equalizes left and right tensors. -/
+theorem formallyUnramified_one_tmul_mul_tensorElem
+    {R : Type u} [CommRing R]
+    {S : Type v} [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    (s : S) :
+    ((1 : S) ⊗ₜ[R] s) * formallyUnramified_tensorElem R S =
+      (s ⊗ₜ[R] (1 : S)) * formallyUnramified_tensorElem R S :=
+  Algebra.FormallyUnramified.one_tmul_mul_elem s
+
+/-- The tensor element maps to one under multiplication. -/
+theorem formallyUnramified_lmul_tensorElem
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S] :
+    Algebra.TensorProduct.lmul' R (formallyUnramified_tensorElem R S) = 1 :=
+  Algebra.FormallyUnramified.lmul_elem
+
+/-- A free finite-type formally unramified algebra is module-finite. -/
+theorem formallyUnramified_finite_of_free
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Free R S] :
+    Module.Finite R S :=
+  Algebra.FormallyUnramified.finite_of_free R S
+
+/-- Over a finite-type formally unramified algebra, `R`-flat modules are `S`-flat. -/
+theorem formallyUnramified_flat_of_restrictScalars
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    (M : Type w) [AddCommGroup M] [Module R M] [Module S M]
+    [IsScalarTower R S M]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Flat R M] :
+    Module.Flat S M :=
+  Algebra.FormallyUnramified.flat_of_restrictScalars R S M
+
+/-- Over a finite-type formally unramified algebra, `R`-projective modules are
+`S`-projective. -/
+theorem formallyUnramified_projective_of_restrictScalars
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    (M : Type w) [AddCommGroup M] [Module R M] [Module S M]
+    [IsScalarTower R S M]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Projective R M] :
+    Module.Projective S M :=
+  Algebra.FormallyUnramified.projective_of_restrictScalars R S M
+
 /-- Formal unramifiedness of a finite product is componentwise. -/
 theorem formallyUnramified_pi_iff
     {R : Type (max u v)} {I : Type v} [Finite I]

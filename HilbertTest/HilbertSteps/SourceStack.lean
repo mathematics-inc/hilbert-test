@@ -1781,6 +1781,67 @@ theorem hilbert_formallyUnramified_iff_exists_tensorProduct
           Algebra.TensorProduct.lmul' R t = 1 := by
   exact SourceStack.Ramification.formallyUnramified_iff_exists_tensorProduct R S
 
+noncomputable def hilbert_formallyUnramified_tensorElem
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S] :
+    S ⊗[R] S :=
+  SourceStack.Ramification.formallyUnramified_tensorElem R S
+
+theorem hilbert_formallyUnramified_one_tmul_sub_tmul_one_mul_tensorElem
+    {R : Type u} [CommRing R]
+    {S : Type v} [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    (s : S) :
+    ((1 : S) ⊗ₜ[R] s - s ⊗ₜ[R] (1 : S)) *
+        SourceStack.Ramification.formallyUnramified_tensorElem R S = 0 := by
+  exact SourceStack.Ramification.formallyUnramified_one_tmul_sub_tmul_one_mul_tensorElem s
+
+theorem hilbert_formallyUnramified_one_tmul_mul_tensorElem
+    {R : Type u} [CommRing R]
+    {S : Type v} [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    (s : S) :
+    ((1 : S) ⊗ₜ[R] s) * SourceStack.Ramification.formallyUnramified_tensorElem R S =
+      (s ⊗ₜ[R] (1 : S)) * SourceStack.Ramification.formallyUnramified_tensorElem R S := by
+  exact SourceStack.Ramification.formallyUnramified_one_tmul_mul_tensorElem s
+
+theorem hilbert_formallyUnramified_lmul_tensorElem
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S] :
+    Algebra.TensorProduct.lmul' R
+        (SourceStack.Ramification.formallyUnramified_tensorElem R S) = 1 := by
+  exact SourceStack.Ramification.formallyUnramified_lmul_tensorElem R S
+
+theorem hilbert_formallyUnramified_finite_of_free
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Free R S] :
+    Module.Finite R S := by
+  exact SourceStack.Ramification.formallyUnramified_finite_of_free R S
+
+theorem hilbert_formallyUnramified_flat_of_restrictScalars
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    (M : Type w) [AddCommGroup M] [Module R M] [Module S M]
+    [IsScalarTower R S M]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Flat R M] :
+    Module.Flat S M := by
+  exact SourceStack.Ramification.formallyUnramified_flat_of_restrictScalars R S M
+
+theorem hilbert_formallyUnramified_projective_of_restrictScalars
+    (R : Type u) [CommRing R]
+    (S : Type v) [CommRing S] [Algebra R S]
+    (M : Type w) [AddCommGroup M] [Module R M] [Module S M]
+    [IsScalarTower R S M]
+    [Algebra.FormallyUnramified R S] [Algebra.EssFiniteType R S]
+    [Module.Projective R M] :
+    Module.Projective S M := by
+  exact SourceStack.Ramification.formallyUnramified_projective_of_restrictScalars R S M
+
 theorem hilbert_formallyUnramified_pi_iff
     {R : Type (max u v)} {I : Type v} [Finite I]
     (A : I → Type (max u v))

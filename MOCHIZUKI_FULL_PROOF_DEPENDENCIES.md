@@ -114,9 +114,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   generation of differentials, and polynomial differential computations.
 - `HilbertTest.SourceStack.Ramification`: ring-theoretic unramified algebra
   facts, the finite-type tensor-product criterion for formal unramifiedness,
-  Dedekind-domain ramification-index and inertia-degree facts, tower laws, the
-  fundamental `sum e*f = [L:K]` identity, and valuation decomposition/inertia
-  subgroup definitions.
+  the distinguished tensor element identities, finite generation of free
+  finite-type formally unramified algebras, flat/projective transfer along
+  finite-type formally unramified algebras, Dedekind-domain ramification-index
+  and inertia-degree facts, tower laws, the fundamental `sum e*f = [L:K]`
+  identity, and valuation decomposition/inertia subgroup definitions.
 - `HilbertTest.SourceStack.DedekindDvr`: dimension-one prime ideal facts,
   Dedekind-domain localization at primes, the theorem that nonzero prime
   localizations of a Dedekind domain are DVRs, the local-DVR definition of
