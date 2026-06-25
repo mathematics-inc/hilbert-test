@@ -5,6 +5,7 @@ import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
+import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
 import HilbertTest.HilbertSteps.SourceStack

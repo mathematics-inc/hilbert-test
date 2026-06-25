@@ -3,6 +3,7 @@ import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
+import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
 
@@ -174,6 +175,30 @@ theorem hilbert_rationalMap_toRationalMap_toPartialMap
   exact SourceStack.RationalMaps.rationalMap_toRationalMap_toPartialMap f
 
 end RationalMaps
+
+namespace FunctionFields
+
+universe u
+
+variable {X Y : Scheme.{u}}
+
+theorem hilbert_germToFunctionField_injective
+    [IsIntegral X] (U : X.Opens) [Nonempty U] :
+    Function.Injective (X.germToFunctionField U) := by
+  exact SourceStack.FunctionFields.germToFunctionField_injective U
+
+theorem hilbert_functionField_isFractionRing_of_isAffineOpen
+    [IsIntegral X] (U : X.Opens) (hU : IsAffineOpen U) [Nonempty U] :
+    IsFractionRing Γ(X, U) X.functionField := by
+  exact SourceStack.FunctionFields.functionField_isFractionRing_of_isAffineOpen U hU
+
+theorem hilbert_genericPoint_eq_of_isOpenImmersion
+    (f : X ⟶ Y) [IsOpenImmersion f]
+    [IrreducibleSpace X] [IrreducibleSpace Y] :
+    f.base (genericPoint X) = genericPoint Y := by
+  exact SourceStack.FunctionFields.genericPoint_eq_of_isOpenImmersion f
+
+end FunctionFields
 
 namespace Schemes
 

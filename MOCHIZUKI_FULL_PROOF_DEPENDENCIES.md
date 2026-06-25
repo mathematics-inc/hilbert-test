@@ -33,6 +33,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `{0,1,infinity}` with cardinality `3`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers.
+- `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
+  integral schemes, nonempty affine opens, and generic-point behavior under open
+  immersions.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, plus the bridge from proper scheme
   morphisms to topologically proper underlying maps.
