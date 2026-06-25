@@ -28,8 +28,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   rational.
 - `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
   `0`, `1`, `infinity` and the branch finset `{0,1,infinity}`.
-- `HilbertTest.SourceStack.Schemes`: finite/smooth/etale morphism stability
-  wrappers around Mathlib.
+- `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
+  stability wrappers around Mathlib.
 - `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.

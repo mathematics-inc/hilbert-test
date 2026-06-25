@@ -162,6 +162,22 @@ theorem hilbert_smooth_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSmooth) := by
   exact SourceStack.Schemes.smooth_stable_under_base_change
 
+theorem hilbert_proper_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsProper f] [IsProper g] :
+    IsProper (f ≫ g) := by
+  exact SourceStack.Schemes.proper_comp f g
+
+theorem hilbert_proper_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsProper) := by
+  exact SourceStack.Schemes.proper_stable_under_base_change
+
+theorem hilbert_etale_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsEtale f] [IsEtale g] :
+    IsEtale (f ≫ g) := by
+  exact SourceStack.Schemes.etale_comp f g
+
 theorem hilbert_etale_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsEtale) := by
   exact SourceStack.Schemes.etale_stable_under_base_change

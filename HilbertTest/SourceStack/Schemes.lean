@@ -60,6 +60,25 @@ theorem smooth_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSmooth) :=
   AlgebraicGeometry.isSmooth_isStableUnderBaseChange
 
+/-- Proper morphisms are stable under composition. -/
+theorem proper_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsProper f] [IsProper g] :
+    IsProper (f ≫ g) :=
+  MorphismProperty.comp_mem (@IsProper) f g inferInstance inferInstance
+
+/-- Proper morphisms are stable under base change. -/
+theorem proper_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsProper) :=
+  inferInstance
+
+/-- Étale morphisms are stable under composition. -/
+theorem etale_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsEtale f] [IsEtale g] :
+    IsEtale (f ≫ g) :=
+  inferInstance
+
 /-- Étale morphisms are stable under base change. -/
 theorem etale_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsEtale) :=

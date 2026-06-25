@@ -126,6 +126,8 @@ Formalization use:
 Current Mathlib status:
 
 - Several morphism properties already exist.
+- This fork checks wrappers for finite, smooth, proper, and etale composition or
+  base-change facts where Mathlib v4.15 exposes them directly.
 - The curve/divisor/ramification API needed to use them for Belyi maps does not
   yet exist as a coherent package.
 
