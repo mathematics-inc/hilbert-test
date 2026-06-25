@@ -128,6 +128,15 @@ field-valued and local-ring-valued point data.  The remaining missing input is
 the specialization of these general facts to algebraic points on curves and the
 marked points of scheme-theoretic `P^1`.
 
+`HilbertTest/SourceStack/StalkMaps.lean` checks the raw scheme stalk-map
+identities used underneath the residue-field and pullback layers: stalk maps are
+local homomorphisms, identity and composition laws, compatibility with
+specialization maps, congruence for equal morphisms and equal source points,
+inverse identities for scheme isomorphisms, and compatibility with germs of
+sections on opens.  The remaining missing input is again the curve-level
+specialization tying these stalk identities to branch/noncritical behavior of
+finite maps.
+
 `HilbertTest/SourceStack/PullbackCarrier.lean` checks Mathlib's point-carrier
 description of scheme fiber products: triplets of points with common image in
 the base, the residue-field tensor product attached to such triplets, canonical

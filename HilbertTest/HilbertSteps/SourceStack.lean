@@ -7,6 +7,7 @@ import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
+import HilbertTest.SourceStack.StalkMaps
 import HilbertTest.SourceStack.PullbackCarrier
 import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
@@ -1626,6 +1627,101 @@ theorem hilbert_SpecToEquivOfLocalRing_eq_iff
   exact SourceStack.ResidueFields.SpecToEquivOfLocalRing_eq_iff
 
 end ResidueFields
+
+namespace StalkMaps
+
+universe u
+
+variable {X Y Z : Scheme.{u}}
+
+theorem hilbert_stalkMap_isLocalHom
+    (f : X ⟶ Y) (x : X) :
+    IsLocalHom (f.stalkMap x).hom := by
+  exact SourceStack.StalkMaps.stalkMap_isLocalHom f x
+
+theorem hilbert_stalkMap_id
+    (X : Scheme.{u}) (x : X) :
+    (𝟙 X : X ⟶ X).stalkMap x = 𝟙 (X.presheaf.stalk x) := by
+  exact SourceStack.StalkMaps.stalkMap_id X x
+
+theorem hilbert_stalkMap_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z) (x : X) :
+    (f ≫ g : X ⟶ Z).stalkMap x =
+      g.stalkMap (f.base x) ≫ f.stalkMap x := by
+  exact SourceStack.StalkMaps.stalkMap_comp f g x
+
+theorem hilbert_stalkSpecializes_stalkMap
+    (f : X ⟶ Y) (x x' : X) (h : x ⤳ x') :
+    Y.presheaf.stalkSpecializes (f.base.map_specializes h) ≫ f.stalkMap x =
+      f.stalkMap x' ≫ X.presheaf.stalkSpecializes h := by
+  exact SourceStack.StalkMaps.stalkSpecializes_stalkMap f x x' h
+
+theorem hilbert_stalkSpecializes_stalkMap_apply
+    (f : X ⟶ Y) (x x' : X) (h : x ⤳ x')
+    (y : Y.presheaf.stalk (f.base x')) :
+    f.stalkMap x (Y.presheaf.stalkSpecializes (f.base.map_specializes h) y) =
+      X.presheaf.stalkSpecializes h (f.stalkMap x' y) := by
+  exact SourceStack.StalkMaps.stalkSpecializes_stalkMap_apply f x x' h y
+
+theorem hilbert_stalkMap_congr
+    (f g : X ⟶ Y) (hfg : f = g) (x x' : X) (hxx' : x = x') :
+    f.stalkMap x ≫ (X.presheaf.stalkCongr (Inseparable.of_eq hxx')).hom =
+      (Y.presheaf.stalkCongr
+        (Inseparable.of_eq <| hfg ▸ hxx' ▸ rfl)).hom ≫
+        g.stalkMap x' := by
+  exact SourceStack.StalkMaps.stalkMap_congr f g hfg x x' hxx'
+
+theorem hilbert_stalkMap_congr_hom
+    (f g : X ⟶ Y) (hfg : f = g) (x : X) :
+    f.stalkMap x =
+      (Y.presheaf.stalkCongr (Inseparable.of_eq <| hfg ▸ rfl)).hom ≫
+        g.stalkMap x := by
+  exact SourceStack.StalkMaps.stalkMap_congr_hom f g hfg x
+
+theorem hilbert_stalkMap_congr_point
+    (f : X ⟶ Y) (x x' : X) (hxx' : x = x') :
+    f.stalkMap x ≫ (X.presheaf.stalkCongr (Inseparable.of_eq hxx')).hom =
+      (Y.presheaf.stalkCongr (Inseparable.of_eq <| hxx' ▸ rfl)).hom ≫
+        f.stalkMap x' := by
+  exact SourceStack.StalkMaps.stalkMap_congr_point f x x' hxx'
+
+theorem hilbert_stalkMap_hom_inv
+    (e : X ≅ Y) (y : Y) :
+    e.hom.stalkMap (e.inv.base y) ≫ e.inv.stalkMap y =
+      (Y.presheaf.stalkCongr (Inseparable.of_eq (by simp))).hom := by
+  exact SourceStack.StalkMaps.stalkMap_hom_inv e y
+
+theorem hilbert_stalkMap_hom_inv_apply
+    (e : X ≅ Y) (y : Y) (z : Y.presheaf.stalk (e.hom.base (e.inv.base y))) :
+    e.inv.stalkMap y (e.hom.stalkMap (e.inv.base y) z) =
+      (Y.presheaf.stalkCongr (Inseparable.of_eq (by simp))).hom z := by
+  exact SourceStack.StalkMaps.stalkMap_hom_inv_apply e y z
+
+theorem hilbert_stalkMap_inv_hom
+    (e : X ≅ Y) (x : X) :
+    e.inv.stalkMap (e.hom.base x) ≫ e.hom.stalkMap x =
+      (X.presheaf.stalkCongr (Inseparable.of_eq (by simp))).hom := by
+  exact SourceStack.StalkMaps.stalkMap_inv_hom e x
+
+theorem hilbert_stalkMap_inv_hom_apply
+    (e : X ≅ Y) (x : X) (y : X.presheaf.stalk (e.inv.base (e.hom.base x))) :
+    e.hom.stalkMap x (e.inv.stalkMap (e.hom.base x) y) =
+      (X.presheaf.stalkCongr (Inseparable.of_eq (by simp))).hom y := by
+  exact SourceStack.StalkMaps.stalkMap_inv_hom_apply e x y
+
+theorem hilbert_stalkMap_germ
+    (f : X ⟶ Y) (U : Y.Opens) (x : X) (hx : f.base x ∈ U) :
+    Y.presheaf.germ U (f.base x) hx ≫ f.stalkMap x =
+      f.app U ≫ X.presheaf.germ (f ⁻¹ᵁ U) x hx := by
+  exact SourceStack.StalkMaps.stalkMap_germ f U x hx
+
+theorem hilbert_stalkMap_germ_apply
+    (f : X ⟶ Y) (U : Y.Opens) (x : X) (hx : f.base x ∈ U) (y : Γ(Y, U)) :
+    f.stalkMap x (Y.presheaf.germ U (f.base x) hx y) =
+      X.presheaf.germ (f ⁻¹ᵁ U) x hx (f.app U y) := by
+  exact SourceStack.StalkMaps.stalkMap_germ_apply f U x hx y
+
+end StalkMaps
 
 namespace PullbackCarrier
 

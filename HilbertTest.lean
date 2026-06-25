@@ -10,6 +10,7 @@ import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
+import HilbertTest.SourceStack.StalkMaps
 import HilbertTest.SourceStack.PullbackCarrier
 import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
