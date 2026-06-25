@@ -86,6 +86,10 @@ the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,
 coordinate projections of compact product subsets, compactness of products, and
 basic topological proper-map compact-preimage/composition/closed-map wrappers.
+It also checks the Corollary 3.1 open-cover infrastructure: compact-space
+finite subcovers, continuous preimages of opens, finite intersections of opens,
+finite-set complements in T1 spaces, and tuple-coordinate finite-avoidance
+openness.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite

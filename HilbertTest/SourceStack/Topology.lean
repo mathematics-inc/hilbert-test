@@ -1,5 +1,6 @@
 import Mathlib.Topology.Compactness.Compact
 import Mathlib.Topology.Maps.Proper.Basic
+import Mathlib.Topology.Separation.Basic
 
 /-!
 Source-stack topology lemmas used by the local compactness layer of
@@ -32,6 +33,68 @@ theorem compact_elim_finite_subcover_indexed
     (hcover : s ⊆ ⋃ i ∈ b, c i) :
     ∃ b' : Set ι, b' ⊆ b ∧ Set.Finite b' ∧ s ⊆ ⋃ i ∈ b', c i :=
   hs.elim_finite_subcover_image hcopen hcover
+
+/-- A compact space has a finite subcover for any open cover indexed by an
+arbitrary type.  This is the finite-choice step in Mochizuki Corollary 3.1. -/
+theorem compactSpace_elim_finite_subcover
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, (Set.univ : Set X) ⊆ ⋃ i ∈ t, U i :=
+  isCompact_univ.elim_finite_subcover U hUopen hcover
+
+/-- A compact-space open cover admits a finite subcover written as equality
+with the whole space. -/
+theorem compactSpace_finite_subcover_eq_univ
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, (⋃ i ∈ t, U i) = (Set.univ : Set X) := by
+  rcases isCompact_univ.elim_finite_subcover U hUopen hcover with ⟨t, ht⟩
+  exact ⟨t, Set.eq_univ_of_univ_subset ht⟩
+
+/-- Continuous preimages of opens are open. -/
+theorem isOpen_preimage_continuous
+    (hf : Continuous f) {U : Set Y} (hU : IsOpen U) :
+    IsOpen (f ⁻¹' U) :=
+  hU.preimage hf
+
+/-- Finite intersections of open sets are open. -/
+theorem isOpen_iInter_of_finite_index
+    {κ : Type*} [Finite κ] (U : κ → Set X)
+    (hU : ∀ i, IsOpen (U i)) :
+    IsOpen (⋂ i, U i) :=
+  isOpen_iInter_of_finite hU
+
+/-- Complements of finite subsets in a T1 space are open. -/
+theorem finite_compl_isOpen
+    [T1Space X] {T : Set X} (hT : T.Finite) :
+    IsOpen Tᶜ :=
+  hT.isClosed.isOpen_compl
+
+/-- The locus where a continuous map avoids a finite subset of a T1 target is
+open. -/
+theorem isOpen_avoid_finite_preimage
+    [T1Space Y] (hf : Continuous f) {T : Set Y} (hT : T.Finite) :
+    IsOpen {x : X | f x ∉ T} := by
+  change IsOpen (f ⁻¹' Tᶜ)
+  exact hT.isClosed.isOpen_compl.preimage hf
+
+/-- The locus where every coordinate of a tuple maps outside a finite subset of
+a T1 target is open.  This is the topological shape of the sets `U_phi` in
+Mochizuki Corollary 3.1. -/
+theorem isOpen_pi_avoid_finite
+    {κ : Type*} [Finite κ] [T1Space Y]
+    (φ : X → Y) (hφ : Continuous φ) {T : Set Y} (hT : T.Finite) :
+    IsOpen {x : κ → X | ∀ i, φ (x i) ∉ T} := by
+  have hset : {x : κ → X | ∀ i, φ (x i) ∉ T} =
+      ⋂ i, {x : κ → X | φ (x i) ∉ T} := by
+    ext x
+    simp [Set.mem_iInter]
+  rw [hset]
+  refine isOpen_iInter_of_finite fun i => ?_
+  change IsOpen ((fun x : κ → X => φ (x i)) ⁻¹' Tᶜ)
+  exact hT.isClosed.isOpen_compl.preimage (hφ.comp (continuous_apply i))
 
 /-- A finite union of compact subsets is compact. -/
 theorem compact_iUnion_of_finite

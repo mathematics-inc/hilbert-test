@@ -282,6 +282,47 @@ theorem hilbert_compact_elim_finite_subcover_indexed
     ∃ b' : Set ι, b' ⊆ b ∧ Set.Finite b' ∧ s ⊆ ⋃ i ∈ b', c i := by
   exact SourceStack.compact_elim_finite_subcover_indexed hs hcopen hcover
 
+theorem hilbert_compactSpace_elim_finite_subcover
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, (Set.univ : Set X) ⊆ ⋃ i ∈ t, U i := by
+  exact SourceStack.compactSpace_elim_finite_subcover U hUopen hcover
+
+theorem hilbert_compactSpace_finite_subcover_eq_univ
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i) :
+    ∃ t : Finset ι, (⋃ i ∈ t, U i) = (Set.univ : Set X) := by
+  exact SourceStack.compactSpace_finite_subcover_eq_univ U hUopen hcover
+
+theorem hilbert_isOpen_preimage_continuous
+    (hf : Continuous f) {U : Set Y} (hU : IsOpen U) :
+    IsOpen (f ⁻¹' U) := by
+  exact SourceStack.isOpen_preimage_continuous hf hU
+
+theorem hilbert_isOpen_iInter_of_finite_index
+    {κ : Type*} [Finite κ] (U : κ → Set X)
+    (hU : ∀ i, IsOpen (U i)) :
+    IsOpen (⋂ i, U i) := by
+  exact SourceStack.isOpen_iInter_of_finite_index U hU
+
+theorem hilbert_finite_compl_isOpen
+    [T1Space X] {T : Set X} (hT : T.Finite) :
+    IsOpen Tᶜ := by
+  exact SourceStack.finite_compl_isOpen hT
+
+theorem hilbert_isOpen_avoid_finite_preimage
+    [T1Space Y] (hf : Continuous f) {T : Set Y} (hT : T.Finite) :
+    IsOpen {x : X | f x ∉ T} := by
+  exact SourceStack.isOpen_avoid_finite_preimage hf hT
+
+theorem hilbert_isOpen_pi_avoid_finite
+    {κ : Type*} [Finite κ] [T1Space Y]
+    (φ : X → Y) (hφ : Continuous φ) {T : Set Y} (hT : T.Finite) :
+    IsOpen {x : κ → X | ∀ i, φ (x i) ∉ T} := by
+  exact SourceStack.isOpen_pi_avoid_finite φ hφ hT
+
 theorem hilbert_compact_iUnion_of_finite
     {κ : Type*} [Finite κ] (K : κ → Set X)
     (hK : ∀ i, IsCompact (K i)) :

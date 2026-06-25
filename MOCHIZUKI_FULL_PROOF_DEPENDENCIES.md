@@ -350,6 +350,11 @@ Lean-facing declarations needed:
 - `Y = (X \ S)^n` is quasi-compact.
 - for a Belyi map `phi`, the subset `U_phi` of points whose coordinate image
   avoids `{0,1,infinity}` is open and nonempty.
+  The general topological part of openness is now checked in
+  `SourceStack.Topology`: continuous preimages, finite intersections,
+  complements of finite T1-subsets, and tuple-coordinate finite-avoidance
+  loci.  The missing part is the scheme/curve continuity and the
+  Belyi-specific nonemptiness/cover statement.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.
   The scheme-level quasi-compact morphism composition/base-change/preimage
