@@ -2,6 +2,7 @@ import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
+import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
 
@@ -150,6 +151,29 @@ theorem hilbert_branchFinset_card :
   exact SourceStack.ProjectiveLine.branchFinset_card K
 
 end ProjectiveLine
+
+namespace RationalMaps
+
+universe u
+
+variable {X Y : Scheme.{u}}
+
+theorem hilbert_partialMap_dense_domain
+    (f : X.PartialMap Y) :
+    Dense (f.domain : Set X) := by
+  exact SourceStack.RationalMaps.partialMap_dense_domain f
+
+theorem hilbert_rationalMap_dense_domain
+    (f : X ⤏ Y) :
+    Dense (f.domain : Set X) := by
+  exact SourceStack.RationalMaps.rationalMap_dense_domain f
+
+theorem hilbert_rationalMap_toRationalMap_toPartialMap
+    [IsReduced X] [Y.IsSeparated] (f : X ⤏ Y) :
+    f.toPartialMap.toRationalMap = f := by
+  exact SourceStack.RationalMaps.rationalMap_toRationalMap_toPartialMap f
+
+end RationalMaps
 
 namespace Schemes
 
