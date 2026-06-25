@@ -1,4 +1,5 @@
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.Schemes
 
@@ -56,6 +57,36 @@ theorem hilbert_compact_elim_finite_subcover_indexed
   exact SourceStack.compact_elim_finite_subcover_indexed hs hcopen hcover
 
 end Topology
+
+namespace ProjectiveLine
+
+variable (K : Type*) [DivisionRing K]
+
+theorem hilbert_zero_ne_infinity :
+    SourceStack.ProjectiveLine.zero K ≠ SourceStack.ProjectiveLine.infinity K := by
+  exact SourceStack.ProjectiveLine.zero_ne_infinity K
+
+theorem hilbert_zero_ne_one :
+    SourceStack.ProjectiveLine.zero K ≠ SourceStack.ProjectiveLine.one K := by
+  exact SourceStack.ProjectiveLine.zero_ne_one K
+
+theorem hilbert_one_ne_infinity :
+    SourceStack.ProjectiveLine.one K ≠ SourceStack.ProjectiveLine.infinity K := by
+  exact SourceStack.ProjectiveLine.one_ne_infinity K
+
+theorem hilbert_zero_mem_branchFinset :
+    SourceStack.ProjectiveLine.zero K ∈ SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.ProjectiveLine.zero_mem_branchFinset K
+
+theorem hilbert_one_mem_branchFinset :
+    SourceStack.ProjectiveLine.one K ∈ SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.ProjectiveLine.one_mem_branchFinset K
+
+theorem hilbert_infinity_mem_branchFinset :
+    SourceStack.ProjectiveLine.infinity K ∈ SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.ProjectiveLine.infinity_mem_branchFinset K
+
+end ProjectiveLine
 
 namespace Schemes
 

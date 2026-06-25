@@ -1,0 +1,242 @@
+# Full Mochizuki proof dependency ledger
+
+Target: formalize Mochizuki, **Noncritical Belyi Maps**, including Definition
+1.1, Corollary 1.2, Lemmas 2.1-2.4, Theorem 2.5, Corollary 3.1, and Corollary
+3.2, without `sorry`, `axiom`, or hidden theorem assumptions.
+
+This file records the exact source material and Lean-facing theorem interfaces
+still required.  It is intentionally stricter than a bibliography: each item must
+eventually become a checked Lean declaration before the final paper can be
+closed.
+
+## Current checked state in this fork
+
+The repository already contains Lean-checked sublayers that Hilbert can target:
+
+- `HilbertTest.NoncriticalBelyi.Elementary`: elementary real inequalities from
+  Mochizuki Lemma 2.1.
+- `HilbertTest.Belyi1980.Polynomial`: the Belyi 1980 polynomial derivative,
+  the middle critical point, and normalized value `1`.
+- `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
+  for proper subspaces over an infinite field.
+- `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
+  `0`, `1`, `infinity` and the branch finset `{0,1,infinity}`.
+- `HilbertTest.SourceStack.Schemes`: finite/smooth/etale morphism stability
+  wrappers around Mathlib.
+- `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
+- `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
+  checked layers.
+- `data/belyi_source_stack`, `data/belyi1980_polynomial`, and
+  `data/mochizuki_elementary`: JSONL datasets in Hilbert's expected format.
+
+## Theorem-level source stack
+
+1. Mochizuki, **Noncritical Belyi Maps**.
+2. Scherr-Zieve, **Separated Belyi Maps**.
+3. Belyi, **On Galois Extensions of a Maximal Cyclotomic Field**.
+
+Scherr-Zieve is the best theorem-level companion: it refines Mochizuki's
+noncritical finite-set behavior and exposes a proof organization that separates
+the curve reduction from the `P^1` construction.
+
+## Required Lean modules and theorem interfaces
+
+### A. Curves
+
+Sources:
+
+- Stacks Project, Algebraic Curves, especially curves/function fields and
+  Riemann-Roch.
+- Liu, **Algebraic Geometry and Arithmetic Curves**, Chapters 3, 5, and 7.
+- Hartshorne, **Algebraic Geometry**, Chapters II-IV.
+- Vakil, **Foundations of Algebraic Geometry**, line bundles and curves.
+
+Lean-facing declarations needed:
+
+- `SmoothProperConnectedCurve k`, implemented as a smooth proper connected
+  one-dimensional scheme over a field.
+- geometric/algebraic points `X(Qbar)` and finite subsets of such points.
+- base change of curves to field extensions.
+- genus `genus X`.
+- function field of a curve and rational functions.
+- nonconstant rational function `X -> P^1` induces a finite morphism.
+
+### B. Divisors, line bundles, degree
+
+Sources:
+
+- Stacks Project, Divisors; Effective Cartier divisors and invertible sheaves.
+- Stacks Project, Varieties, degrees on curves.
+- Liu Chapter 7.
+- Hartshorne II.5-II.7 and IV.
+
+Lean-facing declarations needed:
+
+- finite point set on a smooth curve gives a reduced effective Cartier divisor.
+- associated invertible sheaf `O(D)`.
+- canonical bundle `omega_X`.
+- degree of divisors and line bundles on proper curves.
+- `deg O(D) = card D` for reduced finite point divisors over `Qbar`.
+- `deg omega_X = 2 * genus X - 2`.
+- negative-degree line bundles on proper connected curves have no global
+  sections.
+
+### C. Cohomology, Serre duality, Riemann-Roch
+
+Sources:
+
+- Stacks Project, Cohomology of Schemes, Duality, Algebraic Curves.
+- Hartshorne III and IV.
+- Liu 7.3.
+- Gabriel dos Santos, **The Riemann-Roch Theorem and Serre Duality**, as
+  exposition only.
+
+Lean-facing declarations needed:
+
+- coherent sheaf cohomology `H^i(X, F)` for proper schemes/curves.
+- long exact cohomology sequence for short exact sequences of coherent sheaves.
+- Serre duality for smooth proper curves:
+  `H^1(X, L(-x))` dual to `Gamma(X, omega_X tensor L^{-1}(x))`.
+- Riemann-Roch dimension formula:
+  `ell(D) - ell(K-D) = deg D + 1 - genus X`.
+- consequence: if `deg L >= 2g + 1`, evaluation
+  `Gamma(X, L) -> L_x` is surjective for every point `x`.
+- finite-family evaluation avoidance: choose a global section nonzero at every
+  point in a finite set.  The infinite-field vector-space part is already
+  checked in `SourceStack.LinearAlgebra`; the missing part is identifying the
+  nonvanishing conditions as proper subspaces/hyperplanes.
+
+### D. Constructing the curve-to-`P^1` reduction
+
+Sources:
+
+- Mochizuki Theorem 2.5 proof.
+- Scherr-Zieve Proposition 2.1 and Lemma 2.2.
+- Vakil, maps to projective space from generated global sections.
+- Stacks Project, linear series and morphisms to projective space.
+
+Lean-facing declarations needed:
+
+- two basepoint-free global sections of a line bundle define a morphism to
+  `P^1`.
+- if the induced rational function is nonconstant on a proper curve, the morphism
+  is finite.
+- pullback of `O(1)` is the chosen line bundle.
+- if `s0` vanishes exactly on the reduced divisor `D = sum_{t in T} [t]`, then
+  all points in `T` map to `0`.
+- if `s1(t) != 0` for `t in T`, the morphism has no basepoints at `T`.
+- reduced multiplicity-one vanishing implies unramified over `0`.
+- if `S` is disjoint from `T`, then `0` is not in the image of `S`.
+
+### E. Branch locus and Belyi maps
+
+Sources:
+
+- Stacks Project, Morphisms of Schemes: finite, unramified, etale, smooth.
+- Stacks Project, Riemann-Hurwitz, for curve ramification bookkeeping.
+- SGA 1, for covers if a cover-theoretic API is selected.
+
+Lean-facing declarations needed:
+
+- maximal open over which a finite morphism is unramified.
+- branch locus of a finite morphism of curves.
+- branch locus is finite for finite morphisms of smooth proper curves.
+- `BelyiMap X` as a finite morphism `X -> P^1` unramified over the complement
+  of `{0,1,infinity}`.
+- behavior of branch loci under composition.
+- composition with a `P^1 -> P^1` Belyi map preserves Belyi-ness.
+
+### F. `P^1` rational-function layer
+
+Sources:
+
+- Mochizuki Lemmas 2.1-2.4.
+- Belyi 1980.
+- Borisov, **On a Question of Craven and a Theorem of Belyi**.
+- Deopurkar/Köck expositions of Belyi's theorem.
+
+Lean-facing declarations needed:
+
+- scheme-theoretic `P^1_k` connected to the linear projectivization layer.
+- rational points `0`, `1`, `infinity` agree with the scheme points.
+- polynomial/rational functions define morphisms `P^1 -> P^1`.
+- critical points/critical values for `P^1 -> P^1` morphisms.
+- derivative criterion for ramification of polynomial maps on affine charts.
+- full formal version of Mochizuki Lemma 2.1 over `Q`.
+- Lemma 2.2 induction reducing finite rational sets.
+- Lemma 2.3: choose `lambda` near `beta` so `1/(x-lambda)` separates a finite
+  set.
+- Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
+  polynomials.
+
+### G. Field of definition and Galois conjugacy
+
+Sources:
+
+- Weil descent.
+- Dèbes-Emsalem, **On fields of moduli of curves**.
+- Dèbes-Douai, **Algebraic covers: field of moduli versus field of definition**.
+- Sijsling-Voight, **On explicit descent of marked curves and maps**.
+
+Lean-facing declarations needed:
+
+- algebraic closure `Qbar`, number fields inside `Qbar`, and points defined over
+  a number field.
+- finite Galois-stable point sets and images under morphisms.
+- minimal polynomial fields of definition for points of `P^1(Qbar)`.
+- if data are defined over a number field `F`, the constructed map can be chosen
+  over `F`.
+
+### H. Corollary 3.1: finite collection of maps
+
+Sources:
+
+- Mochizuki Corollary 3.1.
+- Stacks Project, quasi-compactness of products/open covers.
+
+Lean-facing declarations needed:
+
+- finite products of curves and open complements `X \ S`.
+- `Y = (X \ S)^n` is quasi-compact.
+- for a Belyi map `phi`, the subset `U_phi` of points whose coordinate image
+  avoids `{0,1,infinity}` is open and nonempty.
+- Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
+- quasi-compactness gives a finite subcover.
+
+### I. Corollary 3.2: local compactness layer
+
+Sources:
+
+- Lorscheid, **Completeness and compactness for varieties over a local field**.
+- Serre/Cassels, **Local Fields**.
+- Stacks Project, proper morphisms.
+
+Lean-facing declarations needed:
+
+- completions of number fields at archimedean and nonarchimedean places.
+- finite extensions of local fields.
+- strong topology on `X(L)` for a variety over a local field.
+- proper curve/product has compact local-point space.
+- open subsets of locally compact spaces admit relatively compact exhaustion
+  when second countable/countable dense hypotheses are available.
+- continuous image of a compact set is compact.  This topological step is already
+  checked in `SourceStack.Topology`; the missing step is the AG/topology bridge.
+
+## Dependency order for actual implementation
+
+1. Finish the `P^1` rational-function layer:
+   scheme `P^1`, polynomial maps, derivative/ramification criterion, Lemmas
+   2.1-2.4.
+2. Implement curve/divisor/line-bundle degree APIs.
+3. Implement Riemann-Roch or import its curve-level consequences as checked
+   Mathlib theorems.
+4. Implement two-section morphisms to `P^1` and finite morphism/ramification
+   behavior.
+5. Prove Mochizuki Theorem 2.5.
+6. Prove Corollary 3.1 from quasi-compactness.
+7. Implement the local-field compactness bridge and prove Corollary 3.2.
+
+Until items 2-4 exist in Lean, a no-axiom full proof of Theorem 2.5 cannot be
+completed.  Hilbert can operate on each theorem once the statement is expressible
+over available definitions, but it cannot replace absent definitions such as
+divisors on smooth proper curves, Riemann-Roch spaces, or branch loci.
