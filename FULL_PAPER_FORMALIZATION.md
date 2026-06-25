@@ -173,6 +173,13 @@ for sections on basic opens, the localization statement for sections on
 `D(f)`, nilpotent iff empty basic open on compact opens, and the compact-open
 zero-locus/nilradical criterion.
 
+`HilbertTest/SourceStack/UnramifiedEtale.lean` checks algebraic
+formal-unramified and formal-etale source facts, including the
+Kähler-differential characterization, square-zero lift uniqueness,
+composition/base-change stability, separability equivalences over essentially
+finite type field extensions, and ring-level unramified algebra wrappers for
+one-element localizations, composition, and base change.
+
 The checked output is:
 
 ```text

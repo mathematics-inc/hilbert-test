@@ -67,6 +67,31 @@ theorem formallyUnramified_base_change
     Algebra.FormallyUnramified B (B ⊗[R] A) :=
   Algebra.FormallyUnramified.base_change B
 
+/-- Localization at one element is unramified. -/
+theorem unramified_of_isLocalization_Away
+    (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
+    (r : R) [IsLocalization.Away r A] :
+    Algebra.Unramified R A :=
+  Algebra.Unramified.of_isLocalization_Away r
+
+/-- Unramified algebras are stable under composition. -/
+theorem unramified_comp
+    (R : Type u) [CommRing R]
+    (A B : Type v) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra A B] [IsScalarTower R A B]
+    [Algebra.Unramified R A] [Algebra.Unramified A B] :
+    Algebra.Unramified R B :=
+  Algebra.Unramified.comp R A B
+
+/-- Unramified algebras are stable under base change. -/
+theorem unramified_base_change
+    (R : Type u) [CommRing R]
+    (A B : Type v) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Unramified R A] :
+    Algebra.Unramified B (B ⊗[R] A) :=
+  inferInstance
+
 /-- For essentially finite type field extensions, formal unramifiedness is
 separability. -/
 theorem formallyUnramified_iff_isSeparable

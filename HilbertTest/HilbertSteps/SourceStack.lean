@@ -1596,6 +1596,28 @@ theorem hilbert_formallyUnramified_base_change
     Algebra.FormallyUnramified B (B ⊗[R] A) := by
   exact SourceStack.UnramifiedEtale.formallyUnramified_base_change B
 
+theorem hilbert_unramified_of_isLocalization_Away
+    (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
+    (r : R) [IsLocalization.Away r A] :
+    Algebra.Unramified R A := by
+  exact SourceStack.UnramifiedEtale.unramified_of_isLocalization_Away R A r
+
+theorem hilbert_unramified_comp
+    (R : Type u) [CommRing R]
+    (A B : Type v) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B] [Algebra A B] [IsScalarTower R A B]
+    [Algebra.Unramified R A] [Algebra.Unramified A B] :
+    Algebra.Unramified R B := by
+  exact SourceStack.UnramifiedEtale.unramified_comp R A B
+
+theorem hilbert_unramified_base_change
+    (R : Type u) [CommRing R]
+    (A B : Type v) [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Unramified R A] :
+    Algebra.Unramified B (B ⊗[R] A) := by
+  exact SourceStack.UnramifiedEtale.unramified_base_change R A B
+
 theorem hilbert_formallyUnramified_iff_isSeparable
     (K L : Type u) [Field K] [Field L] [Algebra K L]
     [Algebra.EssFiniteType K L] :

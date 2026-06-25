@@ -104,7 +104,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
-  separability equivalences over essentially finite type field extensions.
+  separability equivalences over essentially finite type field extensions, plus
+  ring-level unramified algebra wrappers for one-element localizations,
+  composition, and base change.
 - `HilbertTest.SourceStack.SmoothKaehler`: formal smooth lifting, polynomial
   formal smoothness, composition/base-change/localization stability, smooth
   algebra stability, Kähler-differential characterizations of formal smoothness,
