@@ -95,6 +95,15 @@ theorem hasDerivAt_auxPolynomial_middle_zero
   rw [hzero] at hder
   simpa using hder
 
+/-- The middle point is also a critical point after Belyi's normalization. -/
+theorem hasDerivAt_normalizedAuxPolynomial_middle_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    HasDerivAt (fun y : Real => normalizedAuxPolynomial m n y) 0
+      ((m : Real) / ((m + n : Nat) : Real)) := by
+  unfold normalizedAuxPolynomial
+  simpa using (hasDerivAt_auxPolynomial_middle_zero (m := m) (n := n) hm hn).const_mul
+    (((m + n : Nat) : Real) ^ (m + n) / ((m : Real) ^ m * (n : Real) ^ n))
+
 /-- The middle point is strictly between zero and one. -/
 theorem middle_mem_unit_interval
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :

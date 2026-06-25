@@ -38,6 +38,12 @@ theorem hilbert_hasDerivAt_auxPolynomial_middle_zero
       ((m : Real) / ((m + n : Nat) : Real)) := by
   exact Belyi1980.hasDerivAt_auxPolynomial_middle_zero hm hn
 
+theorem hilbert_hasDerivAt_normalizedAuxPolynomial_middle_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    HasDerivAt (fun y : Real => Belyi1980.normalizedAuxPolynomial m n y) 0
+      ((m : Real) / ((m + n : Nat) : Real)) := by
+  exact Belyi1980.hasDerivAt_normalizedAuxPolynomial_middle_zero hm hn
+
 theorem hilbert_middle_mem_unit_interval
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     0 < (m : Real) / ((m + n : Nat) : Real) ∧
