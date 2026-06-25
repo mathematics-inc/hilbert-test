@@ -2860,6 +2860,21 @@ theorem hilbert_universallyClosed_isClosedMap
     IsClosedMap f.base := by
   exact SourceStack.Schemes.universallyClosed_isClosedMap f
 
+theorem hilbert_universallyClosed_restrict
+    (f : X ⟶ Y) [UniversallyClosed f] (U : Y.Opens) :
+    UniversallyClosed (f ∣_ U) := by
+  exact SourceStack.Schemes.universallyClosed_restrict f U
+
+theorem hilbert_universallyClosed_quasiCompact
+    (f : X ⟶ Y) [UniversallyClosed f] :
+    QuasiCompact f := by
+  exact SourceStack.Schemes.universallyClosed_quasiCompact f
+
+theorem hilbert_compactSpace_of_universallyClosed_over_field
+    (K : Type u) [Field K] (f : X ⟶ Spec (.of K)) [UniversallyClosed f] :
+    CompactSpace X := by
+  exact SourceStack.Schemes.compactSpace_of_universallyClosed_over_field K f
+
 theorem hilbert_proper_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsProper f] [IsProper g] :
@@ -2874,6 +2889,16 @@ theorem hilbert_proper_restrict
     (f : X ⟶ Y) [IsProper f] (U : Y.Opens) :
     IsProper (f ∣_ U) := by
   exact SourceStack.Schemes.proper_restrict f U
+
+theorem hilbert_proper_isClosedMap
+    (f : X ⟶ Y) [IsProper f] :
+    IsClosedMap f.base := by
+  exact SourceStack.Schemes.proper_isClosedMap f
+
+theorem hilbert_compactSpace_of_proper_over_field
+    (K : Type u) [Field K] (f : X ⟶ Spec (.of K)) [IsProper f] :
+    CompactSpace X := by
+  exact SourceStack.Schemes.compactSpace_of_proper_over_field K f
 
 theorem hilbert_universally_closed_isProperMap
     (f : X ⟶ Y) [UniversallyClosed f] :

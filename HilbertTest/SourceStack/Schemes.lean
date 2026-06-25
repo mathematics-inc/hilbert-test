@@ -393,6 +393,26 @@ theorem universallyClosed_isClosedMap
     IsClosedMap f.base :=
   f.isClosedMap
 
+/-- Universally closed morphisms stay universally closed after restricting the
+target to an open. -/
+theorem universallyClosed_restrict
+    (f : X ⟶ Y) [UniversallyClosed f] (U : Y.Opens) :
+    UniversallyClosed (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @UniversallyClosed) (f := f) inferInstance U
+
+/-- Universally closed morphisms are quasi-compact in Mathlib's scheme API. -/
+theorem universallyClosed_quasiCompact
+    (f : X ⟶ Y) [UniversallyClosed f] :
+    QuasiCompact f :=
+  inferInstance
+
+/-- A scheme universally closed over a field is compact as a topological
+space. -/
+theorem compactSpace_of_universallyClosed_over_field
+    (K : Type u) [Field K] (f : X ⟶ Spec (.of K)) [UniversallyClosed f] :
+    CompactSpace X :=
+  AlgebraicGeometry.compactSpace_of_universallyClosed f
+
 /-- Proper morphisms are stable under composition. -/
 theorem proper_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -410,6 +430,18 @@ theorem proper_restrict
     (f : X ⟶ Y) [IsProper f] (U : Y.Opens) :
     IsProper (f ∣_ U) :=
   IsLocalAtTarget.restrict (P := @IsProper) (f := f) inferInstance U
+
+/-- A proper morphism has a closed underlying topological map. -/
+theorem proper_isClosedMap
+    (f : X ⟶ Y) [IsProper f] :
+    IsClosedMap f.base :=
+  f.isClosedMap
+
+/-- A scheme proper over a field is compact as a topological space. -/
+theorem compactSpace_of_proper_over_field
+    (K : Type u) [Field K] (f : X ⟶ Spec (.of K)) [IsProper f] :
+    CompactSpace X :=
+  AlgebraicGeometry.compactSpace_of_universallyClosed f
 
 /-- A universally closed morphism has a topologically proper underlying map. -/
 theorem universally_closed_isProperMap

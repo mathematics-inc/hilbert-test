@@ -147,7 +147,10 @@ base-change, compact-preimage, finite/proper implication, and compact-space
 bridge wrappers.  The same file now checks affine-morphism composition,
 base-change, quasi-compactness, separatedness, affine-target source-affineness,
 finite-implies-affine, integral-morphism composition/base-change/restriction,
-and the finite iff integral plus locally finite type bridge.  It also now
+and the finite iff integral plus locally finite type bridge.  It also checks
+universally-closed restriction, quasi-compactness, closed-map and proper-map
+bridges, and compactness of schemes universally closed or proper over a field.
+It also now
 checks quasi-separated composition/base-change and affine/terminal bridges, plus
 the qcqs global-section localization layer: compact basic opens, power-clearing
 for sections on basic opens, the localization statement for sections on

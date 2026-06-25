@@ -86,7 +86,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
   finite/smooth/separated/proper/etale morphisms, closed-immersion and
   separated/universally closed bridges, plus the bridge from proper scheme
-  morphisms to topologically proper underlying maps.  It also checks
+  morphisms to closed/topologically proper underlying maps, universally-closed
+  restriction/quasi-compactness, and compactness of schemes universally closed or
+  proper over a field.  It also checks
   quasi-separated composition/base-change and affine/terminal bridges, together
   with qcqs global-section localization and power-clearing lemmas on basic
   opens.
@@ -395,9 +397,10 @@ Lean-facing declarations needed:
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.
 - quasi-compactness gives a finite subcover.
   The scheme-level quasi-compact morphism composition/base-change/preimage
-  facts and the compact-space/quasi-compact terminal morphism bridge are now
-  checked in `SourceStack.Schemes`; the remaining work is the curve-specific
-  product/open complement construction and the Belyi-open family itself.
+  facts, the compact-space/quasi-compact terminal morphism bridge, and
+  universally-closed/proper-over-field compactness wrappers are now checked in
+  `SourceStack.Schemes`; the remaining work is the curve-specific product/open
+  complement construction and the Belyi-open family itself.
 
 ### I. Corollary 3.2: local compactness layer
 
@@ -420,11 +423,12 @@ Lean-facing declarations needed:
   are compact; coordinate projections from product spaces preserve compactness.
   These topological steps, including finite unions of coordinate projection
   images and compact-exhaustion wrappers, are already checked in
-  `SourceStack.Topology`; the
-  proper-morphism-to-proper-map bridge is checked in `SourceStack.Schemes`;
-  topological proper-map compact-preimage facts are also checked in
-  `SourceStack.Topology`; the missing step is the local-field point topology for
-  arbitrary proper varieties and the full proper-variety compactness theorem.
+  `SourceStack.Topology`; the proper-morphism-to-closed/proper-map bridge and
+  field-valued universally-closed/proper compactness wrappers are checked in
+  `SourceStack.Schemes`; topological proper-map compact-preimage facts are also
+  checked in `SourceStack.Topology`; the missing step is the local-field point
+  topology for arbitrary proper varieties and the full proper-variety compactness
+  theorem.
 
 ## Dependency order for actual implementation
 
