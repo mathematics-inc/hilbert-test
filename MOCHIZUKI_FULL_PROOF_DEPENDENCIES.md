@@ -74,7 +74,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.SchemeProjectiveLine`: the concrete scheme
   `P^1_K = Proj K[X0,X1]`, degree-one coordinate facts, the two standard
   affine chart open immersions, chart ranges and affine-open facts, the
-  `D_+(X0 * X1)` overlap, the two-chart cover, and separatedness of `P^1_K`.
+  `D_+(X0 * X1)` overlap, the two-chart cover, separatedness of `P^1_K`,
+  homogeneous coordinate ideals `(X0)` and `(X1)`, and relevance witnesses
+  showing the irrelevant ideal is not contained in either coordinate ideal.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -372,8 +374,10 @@ Lean-facing declarations needed:
   compatibility, canonical basic-open-to-`Spec` maps, chart refinement maps,
   and chart-intersection projection identities.  The specialized construction
   `P^1_k = Proj k[X,Y]` and its two standard affine charts are now checked in
-  `SourceStack.SchemeProjectiveLine`; the missing item is the API identifying
-  its three marked points.
+  `SourceStack.SchemeProjectiveLine`, together with homogeneous coordinate
+  ideals `(X0)` and `(X1)` and relevance witnesses; the missing item is
+  primeness/point construction for the coordinate ideals and the API
+  identifying the three marked points.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.

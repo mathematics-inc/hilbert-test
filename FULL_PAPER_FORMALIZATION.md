@@ -170,10 +170,13 @@ underlying projective-spectrum zero-locus/vanishing-ideal topology.
 scheme-theoretic candidate `P^1_K = Proj K[X0,X1]`, proves the two homogeneous
 coordinates have degree one, checks that the two standard affine charts are
 open immersions with affine ranges covering `P^1_K`, identifies the coordinate
-chart overlap as `D_+(X0 * X1)`, and proves separatedness of this `P^1_K`.
-The remaining missing input is the identification of marked scheme points
-`0`, `1`, and `infinity` with the linear projective-line bookkeeping and with
-rational functions.
+chart overlap as `D_+(X0 * X1)`, proves separatedness of this `P^1_K`, and
+checks the homogeneous coordinate ideals `(X0)` and `(X1)` together with
+relevance witnesses saying the irrelevant ideal is not contained in either.
+The remaining missing input is the primeness/point construction for these
+coordinate ideals, the analogous `(X0 - X1)` point, and the identification of
+marked scheme points `0`, `1`, and `infinity` with the linear projective-line
+bookkeeping and with rational functions.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

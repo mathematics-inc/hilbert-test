@@ -1339,6 +1339,42 @@ theorem hilbert_two_chart_cover :
     Proj.basicOpen (grading K) (X0 K) ⊔ Proj.basicOpen (grading K) (X1 K) = ⊤ := by
   exact SourceStack.SchemeProjectiveLine.two_chart_cover K
 
+theorem hilbert_x0Ideal_isHomogeneous :
+    (x0Ideal K).IsHomogeneous (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.x0Ideal_isHomogeneous K
+
+theorem hilbert_x1Ideal_isHomogeneous :
+    (x1Ideal K).IsHomogeneous (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.x1Ideal_isHomogeneous K
+
+theorem hilbert_x0_mem_irrelevant :
+    X0 K ∈ HomogeneousIdeal.irrelevant (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.x0_mem_irrelevant K
+
+theorem hilbert_x1_mem_irrelevant :
+    X1 K ∈ HomogeneousIdeal.irrelevant (grading K) := by
+  exact SourceStack.SchemeProjectiveLine.x1_mem_irrelevant K
+
+theorem hilbert_x1_not_mem_x0Ideal
+    [Nontrivial K] :
+    X1 K ∉ x0Ideal K := by
+  exact SourceStack.SchemeProjectiveLine.x1_not_mem_x0Ideal K
+
+theorem hilbert_x0_not_mem_x1Ideal
+    [Nontrivial K] :
+    X0 K ∉ x1Ideal K := by
+  exact SourceStack.SchemeProjectiveLine.x0_not_mem_x1Ideal K
+
+theorem hilbert_not_irrelevant_le_x0HomogeneousIdeal
+    [Nontrivial K] :
+    ¬ HomogeneousIdeal.irrelevant (grading K) ≤ x0HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.not_irrelevant_le_x0HomogeneousIdeal K
+
+theorem hilbert_not_irrelevant_le_x1HomogeneousIdeal
+    [Nontrivial K] :
+    ¬ HomogeneousIdeal.irrelevant (grading K) ≤ x1HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.not_irrelevant_le_x1HomogeneousIdeal K
+
 end SchemeProjectiveLine
 
 namespace RationalMaps
