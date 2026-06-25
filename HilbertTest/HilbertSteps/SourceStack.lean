@@ -245,11 +245,46 @@ universe u
 
 variable {X Y Z : Scheme.{u}}
 
+theorem hilbert_closedImmersion_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsClosedImmersion f] [IsClosedImmersion g] :
+    IsClosedImmersion (f ≫ g) := by
+  exact SourceStack.Schemes.closedImmersion_comp f g
+
+theorem hilbert_closedImmersion_isFinite
+    (f : X ⟶ Y) [IsClosedImmersion f] :
+    IsFinite f := by
+  exact SourceStack.Schemes.closedImmersion_isFinite f
+
+theorem hilbert_closedImmersion_universallyClosed
+    (f : X ⟶ Y) [IsClosedImmersion f] :
+    UniversallyClosed f := by
+  exact SourceStack.Schemes.closedImmersion_universallyClosed f
+
+theorem hilbert_closedImmersion_isProper
+    (f : X ⟶ Y) [IsClosedImmersion f] :
+    IsProper f := by
+  exact SourceStack.Schemes.closedImmersion_isProper f
+
+theorem hilbert_closedImmersion_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsClosedImmersion) := by
+  exact SourceStack.Schemes.closedImmersion_stable_under_base_change
+
+theorem hilbert_closedImmersion_iff_isFinite_and_mono
+    (f : X ⟶ Y) :
+    IsClosedImmersion f ↔ IsFinite f ∧ Mono f := by
+  exact SourceStack.Schemes.closedImmersion_iff_isFinite_and_mono f
+
 theorem hilbert_finite_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsFinite f] [IsFinite g] :
     IsFinite (f ≫ g) := by
   exact SourceStack.Schemes.finite_comp f g
+
+theorem hilbert_finite_iff_integralHom_and_locallyOfFiniteType
+    (f : X ⟶ Y) :
+    IsFinite f ↔ IsIntegralHom f ∧ LocallyOfFiniteType f := by
+  exact SourceStack.Schemes.finite_iff_integralHom_and_locallyOfFiniteType f
 
 theorem hilbert_finite_is_integral
     (f : X ⟶ Y) [IsFinite f] :
@@ -274,6 +309,31 @@ theorem hilbert_smooth_comp
 theorem hilbert_smooth_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSmooth) := by
   exact SourceStack.Schemes.smooth_stable_under_base_change
+
+theorem hilbert_separated_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsSeparated f] [IsSeparated g] :
+    IsSeparated (f ≫ g) := by
+  exact SourceStack.Schemes.separated_comp f g
+
+theorem hilbert_separated_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@IsSeparated) := by
+  exact SourceStack.Schemes.separated_stable_under_base_change
+
+theorem hilbert_universallyClosed_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [UniversallyClosed f] [UniversallyClosed g] :
+    UniversallyClosed (f ≫ g) := by
+  exact SourceStack.Schemes.universallyClosed_comp f g
+
+theorem hilbert_universallyClosed_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@UniversallyClosed) := by
+  exact SourceStack.Schemes.universallyClosed_stable_under_base_change
+
+theorem hilbert_universallyClosed_isClosedMap
+    (f : X ⟶ Y) [UniversallyClosed f] :
+    IsClosedMap f.base := by
+  exact SourceStack.Schemes.universallyClosed_isClosedMap f
 
 theorem hilbert_proper_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)

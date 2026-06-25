@@ -38,8 +38,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   integral schemes, nonempty affine opens, and generic-point behavior under open
   immersions.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
-  stability wrappers around Mathlib, plus the bridge from proper scheme
-  morphisms to topologically proper underlying maps.
+  stability wrappers around Mathlib, closed-immersion and separated/universally
+  closed bridges, plus the bridge from proper scheme morphisms to topologically
+  proper underlying maps.
 - `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
