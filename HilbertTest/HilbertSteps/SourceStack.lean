@@ -6,6 +6,7 @@ import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
+import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
@@ -26,6 +27,7 @@ namespace HilbertSteps
 
 open Set
 open CategoryTheory
+open Opposite IsLocalRing
 open AlgebraicGeometry
 open HomogeneousLocalization
 open scoped TensorProduct
@@ -578,6 +580,111 @@ theorem hilbert_genericPoint_eq_of_isOpenImmersion
   exact SourceStack.FunctionFields.genericPoint_eq_of_isOpenImmersion f
 
 end FunctionFields
+
+namespace ResidueFields
+
+universe u
+
+variable {X Y Z : Scheme.{u}}
+
+theorem hilbert_residueField_field_exists
+    (x : X) :
+    Nonempty (Field (X.residueField x)) := by
+  exact SourceStack.ResidueFields.residueField_field_exists x
+
+theorem hilbert_residue_surjective
+    (X : Scheme.{u}) (x : X) :
+    Function.Surjective (X.residue x) := by
+  exact SourceStack.ResidueFields.residue_surjective X x
+
+theorem hilbert_evaluation_eq_zero_iff_not_mem_basicOpen
+    (U : X.Opens) (x : X) (hx : x ∈ U) (f : Γ(X, U)) :
+    X.evaluation U x hx f = 0 ↔ x ∉ X.basicOpen f := by
+  exact SourceStack.ResidueFields.evaluation_eq_zero_iff_not_mem_basicOpen U x hx f
+
+theorem hilbert_evaluation_ne_zero_iff_mem_basicOpen
+    (U : X.Opens) (x : X) (hx : x ∈ U) (f : Γ(X, U)) :
+    X.evaluation U x hx f ≠ 0 ↔ x ∈ X.basicOpen f := by
+  exact SourceStack.ResidueFields.evaluation_ne_zero_iff_mem_basicOpen U x hx f
+
+theorem hilbert_residue_residueFieldMap
+    (f : X ⟶ Y) (x : X) :
+    Y.residue (f.base x) ≫ f.residueFieldMap x =
+      f.stalkMap x ≫ X.residue x := by
+  exact SourceStack.ResidueFields.residue_residueFieldMap f x
+
+theorem hilbert_residueFieldMap_id
+    (x : X) :
+    Scheme.Hom.residueFieldMap (𝟙 X) x = 𝟙 (X.residueField x) := by
+  exact SourceStack.ResidueFields.residueFieldMap_id x
+
+theorem hilbert_residueFieldMap_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z) (x : X) :
+    (f ≫ g).residueFieldMap x =
+      g.residueFieldMap (f.base x) ≫ f.residueFieldMap x := by
+  exact SourceStack.ResidueFields.residueFieldMap_comp f g x
+
+theorem hilbert_Γevaluation_naturality
+    (f : X ⟶ Y) (x : X) :
+    Y.Γevaluation (f.base x) ≫ f.residueFieldMap x =
+      f.c.app (op ⊤) ≫ X.Γevaluation x := by
+  exact SourceStack.ResidueFields.Γevaluation_naturality f x
+
+theorem hilbert_Γevaluation_naturality_apply
+    (f : X ⟶ Y) (x : X) (a : Y.presheaf.obj (op ⊤)) :
+    f.residueFieldMap x (Y.Γevaluation (f.base x) a) =
+      X.Γevaluation x (f.c.app (op ⊤) a) := by
+  exact SourceStack.ResidueFields.Γevaluation_naturality_apply f x a
+
+theorem hilbert_residueFieldMap_isIso_of_openImmersion
+    (f : X ⟶ Y) [IsOpenImmersion f] (x : X) :
+    IsIso (f.residueFieldMap x) := by
+  exact SourceStack.ResidueFields.residueFieldMap_isIso_of_openImmersion f x
+
+theorem hilbert_fromSpecStalk_closedPoint
+    (x : X) :
+    (X.fromSpecStalk x).base (closedPoint (X.presheaf.stalk x)) = x := by
+  exact SourceStack.ResidueFields.fromSpecStalk_closedPoint x
+
+theorem hilbert_range_fromSpecStalk
+    (x : X) :
+    Set.range (X.fromSpecStalk x).base = { y | y ⤳ x } := by
+  exact SourceStack.ResidueFields.range_fromSpecStalk x
+
+theorem hilbert_Spec_map_stalkMap_fromSpecStalk
+    (f : X ⟶ Y) (x : X) :
+    Spec.map (f.stalkMap x) ≫ Y.fromSpecStalk _ =
+      X.fromSpecStalk x ≫ f := by
+  exact SourceStack.ResidueFields.Spec_map_stalkMap_fromSpecStalk f x
+
+theorem hilbert_fromSpecResidueField_apply
+    (x : X) (s : Spec (X.residueField x)) :
+    (X.fromSpecResidueField x).base s = x := by
+  exact SourceStack.ResidueFields.fromSpecResidueField_apply x s
+
+theorem hilbert_range_fromSpecResidueField
+    (x : X) :
+    Set.range (X.fromSpecResidueField x).base = {x} := by
+  exact SourceStack.ResidueFields.range_fromSpecResidueField x
+
+theorem hilbert_Spec_map_residueFieldMap_fromSpecResidueField
+    (f : X ⟶ Y) (x : X) :
+    Spec.map (f.residueFieldMap x) ≫ Y.fromSpecResidueField _ =
+      X.fromSpecResidueField x ≫ f := by
+  exact SourceStack.ResidueFields.Spec_map_residueFieldMap_fromSpecResidueField f x
+
+theorem hilbert_SpecToEquivOfField_exists
+    (K : Type u) [Field K] (X : Scheme.{u}) :
+    Nonempty ((Spec (.of K) ⟶ X) ≃ Σ x, X.residueField x ⟶ .of K) := by
+  exact SourceStack.ResidueFields.SpecToEquivOfField_exists K X
+
+theorem hilbert_SpecToEquivOfLocalRing_exists
+    (R : CommRingCat.{u}) [IsLocalRing R] (X : Scheme.{u}) :
+    Nonempty ((Spec R ⟶ X) ≃
+      Σ x, { f : X.presheaf.stalk x ⟶ R // IsLocalHom f.hom }) := by
+  exact SourceStack.ResidueFields.SpecToEquivOfLocalRing_exists R X
+
+end ResidueFields
 
 namespace FieldTheory
 

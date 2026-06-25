@@ -8,6 +8,7 @@ import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
+import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology

@@ -49,6 +49,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
   integral schemes, nonempty affine opens, and generic-point behavior under open
   immersions.
+- `HilbertTest.SourceStack.ResidueFields`: Mathlib residue-field and stalk
+  wrappers for point evaluations, residue-field maps, canonical morphisms
+  `Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, their ranges/functoriality, and
+  the equivalences describing field-valued and local-ring-valued points.
 - `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
   separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
   field, conjugacy-by-automorphism, and normal-tower restriction wrappers
@@ -98,6 +102,10 @@ Lean-facing declarations needed:
 - `SmoothProperConnectedCurve k`, implemented as a smooth proper connected
   one-dimensional scheme over a field.
 - geometric/algebraic points `X(Qbar)` and finite subsets of such points.
+  The general Mathlib equivalence between field-valued points `Spec K -> X`
+  and a scheme point with a residue-field map is now checked in
+  `SourceStack.ResidueFields`; the missing part is the specialized algebraic
+  point API for curves over `Qbar`.
 - base change of curves to field extensions.
 - genus `genus X`.
 - function field of a curve and rational functions.
@@ -240,6 +248,9 @@ Lean-facing declarations needed:
   geometric field-of-definition interface for curve and projective-line points.
 - finite Galois-stable point sets and images under morphisms.
 - minimal polynomial fields of definition for points of `P^1(Qbar)`.
+- residue-field functoriality under scheme morphisms is now checked in
+  `SourceStack.ResidueFields`; this still needs specialization to projective
+  line coordinates and algebraic closures.
 - if data are defined over a number field `F`, the constructed map can be chosen
   over `F`.
 
