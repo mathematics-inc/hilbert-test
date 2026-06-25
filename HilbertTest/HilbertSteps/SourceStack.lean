@@ -159,6 +159,20 @@ universe u
 
 variable {X Y : Scheme.{u}}
 
+theorem hilbert_partialMap_toRationalMap_surjective :
+    Function.Surjective (@Scheme.PartialMap.toRationalMap X Y) := by
+  exact SourceStack.RationalMaps.partialMap_toRationalMap_surjective
+
+theorem hilbert_rationalMap_exists_rep
+    (f : X ⤏ Y) :
+    ∃ g : X.PartialMap Y, g.toRationalMap = f := by
+  exact SourceStack.RationalMaps.rationalMap_exists_rep f
+
+theorem hilbert_partialMap_toRationalMap_eq_iff
+    {f g : X.PartialMap Y} :
+    f.toRationalMap = g.toRationalMap ↔ f.equiv g := by
+  exact SourceStack.RationalMaps.partialMap_toRationalMap_eq_iff
+
 theorem hilbert_partialMap_dense_domain
     (f : X.PartialMap Y) :
     Dense (f.domain : Set X) := by
@@ -173,6 +187,31 @@ theorem hilbert_rationalMap_toRationalMap_toPartialMap
     [IsReduced X] [Y.IsSeparated] (f : X ⤏ Y) :
     f.toPartialMap.toRationalMap = f := by
   exact SourceStack.RationalMaps.rationalMap_toRationalMap_toPartialMap f
+
+theorem hilbert_partialMap_fromFunctionField_restrict
+    [IrreducibleSpace X] (f : X.PartialMap Y)
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').fromFunctionField = f.fromFunctionField := by
+  exact SourceStack.RationalMaps.partialMap_fromFunctionField_restrict f hU hU'
+
+theorem hilbert_rationalMap_fromFunctionField_toRationalMap
+    [IrreducibleSpace X] (f : X.PartialMap Y) :
+    f.toRationalMap.fromFunctionField = f.fromFunctionField := by
+  exact SourceStack.RationalMaps.rationalMap_fromFunctionField_toRationalMap f
+
+theorem hilbert_rationalMap_eq_of_fromFunctionField_eq
+    [IsIntegral X] (f g : X ⤏ Y)
+    (H : f.fromFunctionField = g.fromFunctionField) :
+    f = g := by
+  exact SourceStack.RationalMaps.rationalMap_eq_of_fromFunctionField_eq f g H
+
+theorem hilbert_rationalMap_fromFunctionField_ofFunctionField
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : Spec X.functionField ⟶ Y)
+    (h : f ≫ sY = X.fromSpecStalk _ ≫ sX) :
+    (Scheme.RationalMap.ofFunctionField sX sY f h).fromFunctionField = f := by
+  exact SourceStack.RationalMaps.rationalMap_fromFunctionField_ofFunctionField sX sY f h
 
 end RationalMaps
 

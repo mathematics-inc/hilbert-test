@@ -32,7 +32,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `0`, `1`, `infinity`, their distinctness, and the branch finset
   `{0,1,infinity}` with cardinality `3`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
-  partial-map representative wrappers.
+  partial-map representative wrappers, plus function-field reconstruction and
+  uniqueness facts for rational maps out of integral schemes.
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
   integral schemes, nonempty affine opens, and generic-point behavior under open
   immersions.
