@@ -77,6 +77,36 @@ theorem hilbert_beta_le_two_mul_belyi_aux_of_beta_ge_two
     beta <= 2 * NoncriticalBelyi.belyiAux m n beta := by
   exact NoncriticalBelyi.beta_le_two_mul_belyi_aux_of_beta_ge_two hm hn hbeta
 
+theorem hilbert_belyi_aux_pos_of_gt_one
+    {m n : Nat} {x : Real}
+    (hx : 1 < x) :
+    0 < NoncriticalBelyi.belyiAux m n x := by
+  exact NoncriticalBelyi.belyi_aux_pos_of_gt_one hx
+
+theorem hilbert_belyi_aux_beta_ge_four_mul_of_scale
+    {m n : Nat} {alpha beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    4 * NoncriticalBelyi.belyiAux m n alpha <=
+      NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.belyi_aux_beta_ge_four_mul_of_scale
+    hm hn hC halpha hscale
+
+theorem hilbert_belyi_aux_beta_gt_of_scale
+    {m n : Nat} {alpha beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    NoncriticalBelyi.belyiAux m n alpha <
+      NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.belyi_aux_beta_gt_of_scale
+    hm hn hC halpha hscale
+
 theorem hilbert_half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
@@ -119,6 +149,30 @@ theorem hilbert_abs_belyi_aux_le_one_on_unit_interval
     (hx1 : x <= 1) :
     |NoncriticalBelyi.belyiAux m n x| <= 1 := by
   exact NoncriticalBelyi.abs_belyi_aux_le_one_on_unit_interval hm hn hx0 hx1
+
+theorem hilbert_belyi_aux_beta_gt_unit_interval_value
+    {m n : Nat} {beta x : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta)
+    (hx0 : 0 <= x)
+    (hx1 : x <= 1) :
+    NoncriticalBelyi.belyiAux m n x <
+      NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.belyi_aux_beta_gt_unit_interval_value
+    hm hn hbeta hx0 hx1
+
+theorem hilbert_belyi_aux_beta_ne_unit_interval_value
+    {m n : Nat} {beta x : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta)
+    (hx0 : 0 <= x)
+    (hx1 : x <= 1) :
+    NoncriticalBelyi.belyiAux m n beta ≠
+      NoncriticalBelyi.belyiAux m n x := by
+  exact NoncriticalBelyi.belyi_aux_beta_ne_unit_interval_value
+    hm hn hbeta hx0 hx1
 
 end MochizukiElementary
 end HilbertSteps

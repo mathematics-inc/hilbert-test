@@ -165,6 +165,57 @@ theorem beta_le_two_mul_belyi_aux_of_beta_ge_two
   have hnonneg : 0 <= belyiAux m n beta := by nlinarith [hmain, hbeta]
   nlinarith
 
+theorem belyi_aux_pos_of_gt_one
+    (hx : 1 < x) :
+    0 < belyiAux m n x := by
+  unfold belyiAux
+  exact mul_pos (pow_pos (by nlinarith) m) (pow_pos (by nlinarith) n)
+
+theorem belyi_aux_beta_ge_four_mul_of_scale
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    4 * belyiAux m n alpha <= belyiAux m n beta := by
+  have halpha_pos : 0 < alpha := by nlinarith
+  have hbeta_ge_alpha : alpha <= beta := by
+    have hβa : 1 <= beta / alpha := by nlinarith
+    rw [le_div_iff₀ halpha_pos] at hβa
+    simpa using hβa
+  have hratio2 : 2 <= beta / alpha := by nlinarith
+  have hquad4 : 4 <= (beta / alpha) ^ 2 := by
+    nlinarith [sq_nonneg (beta / alpha - 2)]
+  have hprod := belyi_aux_ratio_ge_quadratic (m := m) (n := n)
+    hm hn halpha hbeta_ge_alpha
+  have hprod4 :
+      4 <= (beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n :=
+    le_trans hquad4 hprod
+  have hpos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  have hmul := mul_le_mul_of_nonneg_left hprod4 hpos.le
+  have heq : belyiAux m n beta =
+      belyiAux m n alpha *
+        ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) := by
+    unfold belyiAux
+    have ha0 : alpha ≠ 0 := by nlinarith
+    have ha1 : alpha - 1 ≠ 0 := by nlinarith
+    field_simp [ha0, ha1]
+  nlinarith
+
+theorem belyi_aux_beta_gt_of_scale
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    belyiAux m n alpha < belyiAux m n beta := by
+  have hscaled := belyi_aux_beta_ge_four_mul_of_scale (m := m) (n := n)
+    hm hn hC halpha hscale
+  have hpos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  nlinarith
+
 theorem half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
@@ -236,6 +287,32 @@ theorem abs_belyi_aux_le_one_on_unit_interval
   rw [abs_mul]
   nlinarith [mul_le_mul hx_pow_abs_le hshift_pow_abs_le (abs_nonneg ((x - 1) ^ n))
     (by nlinarith [abs_nonneg (x ^ m)])]
+
+theorem belyi_aux_beta_gt_unit_interval_value
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta)
+    (hx0 : 0 <= x)
+    (hx1 : x <= 1) :
+    belyiAux m n x < belyiAux m n beta := by
+  have hb : 1 < belyiAux m n beta :=
+    belyi_aux_beta_gt_one (m := m) (n := n) hm hn hbeta
+  have hxabs : |belyiAux m n x| <= 1 :=
+    abs_belyi_aux_le_one_on_unit_interval (m := m) (n := n) hm hn hx0 hx1
+  have hxle : belyiAux m n x <= 1 := by
+    exact le_trans (le_abs_self _) hxabs
+  exact lt_of_le_of_lt hxle hb
+
+theorem belyi_aux_beta_ne_unit_interval_value
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta)
+    (hx0 : 0 <= x)
+    (hx1 : x <= 1) :
+    belyiAux m n beta ≠ belyiAux m n x := by
+  have hlt := belyi_aux_beta_gt_unit_interval_value (m := m) (n := n)
+    hm hn hbeta hx0 hx1
+  exact ne_of_gt hlt
 
 end Lemma21Arithmetic
 
