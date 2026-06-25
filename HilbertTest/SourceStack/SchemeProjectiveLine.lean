@@ -630,6 +630,38 @@ theorem mem_markedPointSet_iff (p : _root_.ProjectiveSpectrum (grading K)) :
     p ∈ markedPointSet K ↔ p ∈ markedPointFinset K :=
   Iff.rfl
 
+/-- The three marked points viewed as a finset of points of the scheme `P^1_K`. -/
+noncomputable def markedSchemePointFinset : Finset (P1 K) :=
+  markedPointFinset K
+
+/-- The three marked points viewed as a set of points of the scheme `P^1_K`. -/
+noncomputable def markedSchemePointSet : Set (P1 K) :=
+  markedPointSet K
+
+theorem markedSchemePointFinset_card :
+    (markedSchemePointFinset K).card = 3 := by
+  exact markedPointFinset_card K
+
+theorem markedSchemePointSet_finite :
+    (markedSchemePointSet K).Finite :=
+  markedPointSet_finite K
+
+theorem mem_markedSchemePointSet_iff (p : P1 K) :
+    p ∈ markedSchemePointSet K ↔ p ∈ markedPointSet K :=
+  Iff.rfl
+
+theorem zeroPoint_mem_markedSchemePointFinset :
+    zeroPoint K ∈ markedSchemePointFinset K := by
+  exact zeroPoint_mem_markedPointFinset K
+
+theorem onePoint_mem_markedSchemePointFinset :
+    onePoint K ∈ markedSchemePointFinset K := by
+  exact onePoint_mem_markedPointFinset K
+
+theorem infinityPoint_mem_markedSchemePointFinset :
+    infinityPoint K ∈ markedSchemePointFinset K := by
+  exact infinityPoint_mem_markedPointFinset K
+
 theorem zeroPoint_mem_x1_basicOpen :
     zeroPoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
   rw [ProjectiveSpectrum.basicOpen_mem_iff]

@@ -1523,6 +1523,36 @@ theorem hilbert_mem_markedPointSet_iff
     p ∈ markedPointSet K ↔ p ∈ markedPointFinset K := by
   exact SourceStack.SchemeProjectiveLine.mem_markedPointSet_iff K p
 
+theorem hilbert_markedSchemePointFinset_card
+    [IsDomain K] :
+    (markedSchemePointFinset K).card = 3 := by
+  exact SourceStack.SchemeProjectiveLine.markedSchemePointFinset_card K
+
+theorem hilbert_markedSchemePointSet_finite
+    [IsDomain K] :
+    (markedSchemePointSet K).Finite := by
+  exact SourceStack.SchemeProjectiveLine.markedSchemePointSet_finite K
+
+theorem hilbert_mem_markedSchemePointSet_iff
+    [IsDomain K] (p : P1 K) :
+    p ∈ markedSchemePointSet K ↔ p ∈ markedPointSet K := by
+  exact SourceStack.SchemeProjectiveLine.mem_markedSchemePointSet_iff K p
+
+theorem hilbert_zeroPoint_mem_markedSchemePointFinset
+    [IsDomain K] :
+    zeroPoint K ∈ markedSchemePointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_mem_markedSchemePointFinset K
+
+theorem hilbert_onePoint_mem_markedSchemePointFinset
+    [IsDomain K] :
+    onePoint K ∈ markedSchemePointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.onePoint_mem_markedSchemePointFinset K
+
+theorem hilbert_infinityPoint_mem_markedSchemePointFinset
+    [IsDomain K] :
+    infinityPoint K ∈ markedSchemePointFinset K := by
+  exact SourceStack.SchemeProjectiveLine.infinityPoint_mem_markedSchemePointFinset K
+
 theorem hilbert_zeroPoint_mem_x1_basicOpen
     [IsDomain K] :
     zeroPoint K ∈ Proj.basicOpen (grading K) (X1 K) := by
