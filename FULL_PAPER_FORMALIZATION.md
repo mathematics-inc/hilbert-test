@@ -65,6 +65,12 @@ finite projective-line set containing `{0,r,1,∞}` has strictly smaller image
 cardinality when the whole set maps into `{0,1,∞}`.  This is still below the
 scheme morphism layer.
 
+`HilbertTest/SourceStack/FiniteSet.lean` checks the finite combinatorics behind
+the Lemma 2.2 induction and the first reduction in Theorem 2.5: image
+cardinality drops after a collision, four points mapping into three values force
+a collision, and in an infinite point set a finite set `T` can be enlarged past
+any prescribed cardinality while remaining disjoint from a fixed finite set `S`.
+
 `HilbertTest/SourceStack/LinearAlgebra.lean` checks the Scherr-Zieve linear
 source layer over infinite fields: finite unions of proper subspaces do not
 cover, Riemann-Roch dimension inequalities give proper subspaces via smaller

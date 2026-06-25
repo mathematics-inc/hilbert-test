@@ -35,7 +35,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   positive-characteristic branch.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
-  four-distinguished-points-to-three-images cardinality-drop package.
+  four-distinguished-points-to-three-images cardinality-drop package; it also
+  checks the Theorem 2.5 finite-enlargement step that an infinite point set lets
+  one enlarge `T` past any prescribed cardinality while keeping it disjoint from
+  a fixed finite set `S`.
 - `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is

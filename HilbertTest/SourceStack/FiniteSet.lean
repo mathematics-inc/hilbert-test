@@ -1,4 +1,5 @@
 import Mathlib.Data.Finset.Card
+import Mathlib.Data.Set.Finite.Basic
 
 /-!
 Finite-set cardinality bookkeeping for the induction in Mochizuki Lemma 2.2 and
@@ -63,6 +64,34 @@ theorem card_image_lt_of_subset_card_four_image_le_three
   exact card_image_lt_of_subset_with_smaller_subimage s u f hu hcard
 
 end ImageCardinality
+
+section InfiniteEnlargement
+
+variable {α : Type*} [Infinite α] [DecidableEq α]
+
+/-- Theorem 2.5 finite-set enlargement step: in an infinite set of points, a
+finite set `T` disjoint from `S` can be enlarged past any prescribed cardinality
+while remaining disjoint from `S`. -/
+theorem exists_finset_superset_card_ge_disjoint
+    (S T : Finset α) (hdis : ∀ x, x ∈ S → x ∉ T) (N : ℕ) :
+    ∃ T' : Finset α,
+      T ⊆ T' ∧ (∀ x, x ∈ S → x ∉ T') ∧ N ≤ T'.card := by
+  classical
+  have hcomp : ((↑(S ∪ T) : Set α)ᶜ).Infinite :=
+    (S ∪ T).finite_toSet.infinite_compl
+  obtain ⟨R, hRsub, hRcard⟩ := hcomp.exists_subset_card_eq N
+  refine ⟨T ∪ R, ?_, ?_, ?_⟩
+  · intro x hx
+    exact Finset.mem_union.mpr (Or.inl hx)
+  · intro x hxS hxTR
+    rcases Finset.mem_union.mp hxTR with hxT | hxR
+    · exact hdis x hxS hxT
+    · exact hRsub hxR (by
+        exact Finset.mem_coe.mpr (Finset.mem_union.mpr (Or.inl hxS)))
+  · rw [← hRcard]
+    exact Finset.card_le_card (by intro x hx; exact Finset.mem_union.mpr (Or.inr hx))
+
+end InfiniteEnlargement
 
 end SourceStack
 end HilbertTest

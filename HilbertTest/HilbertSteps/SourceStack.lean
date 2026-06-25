@@ -82,6 +82,13 @@ theorem hilbert_card_image_lt_of_subset_card_four_image_le_three
   exact SourceStack.card_image_lt_of_subset_card_four_image_le_three
     s u f hu hucard himage
 
+theorem hilbert_exists_finset_superset_card_ge_disjoint
+    [Infinite α] [DecidableEq α]
+    (S T : Finset α) (hdis : ∀ x, x ∈ S → x ∉ T) (N : ℕ) :
+    ∃ T' : Finset α,
+      T ⊆ T' ∧ (∀ x, x ∈ S → x ∉ T') ∧ N ≤ T'.card := by
+  exact SourceStack.exists_finset_superset_card_ge_disjoint S T hdis N
+
 end FiniteSet
 
 section LinearAlgebra
