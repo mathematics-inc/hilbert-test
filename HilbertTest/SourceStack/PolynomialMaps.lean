@@ -145,6 +145,35 @@ theorem derivative_aeval_ne_zero_of_value_not_mem_replacementSet
   derivative_aeval_ne_zero_of_value_not_mem_criticalValueSet F E hpder
     ((not_mem_replacementSet_iff F E p y).1 hy).2 hxy
 
+/-- Evaluation of a polynomial composition. -/
+theorem aeval_comp (p q : F[X]) (x : E) :
+    Polynomial.aeval x (p.comp q) = Polynomial.aeval (Polynomial.aeval x q) p := by
+  exact Polynomial.aeval_comp x
+
+/-- The formal derivative chain rule for polynomial composition. -/
+theorem derivative_comp (p q : F[X]) :
+    (p.comp q).derivative = q.derivative * p.derivative.comp q := by
+  exact Polynomial.derivative_comp p q
+
+/-- The chain rule after evaluating at a point. -/
+theorem aeval_derivative_comp (p q : F[X]) (x : E) :
+    Polynomial.aeval x (p.comp q).derivative =
+      Polynomial.aeval x q.derivative *
+        Polynomial.aeval (Polynomial.aeval x q) p.derivative := by
+  rw [Polynomial.derivative_comp]
+  rw [map_mul]
+  rw [Polynomial.aeval_comp]
+
+/-- If both factors in the chain rule are nonzero, the derivative of the
+composition is nonzero. -/
+theorem derivative_aeval_comp_ne_zero
+    (p q : F[X]) {x : E}
+    (hq : Polynomial.aeval x q.derivative ≠ 0)
+    (hp : Polynomial.aeval (Polynomial.aeval x q) p.derivative ≠ 0) :
+    Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
+  rw [aeval_derivative_comp F E p q x]
+  exact mul_ne_zero hq hp
+
 end PolynomialMaps
 end SourceStack
 end HilbertTest

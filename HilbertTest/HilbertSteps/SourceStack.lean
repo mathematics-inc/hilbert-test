@@ -1080,6 +1080,28 @@ theorem hilbert_derivative_aeval_ne_zero_of_value_not_mem_replacementSet
   exact SourceStack.PolynomialMaps.derivative_aeval_ne_zero_of_value_not_mem_replacementSet
     F E hpder hy hxy
 
+theorem hilbert_aeval_comp (p q : F[X]) (x : E) :
+    Polynomial.aeval x (p.comp q) =
+      Polynomial.aeval (Polynomial.aeval x q) p := by
+  exact SourceStack.PolynomialMaps.aeval_comp F E p q x
+
+theorem hilbert_derivative_comp (p q : F[X]) :
+    (p.comp q).derivative = q.derivative * p.derivative.comp q := by
+  exact SourceStack.PolynomialMaps.derivative_comp F p q
+
+theorem hilbert_aeval_derivative_comp (p q : F[X]) (x : E) :
+    Polynomial.aeval x (p.comp q).derivative =
+      Polynomial.aeval x q.derivative *
+        Polynomial.aeval (Polynomial.aeval x q) p.derivative := by
+  exact SourceStack.PolynomialMaps.aeval_derivative_comp F E p q x
+
+theorem hilbert_derivative_aeval_comp_ne_zero
+    (p q : F[X]) {x : E}
+    (hq : Polynomial.aeval x q.derivative ≠ 0)
+    (hp : Polynomial.aeval (Polynomial.aeval x q) p.derivative ≠ 0) :
+    Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
+  exact SourceStack.PolynomialMaps.derivative_aeval_comp_ne_zero F E p q hq hp
+
 end PolynomialMaps
 
 namespace UnramifiedEtale
