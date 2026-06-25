@@ -176,9 +176,14 @@ together with relevance witnesses saying the irrelevant ideal is not contained
 in any of them.  It proves these three coordinate ideals are prime over a
 domain and packages the resulting `Proj` points `[0:1]`, `[1:0]`, and `[1:1]`
 with their homogeneous ideals, as a finite marked-point triple of cardinality
-three.  The remaining missing input is the API identifying the marked scheme
-points `0`, `1`, and `infinity` with the linear projective-line bookkeeping,
-and the bridge to rational functions.
+three.
+
+`HilbertTest/SourceStack/MarkedProjectiveLine.lean` now provides a common
+three-label indexing layer for the linear projective-line branch triple and
+the scheme-theoretic marked triple, proving that the label images are the
+existing linear and scheme finsets and that both label maps are injective.  The
+remaining missing input is the bridge from these marked scheme points to
+rational functions and branch-locus statements for morphisms to `P^1`.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

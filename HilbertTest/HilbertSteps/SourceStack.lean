@@ -5,6 +5,7 @@ import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.SchemeProjectiveLine
+import HilbertTest.SourceStack.MarkedProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
@@ -1522,6 +1523,34 @@ theorem hilbert_mem_markedPointSet_iff
   exact SourceStack.SchemeProjectiveLine.mem_markedPointSet_iff K p
 
 end SchemeProjectiveLine
+
+namespace MarkedProjectiveLine
+
+open SourceStack.MarkedProjectiveLine
+
+universe u
+
+theorem hilbert_linearPointFinset_eq_branchFinset
+    (K : Type u) [Field K] :
+    linearPointFinset K = SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.MarkedProjectiveLine.linearPointFinset_eq_branchFinset K
+
+theorem hilbert_schemePointFinset_eq_markedPointFinset
+    (K : Type u) [Field K] :
+    schemePointFinset K = SourceStack.SchemeProjectiveLine.markedPointFinset K := by
+  exact SourceStack.MarkedProjectiveLine.schemePointFinset_eq_markedPointFinset K
+
+theorem hilbert_linearPoint_injective
+    (K : Type u) [Field K] :
+    Function.Injective (linearPoint K) := by
+  exact SourceStack.MarkedProjectiveLine.linearPoint_injective K
+
+theorem hilbert_schemePoint_injective
+    (K : Type u) [Field K] :
+    Function.Injective (schemePoint K) := by
+  exact SourceStack.MarkedProjectiveLine.schemePoint_injective K
+
+end MarkedProjectiveLine
 
 namespace RationalMaps
 
