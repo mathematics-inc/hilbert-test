@@ -61,6 +61,22 @@ theorem hilbert_belyi_aux_beta_gt_one
     1 < NoncriticalBelyi.belyiAux m n beta := by
   exact NoncriticalBelyi.belyi_aux_beta_gt_one hm hn hbeta
 
+theorem hilbert_beta_le_belyi_aux_of_beta_ge_two
+    {m n : Nat} {beta : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta) :
+    beta <= NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.beta_le_belyi_aux_of_beta_ge_two hm hn hbeta
+
+theorem hilbert_beta_le_two_mul_belyi_aux_of_beta_ge_two
+    {m n : Nat} {beta : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta) :
+    beta <= 2 * NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.beta_le_two_mul_belyi_aux_of_beta_ge_two hm hn hbeta
+
 theorem hilbert_abs_belyi_aux_le_one_on_unit_interval
     {m n : Nat} {x : Real}
     (hm : 1 <= m)

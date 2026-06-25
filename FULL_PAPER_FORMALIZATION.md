@@ -28,6 +28,7 @@ formalization of elementary real-polynomial inequalities used in Lemma 2.1:
   `1 < alpha <= beta`,
 - the lower bounds in property (e),
 - `f(beta) > 1` under the hypotheses used in the paper,
+- `beta <= f(beta)` and `beta <= 2 * f(beta)` for `beta >= 2`,
 - `|f x| <= 1` for `x in [0, 1]`.
 
 `HilbertTest/SourceStack/ComplexSeparation.lean` contains a no-`sorry` Lean

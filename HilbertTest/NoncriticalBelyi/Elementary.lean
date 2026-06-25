@@ -140,6 +140,31 @@ theorem belyi_aux_beta_gt_one
   have hshift_pow : 1 <= (beta - 1) ^ n := one_le_pow₀ hshift_one
   nlinarith [mul_le_mul hbeta_pow hshift_pow (by positivity) (by nlinarith)]
 
+theorem beta_le_belyi_aux_of_beta_ge_two
+    (hm : 1 <= m)
+    (_hn : 1 <= n)
+    (hbeta : 2 <= beta) :
+    beta <= belyiAux m n beta := by
+  unfold belyiAux
+  have hbeta_one : 1 <= beta := by nlinarith
+  have hbeta_nonneg : 0 <= beta := by nlinarith
+  have hshift_one : 1 <= beta - 1 := by nlinarith
+  have hbeta_pow : beta <= beta ^ m := by
+    have hmono : beta ^ 1 <= beta ^ m := pow_le_pow_right₀ hbeta_one hm
+    simpa using hmono
+  have hshift_pow : 1 <= (beta - 1) ^ n := one_le_pow₀ hshift_one
+  have hmul := mul_le_mul hbeta_pow hshift_pow zero_le_one (pow_nonneg hbeta_nonneg m)
+  simpa using hmul
+
+theorem beta_le_two_mul_belyi_aux_of_beta_ge_two
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hbeta : 2 <= beta) :
+    beta <= 2 * belyiAux m n beta := by
+  have hmain := beta_le_belyi_aux_of_beta_ge_two (m := m) (n := n) hm hn hbeta
+  have hnonneg : 0 <= belyiAux m n beta := by nlinarith [hmain, hbeta]
+  nlinarith
+
 theorem abs_belyi_aux_le_one_on_unit_interval
     (_hm : 1 <= m)
     (_hn : 1 <= n)
