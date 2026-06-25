@@ -84,6 +84,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ArithmeticFunctionFields`: Mathlib's arithmetic
   function-field layer for finite extensions of `Fq(t)`, rings of integers as
   Dedekind domains under separability, and the valuation at infinity on `Fq(t)`.
+- `HilbertTest.SourceStack.Cohomology`: generic abelian sheaf cohomology as Ext
+  groups, cohomology presheaves, and the abelian category of sheaves of modules
+  over a scheme.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
@@ -172,6 +175,9 @@ Sources:
 Lean-facing declarations needed:
 
 - coherent sheaf cohomology `H^i(X, F)` for proper schemes/curves.
+  The generic sheaf-cohomology/Ext definition and abelian module-sheaf category
+  are now checked in `SourceStack.Cohomology`; the missing part is the coherent
+  sheaf cohomology specialization for algebraic curves.
 - long exact cohomology sequence for short exact sequences of coherent sheaves.
 - Serre duality for smooth proper curves:
   `H^1(X, L(-x))` dual to `Gamma(X, omega_X tensor L^{-1}(x))`.

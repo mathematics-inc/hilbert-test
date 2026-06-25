@@ -13,6 +13,7 @@ import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
 import HilbertTest.SourceStack.FractionalIdeals
 import HilbertTest.SourceStack.ArithmeticFunctionFields
+import HilbertTest.SourceStack.Cohomology
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
@@ -31,6 +32,7 @@ namespace HilbertSteps
 
 open Set
 open CategoryTheory
+open CategoryTheory.Abelian
 open Opposite IsLocalRing
 open AlgebraicGeometry
 open HomogeneousLocalization
@@ -1686,6 +1688,49 @@ theorem hilbert_FqtInfty_field
 end InftyValuation
 
 end ArithmeticFunctionFields
+
+namespace Cohomology
+
+universe w' w v u
+
+theorem hilbert_sheaf_H_eq_ext
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    (F : Sheaf J AddCommGrp.{w})
+    [HasSheafify J AddCommGrp.{w}] [HasExt.{w'} (Sheaf J AddCommGrp.{w})]
+    (n : ℕ) :
+    F.H n =
+      Ext ((CategoryTheory.constantSheaf J AddCommGrp.{w}).obj
+        (AddCommGrp.of (ULift ℤ))) F n := by
+  exact SourceStack.Cohomology.sheaf_H_eq_ext F n
+
+theorem hilbert_sheaf_H_addCommGroup
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    (F : Sheaf J AddCommGrp.{w})
+    [HasSheafify J AddCommGrp.{w}] [HasExt.{w'} (Sheaf J AddCommGrp.{w})]
+    (n : ℕ) :
+    Nonempty (AddCommGroup (F.H n)) := by
+  exact SourceStack.Cohomology.sheaf_H_addCommGroup F n
+
+theorem hilbert_cohomologyPresheafFunctor_exists
+    {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
+    [HasSheafify J AddCommGrp.{v}] [HasExt.{w'} (Sheaf J AddCommGrp.{v})]
+    (n : ℕ) :
+    Nonempty (Sheaf J AddCommGrp.{v} ⥤ Cᵒᵖ ⥤ AddCommGrp.{w'}) := by
+  exact SourceStack.Cohomology.cohomologyPresheafFunctor_exists J n
+
+theorem hilbert_cohomologyPresheaf_exists
+    {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
+    [HasSheafify J AddCommGrp.{v}] [HasExt.{w'} (Sheaf J AddCommGrp.{v})]
+    (F : Sheaf J AddCommGrp.{v}) (n : ℕ) :
+    Nonempty (Cᵒᵖ ⥤ AddCommGrp.{w'}) := by
+  exact SourceStack.Cohomology.cohomologyPresheaf_exists J F n
+
+theorem hilbert_scheme_modules_abelian
+    (X : Scheme.{u}) :
+    Nonempty (Abelian X.Modules) := by
+  exact SourceStack.Cohomology.scheme_modules_abelian X
+
+end Cohomology
 
 namespace Schemes
 

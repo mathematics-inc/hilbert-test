@@ -208,6 +208,9 @@ Sources:
 Formalization use:
 
 - Coherent sheaf cohomology on proper schemes.
+- Generic abelian sheaf cohomology and scheme module-sheaf categories are
+  checked in `HilbertTest.SourceStack.Cohomology`; the curve/coherent
+  specialization is still absent.
 - `H^1(L(-x)) = 0` via Serre duality when the dual bundle has negative degree.
 - Riemann-Roch for divisors/line bundles on curves.
 
