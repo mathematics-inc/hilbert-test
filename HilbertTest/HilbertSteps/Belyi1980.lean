@@ -24,6 +24,20 @@ theorem hilbert_middle_linear_factor_zero
         (n : Real) * ((m : Real) / ((m + n : Nat) : Real)) = 0 := by
   exact Belyi1980.middle_linear_factor_zero hm hn
 
+theorem hilbert_derivativeValue_auxPolynomial_middle_eq_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (m : Real) * ((m : Real) / ((m + n : Nat) : Real)) ^ (m - 1) *
+          (1 - (m : Real) / ((m + n : Nat) : Real)) ^ n -
+        (n : Real) * ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+          (1 - (m : Real) / ((m + n : Nat) : Real)) ^ (n - 1) = 0 := by
+  exact Belyi1980.derivativeValue_auxPolynomial_middle_eq_zero hm hn
+
+theorem hilbert_hasDerivAt_auxPolynomial_middle_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    HasDerivAt (fun y : Real => Belyi1980.auxPolynomial m n y) 0
+      ((m : Real) / ((m + n : Nat) : Real)) := by
+  exact Belyi1980.hasDerivAt_auxPolynomial_middle_zero hm hn
+
 theorem hilbert_middle_mem_unit_interval
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     0 < (m : Real) / ((m + n : Nat) : Real) ∧

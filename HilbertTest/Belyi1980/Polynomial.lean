@@ -56,6 +56,45 @@ theorem middle_linear_factor_zero
   field_simp [hden]
   ring
 
+/-- The derivative expression of the auxiliary polynomial vanishes at the
+middle critical point. -/
+theorem derivativeValue_auxPolynomial_middle_eq_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    (m : Real) * ((m : Real) / ((m + n : Nat) : Real)) ^ (m - 1) *
+          (1 - (m : Real) / ((m + n : Nat) : Real)) ^ n -
+        (n : Real) * ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+          (1 - (m : Real) / ((m + n : Nat) : Real)) ^ (n - 1) = 0 := by
+  let x : Real := (m : Real) / ((m + n : Nat) : Real)
+  have hlin : (m : Real) * (1 - x) - (n : Real) * x = 0 := by
+    dsimp [x]
+    exact middle_linear_factor_zero hm hn
+  have hxm : x ^ m = x ^ (m - 1) * x := by
+    conv_lhs => rw [show m = (m - 1) + 1 by omega]
+    rw [pow_succ]
+  have hyn : (1 - x) ^ n = (1 - x) ^ (n - 1) * (1 - x) := by
+    conv_lhs => rw [show n = (n - 1) + 1 by omega]
+    rw [pow_succ]
+  change (m : Real) * x ^ (m - 1) * (1 - x) ^ n -
+        (n : Real) * x ^ m * (1 - x) ^ (n - 1) = 0
+  rw [hxm, hyn]
+  calc
+    (m : Real) * x ^ (m - 1) * ((1 - x) ^ (n - 1) * (1 - x)) -
+        (n : Real) * (x ^ (m - 1) * x) * (1 - x) ^ (n - 1)
+        = x ^ (m - 1) * (1 - x) ^ (n - 1) *
+            ((m : Real) * (1 - x) - (n : Real) * x) := by ring
+    _ = 0 := by rw [hlin, mul_zero]
+
+/-- The middle point is a critical point of the auxiliary polynomial. -/
+theorem hasDerivAt_auxPolynomial_middle_zero
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    HasDerivAt (fun y : Real => auxPolynomial m n y) 0
+      ((m : Real) / ((m + n : Nat) : Real)) := by
+  have hder := hasDerivAt_auxPolynomial m n
+    ((m : Real) / ((m + n : Nat) : Real))
+  have hzero := derivativeValue_auxPolynomial_middle_eq_zero hm hn
+  rw [hzero] at hder
+  simpa using hder
+
 /-- The middle point is strictly between zero and one. -/
 theorem middle_mem_unit_interval
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
