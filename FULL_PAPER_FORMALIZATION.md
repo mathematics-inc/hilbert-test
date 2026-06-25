@@ -66,6 +66,12 @@ positivity and AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
 Lemma 2.1.
 
+`HilbertTest/SourceStack/FieldTheory.lean` checks the pure field-theory
+building blocks behind the Lemma 2.4 reduction, including primitive elements,
+finite adjoining, separability, normal/Galois splitting, conjugacy by
+automorphisms in normal extensions, and the minimal-polynomial degree drop for
+roots of a derivative.
+
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,

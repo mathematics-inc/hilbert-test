@@ -1,6 +1,7 @@
 import Mathlib.FieldTheory.PrimitiveElement
 import Mathlib.FieldTheory.SeparableClosure
 import Mathlib.FieldTheory.Galois.Basic
+import Mathlib.Algebra.Polynomial.Derivative
 
 /-!
 Field-theory source wrappers for the recursive Belyi stack.
@@ -103,6 +104,34 @@ extension degree. -/
 theorem minpoly_degree_dvd {x : E} (hx : IsIntegral F x) :
     (minpoly F x).natDegree ∣ Module.finrank F E :=
   minpoly.degree_dvd hx
+
+/-- If `x` is a root of a nonzero polynomial, then its minimal-polynomial
+degree is bounded by the polynomial degree.  This is the algebraic degree bound
+used in Mochizuki Lemma 2.4. -/
+theorem minpoly_natDegree_le_of_aeval_eq_zero
+    (x : E) {p : F[X]} (hp0 : p ≠ 0)
+    (hp : Polynomial.aeval x p = 0) :
+    (minpoly F x).natDegree ≤ p.natDegree :=
+  Polynomial.natDegree_le_of_dvd (minpoly.dvd F x hp) hp0
+
+/-- A root of the derivative has minimal-polynomial degree bounded by the
+degree of that derivative, provided the derivative is nonzero. -/
+theorem minpoly_natDegree_le_derivative_of_aeval_eq_zero
+    (x : E) {p : F[X]} (hpder : p.derivative ≠ 0)
+    (hp : Polynomial.aeval x p.derivative = 0) :
+    (minpoly F x).natDegree ≤ p.derivative.natDegree :=
+  minpoly_natDegree_le_of_aeval_eq_zero F E x hpder hp
+
+/-- Roots of a nonzero derivative of a positive-degree polynomial have
+minimal-polynomial degree strictly less than the original polynomial degree. -/
+theorem minpoly_natDegree_lt_of_derivative_root
+    (x : E) {p : F[X]} (hpdeg : p.natDegree ≠ 0)
+    (hpder : p.derivative ≠ 0)
+    (hp : Polynomial.aeval x p.derivative = 0) :
+    (minpoly F x).natDegree < p.natDegree :=
+  lt_of_le_of_lt
+    (minpoly_natDegree_le_derivative_of_aeval_eq_zero F E x hpder hp)
+    (Polynomial.natDegree_derivative_lt hpdeg)
 
 /-- A Galois extension is exactly a separable normal extension. -/
 theorem galois_iff :

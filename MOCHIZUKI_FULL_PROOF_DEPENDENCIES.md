@@ -68,7 +68,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   the equivalences describing field-valued and local-ring-valued points.
 - `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
   separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
-  field, conjugacy-by-automorphism, and normal-tower restriction wrappers
+  field, conjugacy-by-automorphism, normal-tower restriction wrappers, and the
+  minimal-polynomial degree bound/derivative-root degree drop used in Lemma 2.4
   around Mathlib's field theory API.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, closed-immersion and separated/universally
@@ -292,9 +293,10 @@ Lean-facing declarations needed:
   packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.  The underlying primitive-element, separability, normal/Galois,
-  splitting, and minimal-polynomial conjugacy facts are checked in
-  `SourceStack.FieldTheory`; what remains is the `P^1(Qbar)` point/model layer
-  and rational-map packaging needed to apply those field facts to Belyi maps.
+  splitting, minimal-polynomial conjugacy, and derivative-root degree-drop facts
+  are checked in `SourceStack.FieldTheory`; what remains is the `P^1(Qbar)`
+  point/model layer and rational-map packaging needed to apply those field facts
+  to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 

@@ -906,6 +906,25 @@ theorem hilbert_minpoly_degree_dvd {x : E} (hx : IsIntegral F x) :
     (minpoly F x).natDegree ∣ Module.finrank F E := by
   exact SourceStack.FieldTheory.minpoly_degree_dvd F E hx
 
+theorem hilbert_minpoly_natDegree_le_of_aeval_eq_zero
+    (x : E) {p : F[X]} (hp0 : p ≠ 0)
+    (hp : Polynomial.aeval x p = 0) :
+    (minpoly F x).natDegree ≤ p.natDegree := by
+  exact SourceStack.FieldTheory.minpoly_natDegree_le_of_aeval_eq_zero F E x hp0 hp
+
+theorem hilbert_minpoly_natDegree_le_derivative_of_aeval_eq_zero
+    (x : E) {p : F[X]} (hpder : p.derivative ≠ 0)
+    (hp : Polynomial.aeval x p.derivative = 0) :
+    (minpoly F x).natDegree ≤ p.derivative.natDegree := by
+  exact SourceStack.FieldTheory.minpoly_natDegree_le_derivative_of_aeval_eq_zero F E x hpder hp
+
+theorem hilbert_minpoly_natDegree_lt_of_derivative_root
+    (x : E) {p : F[X]} (hpdeg : p.natDegree ≠ 0)
+    (hpder : p.derivative ≠ 0)
+    (hp : Polynomial.aeval x p.derivative = 0) :
+    (minpoly F x).natDegree < p.natDegree := by
+  exact SourceStack.FieldTheory.minpoly_natDegree_lt_of_derivative_root F E x hpdeg hpder hp
+
 theorem hilbert_galois_iff :
     IsGalois F E ↔ Algebra.IsSeparable F E ∧ Normal F E := by
   exact SourceStack.FieldTheory.galois_iff F E
