@@ -46,7 +46,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
   separability equivalences over essentially finite type field extensions.
-- `HilbertTest.SourceStack.Topology`: compact image and finite-subcover facts.
+- `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
+  topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
 - `data/belyi_source_stack`, `data/belyi1980_polynomial`, and
@@ -246,8 +247,9 @@ Lean-facing declarations needed:
   when second countable/countable dense hypotheses are available.
 - continuous image of a compact set is compact.  This topological step is already
   checked in `SourceStack.Topology`; the proper-morphism-to-proper-map bridge is
-  checked in `SourceStack.Schemes`; the missing step is the local-field point
-  topology and proper-variety compactness theorem.
+  checked in `SourceStack.Schemes`; topological proper-map compact-preimage
+  facts are also checked in `SourceStack.Topology`; the missing step is the
+  local-field point topology and proper-variety compactness theorem.
 
 ## Dependency order for actual implementation
 

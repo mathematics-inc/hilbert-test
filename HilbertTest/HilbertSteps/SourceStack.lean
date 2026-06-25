@@ -119,6 +119,33 @@ theorem hilbert_compact_elim_finite_subcover_indexed
     ∃ b' : Set ι, b' ⊆ b ∧ Set.Finite b' ∧ s ⊆ ⋃ i ∈ b', c i := by
   exact SourceStack.compact_elim_finite_subcover_indexed hs hcopen hcover
 
+theorem hilbert_properMap_preimage_compact
+    {K : Set Y} (hf : IsProperMap f) (hK : IsCompact K) :
+    IsCompact (f ⁻¹' K) := by
+  exact SourceStack.properMap_preimage_compact hf hK
+
+theorem hilbert_properMap_isClosedMap
+    (hf : IsProperMap f) :
+    IsClosedMap f := by
+  exact SourceStack.properMap_isClosedMap hf
+
+theorem hilbert_properMap_comp
+    {Z : Type*} [TopologicalSpace Z] {g : Y → Z}
+    (hf : IsProperMap f) (hg : IsProperMap g) :
+    IsProperMap (g ∘ f) := by
+  exact SourceStack.properMap_comp hf hg
+
+theorem hilbert_closedEmbedding_isProperMap
+    (hf : Topology.IsClosedEmbedding f) :
+    IsProperMap f := by
+  exact SourceStack.closedEmbedding_isProperMap hf
+
+theorem hilbert_continuous_isProperMap_of_compactSpace
+    [CompactSpace X] [T2Space Y]
+    (hf : Continuous f) :
+    IsProperMap f := by
+  exact SourceStack.continuous_isProperMap_of_compactSpace hf
+
 end Topology
 
 namespace ProjectiveLine
