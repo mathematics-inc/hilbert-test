@@ -1998,6 +1998,54 @@ theorem hilbert_rationalMap_fromFunctionField_ofFunctionField
     (Scheme.RationalMap.ofFunctionField sX sY f h).fromFunctionField = f := by
   exact SourceStack.RationalMaps.rationalMap_fromFunctionField_ofFunctionField sX sY f h
 
+theorem hilbert_p1RationalMap_exists_rep
+    (K : Type u) [CommRing K] (f : X ⤏ SourceStack.SchemeProjectiveLine.P1 K) :
+    ∃ g : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K), g.toRationalMap = f := by
+  exact SourceStack.RationalMaps.p1RationalMap_exists_rep K f
+
+theorem hilbert_p1PartialMap_toRationalMap_eq_iff
+    (K : Type u) [CommRing K]
+    {f g : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)} :
+    f.toRationalMap = g.toRationalMap ↔ f.equiv g := by
+  exact SourceStack.RationalMaps.p1PartialMap_toRationalMap_eq_iff K
+
+theorem hilbert_p1PartialMap_dense_domain
+    (K : Type u) [CommRing K]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :
+    Dense (f.domain : Set X) := by
+  exact SourceStack.RationalMaps.p1PartialMap_dense_domain K f
+
+theorem hilbert_p1RationalMap_dense_domain
+    (K : Type u) [CommRing K] (f : X ⤏ SourceStack.SchemeProjectiveLine.P1 K) :
+    Dense (f.domain : Set X) := by
+  exact SourceStack.RationalMaps.p1RationalMap_dense_domain K f
+
+theorem hilbert_p1RationalMap_toRationalMap_toPartialMap
+    (K : Type u) [CommRing K] [IsReduced X]
+    (f : X ⤏ SourceStack.SchemeProjectiveLine.P1 K) :
+    f.toPartialMap.toRationalMap = f := by
+  exact SourceStack.RationalMaps.p1RationalMap_toRationalMap_toPartialMap K f
+
+theorem hilbert_p1PartialMap_fromFunctionField_restrict
+    (K : Type u) [CommRing K] [IrreducibleSpace X]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    {U : X.Opens} (hU : Dense (U : Set X)) (hU' : U ≤ f.domain) :
+    (f.restrict U hU hU').fromFunctionField = f.fromFunctionField := by
+  exact SourceStack.RationalMaps.p1PartialMap_fromFunctionField_restrict K f hU hU'
+
+theorem hilbert_p1RationalMap_fromFunctionField_toRationalMap
+    (K : Type u) [CommRing K] [IrreducibleSpace X]
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K)) :
+    f.toRationalMap.fromFunctionField = f.fromFunctionField := by
+  exact SourceStack.RationalMaps.p1RationalMap_fromFunctionField_toRationalMap K f
+
+theorem hilbert_p1RationalMap_eq_of_fromFunctionField_eq
+    (K : Type u) [CommRing K] [IsIntegral X]
+    (f g : X ⤏ SourceStack.SchemeProjectiveLine.P1 K)
+    (H : f.fromFunctionField = g.fromFunctionField) :
+    f = g := by
+  exact SourceStack.RationalMaps.p1RationalMap_eq_of_fromFunctionField_eq K f g H
+
 end RationalMaps
 
 namespace FunctionFields
