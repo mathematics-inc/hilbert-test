@@ -129,6 +129,12 @@ theorem finite_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsFinite) :=
   inferInstance
 
+/-- Finite morphisms stay finite after restricting the target to an open. -/
+theorem finite_restrict
+    (f : X ⟶ Y) [IsFinite f] (U : Y.Opens) :
+    IsFinite (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsFinite) (f := f) inferInstance U
+
 /-- Smooth morphisms are stable under composition. -/
 theorem smooth_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -141,6 +147,12 @@ theorem smooth_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSmooth) :=
   AlgebraicGeometry.isSmooth_isStableUnderBaseChange
 
+/-- Smooth morphisms stay smooth after restricting the target to an open. -/
+theorem smooth_restrict
+    (f : X ⟶ Y) [IsSmooth f] (U : Y.Opens) :
+    IsSmooth (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsSmooth) (f := f) inferInstance U
+
 /-- Separated morphisms are stable under composition. -/
 theorem separated_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -152,6 +164,13 @@ theorem separated_comp
 theorem separated_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSeparated) :=
   inferInstance
+
+/-- Separated morphisms stay separated after restricting the target to an
+open. -/
+theorem separated_restrict
+    (f : X ⟶ Y) [IsSeparated f] (U : Y.Opens) :
+    IsSeparated (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsSeparated) (f := f) inferInstance U
 
 /-- Universally closed morphisms are stable under composition. -/
 theorem universallyClosed_comp
@@ -183,6 +202,12 @@ theorem proper_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsProper) :=
   inferInstance
 
+/-- Proper morphisms stay proper after restricting the target to an open. -/
+theorem proper_restrict
+    (f : X ⟶ Y) [IsProper f] (U : Y.Opens) :
+    IsProper (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsProper) (f := f) inferInstance U
+
 /-- A universally closed morphism has a topologically proper underlying map. -/
 theorem universally_closed_isProperMap
     (f : X ⟶ Y) [UniversallyClosed f] :
@@ -206,6 +231,12 @@ theorem etale_comp
 theorem etale_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsEtale) :=
   inferInstance
+
+/-- Étale morphisms stay étale after restricting the target to an open. -/
+theorem etale_restrict
+    (f : X ⟶ Y) [IsEtale f] (U : Y.Opens) :
+    IsEtale (f ∣_ U) :=
+  IsLocalAtTarget.restrict (P := @IsEtale) (f := f) inferInstance U
 
 end Schemes
 end SourceStack

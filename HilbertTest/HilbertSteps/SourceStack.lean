@@ -2289,6 +2289,11 @@ theorem hilbert_finite_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsFinite) := by
   exact SourceStack.Schemes.finite_stable_under_base_change
 
+theorem hilbert_finite_restrict
+    (f : X ⟶ Y) [IsFinite f] (U : Y.Opens) :
+    IsFinite (f ∣_ U) := by
+  exact SourceStack.Schemes.finite_restrict f U
+
 theorem hilbert_smooth_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsSmooth f] [IsSmooth g] :
@@ -2299,6 +2304,11 @@ theorem hilbert_smooth_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSmooth) := by
   exact SourceStack.Schemes.smooth_stable_under_base_change
 
+theorem hilbert_smooth_restrict
+    (f : X ⟶ Y) [IsSmooth f] (U : Y.Opens) :
+    IsSmooth (f ∣_ U) := by
+  exact SourceStack.Schemes.smooth_restrict f U
+
 theorem hilbert_separated_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsSeparated f] [IsSeparated g] :
@@ -2308,6 +2318,11 @@ theorem hilbert_separated_comp
 theorem hilbert_separated_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsSeparated) := by
   exact SourceStack.Schemes.separated_stable_under_base_change
+
+theorem hilbert_separated_restrict
+    (f : X ⟶ Y) [IsSeparated f] (U : Y.Opens) :
+    IsSeparated (f ∣_ U) := by
+  exact SourceStack.Schemes.separated_restrict f U
 
 theorem hilbert_universallyClosed_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -2334,6 +2349,11 @@ theorem hilbert_proper_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsProper) := by
   exact SourceStack.Schemes.proper_stable_under_base_change
 
+theorem hilbert_proper_restrict
+    (f : X ⟶ Y) [IsProper f] (U : Y.Opens) :
+    IsProper (f ∣_ U) := by
+  exact SourceStack.Schemes.proper_restrict f U
+
 theorem hilbert_universally_closed_isProperMap
     (f : X ⟶ Y) [UniversallyClosed f] :
     IsProperMap f.base := by
@@ -2353,6 +2373,11 @@ theorem hilbert_etale_comp
 theorem hilbert_etale_stable_under_base_change :
     MorphismProperty.IsStableUnderBaseChange (@IsEtale) := by
   exact SourceStack.Schemes.etale_stable_under_base_change
+
+theorem hilbert_etale_restrict
+    (f : X ⟶ Y) [IsEtale f] (U : Y.Opens) :
+    IsEtale (f ∣_ U) := by
+  exact SourceStack.Schemes.etale_restrict f U
 
 end Schemes
 

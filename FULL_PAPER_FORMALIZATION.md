@@ -89,7 +89,9 @@ basic topological proper-map compact-preimage/composition/closed-map wrappers.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
-type, smooth, etale, and separated.
+type, smooth, etale, and separated.  It also checks that finite, smooth,
+separated, proper, and etale morphisms keep those properties after restricting
+the target to an open subscheme.
 
 The checked output is:
 
