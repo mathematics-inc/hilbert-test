@@ -535,6 +535,16 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_complement
           E.toBelyiCoverData.belyiOpen φ ⊆ Aᶜ := by
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_complement E hA hxA
 
+theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space P] {V : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ E.toBelyiCoverData.belyiOpen φ ∧
+          E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_finite_complement
+    E hV hVcompl hxV
+
 end BelyiCovers
 
 section SchemeBelyi

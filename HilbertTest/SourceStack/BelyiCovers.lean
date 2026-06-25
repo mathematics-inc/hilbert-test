@@ -201,6 +201,23 @@ theorem exists_belyiOpen_inside_complement
   rcases D.exists_for_finite_disjoint hA hsingleton hdis with ⟨φ, hφA, hφx⟩
   exact ⟨φ, hφA, hφx x (by simp)⟩
 
+/-- Abstract finite-complement form of Mochizuki Corollary 1.2: if a target
+open set has finite complement and contains `x`, then the Theorem 2.5-style
+existence interface supplies a Belyi open containing `x` and contained in that
+open set.  The missing curve-specific input is that opens in a proper smooth
+curve have finite complement. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space P] {V : Set X} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  rcases D.exists_belyiOpen_inside_complement hVcompl
+      (show x ∉ Vᶜ by simpa using hxV) with
+    ⟨φ, hopen, hx, hsubset⟩
+  exact ⟨φ, hopen, hx, by simpa only [compl_compl] using hsubset⟩
+
 end NoncriticalBelyiExistence
 
 end SourceStack

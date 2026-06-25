@@ -127,7 +127,8 @@ branch set, its Belyi open is open, contains the point, and is contained in
 It now includes a `NoncriticalBelyiExistence` interface matching the finite
 disjoint-set conclusion of Theorem 2.5 and proves from it the pointwise
 tuple-cover hypothesis and finite-subcover conclusion over `X \ S`, as well as
-the finite-complement Belyi-open statement behind Corollary 1.2.
+the explicit-complement and open-with-finite-complement Belyi-open statements
+behind Corollary 1.2.
 
 `HilbertTest/SourceStack/SchemeBelyi.lean` now formalizes the scheme-level
 abstract part of Definition 1.1: a target scheme with a branch-complement open,
