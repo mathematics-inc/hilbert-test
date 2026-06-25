@@ -77,6 +77,40 @@ theorem hilbert_beta_le_two_mul_belyi_aux_of_beta_ge_two
     beta <= 2 * NoncriticalBelyi.belyiAux m n beta := by
   exact NoncriticalBelyi.beta_le_two_mul_belyi_aux_of_beta_ge_two hm hn hbeta
 
+theorem hilbert_half_square_ge_self_of_ge_two
+    {y : Real} (hy : 2 <= y) :
+    y <= (1 / 2) * y ^ 2 := by
+  exact NoncriticalBelyi.half_square_ge_self_of_ge_two hy
+
+theorem hilbert_offset_ratio_ge_half_denominator_ratio
+    {A B t : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_pos : 0 < B)
+    (ht_nonneg : 0 <= t)
+    (ht_le_B : t <= B) :
+    A / (2 * B) <= (A + t) / (B + t) := by
+  exact NoncriticalBelyi.offset_ratio_ge_half_denominator_ratio
+    hA_nonneg hB_pos ht_nonneg ht_le_B
+
+theorem hilbert_offset_ratio_ge_div_two_offset
+    {A B t : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_nonneg : 0 <= B)
+    (ht_pos : 0 < t)
+    (hB_le_t : B <= t) :
+    A / (2 * t) <= (A + t) / (B + t) := by
+  exact NoncriticalBelyi.offset_ratio_ge_div_two_offset
+    hA_nonneg hB_nonneg ht_pos hB_le_t
+
+theorem hilbert_two_mul_le_div_two_offset_of_offset_le_quarter
+    {A t : Real}
+    (hA_nonneg : 0 <= A)
+    (ht_pos : 0 < t)
+    (ht_le_quarter : t <= 1 / 4) :
+    2 * A <= A / (2 * t) := by
+  exact NoncriticalBelyi.two_mul_le_div_two_offset_of_offset_le_quarter
+    hA_nonneg ht_pos ht_le_quarter
+
 theorem hilbert_abs_belyi_aux_le_one_on_unit_interval
     {m n : Nat} {x : Real}
     (hm : 1 <= m)

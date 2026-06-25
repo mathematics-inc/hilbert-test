@@ -15,7 +15,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 
 - `HilbertTest.NoncriticalBelyi.Elementary`: elementary real inequalities from
   Mochizuki Lemma 2.1, including ratio bounds, unit-interval bounds, and
-  domination of `beta` by the auxiliary polynomial at `beta >= 2`.
+  domination of `beta` by the auxiliary polynomial at `beta >= 2`, plus the
+  odd-case offset-ratio estimates.
 - `HilbertTest.Belyi1980.Polynomial`: the Belyi 1980 polynomial derivative,
   the middle critical point, normalized value `1`, and the middle-value
   positivity/`<= 1/4` bound used for Mochizuki Lemma 2.1.

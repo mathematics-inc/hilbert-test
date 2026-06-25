@@ -165,6 +165,54 @@ theorem beta_le_two_mul_belyi_aux_of_beta_ge_two
   have hnonneg : 0 <= belyiAux m n beta := by nlinarith [hmain, hbeta]
   nlinarith
 
+theorem half_square_ge_self_of_ge_two
+    {y : Real} (hy : 2 <= y) :
+    y <= (1 / 2) * y ^ 2 := by
+  nlinarith [sq_nonneg y, mul_nonneg (by nlinarith : 0 <= y) (by nlinarith : 0 <= y - 2)]
+
+theorem offset_ratio_ge_half_denominator_ratio
+    {A B t : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_pos : 0 < B)
+    (ht_nonneg : 0 <= t)
+    (ht_le_B : t <= B) :
+    A / (2 * B) <= (A + t) / (B + t) := by
+  have hleft_pos : 0 < 2 * B := by positivity
+  have hright_pos : 0 < B + t := by nlinarith
+  rw [div_le_div_iff₀ hleft_pos hright_pos]
+  have hA_gap : 0 <= A * (B - t) := by
+    exact mul_nonneg hA_nonneg (sub_nonneg.mpr ht_le_B)
+  have hBt : 0 <= B * t := by
+    exact mul_nonneg hB_pos.le ht_nonneg
+  nlinarith
+
+theorem offset_ratio_ge_div_two_offset
+    {A B t : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_nonneg : 0 <= B)
+    (ht_pos : 0 < t)
+    (hB_le_t : B <= t) :
+    A / (2 * t) <= (A + t) / (B + t) := by
+  have hleft_pos : 0 < 2 * t := by positivity
+  have hright_pos : 0 < B + t := by nlinarith
+  rw [div_le_div_iff₀ hleft_pos hright_pos]
+  have hAB_le_At : A * B <= A * t := by
+    exact mul_le_mul_of_nonneg_left hB_le_t hA_nonneg
+  have ht_sq_nonneg : 0 <= t * t := mul_nonneg ht_pos.le ht_pos.le
+  nlinarith
+
+theorem two_mul_le_div_two_offset_of_offset_le_quarter
+    {A t : Real}
+    (hA_nonneg : 0 <= A)
+    (ht_pos : 0 < t)
+    (ht_le_quarter : t <= 1 / 4) :
+    2 * A <= A / (2 * t) := by
+  have hden_pos : 0 < 2 * t := by positivity
+  rw [le_div_iff₀ hden_pos]
+  have hfour_t : 4 * t <= 1 := by nlinarith
+  have hmul := mul_le_mul_of_nonneg_right hfour_t hA_nonneg
+  nlinarith
+
 theorem abs_belyi_aux_le_one_on_unit_interval
     (_hm : 1 <= m)
     (_hn : 1 <= n)
