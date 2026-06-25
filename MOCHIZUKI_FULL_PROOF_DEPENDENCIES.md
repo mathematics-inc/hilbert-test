@@ -71,6 +71,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   field, conjugacy-by-automorphism, normal-tower restriction wrappers, and the
   minimal-polynomial degree bound/derivative-root degree drop used in Lemma 2.4
   around Mathlib's field theory API.
+- `HilbertTest.SourceStack.PolynomialMaps`: finiteness of derivative root sets,
+  derivative-root membership by evaluation, finite polynomial images, and
+  finiteness of the Lemma 2.4 replacement set `p(S) ∪ p(rootSet p')`.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, closed-immersion and separated/universally
   closed bridges, plus the bridge from proper scheme morphisms to topologically
@@ -294,9 +297,11 @@ Lean-facing declarations needed:
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.  The underlying primitive-element, separability, normal/Galois,
   splitting, minimal-polynomial conjugacy, and derivative-root degree-drop facts
-  are checked in `SourceStack.FieldTheory`; what remains is the `P^1(Qbar)`
-  point/model layer and rational-map packaging needed to apply those field facts
-  to Belyi maps.
+  are checked in `SourceStack.FieldTheory`; finite polynomial images and the
+  finite replacement set `p(S) ∪ p(rootSet p')` are checked in
+  `SourceStack.PolynomialMaps`; what remains is the `P^1(Qbar)` point/model
+  layer and rational-map packaging needed to apply those field facts to Belyi
+  maps.
 
 ### G. Field of definition and Galois conjugacy
 

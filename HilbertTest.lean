@@ -11,6 +11,7 @@ import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
+import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr

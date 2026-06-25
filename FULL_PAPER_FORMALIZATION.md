@@ -72,6 +72,11 @@ finite adjoining, separability, normal/Galois splitting, conjugacy by
 automorphisms in normal extensions, and the minimal-polynomial degree drop for
 roots of a derivative.
 
+`HilbertTest/SourceStack/PolynomialMaps.lean` checks the finite-set bookkeeping
+for the same Lemma 2.4 reduction: derivative root sets are finite, nonzero
+derivative root membership is evaluation to zero, polynomial images of finite
+sets are finite, and `p(S) ∪ p(rootSet p')` is finite.
+
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,

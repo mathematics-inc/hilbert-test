@@ -8,6 +8,7 @@ import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
 import HilbertTest.SourceStack.FieldTheory
+import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -986,6 +987,33 @@ theorem hilbert_restrictNormalHom_surjective
   exact SourceStack.FieldTheory.restrictNormalHom_surjective F E K
 
 end FieldTheory
+
+namespace PolynomialMaps
+
+universe u v
+
+variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
+
+theorem hilbert_derivative_rootSet_finite (p : F[X]) :
+    (p.derivative.rootSet E).Finite := by
+  exact SourceStack.PolynomialMaps.derivative_rootSet_finite F E p
+
+theorem hilbert_mem_derivative_rootSet_iff {p : F[X]} (hpder : p.derivative ≠ 0)
+    (x : E) :
+    x ∈ p.derivative.rootSet E ↔ Polynomial.aeval x p.derivative = 0 := by
+  exact SourceStack.PolynomialMaps.mem_derivative_rootSet_iff F E hpder x
+
+theorem hilbert_polynomial_image_finite {S : Set E} (hS : S.Finite) (p : F[X]) :
+    ((fun x : E => Polynomial.aeval x p) '' S).Finite := by
+  exact SourceStack.PolynomialMaps.polynomial_image_finite F E hS p
+
+theorem hilbert_polynomial_image_union_derivative_root_image_finite
+    {S : Set E} (hS : S.Finite) (p : F[X]) :
+    (((fun x : E => Polynomial.aeval x p) '' S) ∪
+      ((fun x : E => Polynomial.aeval x p) '' p.derivative.rootSet E)).Finite := by
+  exact SourceStack.PolynomialMaps.polynomial_image_union_derivative_root_image_finite F E hS p
+
+end PolynomialMaps
 
 namespace UnramifiedEtale
 
