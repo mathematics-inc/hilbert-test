@@ -1053,6 +1053,33 @@ theorem hilbert_not_mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
         y ∉ SourceStack.PolynomialMaps.criticalValueSet F E p := by
   exact SourceStack.PolynomialMaps.not_mem_replacementSet_iff F E p y
 
+theorem hilbert_aeval_ne_of_not_mem_imageSet {S : Set E} {p : F[X]} {x y : E}
+    (hy : y ∉ SourceStack.PolynomialMaps.imageSet F E S p) (hx : x ∈ S) :
+    Polynomial.aeval x p ≠ y := by
+  exact SourceStack.PolynomialMaps.aeval_ne_of_not_mem_imageSet F E hy hx
+
+theorem hilbert_aeval_ne_of_not_mem_replacementSet
+    {S : Set E} {p : F[X]} {x y : E}
+    (hy : y ∉ SourceStack.PolynomialMaps.replacementSet F E S p) (hx : x ∈ S) :
+    Polynomial.aeval x p ≠ y := by
+  exact SourceStack.PolynomialMaps.aeval_ne_of_not_mem_replacementSet F E hy hx
+
+theorem hilbert_derivative_aeval_ne_zero_of_value_not_mem_criticalValueSet
+    {p : F[X]} (hpder : p.derivative ≠ 0) {x y : E}
+    (hy : y ∉ SourceStack.PolynomialMaps.criticalValueSet F E p)
+    (hxy : Polynomial.aeval x p = y) :
+    Polynomial.aeval x p.derivative ≠ 0 := by
+  exact SourceStack.PolynomialMaps.derivative_aeval_ne_zero_of_value_not_mem_criticalValueSet
+    F E hpder hy hxy
+
+theorem hilbert_derivative_aeval_ne_zero_of_value_not_mem_replacementSet
+    {S : Set E} {p : F[X]} (hpder : p.derivative ≠ 0) {x y : E}
+    (hy : y ∉ SourceStack.PolynomialMaps.replacementSet F E S p)
+    (hxy : Polynomial.aeval x p = y) :
+    Polynomial.aeval x p.derivative ≠ 0 := by
+  exact SourceStack.PolynomialMaps.derivative_aeval_ne_zero_of_value_not_mem_replacementSet
+    F E hpder hy hxy
+
 end PolynomialMaps
 
 namespace UnramifiedEtale

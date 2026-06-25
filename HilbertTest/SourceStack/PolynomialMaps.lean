@@ -111,6 +111,40 @@ theorem not_mem_replacementSet_iff {S : Set E} (p : F[X]) (y : E) :
       y ∉ imageSet F E S p ∧ y ∉ criticalValueSet F E p := by
   simp [replacementSet]
 
+/-- If `y` is outside the image of `S`, no point of `S` evaluates to `y`. -/
+theorem aeval_ne_of_not_mem_imageSet {S : Set E} {p : F[X]} {x y : E}
+    (hy : y ∉ imageSet F E S p) (hx : x ∈ S) :
+    Polynomial.aeval x p ≠ y := by
+  intro hxy
+  exact hy ⟨x, hx, hxy⟩
+
+/-- If `y` is outside the replacement set, no point of the original set
+evaluates to `y`. -/
+theorem aeval_ne_of_not_mem_replacementSet {S : Set E} {p : F[X]} {x y : E}
+    (hy : y ∉ replacementSet F E S p) (hx : x ∈ S) :
+    Polynomial.aeval x p ≠ y :=
+  aeval_ne_of_not_mem_imageSet F E ((not_mem_replacementSet_iff F E p y).1 hy).1 hx
+
+/-- If `y` is not a critical value, then every preimage of `y` has nonzero
+formal derivative. -/
+theorem derivative_aeval_ne_zero_of_value_not_mem_criticalValueSet
+    {p : F[X]} (hpder : p.derivative ≠ 0) {x y : E}
+    (hy : y ∉ criticalValueSet F E p) (hxy : Polynomial.aeval x p = y) :
+    Polynomial.aeval x p.derivative ≠ 0 := by
+  intro hder
+  exact hy (by
+    simpa [hxy] using
+      (mem_criticalValueSet_of_derivative_aeval_eq_zero F E hpder hder))
+
+/-- If `y` is outside the replacement set, then every preimage of `y` has
+nonzero formal derivative. -/
+theorem derivative_aeval_ne_zero_of_value_not_mem_replacementSet
+    {S : Set E} {p : F[X]} (hpder : p.derivative ≠ 0) {x y : E}
+    (hy : y ∉ replacementSet F E S p) (hxy : Polynomial.aeval x p = y) :
+    Polynomial.aeval x p.derivative ≠ 0 :=
+  derivative_aeval_ne_zero_of_value_not_mem_criticalValueSet F E hpder
+    ((not_mem_replacementSet_iff F E p y).1 hy).2 hxy
+
 end PolynomialMaps
 end SourceStack
 end HilbertTest
