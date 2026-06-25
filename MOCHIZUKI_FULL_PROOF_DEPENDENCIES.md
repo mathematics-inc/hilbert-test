@@ -78,9 +78,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   derivative-nonvanishing wrappers; also composition evaluation and chain-rule
   derivative-nonvanishing wrappers.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
-  stability wrappers around Mathlib, closed-immersion and separated/universally
-  closed bridges, plus the bridge from proper scheme morphisms to topologically
-  proper underlying maps.
+  stability wrappers around Mathlib, open-immersion composition/mono/etale/
+  smooth/separated/finite-type wrappers, closed-immersion and
+  separated/universally closed bridges, plus the bridge from proper scheme
+  morphisms to topologically proper underlying maps.
 - `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
@@ -264,9 +265,10 @@ Lean-facing declarations needed:
 The ring-theoretic ramification and inertia facts needed below this geometric
 branch-locus layer are now checked in `SourceStack.Ramification`, and the
 Dedekind/DVR local algebra underneath codimension-one ramification is checked in
-`SourceStack.DedekindDvr`; the missing piece is still the curve/scheme
-specialization that turns local ramification indices into branch-locus
-statements for finite maps of smooth curves.
+`SourceStack.DedekindDvr`; open-immersion wrappers for open restrictions are
+checked in `SourceStack.Schemes`; the missing piece is still the curve/scheme
+specialization that turns local ramification indices into branch-locus statements
+for finite maps of smooth curves.
 
 ### F. `P^1` rational-function layer
 

@@ -2,6 +2,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.Finite
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.AlgebraicGeometry.Morphisms.Etale
+import Mathlib.AlgebraicGeometry.Morphisms.OpenImmersion
 
 /-!
 Source-stack scheme-morphism lemmas corresponding to Stacks Project facts used
@@ -23,6 +24,43 @@ open AlgebraicGeometry
 universe u
 
 variable {X Y Z : Scheme.{u}}
+
+/-- Open immersions are stable under composition. -/
+theorem openImmersion_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsOpenImmersion f] [IsOpenImmersion g] :
+    IsOpenImmersion (f ≫ g) :=
+  inferInstance
+
+/-- Open immersions are monomorphisms. -/
+theorem openImmersion_mono
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    Mono f :=
+  inferInstance
+
+/-- Open immersions are locally of finite type. -/
+theorem openImmersion_locallyOfFiniteType
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    LocallyOfFiniteType f :=
+  inferInstance
+
+/-- Open immersions are smooth morphisms. -/
+theorem openImmersion_isSmooth
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsSmooth f :=
+  inferInstance
+
+/-- Open immersions are étale morphisms. -/
+theorem openImmersion_isEtale
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsEtale f :=
+  inferInstance
+
+/-- Open immersions are separated morphisms. -/
+theorem openImmersion_isSeparated
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsSeparated f :=
+  inferInstance
 
 /-- Closed immersions are stable under composition. -/
 theorem closedImmersion_comp

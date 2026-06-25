@@ -87,6 +87,10 @@ maps, finite subcovers, finite unions of compact subsets and compact images,
 coordinate projections of compact product subsets, compactness of products, and
 basic topological proper-map compact-preimage/composition/closed-map wrappers.
 
+`HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
+needed for Belyi open restrictions: composition, monomorphism, locally finite
+type, smooth, etale, and separated.
+
 The checked output is:
 
 ```text

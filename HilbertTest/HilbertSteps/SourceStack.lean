@@ -2203,6 +2203,37 @@ universe u
 
 variable {X Y Z : Scheme.{u}}
 
+theorem hilbert_openImmersion_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [IsOpenImmersion f] [IsOpenImmersion g] :
+    IsOpenImmersion (f ≫ g) := by
+  exact SourceStack.Schemes.openImmersion_comp f g
+
+theorem hilbert_openImmersion_mono
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    Mono f := by
+  exact SourceStack.Schemes.openImmersion_mono f
+
+theorem hilbert_openImmersion_locallyOfFiniteType
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    LocallyOfFiniteType f := by
+  exact SourceStack.Schemes.openImmersion_locallyOfFiniteType f
+
+theorem hilbert_openImmersion_isSmooth
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsSmooth f := by
+  exact SourceStack.Schemes.openImmersion_isSmooth f
+
+theorem hilbert_openImmersion_isEtale
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsEtale f := by
+  exact SourceStack.Schemes.openImmersion_isEtale f
+
+theorem hilbert_openImmersion_isSeparated
+    (f : X ⟶ Y) [IsOpenImmersion f] :
+    IsSeparated f := by
+  exact SourceStack.Schemes.openImmersion_isSeparated f
+
 theorem hilbert_closedImmersion_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsClosedImmersion f] [IsClosedImmersion g] :
