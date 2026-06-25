@@ -114,6 +114,16 @@ field scalar-tower bridge.  The remaining missing input is the curve-specific
 divisor and Riemann-Roch machinery that produces the required rational
 functions.
 
+`HilbertTest/SourceStack/ResidueFields.lean` checks the scheme point and
+residue-field source layer available in Mathlib: point evaluation of sections,
+emptiness of basic opens by residue-field evaluation, naturality of evaluations
+under scheme morphisms, residue-field maps and congruences, canonical morphisms
+`Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, descent of local stalk maps to
+residue fields, compatibility of `Spec kappa(x)` maps with `Spec O_{X,x}` maps,
+and equality criteria for field-valued and local-ring-valued point data.  The
+remaining missing input is the specialization of these general facts to
+algebraic points on curves and the marked points of scheme-theoretic `P^1`.
+
 `HilbertTest/SourceStack/ProjectiveSpectrum.lean` checks the general `Proj`
 source layer available in Mathlib: projective basic opens, affine charts,
 affine-open chart ranges, affine basic opens, stalk localization, chart

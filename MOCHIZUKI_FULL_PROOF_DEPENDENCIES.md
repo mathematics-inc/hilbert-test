@@ -78,9 +78,12 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   identification, section/stalk/function-field scalar towers, and
   generic-point behavior under open immersions.
 - `HilbertTest.SourceStack.ResidueFields`: Mathlib residue-field and stalk
-  wrappers for point evaluations, residue-field maps, canonical morphisms
-  `Spec O_{X,x} -> X` and `Spec kappa(x) -> X`, their ranges/functoriality, and
-  the equivalences describing field-valued and local-ring-valued points.
+  wrappers for point evaluations, empty basic opens by residue-field
+  evaluation, evaluation naturality under scheme morphisms, residue-field maps
+  and congruences, canonical morphisms `Spec O_{X,x} -> X` and
+  `Spec kappa(x) -> X`, their ranges/functoriality, descent of local stalk maps
+  to residue fields, compatibility of `Spec kappa(x)` with `Spec O_{X,x}`, and
+  equality criteria for field-valued and local-ring-valued points.
 - `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
   separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
   field, conjugacy-by-automorphism, normal-tower restriction wrappers, and the
