@@ -74,6 +74,11 @@ Formalization use:
   estimate and rational-pole refinement are checked in
   `HilbertTest.SourceStack.ComplexSeparation`; the remaining work is to express
   it as a scheme `P^1` morphism statement.
+- General `Proj` infrastructure for the scheme-theoretic projective line.  This
+  fork now checks Mathlib's projective basic opens, affine charts, chart ranges,
+  stalk localization, and separatedness wrappers in
+  `HilbertTest.SourceStack.ProjectiveSpectrum`; still missing is the specialized
+  `P^1 = Proj k[X,Y]` API and marked-point identification.
 - Polynomial/rational functions whose critical values are controlled.
 - The explicit Belyi polynomial
   `(m+n)^(m+n)/(m^m*n^n) * t^m * (1 - t)^n`
@@ -264,6 +269,7 @@ follows.
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
 | Rational maps/function fields | Mathlib `AlgebraicGeometry.RationalMap`; Mathlib `AlgebraicGeometry.FunctionField`; Stacks Project rational maps and function fields | Checked dense-domain, representative, equivalence, and function-field reconstruction wrappers in `SourceStack.RationalMaps`; checked function-field injection/fraction-field/generic-point wrappers in `SourceStack.FunctionFields`; still needs curve-specific divisors/Riemann-Roch |
 | Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including the image-cardinality drop when the four-point set maps into the branch triple |
+| Scheme-theoretic projective line base | Mathlib `AlgebraicGeometry.ProjectiveSpectrum`; Stacks Project Proj/projective space | Checked general `Proj` basic opens, affine charts, chart ranges, stalk localization, and separatedness in `SourceStack.ProjectiveSpectrum`; still needs the specialized `P^1 = Proj k[X,Y]` marked-point API |
 | Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
 | Finite image cardinality and pigeonhole | Elementary finite-set theory; Mochizuki Lemma 2.2 induction | Checked collision, subset-image drop, and four-points-to-three-images cardinality-drop packages in `SourceStack.FiniteSet` |
 | Algebraic point Galois conjugacy | Mathlib field theory; Stacks Project field extensions; standard primitive-element theorem | Checked primitive-element, finite adjoin, separability, normal/Galois, splitting, minimal-polynomial conjugacy, and normal-tower restriction wrappers in `SourceStack.FieldTheory`; still needs `P^1(Qbar)` point/model bridge |

@@ -2,6 +2,7 @@ import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
+import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.FieldTheory
@@ -25,6 +26,7 @@ namespace HilbertSteps
 open Set
 open CategoryTheory
 open AlgebraicGeometry
+open HomogeneousLocalization
 open scoped TensorProduct
 open scoped IntermediateField Polynomial
 
@@ -289,6 +291,99 @@ theorem hilbert_image_fourPointFinset_card_lt_of_maps_to_branch
     K hr0 hr1 f hmap
 
 end ProjectiveLine
+
+namespace ProjectiveSpectrum
+
+universe u v
+
+variable {R A : Type*} [CommRing R] [CommRing A] [Algebra R A]
+variable (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜]
+
+theorem hilbert_basicOpen_mem_iff
+    (f : A) (x : Proj 𝒜) :
+    x ∈ Proj.basicOpen 𝒜 f ↔ f ∉ x.asHomogeneousIdeal := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_mem_iff 𝒜 f x
+
+theorem hilbert_basicOpen_one_eq_top :
+    Proj.basicOpen 𝒜 (1 : A) = ⊤ := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_one_eq_top 𝒜
+
+theorem hilbert_basicOpen_zero_eq_bot :
+    Proj.basicOpen 𝒜 (0 : A) = ⊥ := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_zero_eq_bot 𝒜
+
+theorem hilbert_basicOpen_pow_eq
+    (f : A) (n : ℕ) (hn : 0 < n) :
+    Proj.basicOpen 𝒜 (f ^ n) = Proj.basicOpen 𝒜 f := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_pow_eq 𝒜 f n hn
+
+theorem hilbert_basicOpen_mul_eq_inf
+    (f g : A) :
+    Proj.basicOpen 𝒜 (f * g) =
+      Proj.basicOpen 𝒜 f ⊓ Proj.basicOpen 𝒜 g := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_mul_eq_inf 𝒜 f g
+
+theorem hilbert_basicOpen_mono_of_dvd
+    {f g : A} (hfg : f ∣ g) :
+    Proj.basicOpen 𝒜 g ≤ Proj.basicOpen 𝒜 f := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_mono_of_dvd 𝒜 hfg
+
+theorem hilbert_basicOpen_eq_iSup_proj
+    (f : A) :
+    Proj.basicOpen 𝒜 f =
+      ⨆ i : ℕ, Proj.basicOpen 𝒜 (GradedAlgebra.proj 𝒜 i f) := by
+  exact SourceStack.ProjectiveSpectrum.basicOpen_eq_iSup_proj 𝒜 f
+
+theorem hilbert_isBasis_basicOpen :
+    TopologicalSpace.Opens.IsBasis (Set.range (Proj.basicOpen 𝒜)) := by
+  exact SourceStack.ProjectiveSpectrum.isBasis_basicOpen 𝒜
+
+theorem hilbert_iSup_basicOpen_eq_top
+    {ι : Type*} (f : ι → A)
+    (hf : (HomogeneousIdeal.irrelevant 𝒜).toIdeal ≤ Ideal.span (Set.range f)) :
+    ⨆ i, Proj.basicOpen 𝒜 (f i) = ⊤ := by
+  exact SourceStack.ProjectiveSpectrum.iSup_basicOpen_eq_top 𝒜 f hf
+
+theorem hilbert_toSpecZero_isSeparated :
+    IsSeparated (Proj.toSpecZero 𝒜) := by
+  exact SourceStack.ProjectiveSpectrum.toSpecZero_isSeparated 𝒜
+
+theorem hilbert_proj_scheme_isSeparated :
+    (Proj 𝒜).IsSeparated := by
+  exact SourceStack.ProjectiveSpectrum.proj_scheme_isSeparated 𝒜
+
+theorem hilbert_awayι_isOpenImmersion
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    IsOpenImmersion (Proj.awayι 𝒜 f f_deg hm) := by
+  exact SourceStack.ProjectiveSpectrum.awayι_isOpenImmersion 𝒜 f f_deg hm
+
+theorem hilbert_opensRange_awayι
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    (Proj.awayι 𝒜 f f_deg hm).opensRange = Proj.basicOpen 𝒜 f := by
+  exact SourceStack.ProjectiveSpectrum.opensRange_awayι 𝒜 f f_deg hm
+
+theorem hilbert_isAffineOpen_basicOpen
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    IsAffineOpen (Proj.basicOpen 𝒜 f) := by
+  exact SourceStack.ProjectiveSpectrum.isAffineOpen_basicOpen 𝒜 f f_deg hm
+
+theorem hilbert_stalkIso_exists
+    (x : Proj 𝒜) :
+    Nonempty ((Proj 𝒜).presheaf.stalk x ≅
+      CommRingCat.of (AtPrime 𝒜 x.asHomogeneousIdeal.toIdeal)) := by
+  exact SourceStack.ProjectiveSpectrum.stalkIso_exists 𝒜 x
+
+theorem hilbert_basicOpenIsoSpec_exists
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    Nonempty ((Proj.basicOpen 𝒜 f).toScheme ≅ Spec (.of (Away 𝒜 f))) := by
+  exact SourceStack.ProjectiveSpectrum.basicOpenIsoSpec_exists 𝒜 f f_deg hm
+
+theorem hilbert_basicOpenIsoAway_exists
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    Nonempty (CommRingCat.of (Away 𝒜 f) ≅ Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)) := by
+  exact SourceStack.ProjectiveSpectrum.basicOpenIsoAway_exists 𝒜 f f_deg hm
+
+end ProjectiveSpectrum
 
 namespace RationalMaps
 

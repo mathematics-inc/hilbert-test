@@ -4,6 +4,7 @@ import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
+import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.FieldTheory
