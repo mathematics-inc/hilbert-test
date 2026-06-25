@@ -181,9 +181,15 @@ three.
 `HilbertTest/SourceStack/MarkedProjectiveLine.lean` now provides a common
 three-label indexing layer for the linear projective-line branch triple and
 the scheme-theoretic marked triple, proving that the label images are the
-existing linear and scheme finsets and that both label maps are injective.  The
-remaining missing input is the bridge from these marked scheme points to
-rational functions and branch-locus statements for morphisms to `P^1`.
+existing linear and scheme finsets and that both label maps are injective.
+
+`HilbertTest/SourceStack/SchemeMarkedBelyi.lean` now specializes the abstract
+Belyi-cover finite-branch-set interface to the checked scheme-theoretic marked
+triple on `Proj K[X0,X1]`, including the specialized cover data, membership in
+the resulting Belyi open as avoidance of the marked triple, and the specialized
+noncritical finite-set existence interface.  The remaining missing input is
+the bridge from these marked scheme points to rational functions and
+branch-locus statements for morphisms to `P^1`.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

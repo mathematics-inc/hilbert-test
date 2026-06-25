@@ -84,6 +84,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.MarkedProjectiveLine`: a common three-label index
   for the linear and scheme-theoretic marked triples, with image equalities to
   the existing finsets and injectivity of both label maps.
+- `HilbertTest.SourceStack.SchemeMarkedBelyi`: specialization of the abstract
+  finite-branch-set cover and noncritical-existence interfaces to the checked
+  scheme-theoretic marked triple on `Proj K[X0,X1]`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -386,8 +389,10 @@ Lean-facing declarations needed:
   three coordinate ideals, and the `Proj` points `[0:1]`, `[1:0]`, and
   `[1:1]`, packaged as a finite marked-point triple; `MarkedProjectiveLine`
   now gives this scheme triple and the linear branch triple a shared injective
-  three-label index.  The missing item is the morphism/rational-function API
-  using these marked points as the branch target.
+  three-label index.  `SchemeMarkedBelyi` now instantiates the abstract
+  finite-branch-set cover interface with this scheme marked triple.  The
+  missing item is the morphism/rational-function API using these marked points
+  as the branch target.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.

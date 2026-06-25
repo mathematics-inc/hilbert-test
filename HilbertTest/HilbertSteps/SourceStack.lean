@@ -6,6 +6,7 @@ import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.SchemeProjectiveLine
 import HilbertTest.SourceStack.MarkedProjectiveLine
+import HilbertTest.SourceStack.SchemeMarkedBelyi
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
 import HilbertTest.SourceStack.ResidueFields
@@ -1576,6 +1577,61 @@ theorem hilbert_linearPointFinset_card_eq_schemePointFinset_card
   exact SourceStack.MarkedProjectiveLine.linearPointFinset_card_eq_schemePointFinset_card K
 
 end MarkedProjectiveLine
+
+namespace SchemeMarkedBelyi
+
+open SourceStack.SchemeMarkedBelyi
+open SourceStack.SchemeProjectiveLine
+
+universe u v w
+
+variable (K : Type u) [CommRing K] [IsDomain K]
+variable (X : Type v) [TopologicalSpace X]
+variable (Φ : Type w)
+variable (map : Φ → X → _root_.ProjectiveSpectrum (grading K))
+variable (continuous_map : ∀ φ, Continuous (map φ))
+
+theorem hilbert_markedCoverData_branch :
+    (markedCoverData K X Φ map continuous_map).branch = markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedCoverData_branch K X Φ map continuous_map
+
+theorem hilbert_markedCoverData_sendsSetToBranch_iff
+    (S : Set X) (φ : Φ) :
+    (markedCoverData K X Φ map continuous_map).sendsSetToBranch S φ ↔
+      ∀ x ∈ S, map φ x ∈ markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedCoverData_sendsSetToBranch_iff
+    K X Φ map continuous_map S φ
+
+theorem hilbert_markedCoverData_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ (markedCoverData K X Φ map continuous_map).belyiOpen φ ↔
+      map φ x ∉ markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedCoverData_mem_belyiOpen_iff
+    K X Φ map continuous_map φ x
+
+theorem hilbert_markedCoverData_branch_finite :
+    (markedCoverData K X Φ map continuous_map).branch.Finite := by
+  exact SourceStack.SchemeMarkedBelyi.markedCoverData_branch_finite
+    K X Φ map continuous_map
+
+variable (exists_for_finite_disjoint :
+  ∀ {S T : Set X}, S.Finite → T.Finite → Disjoint S T →
+    ∃ φ : Φ, (∀ x ∈ S, map φ x ∈ markedPointSet K) ∧
+      ∀ x ∈ T, map φ x ∉ markedPointSet K)
+
+theorem hilbert_markedNoncriticalExistence_branch :
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).branch = markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedNoncriticalExistence_branch
+    K X Φ map continuous_map exists_for_finite_disjoint
+
+theorem hilbert_markedNoncriticalExistence_toCoverData_branch :
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).toBelyiCoverData.branch = markedPointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.markedNoncriticalExistence_toCoverData_branch
+    K X Φ map continuous_map exists_for_finite_disjoint
+
+end SchemeMarkedBelyi
 
 namespace RationalMaps
 
