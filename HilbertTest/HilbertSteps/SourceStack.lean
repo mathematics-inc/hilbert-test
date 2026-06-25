@@ -1,6 +1,7 @@
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
+import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
@@ -29,6 +30,7 @@ open AlgebraicGeometry
 open HomogeneousLocalization
 open scoped TensorProduct
 open scoped IntermediateField Polynomial
+open scoped AlgebraicGeometry
 
 section FiniteSet
 
@@ -122,6 +124,112 @@ theorem hilbert_exists_rational_reciprocal_translate_separating_finset
   exact SourceStack.exists_rational_reciprocal_translate_separating_finset S β C hC hβ
 
 end ComplexSeparation
+
+namespace AffineSpace
+
+universe u v
+
+variable (n : Type v)
+variable {S T U X : Scheme.{max u v}}
+
+theorem hilbert_homOfVector_over
+    (f : X ⟶ S) (w : n → Γ(X, ⊤)) :
+    AlgebraicGeometry.AffineSpace.homOfVector f w ≫ 𝔸(n; S) ↘ S = f := by
+  exact SourceStack.AffineSpace.homOfVector_over n f w
+
+theorem hilbert_homOfVector_appTop_coord
+    (f : X ⟶ S) (w : n → Γ(X, ⊤)) (i : n) :
+    (AlgebraicGeometry.AffineSpace.homOfVector f w).appTop
+      (AlgebraicGeometry.AffineSpace.coord S i) = w i := by
+  exact SourceStack.AffineSpace.homOfVector_appTop_coord n f w i
+
+theorem hilbert_hom_ext
+    {f g : X ⟶ 𝔸(n; S)}
+    (h₁ : f ≫ 𝔸(n; S) ↘ S = g ≫ 𝔸(n; S) ↘ S)
+    (h₂ : ∀ i,
+      f.appTop (AlgebraicGeometry.AffineSpace.coord S i) =
+        g.appTop (AlgebraicGeometry.AffineSpace.coord S i)) :
+    f = g := by
+  exact SourceStack.AffineSpace.hom_ext n h₁ h₂
+
+theorem hilbert_homOverEquiv_exists
+    [X.Over S] :
+    Nonempty ({ f : X ⟶ 𝔸(n; S) // f.IsOver S } ≃ (n → Γ(X, ⊤))) := by
+  exact SourceStack.AffineSpace.homOverEquiv_exists n
+
+theorem hilbert_isoOfIsAffine_exists
+    [IsAffine S] :
+    Nonempty (𝔸(n; S) ≅ Spec (.of (MvPolynomial n Γ(S, ⊤)))) := by
+  exact SourceStack.AffineSpace.isoOfIsAffine_exists n
+
+theorem hilbert_affineSpace_isAffine_of_base
+    [IsAffine S] :
+    IsAffine 𝔸(n; S) := by
+  exact SourceStack.AffineSpace.affineSpace_isAffine_of_base n
+
+theorem hilbert_SpecIso_exists
+    (R : CommRingCat.{max u v}) :
+    Nonempty (𝔸(n; Spec R) ≅ Spec (.of (MvPolynomial n R))) := by
+  exact SourceStack.AffineSpace.SpecIso_exists n R
+
+theorem hilbert_map_over
+    (f : S ⟶ T) :
+    AlgebraicGeometry.AffineSpace.map n f ≫ 𝔸(n; T) ↘ T =
+      𝔸(n; S) ↘ S ≫ f := by
+  exact SourceStack.AffineSpace.map_over n f
+
+theorem hilbert_map_appTop_coord
+    (f : S ⟶ T) (i : n) :
+    (AlgebraicGeometry.AffineSpace.map n f).appTop
+      (AlgebraicGeometry.AffineSpace.coord T i) =
+        AlgebraicGeometry.AffineSpace.coord S i := by
+  exact SourceStack.AffineSpace.map_appTop_coord n f i
+
+theorem hilbert_map_id :
+    AlgebraicGeometry.AffineSpace.map n (𝟙 S) = 𝟙 𝔸(n; S) := by
+  exact SourceStack.AffineSpace.map_id n
+
+theorem hilbert_map_comp
+    (f : S ⟶ T) (g : T ⟶ U) :
+    AlgebraicGeometry.AffineSpace.map n (f ≫ g) =
+      AlgebraicGeometry.AffineSpace.map n f ≫
+        AlgebraicGeometry.AffineSpace.map n g := by
+  exact SourceStack.AffineSpace.map_comp n f g
+
+theorem hilbert_reindex_over
+    {m : Type v} (i : m → n) :
+    AlgebraicGeometry.AffineSpace.reindex i S ≫ 𝔸(m; S) ↘ S =
+      𝔸(n; S) ↘ S := by
+  exact SourceStack.AffineSpace.reindex_over n i
+
+theorem hilbert_reindex_appTop_coord
+    {m : Type v} (i : m → n) (j : m) :
+    (AlgebraicGeometry.AffineSpace.reindex i S).appTop
+      (AlgebraicGeometry.AffineSpace.coord S j) =
+        AlgebraicGeometry.AffineSpace.coord S (i j) := by
+  exact SourceStack.AffineSpace.reindex_appTop_coord n i j
+
+theorem hilbert_reindex_id :
+    AlgebraicGeometry.AffineSpace.reindex (@id n) S = 𝟙 𝔸(n; S) := by
+  exact SourceStack.AffineSpace.reindex_id n
+
+theorem hilbert_reindex_comp
+    {n₁ n₂ n₃ : Type v} (i : n₁ → n₂) (j : n₂ → n₃)
+    (S : Scheme.{max u v}) :
+    AlgebraicGeometry.AffineSpace.reindex (j ∘ i) S =
+      AlgebraicGeometry.AffineSpace.reindex j S ≫
+        AlgebraicGeometry.AffineSpace.reindex i S := by
+  exact SourceStack.AffineSpace.reindex_comp i j S
+
+theorem hilbert_map_reindex
+    {n₁ n₂ : Type v} (i : n₁ → n₂) (f : S ⟶ T) :
+    AlgebraicGeometry.AffineSpace.map n₂ f ≫
+        AlgebraicGeometry.AffineSpace.reindex i T =
+      AlgebraicGeometry.AffineSpace.reindex i S ≫
+        AlgebraicGeometry.AffineSpace.map n₁ f := by
+  exact SourceStack.AffineSpace.map_reindex i f
+
+end AffineSpace
 
 section Topology
 

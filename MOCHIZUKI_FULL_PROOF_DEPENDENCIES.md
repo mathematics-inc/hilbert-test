@@ -30,6 +30,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is
   rational.
+- `HilbertTest.SourceStack.AffineSpace`: Mathlib affine-space wrappers showing
+  that global coordinate sections define morphisms to affine space, pull back
+  coordinates as expected, satisfy extensionality, identify over-morphisms with
+  global sections, and are functorial in base and coordinates.
 - `HilbertTest.SourceStack.ProjectiveLine`: linear projective-line points
   `0`, `1`, `infinity`, their distinctness, and the branch finset
   `{0,1,infinity}` with cardinality `3`, plus affine points `[r:1]` and the
@@ -156,7 +160,10 @@ Sources:
 Lean-facing declarations needed:
 
 - two basepoint-free global sections of a line bundle define a morphism to
-  `P^1`.
+  `P^1`.  The affine analogue, where global coordinate sections define
+  morphisms to affine space and determine them extensionally, is now checked in
+  `SourceStack.AffineSpace`; the missing part is the projective/line-bundle
+  version.
 - if the induced rational function is nonconstant on a proper curve, the morphism
   is finite.
 - pullback of `O(1)` is the chosen line bundle.

@@ -108,6 +108,9 @@ Formalization use:
   `P^1`.
 - Global sections of a generated line bundle give a morphism to projective
   space.
+- The affine-space analogue of maps from global coordinate sections is checked
+  in `HilbertTest.SourceStack.AffineSpace`; the remaining geometric jump is the
+  projective version from basepoint-free line-bundle sections.
 
 Minimal theorem package needed:
 
@@ -266,6 +269,7 @@ follows.
 | Formalization gap | Best source to recurse to | Lean-facing target |
 | --- | --- | --- |
 | Smooth proper connected curves | Stacks Project, Algebraic Curves; Liu, Chapters 3-4 and 7 | A bundled curve structure over a field, eventually as a one-dimensional smooth proper connected scheme |
+| Maps from sections | Mathlib `AlgebraicGeometry.AffineSpace`; Stacks/Vakil maps to affine/projective space from sections | Checked affine-space `homOfVector`, coordinate pullback, over-morphism equivalence, affine-base spectrum identification, and functoriality in `SourceStack.AffineSpace`; still needs the projective line-bundle version |
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
 | Rational maps/function fields | Mathlib `AlgebraicGeometry.RationalMap`; Mathlib `AlgebraicGeometry.FunctionField`; Stacks Project rational maps and function fields | Checked dense-domain, representative, equivalence, and function-field reconstruction wrappers in `SourceStack.RationalMaps`; checked function-field injection/fraction-field/generic-point wrappers in `SourceStack.FunctionFields`; still needs curve-specific divisors/Riemann-Roch |
 | Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including the image-cardinality drop when the four-point set maps into the branch triple |

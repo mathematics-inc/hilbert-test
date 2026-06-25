@@ -3,6 +3,7 @@ import HilbertTest.Belyi1980.Polynomial
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.ComplexSeparation
+import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
 import HilbertTest.SourceStack.RationalMaps
