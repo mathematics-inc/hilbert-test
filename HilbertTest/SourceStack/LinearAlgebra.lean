@@ -77,6 +77,44 @@ theorem exists_vector_avoiding_subspaces_of_finrank_lt
   exact scherr_zieve_exists_vector_avoiding_finite_proper_subspaces s
     (fun W hW => subspace_ne_top_of_finrank_lt W (hfinrank W hW))
 
+omit [Infinite K] in
+/-- Finite-field counting handoff: if the sum of the cardinalities of a finite
+family of subspaces is smaller than the ambient finite vector space, then the
+family cannot cover the space.  This is the counting form used in finite-field
+variants of the Scherr-Zieve avoidance argument. -/
+theorem exists_vector_avoiding_subspaces_of_sum_card_lt
+    [Fintype V] [DecidableEq V] [∀ W : Subspace K V, Fintype W]
+    (s : Finset (Subspace K V))
+    (hcard : (∑ W in s, Fintype.card W) < Fintype.card V) :
+    ∃ v : V, ∀ W ∈ s, v ∉ W := by
+  classical
+  let U : Finset V :=
+    s.biUnion fun W => (Finset.univ : Finset W).image fun w : W => (w : V)
+  have hUcard_le : U.card ≤ ∑ W in s, Fintype.card W := by
+    calc
+      U.card ≤
+          ∑ W in s, ((Finset.univ : Finset W).image fun w : W => (w : V)).card :=
+        Finset.card_biUnion_le
+      _ ≤ ∑ W in s, Fintype.card W := by
+        exact Finset.sum_le_sum fun W _ => Finset.card_image_le
+  have hUcard_lt : U.card < Fintype.card V := lt_of_le_of_lt hUcard_le hcard
+  have hnot_univ : U ≠ Finset.univ := by
+    intro hU
+    have hcard_eq : U.card = Fintype.card V := by simp [hU]
+    exact (Nat.ne_of_lt hUcard_lt) hcard_eq
+  have hexists : ∃ v : V, v ∉ U := by
+    by_contra hnone
+    push_neg at hnone
+    apply hnot_univ
+    ext v
+    simp [hnone v]
+  rcases hexists with ⟨v, hvU⟩
+  refine ⟨v, ?_⟩
+  intro W hW hvW
+  apply hvU
+  exact Finset.mem_biUnion.mpr
+    ⟨W, hW, Finset.mem_image.mpr ⟨⟨v, hvW⟩, by simp⟩⟩
+
 /-- Finite nonzero linear evaluations can be made simultaneously nonzero over
 an infinite field.  This is the pure linear-algebra core of the finite
 basepoint/evaluation avoidance step in the Scherr-Zieve curve reduction. -/

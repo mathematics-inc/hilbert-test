@@ -30,7 +30,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   for proper subspaces over an infinite field, the `finrank` inequality bridge
   from Riemann-Roch dimensions to proper subspaces, the finite nonzero
   linear-evaluation avoidance bridge used for Riemann-Roch spaces, and the
-  common-kernel constrained vanishing/nonvanishing handoff.
+  common-kernel constrained vanishing/nonvanishing handoff; it also checks the
+  finite-field cardinality-sum avoidance handoff used in Scherr-Zieve's
+  positive-characteristic branch.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package.

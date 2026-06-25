@@ -114,6 +114,14 @@ theorem hilbert_exists_vector_avoiding_subspaces_of_finrank_lt
   exact SourceStack.exists_vector_avoiding_subspaces_of_finrank_lt s hfinrank
 
 omit [Infinite K] in
+theorem hilbert_exists_vector_avoiding_subspaces_of_sum_card_lt
+    [Fintype V] [DecidableEq V] [∀ W : Subspace K V, Fintype W]
+    (s : Finset (Subspace K V))
+    (hcard : (∑ W in s, Fintype.card W) < Fintype.card V) :
+    ∃ v : V, ∀ W ∈ s, v ∉ W := by
+  exact SourceStack.exists_vector_avoiding_subspaces_of_sum_card_lt s hcard
+
+omit [Infinite K] in
 theorem hilbert_linearMap_ker_ne_top_of_ne_zero
     {W : Type*} [AddCommGroup W] [Module K W]
     (f : V →ₗ[K] W) (hf : f ≠ 0) :

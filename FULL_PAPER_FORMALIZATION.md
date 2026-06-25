@@ -68,7 +68,9 @@ cover, Riemann-Roch dimension inequalities give proper subspaces via smaller
 and the constrained common-kernel form needed after Riemann-Roch supplies
 evaluations chooses a vector vanishing on one finite family of linear forms and
 nonvanishing on another when the avoid forms remain nonzero on the common
-kernel.
+kernel.  It also checks the finite-field counting handoff: if the sum of the
+cardinalities of finitely many subspaces is smaller than the ambient finite
+vector space, one can choose a vector outside all of them.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound
