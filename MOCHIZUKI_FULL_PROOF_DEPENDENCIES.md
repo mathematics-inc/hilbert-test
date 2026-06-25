@@ -24,7 +24,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   bound used for Mochizuki Lemma 2.1, plus a packaged theorem combining the
   normalized endpoint values, middle criticality, and middle value.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
-  for proper subspaces over an infinite field.
+  for proper subspaces over an infinite field, plus the finite nonzero
+  linear-evaluation avoidance bridge used for Riemann-Roch spaces.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package.
@@ -191,9 +192,10 @@ Lean-facing declarations needed:
 - consequence: if `deg L >= 2g + 1`, evaluation
   `Gamma(X, L) -> L_x` is surjective for every point `x`.
 - finite-family evaluation avoidance: choose a global section nonzero at every
-  point in a finite set.  The infinite-field vector-space part is already
-  checked in `SourceStack.LinearAlgebra`; the missing part is identifying the
-  nonvanishing conditions as proper subspaces/hyperplanes.
+  point in a finite set.  The infinite-field vector-space part and the generic
+  nonzero-evaluation-to-proper-kernel bridge are checked in
+  `SourceStack.LinearAlgebra`; the missing part is connecting curve evaluation
+  maps to those linear forms.
 The commutative-algebra smoothness/differential layer below smooth-curve
 cohomology is now checked in `SourceStack.SmoothKaehler`, including
 standard-smooth presentations and relative-dimension stability; the missing

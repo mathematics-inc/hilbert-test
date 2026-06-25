@@ -129,8 +129,9 @@ Minimal theorem package needed:
 - Riemann-Roch in the form `ell(D) = deg(D) + 1 - g` for
   `deg(D) >= 2g - 1`.
 - The vector-space lemma that a finite union of proper subspaces does not cover
-  a finite-dimensional vector space over an infinite field, plus the finite-field
-  inclusion-exclusion variant used by Scherr-Zieve.
+  a finite-dimensional vector space over an infinite field, plus the generic
+  bridge from nonzero linear evaluations to proper kernels.  The finite-field
+  inclusion-exclusion variant used by Scherr-Zieve remains separate.
 
 ### 3. Scheme morphism layer
 
@@ -286,7 +287,7 @@ Formalization use:
 - Kähler differentials and standard-smooth presentations;
 - DVRs and local rings of smooth curves;
 - tensor products and finite-dimensional vector spaces;
-- finite unions of proper subspaces;
+- finite unions of proper subspaces and finite nonzero linear-form avoidance;
 - compactness and finite-subcover arguments.
 
 Much of this bottom layer already exists in Mathlib, but theorem names and API
@@ -316,7 +317,7 @@ follows.
 | Degree and canonical bundle | Stacks Project Algebraic Curves 53.4-53.5; Liu 7.3; Hartshorne IV | Degree of line bundles and `deg omega = 2g - 2` |
 | Riemann-Roch spaces | Scherr-Zieve Lemma 2.2; Stacks Algebraic Curves 53.5; Liu 7.3 | `dim L(D)` and enough rational functions with prescribed poles |
 | Basepoint-free/very ample line bundles | Vakil Class 44; Hartshorne IV.3; Stacks Algebraic Curves 53.7 | `deg L >= 2g` gives global generation; `deg L >= 2g+1` gives closed immersion |
-| Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Choose a section avoiding finitely many hyperplanes |
+| Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Checked infinite-field finite-subspace avoidance and nonzero-linear-form avoidance in `SourceStack.LinearAlgebra`; still needs finite-field counting if positive-characteristic finite fields are targeted |
 | Descent and field of definition | Weil; Dèbes-Emsalem; Dèbes-Douai; Sijsling-Voight | Galois-stable marked maps descend to the intended field |
 | Local compactness in Corollary 3.2 | Lorscheid; Serre/Cassels local fields; Stacks properness | Checked compact image, finite subcover, and topological proper-map compact-preimage wrappers in `SourceStack.Topology`; checked p-adic and infinite-place completion compactness/local-compactness wrappers in `SourceStack.LocalFields`; still needs the algebraic theorem that proper varieties over arbitrary local fields have compact point spaces in the strong topology |
 | Bottom algebra | Stacks Algebra/More on Algebra/Modules; Atiyah-Macdonald; Eisenbud | Localization, finite modules, integral extensions, Kahler differentials, DVRs |

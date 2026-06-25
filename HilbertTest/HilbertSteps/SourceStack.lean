@@ -97,6 +97,26 @@ theorem hilbert_scherr_zieve_exists_vector_avoiding_finite_proper_subspaces
     ∃ v : V, ∀ W ∈ s, v ∉ W := by
   exact SourceStack.scherr_zieve_exists_vector_avoiding_finite_proper_subspaces s hproper
 
+omit [Infinite K] in
+theorem hilbert_linearMap_ker_ne_top_of_ne_zero
+    {W : Type*} [AddCommGroup W] [Module K W]
+    (f : V →ₗ[K] W) (hf : f ≠ 0) :
+    LinearMap.ker f ≠ ⊤ := by
+  exact SourceStack.linearMap_ker_ne_top_of_ne_zero f hf
+
+theorem hilbert_exists_vector_avoiding_kernels_of_nonzero_linear_maps
+    {ι W : Type*} [AddCommGroup W] [Module K W]
+    (s : Finset ι) (f : ι → V →ₗ[K] W)
+    (hf : ∀ i ∈ s, f i ≠ 0) :
+    ∃ v : V, ∀ i ∈ s, f i v ≠ 0 := by
+  exact SourceStack.exists_vector_avoiding_kernels_of_nonzero_linear_maps s f hf
+
+theorem hilbert_exists_vector_nonzero_on_finite_linear_forms
+    (s : Finset (V →ₗ[K] K))
+    (hf : ∀ f ∈ s, f ≠ 0) :
+    ∃ v : V, ∀ f ∈ s, f v ≠ 0 := by
+  exact SourceStack.exists_vector_nonzero_on_finite_linear_forms s hf
+
 end LinearAlgebra
 
 section ComplexSeparation
