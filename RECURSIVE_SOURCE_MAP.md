@@ -176,6 +176,9 @@ Formalization use:
 - Associated invertible sheaf `O(D)`.
 - Tensor products, dual line bundles, and degree.
 - Evaluation maps from global sections to fibers.
+- Fractional-ideal arithmetic for Dedekind-domain divisor calculations is
+  checked in `HilbertTest.SourceStack.FractionalIdeals`; what remains is the
+  scheme/curve bridge from point divisors and line bundles to that algebra.
 
 Mochizuki-specific use:
 

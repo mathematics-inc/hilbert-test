@@ -11,6 +11,7 @@ import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
+import HilbertTest.SourceStack.FractionalIdeals
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
@@ -34,6 +35,7 @@ open AlgebraicGeometry
 open HomogeneousLocalization
 open scoped TensorProduct
 open scoped Pointwise
+open scoped nonZeroDivisors
 open scoped IntermediateField Polynomial
 open scoped AlgebraicGeometry
 
@@ -1378,6 +1380,197 @@ theorem hilbert_addVal_add
   exact SourceStack.DedekindDvr.addVal_add
 
 end DedekindDvr
+
+namespace FractionalIdeals
+
+universe u v w x
+
+theorem hilbert_coeIdeal_le_coeIdeal
+    {R : Type u} [CommRing R]
+    (K : Type v) [CommRing K] [Algebra R K] [IsFractionRing R K]
+    {I J : Ideal R} :
+    (I : FractionalIdeal R⁰ K) ≤ (J : FractionalIdeal R⁰ K) ↔ I ≤ J := by
+  exact SourceStack.FractionalIdeals.coeIdeal_le_coeIdeal K
+
+theorem hilbert_coeIdeal_injective
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K] :
+    Function.Injective (fun I : Ideal R => (I : FractionalIdeal R⁰ K)) := by
+  exact SourceStack.FractionalIdeals.coeIdeal_injective
+
+theorem hilbert_coeIdeal_eq_zero
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = 0 ↔ I = ⊥ := by
+  exact SourceStack.FractionalIdeals.coeIdeal_eq_zero
+
+theorem hilbert_coeIdeal_eq_one
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = 1 ↔ I = 1 := by
+  exact SourceStack.FractionalIdeals.coeIdeal_eq_one
+
+theorem hilbert_coeIdeal_mul
+    {R : Type u} [CommRing R]
+    {S : Submonoid R} {P : Type v} [CommRing P] [Algebra R P]
+    (I J : Ideal R) :
+    ((I * J : Ideal R) : FractionalIdeal S P) =
+      (I : FractionalIdeal S P) * (J : FractionalIdeal S P) := by
+  exact SourceStack.FractionalIdeals.coeIdeal_mul I J
+
+theorem hilbert_coeIdeal_pow
+    {R : Type u} [CommRing R]
+    (S : Submonoid R) (P : Type v) [CommRing P] [Algebra R P]
+    (I : Ideal R) (n : ℕ) :
+    ((I ^ n : Ideal R) : FractionalIdeal S P) =
+      (I : FractionalIdeal S P) ^ n := by
+  exact SourceStack.FractionalIdeals.coeIdeal_pow S P I n
+
+theorem hilbert_map_comp
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    {P'' : Type x} [CommRing P''] [Algebra R P'']
+    (I : FractionalIdeal S P) (g : P →ₐ[R] P') (g' : P' →ₐ[R] P'') :
+    FractionalIdeal.map (g'.comp g) I =
+      FractionalIdeal.map g' (FractionalIdeal.map g I) := by
+  exact SourceStack.FractionalIdeals.map_comp I g g'
+
+theorem hilbert_map_add
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    (I J : FractionalIdeal S P) (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (I + J) =
+      FractionalIdeal.map g I + FractionalIdeal.map g J := by
+  exact SourceStack.FractionalIdeals.map_add I J g
+
+theorem hilbert_map_mul
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    (I J : FractionalIdeal S P) (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (I * J) =
+      FractionalIdeal.map g I * FractionalIdeal.map g J := by
+  exact SourceStack.FractionalIdeals.map_mul I J g
+
+theorem hilbert_map_injective
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    (g : P →ₐ[R] P') (hg : Function.Injective g) :
+    Function.Injective (FractionalIdeal.map (S := S) g) := by
+  exact SourceStack.FractionalIdeals.map_injective g hg
+
+theorem hilbert_mem_spanSingleton
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    {x y : P} :
+    x ∈ FractionalIdeal.spanSingleton S y ↔ ∃ z : R, z • y = x := by
+  exact SourceStack.FractionalIdeals.mem_spanSingleton
+
+theorem hilbert_spanSingleton_mul_spanSingleton
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    (x y : P) :
+    FractionalIdeal.spanSingleton S x * FractionalIdeal.spanSingleton S y =
+      FractionalIdeal.spanSingleton S (x * y) := by
+  exact SourceStack.FractionalIdeals.spanSingleton_mul_spanSingleton x y
+
+theorem hilbert_spanSingleton_pow
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    (x : P) (n : ℕ) :
+    FractionalIdeal.spanSingleton S x ^ n =
+      FractionalIdeal.spanSingleton S (x ^ n) := by
+  exact SourceStack.FractionalIdeals.spanSingleton_pow x n
+
+theorem hilbert_coeIdeal_span_singleton
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    (x : R) :
+    ((Ideal.span {x} : Ideal R) : FractionalIdeal S P) =
+      FractionalIdeal.spanSingleton S ((algebraMap R P) x) := by
+  exact SourceStack.FractionalIdeals.coeIdeal_span_singleton x
+
+theorem hilbert_isPrincipal_iff
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    (I : FractionalIdeal S P) :
+    (I : Submodule R P).IsPrincipal ↔
+      ∃ x : P, I = FractionalIdeal.spanSingleton S x := by
+  exact SourceStack.FractionalIdeals.isPrincipal_iff I
+
+theorem hilbert_exists_eq_spanSingleton_mul
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K] [IsDomain R]
+    (I : FractionalIdeal R⁰ K) :
+    ∃ a : R, ∃ aI : Ideal R, a ≠ 0 ∧
+      I = FractionalIdeal.spanSingleton R⁰ ((algebraMap R K) a)⁻¹ *
+        (aI : FractionalIdeal R⁰ K) := by
+  exact SourceStack.FractionalIdeals.exists_eq_spanSingleton_mul I
+
+theorem hilbert_div_spanSingleton
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K] [IsDomain R]
+    (J : FractionalIdeal R⁰ K) (d : K) :
+    J / FractionalIdeal.spanSingleton R⁰ d =
+      FractionalIdeal.spanSingleton R⁰ d⁻¹ * J := by
+  exact SourceStack.FractionalIdeals.div_spanSingleton J d
+
+theorem hilbert_extended_add
+    {A : Type u} [CommRing A]
+    {B : Type v} [CommRing B]
+    {f : A →+* B}
+    {K : Type w} {M : Submonoid A} [CommRing K] [Algebra A K] [IsLocalization M K]
+    (L : Type x) {N : Submonoid B} [CommRing L] [Algebra B L] [IsLocalization N L]
+    (hf : M ≤ Submonoid.comap f N)
+    (I J : FractionalIdeal M K) :
+    FractionalIdeal.extended L hf (I + J) =
+      FractionalIdeal.extended L hf I + FractionalIdeal.extended L hf J := by
+  exact SourceStack.FractionalIdeals.extended_add L hf I J
+
+theorem hilbert_extended_mul
+    {A : Type u} [CommRing A]
+    {B : Type v} [CommRing B]
+    {f : A →+* B}
+    {K : Type w} {M : Submonoid A} [CommRing K] [Algebra A K] [IsLocalization M K]
+    (L : Type x) {N : Submonoid B} [CommRing L] [Algebra B L] [IsLocalization N L]
+    (hf : M ≤ Submonoid.comap f N)
+    (I J : FractionalIdeal M K) :
+    FractionalIdeal.extended L hf (I * J) =
+      FractionalIdeal.extended L hf I * FractionalIdeal.extended L hf J := by
+  exact SourceStack.FractionalIdeals.extended_mul L hf I J
+
+theorem hilbert_absNorm_eq_zero_iff
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K]
+    [NoZeroDivisors K] {I : FractionalIdeal R⁰ K} :
+    FractionalIdeal.absNorm I = 0 ↔ I = 0 := by
+  exact SourceStack.FractionalIdeals.absNorm_eq_zero_iff
+
+theorem hilbert_coeIdeal_absNorm
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K]
+    (I : Ideal R) :
+    FractionalIdeal.absNorm (I : FractionalIdeal R⁰ K) =
+      (Ideal.absNorm I : ℤ) := by
+  exact SourceStack.FractionalIdeals.coeIdeal_absNorm I
+
+end FractionalIdeals
 
 namespace Schemes
 

@@ -1,0 +1,286 @@
+import Mathlib.RingTheory.FractionalIdeal.Operations
+import Mathlib.RingTheory.FractionalIdeal.Extended
+import Mathlib.RingTheory.FractionalIdeal.Norm
+
+/-!
+Fractional-ideal source wrappers.
+
+This layer is not the missing scheme-theoretic divisor theory for curves, but it
+is the algebraic fractional-ideal arithmetic that underlies Dedekind-domain
+divisor calculations: coercion of ideals, maps under algebra homomorphisms,
+principal fractional ideals, extension of fractional ideals, and ideal norms.
+-/
+
+noncomputable section
+
+open scoped nonZeroDivisors
+
+namespace HilbertTest
+namespace SourceStack
+namespace FractionalIdeals
+
+universe u v w x
+
+section CoeIdeal
+
+/-- Coercing ideals to fractional ideals reflects order in a fraction ring. -/
+theorem coeIdeal_le_coeIdeal
+    {R : Type u} [CommRing R]
+    (K : Type v) [CommRing K] [Algebra R K] [IsFractionRing R K]
+    {I J : Ideal R} :
+    (I : FractionalIdeal R⁰ K) ≤ (J : FractionalIdeal R⁰ K) ↔ I ≤ J :=
+  FractionalIdeal.coeIdeal_le_coeIdeal K
+
+/-- Coercing ideals to fractional ideals is injective in a fraction field. -/
+theorem coeIdeal_injective
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K] :
+    Function.Injective (fun I : Ideal R => (I : FractionalIdeal R⁰ K)) :=
+  FractionalIdeal.coeIdeal_injective
+
+/-- Equality of coerced fractional ideals is equality of ideals. -/
+theorem coeIdeal_inj
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I J : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = (J : FractionalIdeal R⁰ K) ↔ I = J :=
+  FractionalIdeal.coeIdeal_inj
+
+/-- The coerced ideal is zero iff the original ideal is bottom. -/
+theorem coeIdeal_eq_zero
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = 0 ↔ I = ⊥ :=
+  FractionalIdeal.coeIdeal_eq_zero
+
+/-- The coerced ideal is one iff the original ideal is top. -/
+theorem coeIdeal_eq_one
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = 1 ↔ I = 1 :=
+  FractionalIdeal.coeIdeal_eq_one
+
+/-- Coercion of ideals preserves multiplication. -/
+theorem coeIdeal_mul
+    {R : Type u} [CommRing R]
+    {S : Submonoid R} {P : Type v} [CommRing P] [Algebra R P]
+    (I J : Ideal R) :
+    ((I * J : Ideal R) : FractionalIdeal S P) =
+      (I : FractionalIdeal S P) * (J : FractionalIdeal S P) :=
+  FractionalIdeal.coeIdeal_mul I J
+
+/-- Coercion of ideals preserves powers. -/
+theorem coeIdeal_pow
+    {R : Type u} [CommRing R]
+    (S : Submonoid R) (P : Type v) [CommRing P] [Algebra R P]
+    (I : Ideal R) (n : ℕ) :
+    ((I ^ n : Ideal R) : FractionalIdeal S P) =
+      (I : FractionalIdeal S P) ^ n :=
+  FractionalIdeal.coeIdeal_pow S P I n
+
+end CoeIdeal
+
+section Maps
+
+variable {R : Type u} [CommRing R]
+variable {S : Submonoid R}
+variable {P : Type v} [CommRing P] [Algebra R P]
+variable {P' : Type w} [CommRing P'] [Algebra R P']
+variable {P'' : Type x} [CommRing P''] [Algebra R P'']
+
+/-- Mapping fractional ideals by the identity algebra homomorphism is identity. -/
+theorem map_id
+    (I : FractionalIdeal S P) :
+    FractionalIdeal.map (AlgHom.id R P) I = I :=
+  FractionalIdeal.map_id I
+
+/-- Fractional-ideal maps respect composition. -/
+theorem map_comp
+    (I : FractionalIdeal S P) (g : P →ₐ[R] P') (g' : P' →ₐ[R] P'') :
+    FractionalIdeal.map (g'.comp g) I =
+      FractionalIdeal.map g' (FractionalIdeal.map g I) :=
+  FractionalIdeal.map_comp I g g'
+
+/-- Fractional-ideal maps preserve zero. -/
+theorem map_zero
+    (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (0 : FractionalIdeal S P) = 0 :=
+  FractionalIdeal.map_zero g
+
+/-- Fractional-ideal maps preserve one. -/
+theorem map_one
+    (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (1 : FractionalIdeal S P) = 1 :=
+  FractionalIdeal.map_one g
+
+/-- Fractional-ideal maps preserve addition. -/
+theorem map_add
+    (I J : FractionalIdeal S P) (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (I + J) =
+      FractionalIdeal.map g I + FractionalIdeal.map g J :=
+  FractionalIdeal.map_add I J g
+
+/-- Fractional-ideal maps preserve multiplication. -/
+theorem map_mul
+    (I J : FractionalIdeal S P) (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (I * J) =
+      FractionalIdeal.map g I * FractionalIdeal.map g J :=
+  FractionalIdeal.map_mul I J g
+
+/-- An injective algebra map induces an injective map on fractional ideals. -/
+theorem map_injective
+    (g : P →ₐ[R] P') (hg : Function.Injective g) :
+    Function.Injective (FractionalIdeal.map (S := S) g) :=
+  FractionalIdeal.map_injective g hg
+
+end Maps
+
+section Principal
+
+variable {R : Type u} [CommRing R]
+variable {S : Submonoid R}
+variable {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+
+/-- Membership in a principal fractional ideal generated by one element. -/
+theorem mem_spanSingleton
+    {x y : P} :
+    x ∈ FractionalIdeal.spanSingleton S y ↔ ∃ z : R, z • y = x :=
+  FractionalIdeal.mem_spanSingleton S
+
+/-- A principal fractional ideal is zero iff its generator is zero. -/
+theorem spanSingleton_eq_zero_iff
+    {y : P} :
+    FractionalIdeal.spanSingleton S y = 0 ↔ y = 0 :=
+  FractionalIdeal.spanSingleton_eq_zero_iff
+
+/-- The principal fractional ideal generated by one is one. -/
+theorem spanSingleton_one :
+    FractionalIdeal.spanSingleton S (1 : P) = 1 :=
+  FractionalIdeal.spanSingleton_one
+
+/-- Principal fractional ideals multiply by multiplying generators. -/
+theorem spanSingleton_mul_spanSingleton
+    (x y : P) :
+    FractionalIdeal.spanSingleton S x * FractionalIdeal.spanSingleton S y =
+      FractionalIdeal.spanSingleton S (x * y) :=
+  FractionalIdeal.spanSingleton_mul_spanSingleton x y
+
+/-- Powers of principal fractional ideals are principal with powered generator. -/
+theorem spanSingleton_pow
+    (x : P) (n : ℕ) :
+    FractionalIdeal.spanSingleton S x ^ n =
+      FractionalIdeal.spanSingleton S (x ^ n) :=
+  FractionalIdeal.spanSingleton_pow x n
+
+/-- The fractional ideal associated to a principal ideal is the principal
+fractional ideal generated by the same element in the localization. -/
+theorem coeIdeal_span_singleton
+    (x : R) :
+    ((Ideal.span {x} : Ideal R) : FractionalIdeal S P) =
+      FractionalIdeal.spanSingleton S ((algebraMap R P) x) :=
+  FractionalIdeal.coeIdeal_span_singleton x
+
+/-- A fractional ideal is principal iff it is generated by one element. -/
+theorem isPrincipal_iff
+    (I : FractionalIdeal S P) :
+    (I : Submodule R P).IsPrincipal ↔
+      ∃ x : P, I = FractionalIdeal.spanSingleton S x :=
+  FractionalIdeal.isPrincipal_iff I
+
+end Principal
+
+section FractionFieldPrincipal
+
+variable {R : Type u} [CommRing R]
+variable {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K] [IsDomain R]
+
+/-- In a fraction field, every fractional ideal is a principal denominator
+times an integral ideal. -/
+theorem exists_eq_spanSingleton_mul
+    (I : FractionalIdeal R⁰ K) :
+    ∃ a : R, ∃ aI : Ideal R, a ≠ 0 ∧
+      I = FractionalIdeal.spanSingleton R⁰ ((algebraMap R K) a)⁻¹ *
+        (aI : FractionalIdeal R⁰ K) :=
+  FractionalIdeal.exists_eq_spanSingleton_mul I
+
+/-- Dividing by a principal fractional ideal is multiplying by the inverse
+principal fractional ideal. -/
+theorem div_spanSingleton
+    (J : FractionalIdeal R⁰ K) (d : K) :
+    J / FractionalIdeal.spanSingleton R⁰ d =
+      FractionalIdeal.spanSingleton R⁰ d⁻¹ * J :=
+  FractionalIdeal.div_spanSingleton J d
+
+end FractionFieldPrincipal
+
+section Extended
+
+variable {A : Type u} [CommRing A]
+variable {B : Type v} [CommRing B]
+variable {f : A →+* B}
+variable {K : Type w} {M : Submonoid A} [CommRing K] [Algebra A K] [IsLocalization M K]
+variable (L : Type x) {N : Submonoid B} [CommRing L] [Algebra B L] [IsLocalization N L]
+variable (hf : M ≤ Submonoid.comap f N)
+
+/-- Extension of fractional ideals preserves zero. -/
+theorem extended_zero :
+    FractionalIdeal.extended L hf (0 : FractionalIdeal M K) = 0 :=
+  FractionalIdeal.extended_zero L hf
+
+/-- Extension of fractional ideals preserves one. -/
+theorem extended_one :
+    FractionalIdeal.extended L hf (1 : FractionalIdeal M K) = 1 :=
+  FractionalIdeal.extended_one L hf
+
+/-- Extension of fractional ideals preserves addition. -/
+theorem extended_add
+    (I J : FractionalIdeal M K) :
+    FractionalIdeal.extended L hf (I + J) =
+      FractionalIdeal.extended L hf I + FractionalIdeal.extended L hf J :=
+  FractionalIdeal.extended_add L hf I J
+
+/-- Extension of fractional ideals preserves multiplication. -/
+theorem extended_mul
+    (I J : FractionalIdeal M K) :
+    FractionalIdeal.extended L hf (I * J) =
+      FractionalIdeal.extended L hf I * FractionalIdeal.extended L hf J :=
+  FractionalIdeal.extended_mul L hf I J
+
+end Extended
+
+section Norm
+
+/-- The absolute norm of the unit fractional ideal is one. -/
+theorem absNorm_one
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K] :
+    FractionalIdeal.absNorm (1 : FractionalIdeal R⁰ K) = 1 :=
+  FractionalIdeal.absNorm_one
+
+/-- The absolute norm of a fractional ideal is zero iff the ideal is zero. -/
+theorem absNorm_eq_zero_iff
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K]
+    [NoZeroDivisors K] {I : FractionalIdeal R⁰ K} :
+    FractionalIdeal.absNorm I = 0 ↔ I = 0 :=
+  FractionalIdeal.absNorm_eq_zero_iff
+
+/-- Coercing an integral ideal to a fractional ideal preserves absolute norm. -/
+theorem coeIdeal_absNorm
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K]
+    (I : Ideal R) :
+    FractionalIdeal.absNorm (I : FractionalIdeal R⁰ K) =
+      (Ideal.absNorm I : ℤ) :=
+  FractionalIdeal.coeIdeal_absNorm I
+
+end Norm
+
+end FractionalIdeals
+end SourceStack
+end HilbertTest

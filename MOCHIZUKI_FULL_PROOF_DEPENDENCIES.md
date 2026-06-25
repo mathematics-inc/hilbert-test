@@ -75,6 +75,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   localizations of a Dedekind domain are DVRs, the local-DVR definition of
   Dedekind domains, DVR uniformizers, prime-power ideal generation, and the DVR
   additive valuation laws.
+- `HilbertTest.SourceStack.FractionalIdeals`: fractional-ideal arithmetic
+  wrappers for coercing integral ideals, functorial maps, principal fractional
+  ideals, denominator decomposition, ideal extension, and absolute norms.
 - `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
   topological proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
@@ -140,6 +143,10 @@ Lean-facing declarations needed:
 - `deg omega_X = 2 * genus X - 2`.
 - negative-degree line bundles on proper connected curves have no global
   sections.
+The algebraic fractional-ideal arithmetic that will support Dedekind-domain
+divisor calculations is now checked in `SourceStack.FractionalIdeals`; the
+missing layer is the scheme/curve construction identifying point divisors and
+line bundles with that algebraic arithmetic.
 
 ### C. Cohomology, Serre duality, Riemann-Roch
 
