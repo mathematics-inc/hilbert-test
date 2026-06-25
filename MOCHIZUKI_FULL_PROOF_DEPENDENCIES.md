@@ -19,8 +19,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   odd-case offset-ratio estimates and checked strict-separation consequences
   for positive points and unit-interval values.
 - `HilbertTest.Belyi1980.Polynomial`: the Belyi 1980 polynomial derivative,
-  the middle critical point with derivative value `0`, normalized value `1`,
-  and the middle-value positivity/`<= 1/4` bound used for Mochizuki Lemma 2.1.
+  endpoint values at `0` and `1`, the middle critical point with derivative
+  value `0`, normalized value `1`, and the middle-value positivity/`<= 1/4`
+  bound used for Mochizuki Lemma 2.1.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
   for proper subspaces over an infinite field.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and

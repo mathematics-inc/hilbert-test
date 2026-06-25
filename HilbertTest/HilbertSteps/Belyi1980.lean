@@ -11,6 +11,26 @@ namespace Belyi1980
 
 open Real
 
+theorem hilbert_auxPolynomial_zero
+    {m n : Nat} (hm : 0 < m) :
+    Belyi1980.auxPolynomial m n 0 = 0 := by
+  exact Belyi1980.auxPolynomial_zero hm
+
+theorem hilbert_auxPolynomial_one
+    {m n : Nat} (hn : 0 < n) :
+    Belyi1980.auxPolynomial m n 1 = 0 := by
+  exact Belyi1980.auxPolynomial_one hn
+
+theorem hilbert_normalizedAuxPolynomial_zero
+    {m n : Nat} (hm : 0 < m) :
+    Belyi1980.normalizedAuxPolynomial m n 0 = 0 := by
+  exact Belyi1980.normalizedAuxPolynomial_zero hm
+
+theorem hilbert_normalizedAuxPolynomial_one
+    {m n : Nat} (hn : 0 < n) :
+    Belyi1980.normalizedAuxPolynomial m n 1 = 0 := by
+  exact Belyi1980.normalizedAuxPolynomial_one hn
+
 theorem hilbert_hasDerivAt_auxPolynomial
     (m n : Nat) (x : Real) :
     HasDerivAt (fun y : Real => Belyi1980.auxPolynomial m n y)

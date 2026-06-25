@@ -29,6 +29,34 @@ def normalizedAuxPolynomial (m n : Nat) (x : Real) : Real :=
   (((m + n : Nat) : Real) ^ (m + n) / ((m : Real) ^ m * (n : Real) ^ n)) *
     auxPolynomial m n x
 
+/-- The unscaled auxiliary polynomial sends `0` to `0` when `m > 0`. -/
+theorem auxPolynomial_zero
+    {m n : Nat} (hm : 0 < m) :
+    auxPolynomial m n 0 = 0 := by
+  unfold auxPolynomial
+  simp [zero_pow hm.ne']
+
+/-- The unscaled auxiliary polynomial sends `1` to `0` when `n > 0`. -/
+theorem auxPolynomial_one
+    {m n : Nat} (hn : 0 < n) :
+    auxPolynomial m n 1 = 0 := by
+  unfold auxPolynomial
+  simp [zero_pow hn.ne']
+
+/-- The normalized auxiliary polynomial sends `0` to `0` when `m > 0`. -/
+theorem normalizedAuxPolynomial_zero
+    {m n : Nat} (hm : 0 < m) :
+    normalizedAuxPolynomial m n 0 = 0 := by
+  unfold normalizedAuxPolynomial
+  rw [auxPolynomial_zero (m := m) (n := n) hm, mul_zero]
+
+/-- The normalized auxiliary polynomial sends `1` to `0` when `n > 0`. -/
+theorem normalizedAuxPolynomial_one
+    {m n : Nat} (hn : 0 < n) :
+    normalizedAuxPolynomial m n 1 = 0 := by
+  unfold normalizedAuxPolynomial
+  rw [auxPolynomial_one (m := m) (n := n) hn, mul_zero]
+
 /-- Derivative formula for `x^m * (1 - x)^n`. -/
 theorem hasDerivAt_auxPolynomial
     (m n : Nat) (x : Real) :
