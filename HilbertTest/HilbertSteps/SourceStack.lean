@@ -417,6 +417,20 @@ theorem hilbert_reciprocalTranslate_affinePoint_ne_zero
       SourceStack.ProjectiveLine.zero F := by
   exact SourceStack.ProjectiveLine.reciprocalTranslate_affinePoint_ne_zero F lambda r hr
 
+theorem hilbert_affineLinearMap_affinePoint
+    {a b : F} (ha : a ≠ 0) (r : F) :
+    SourceStack.ProjectiveLine.affineLinearMap F a b ha
+        (SourceStack.ProjectiveLine.affinePoint F r) =
+      SourceStack.ProjectiveLine.affinePoint F (a * r + b) := by
+  exact SourceStack.ProjectiveLine.affineLinearMap_affinePoint F ha r
+
+theorem hilbert_affineLinearMap_infinity
+    {a b : F} (ha : a ≠ 0) :
+    SourceStack.ProjectiveLine.affineLinearMap F a b ha
+        (SourceStack.ProjectiveLine.infinity F) =
+      SourceStack.ProjectiveLine.infinity F := by
+  exact SourceStack.ProjectiveLine.affineLinearMap_infinity F ha
+
 end FractionalLinear
 
 theorem hilbert_zero_mem_branchFinset :

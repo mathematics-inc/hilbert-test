@@ -203,6 +203,66 @@ theorem reciprocalTranslate_affinePoint_ne_zero
   rw [reciprocalTranslate_affinePoint_of_ne F lambda r hr]
   exact affinePoint_ne_zero F (inv_ne_zero (sub_ne_zero.mpr hr))
 
+/-- The linear map on homogeneous coordinates inducing `x ↦ a * x + b` on
+the affine chart. -/
+def affineLinearMapLinear (a b : F) : (Fin 2 → F) →ₗ[F] (Fin 2 → F) where
+  toFun v := ![a * v 0 + b * v 1, v 1]
+  map_add' v w := by
+    ext i
+    fin_cases i
+    · simp
+      ring
+    · simp
+  map_smul' c v := by
+    ext i
+    fin_cases i
+    · simp
+      ring
+    · simp
+
+/-- If `a ≠ 0`, the homogeneous-coordinate map for `x ↦ a*x+b` is injective. -/
+theorem affineLinearMapLinear_injective
+    {a b : F} (ha : a ≠ 0) :
+    Function.Injective (affineLinearMapLinear F a b) := by
+  intro v w h
+  have h0 := congr_fun h 0
+  have h1 := congr_fun h 1
+  simp [affineLinearMapLinear] at h0 h1
+  funext i
+  fin_cases i
+  · have h0' : a * v 0 = a * w 0 := by
+      simpa [h1] using h0
+    exact mul_left_cancel₀ ha h0'
+  · exact h1
+
+/-- The projective-line map induced by `x ↦ a*x+b`. -/
+def affineLinearMap (a b : F) (ha : a ≠ 0) : P1 F → P1 F :=
+  Projectivization.map (affineLinearMapLinear F a b)
+    (affineLinearMapLinear_injective F ha)
+
+/-- Affine linear maps send affine points to affine points by the expected
+formula. -/
+theorem affineLinearMap_affinePoint
+    {a b : F} (ha : a ≠ 0) (r : F) :
+    affineLinearMap F a b ha (affinePoint F r) =
+      affinePoint F (a * r + b) := by
+  unfold affineLinearMap affinePoint affineLinearMapLinear
+  rw [Projectivization.map_mk]
+  simp
+
+/-- Affine linear maps with nonzero linear coefficient fix infinity. -/
+theorem affineLinearMap_infinity
+    {a b : F} (ha : a ≠ 0) :
+    affineLinearMap F a b ha (infinity F) = infinity F := by
+  unfold affineLinearMap infinity affineLinearMapLinear
+  rw [Projectivization.map_mk]
+  rw [Projectivization.mk_eq_mk_iff']
+  refine ⟨a, ?_⟩
+  ext i
+  fin_cases i
+  · simp
+  · simp
+
 end FractionalLinear
 
 /-- The finite branch set `{0,1,∞}` as a finset of linear projective points. -/

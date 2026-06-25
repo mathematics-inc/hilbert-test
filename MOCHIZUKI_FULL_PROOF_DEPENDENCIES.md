@@ -48,7 +48,7 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   smaller cardinality and two of the four distinguished points have the same
   image; also the linear fractional reciprocal translate
   `[X:Y] -> [Y:X - lambda Y]` and its action on affine points, the pole, and
-  infinity.
+  infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, and separatedness of `Proj`.
@@ -282,8 +282,8 @@ Lean-facing declarations needed:
 - Lemma 2.2 induction reducing finite rational sets.
 - Lemma 2.3: the analytic complex finite-set separation, reciprocal translate
   estimate, rational-pole refinement, and linear-projectivization reciprocal
-  translate are checked in `SourceStack.ComplexSeparation` and
-  `SourceStack.ProjectiveLine`; still missing is the scheme-`P^1` morphism
+  translate/affine-linear maps are checked in `SourceStack.ComplexSeparation`
+  and `SourceStack.ProjectiveLine`; still missing is the scheme-`P^1` morphism
   packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.  The underlying primitive-element, separability, normal/Galois,

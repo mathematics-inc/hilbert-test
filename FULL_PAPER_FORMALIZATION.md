@@ -54,7 +54,9 @@ formalization of the finite complex-set separation used in Lemma 2.3:
 `HilbertTest/SourceStack/ProjectiveLine.lean` now also checks the corresponding
 linear-projectivization map induced by homogeneous coordinates
 `[X:Y] ↦ [Y:X - λY]`, including its action on affine points away from the pole,
-the pole, and infinity.  This is still below the scheme morphism layer.
+the pole, and infinity; it also checks affine-linear transformations
+`[X:Y] ↦ [aX + bY:Y]` for `a != 0`.  This is still below the scheme morphism
+layer.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound
@@ -110,7 +112,8 @@ available as ready-to-use Mathlib components:
    scheme/projective-line model; the formal derivative and middle critical-point
    calculation over `ℚ[X]` are now checked.
 2. Finish the scheme-`P^1` morphism packaging for Lemma 2.3; the analytic
-   estimate and the linear-projectivization reciprocal map are now checked.
+   estimate and the linear-projectivization reciprocal/affine-linear maps are
+   now checked.
 3. Build a projective-line API sufficient for Lemma 2.2 and Lemma 2.4.
 4. Add a Belyi-map definition over `P^1` using Mathlib's scheme morphism
    properties.
