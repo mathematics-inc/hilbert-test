@@ -1735,7 +1735,7 @@ end Cohomology
 
 namespace SmoothKaehler
 
-universe u v
+universe u v w t t' q q'
 
 theorem hilbert_formallySmooth_exists_lift
     {R : Type u} [CommSemiring R]
@@ -1814,6 +1814,77 @@ theorem hilbert_smooth_baseChange
     [CommRing B] [Algebra R B] [Algebra.Smooth R A] :
     Algebra.Smooth B (B ⊗[R] A) := by
   exact SourceStack.SmoothKaehler.smooth_baseChange R A B
+
+theorem hilbert_standardSmooth_finitePresentation
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.IsStandardSmooth.{t, q} R S] :
+    Algebra.FinitePresentation R S := by
+  exact SourceStack.SmoothKaehler.standardSmooth_finitePresentation
+
+theorem hilbert_standardSmooth_trans
+    (R : Type u) (S : Type v)
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T] [Algebra S T]
+    [IsScalarTower R S T]
+    [Algebra.IsStandardSmooth.{t, q} R S]
+    [Algebra.IsStandardSmooth.{t', q'} S T] :
+    Algebra.IsStandardSmooth.{max t t', max q q'} R T := by
+  exact SourceStack.SmoothKaehler.standardSmooth_trans R S T
+
+theorem hilbert_standardSmooth_localization_away
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (r : R) [IsLocalization.Away r S] :
+    Algebra.IsStandardSmooth.{0, 0} R S := by
+  exact SourceStack.SmoothKaehler.standardSmooth_localization_away r
+
+theorem hilbert_standardSmooth_baseChange
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T]
+    [Algebra.IsStandardSmooth.{t, q} R S] :
+    Algebra.IsStandardSmooth.{t, q} T (T ⊗[R] S) := by
+  exact SourceStack.SmoothKaehler.standardSmooth_baseChange T
+
+theorem hilbert_standardSmoothOfRelativeDimension_isStandardSmooth
+    (n : ℕ) {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S] :
+    Algebra.IsStandardSmooth.{t, q} R S := by
+  exact SourceStack.SmoothKaehler.standardSmoothOfRelativeDimension_isStandardSmooth n
+
+theorem hilbert_standardSmoothOfRelativeDimension_id
+    (R : Type u) [CommRing R] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{t, q} 0 R R := by
+  exact SourceStack.SmoothKaehler.standardSmoothOfRelativeDimension_id R
+
+theorem hilbert_standardSmoothOfRelativeDimension_trans
+    (n m : ℕ)
+    (R : Type u) (S : Type v)
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T] [Algebra S T]
+    [IsScalarTower R S T]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t', q'} m S T] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{max t t', max q q'} (m + n) R T := by
+  exact SourceStack.SmoothKaehler.standardSmoothOfRelativeDimension_trans n m R S T
+
+theorem hilbert_standardSmoothOfRelativeDimension_localization_away
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (r : R) [IsLocalization.Away r S] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{0, 0} 0 R S := by
+  exact SourceStack.SmoothKaehler.standardSmoothOfRelativeDimension_localization_away r
+
+theorem hilbert_standardSmoothOfRelativeDimension_baseChange
+    (n : ℕ)
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n T (T ⊗[R] S) := by
+  exact SourceStack.SmoothKaehler.standardSmoothOfRelativeDimension_baseChange n T
 
 theorem hilbert_formallySmooth_iff_injective_and_projective
     {R P S : Type u} [CommRing R] [CommRing P] [CommRing S]

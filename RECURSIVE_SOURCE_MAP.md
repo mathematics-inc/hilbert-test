@@ -157,7 +157,8 @@ Current Mathlib status:
 - The commutative-algebra layer for formal smoothness and Kähler differentials
   is checked in `HilbertTest.SourceStack.SmoothKaehler`, including nilpotent
   lifting, stability under base change/localization, Kähler characterizations of
-  formal smoothness, and polynomial differential computations.
+  formal smoothness, standard-smooth finite-presentation and relative-dimension
+  stability, and polynomial differential computations.
 - It also checks Mathlib's bridge from universally closed/proper morphisms to
   topologically proper underlying maps.
 - The commutative-algebra layer for unramified algebras and ramification over
@@ -282,7 +283,7 @@ Sources:
 Formalization use:
 
 - localization, integral extensions, finite modules;
-- Kähler differentials;
+- Kähler differentials and standard-smooth presentations;
 - DVRs and local rings of smooth curves;
 - tensor products and finite-dimensional vector spaces;
 - finite unions of proper subspaces;

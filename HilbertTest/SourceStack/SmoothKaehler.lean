@@ -1,5 +1,6 @@
 import Mathlib.RingTheory.Smooth.Kaehler
 import Mathlib.RingTheory.Smooth.Pi
+import Mathlib.RingTheory.Smooth.StandardSmooth
 import Mathlib.RingTheory.Kaehler.Polynomial
 
 /-!
@@ -20,7 +21,7 @@ namespace HilbertTest
 namespace SourceStack
 namespace SmoothKaehler
 
-universe u v
+universe u v w t t' q q'
 
 section FormalSmooth
 
@@ -152,6 +153,90 @@ theorem smooth_baseChange
   Algebra.Smooth.baseChange R A B
 
 end Smooth
+
+section StandardSmooth
+
+/-- Standard smooth algebras are finitely presented. -/
+theorem standardSmooth_finitePresentation
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.IsStandardSmooth.{t, q} R S] :
+    Algebra.FinitePresentation R S :=
+  inferInstance
+
+/-- Standard smoothness is stable under composition. -/
+theorem standardSmooth_trans
+    (R : Type u) (S : Type v)
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T] [Algebra S T]
+    [IsScalarTower R S T]
+    [Algebra.IsStandardSmooth.{t, q} R S]
+    [Algebra.IsStandardSmooth.{t', q'} S T] :
+    Algebra.IsStandardSmooth.{max t t', max q q'} R T :=
+  Algebra.IsStandardSmooth.trans.{t, t', q, q'} R S T
+
+/-- Localization away from an element is standard smooth. -/
+theorem standardSmooth_localization_away
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (r : R) [IsLocalization.Away r S] :
+    Algebra.IsStandardSmooth.{0, 0} R S :=
+  Algebra.IsStandardSmooth.localization_away r
+
+/-- Standard smoothness is stable under base change. -/
+theorem standardSmooth_baseChange
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T]
+    [Algebra.IsStandardSmooth.{t, q} R S] :
+    Algebra.IsStandardSmooth.{t, q} T (T ⊗[R] S) :=
+  Algebra.IsStandardSmooth.baseChange T
+
+/-- Standard smoothness of specified relative dimension implies standard smoothness. -/
+theorem standardSmoothOfRelativeDimension_isStandardSmooth
+    (n : ℕ) {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S] :
+    Algebra.IsStandardSmooth.{t, q} R S :=
+  Algebra.IsStandardSmoothOfRelativeDimension.isStandardSmooth.{t, q} n
+
+/-- The identity algebra is standard smooth of relative dimension zero. -/
+theorem standardSmoothOfRelativeDimension_id
+    (R : Type u) [CommRing R] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{t, q} 0 R R :=
+  Algebra.IsStandardSmoothOfRelativeDimension.id R
+
+/-- Standard smooth relative dimensions add in towers. -/
+theorem standardSmoothOfRelativeDimension_trans
+    (n m : ℕ)
+    (R : Type u) (S : Type v)
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T] [Algebra S T]
+    [IsScalarTower R S T]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t', q'} m S T] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{max t t', max q q'} (m + n) R T :=
+  Algebra.IsStandardSmoothOfRelativeDimension.trans.{t, t', q, q'} n m R S T
+
+/-- Localization away from an element is standard smooth of relative dimension zero. -/
+theorem standardSmoothOfRelativeDimension_localization_away
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (r : R) [IsLocalization.Away r S] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{0, 0} 0 R S :=
+  Algebra.IsStandardSmoothOfRelativeDimension.localization_away r
+
+/-- Standard smoothness of fixed relative dimension is stable under base change. -/
+theorem standardSmoothOfRelativeDimension_baseChange
+    (n : ℕ)
+    {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [Algebra R S]
+    (T : Type w) [CommRing T] [Algebra R T]
+    [Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n R S] :
+    Algebra.IsStandardSmoothOfRelativeDimension.{t, q} n T (T ⊗[R] S) :=
+  Algebra.IsStandardSmoothOfRelativeDimension.baseChange n T
+
+end StandardSmooth
 
 section Kaehler
 
