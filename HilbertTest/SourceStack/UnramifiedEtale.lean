@@ -116,6 +116,57 @@ theorem formallyEtale_to_formallyUnramified
     Algebra.FormallyUnramified R A :=
   inferInstance
 
+/-- Formal étaleness is transported by algebra isomorphisms. -/
+theorem formallyEtale_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.FormallyEtale R A]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyEtale R B :=
+  Algebra.FormallyEtale.of_equiv e
+
+/-- Formal étaleness is invariant under algebra isomorphisms. -/
+theorem formallyEtale_iff_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyEtale R A ↔ Algebra.FormallyEtale R B :=
+  Algebra.FormallyEtale.iff_of_equiv e
+
+/-- Localizations are formally étale. -/
+theorem formallyEtale_of_isLocalization
+    {R Rₘ : Type u} [CommRing R] [CommRing Rₘ]
+    (M : Submonoid R) [Algebra R Rₘ] [IsLocalization M Rₘ] :
+    Algebra.FormallyEtale R Rₘ :=
+  Algebra.FormallyEtale.of_isLocalization M
+
+/-- Formal étaleness descends to the localized base. -/
+theorem formallyEtale_localization_base
+    {R Rₘ Sₘ : Type u} [CommRing R] [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R Sₘ] [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ] [IsLocalization M Rₘ]
+    [Algebra.FormallyEtale R Sₘ] :
+    Algebra.FormallyEtale Rₘ Sₘ :=
+  Algebra.FormallyEtale.localization_base M
+
+/-- Formal étaleness localizes on source and target. -/
+theorem formallyEtale_localization_map
+    {R S Rₘ Sₘ : Type u} [CommRing R] [CommRing S]
+    [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R S] [Algebra R Sₘ] [Algebra S Sₘ]
+    [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ] [IsScalarTower R S Sₘ]
+    [IsLocalization M Rₘ]
+    [IsLocalization (Submonoid.map (algebraMap R S) M) Sₘ]
+    [Algebra.FormallyEtale R S] :
+    Algebra.FormallyEtale Rₘ Sₘ :=
+  Algebra.FormallyEtale.localization_map (R := R) (S := S)
+    (Rₘ := Rₘ) (Sₘ := Sₘ) M
+
 /-- Formal étaleness is stable under composition. -/
 theorem formallyEtale_comp
     (R : Type u) [CommRing R]
@@ -141,6 +192,31 @@ theorem formallyEtale_iff_isSeparable
     [Algebra.EssFiniteType K L] :
     Algebra.FormallyEtale K L ↔ Algebra.IsSeparable K L :=
   Algebra.FormallyEtale.iff_isSeparable K L
+
+/-- Separable field extensions are formally étale. -/
+theorem formallyEtale_of_isSeparable
+    (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [Algebra.IsSeparable K L] :
+    Algebra.FormallyEtale K L :=
+  Algebra.FormallyEtale.of_isSeparable K L
+
+/-- Étale algebras are transported by algebra isomorphisms. -/
+theorem etale_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Etale R A]
+    (e : A ≃ₐ[R] B) :
+    Algebra.Etale R B :=
+  Algebra.Etale.of_equiv e
+
+/-- Localization at one element is étale. -/
+theorem etale_of_isLocalization_Away
+    {R : Type u} [CommRing R]
+    {A : Type u} [CommRing A] [Algebra R A]
+    (r : R) [IsLocalization.Away r A] :
+    Algebra.Etale R A :=
+  Algebra.Etale.of_isLocalization_Away r
 
 /-- Étale algebras are stable under composition. -/
 theorem etale_comp

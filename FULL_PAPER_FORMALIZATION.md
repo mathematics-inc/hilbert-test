@@ -199,8 +199,10 @@ zero-locus/nilradical criterion.
 formal-unramified and formal-etale source facts, including the
 Kähler-differential characterization, square-zero lift uniqueness,
 composition/base-change stability, separability equivalences over essentially
-finite type field extensions, and ring-level unramified algebra wrappers for
-one-element localizations, composition, and base change.
+finite type field extensions, ring-level unramified algebra wrappers for
+one-element localizations, composition, and base change, and formal-etale/etale
+algebra wrappers for algebra equivalences, localizations, localized bases,
+separable field extensions, and one-element localization.
 
 `HilbertTest/SourceStack/Ramification.lean` checks the deeper
 commutative-algebra source layer for ramification: algebraic unramifiedness,

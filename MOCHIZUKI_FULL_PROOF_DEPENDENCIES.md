@@ -109,7 +109,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   square-zero lift uniqueness, composition/base-change stability, and
   separability equivalences over essentially finite type field extensions, plus
   ring-level unramified algebra wrappers for one-element localizations,
-  composition, and base change.
+  composition, and base change, and formal-etale/etale algebra wrappers for
+  algebra equivalences, localizations, localized bases, separable field
+  extensions, and one-element localization.
 - `HilbertTest.SourceStack.SmoothKaehler`: formal smooth lifting, polynomial
   formal smoothness, composition/base-change/localization stability, smooth
   algebra stability, Kähler-differential characterizations of formal smoothness,
