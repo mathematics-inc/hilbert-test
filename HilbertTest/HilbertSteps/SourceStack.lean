@@ -401,6 +401,13 @@ theorem hilbert_compact_iUnion_pi_projection_image
     IsCompact (⋃ i, (fun x : (l : κ) → Z l => x j) '' K i) := by
   exact SourceStack.compact_iUnion_pi_projection_image K hK j
 
+theorem hilbert_iUnion_pi_projection_image_subset_of_forall
+    {ι κ : Type*} {Z : κ → Type*}
+    (K : ι → Set ((i : κ) → Z i)) (A : (i : κ) → Set (Z i))
+    (hK : ∀ i x, x ∈ K i → ∀ j, x j ∈ A j) (j : κ) :
+    (⋃ i, (fun x : (l : κ) → Z l => x j) '' K i) ⊆ A j := by
+  exact SourceStack.iUnion_pi_projection_image_subset_of_forall K A hK j
+
 theorem hilbert_compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
     [∀ i, CompactSpace (Z i)] :

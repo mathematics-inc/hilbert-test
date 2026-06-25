@@ -106,13 +106,15 @@ nonvanishing condition for compositions.
 the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,
 coordinate projections of compact product subsets, compactness of products, and
-finite unions of coordinate projections of compact product subsets.  It also
-checks compact-exhaustion wrappers for locally compact second-countable spaces,
-including inheritance by open subspaces, compactness of the exhaustion sets, the
-interior containment step, coverage of the whole space, eventual containment of
-compact subsets, the open exhaustion by interiors, and compactness of the
-closure of each interior in a Hausdorff space.  It also checks the basic locally
-compact compact-neighborhood lemma and basic
+finite unions of coordinate projections of compact product subsets, including
+the containment of those projection images in coordinatewise target subsets.
+It also checks compact-exhaustion wrappers for locally compact
+second-countable spaces, including inheritance by open subspaces, compactness
+of the exhaustion sets, the interior containment step, coverage of the whole
+space, eventual containment of compact subsets, the open exhaustion by
+interiors, and compactness of the closure of each interior in a Hausdorff
+space.  It also checks the basic locally compact compact-neighborhood lemma and
+basic
 topological proper-map compact-preimage/composition/closed-map wrappers.
 It also checks the Corollary 3.1 open-cover infrastructure: compact-space
 finite subcovers, continuous preimages of opens, finite intersections of opens,

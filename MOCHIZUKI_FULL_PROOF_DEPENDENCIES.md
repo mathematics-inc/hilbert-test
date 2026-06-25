@@ -133,7 +133,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   finite compact unions, compact product projections/products, and topological
   proper-map compact-preimage/composition/closed-map wrappers, including the
   finite union of coordinate projection images used to build the compact sets
-  `H_v` in Corollary 3.2.  It now also checks the compact-exhaustion API for
+  `H_v` in Corollary 3.2 and their containment in coordinatewise target
+  subsets.  It now also checks the compact-exhaustion API for
   locally compact second-countable spaces and their open subspaces, including
   open exhaustions by interiors and compactness of the corresponding closures in
   Hausdorff spaces, together with the locally compact compact-neighborhood lemma.
@@ -434,7 +435,8 @@ Lean-facing declarations needed:
 - continuous image of a compact set is compact; finite unions of compact sets
   are compact; coordinate projections from product spaces preserve compactness.
   These topological steps, including finite unions of coordinate projection
-  images and compact-exhaustion wrappers, are already checked in
+  images, containment of those projection images in coordinatewise target
+  subsets, and compact-exhaustion wrappers, are already checked in
   `SourceStack.Topology`; the proper-morphism-to-closed/proper-map bridge and
   field-valued universally-closed/proper compactness wrappers are checked in
   `SourceStack.Schemes`; topological proper-map compact-preimage facts are also

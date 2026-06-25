@@ -130,6 +130,20 @@ theorem compact_iUnion_pi_projection_image
     IsCompact (⋃ i, (fun x : (l : κ) → Z l => x j) '' K i) :=
   isCompact_iUnion fun i => (hK i).image (continuous_apply j)
 
+/-- If compact subsets of a product lie coordinatewise in target subsets, then
+the union of their coordinate projections still lies in the corresponding target
+subset.  This is the set-theoretic containment behind the compact sets `H_v` in
+Mochizuki Corollary 3.2. -/
+theorem iUnion_pi_projection_image_subset_of_forall
+    {ι κ : Type*} {Z : κ → Type*}
+    (K : ι → Set ((i : κ) → Z i)) (A : (i : κ) → Set (Z i))
+    (hK : ∀ i x, x ∈ K i → ∀ j, x j ∈ A j) (j : κ) :
+    (⋃ i, (fun x : (l : κ) → Z l => x j) '' K i) ⊆ A j := by
+  intro y hy
+  rcases Set.mem_iUnion.mp hy with ⟨i, hyi⟩
+  rcases hyi with ⟨x, hx, rfl⟩
+  exact hK i x hx j
+
 /-- Products of compact spaces are compact in Mathlib's product topology. -/
 theorem compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
