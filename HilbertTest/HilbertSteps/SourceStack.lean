@@ -455,6 +455,14 @@ theorem hilbert_noncritical_finite_subcover_on_complement
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.NoncriticalBelyiExistence.finite_subcover_on_complement E hS
 
+theorem hilbert_noncritical_exists_belyiOpen_inside_complement
+    [T1Space P] {A : Set X} (hA : A.Finite) {x : X} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ E.toBelyiCoverData.belyiOpen φ ∧
+          E.toBelyiCoverData.belyiOpen φ ⊆ Aᶜ := by
+  exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_complement E hA hxA
+
 end BelyiCovers
 
 namespace LocalFields

@@ -182,6 +182,25 @@ theorem finite_subcover_on_complement
   exact D.toBelyiCoverData.finite_subcover_on_complement_of_pointwise
     (fun x => D.pointwise_cover_complement hS x)
 
+/-- Abstract Corollary 1.2 from the Theorem 2.5-style existence interface: for
+a finite complement `A` and a point outside `A`, there is a Belyi open
+containing the point and contained in `Aᶜ`. -/
+theorem exists_belyiOpen_inside_complement
+    [T1Space P] {A : Set X} (hA : A.Finite) {x : X} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ Aᶜ := by
+  apply D.toBelyiCoverData.exists_belyiOpen_inside_of_point_avoidance
+  have hsingleton : ({x} : Set X).Finite := Set.finite_singleton x
+  have hdis : Disjoint A ({x} : Set X) := by
+    rw [Set.disjoint_left]
+    intro y hyA hyx
+    rw [Set.mem_singleton_iff] at hyx
+    exact hxA (hyx ▸ hyA)
+  rcases D.exists_for_finite_disjoint hA hsingleton hdis with ⟨φ, hφA, hφx⟩
+  exact ⟨φ, hφA, hφx x (by simp)⟩
+
 end NoncriticalBelyiExistence
 
 end SourceStack

@@ -119,7 +119,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
   extraction step over `X \ S`; it also exposes a `NoncriticalBelyiExistence`
   interface matching the finite disjoint-set conclusion of Theorem 2.5 and
-  derives the pointwise tuple-cover hypothesis from that interface.
+  derives the pointwise tuple-cover hypothesis and the finite-complement
+  Belyi-open consequence of Corollary 1.2 from that interface.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
   locally compact infinite-place completion wrappers currently available in
   Mathlib.

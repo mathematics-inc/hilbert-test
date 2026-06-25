@@ -105,7 +105,8 @@ branch set, its Belyi open is open, contains the point, and is contained in
 `Aᶜ`.
 It now includes a `NoncriticalBelyiExistence` interface matching the finite
 disjoint-set conclusion of Theorem 2.5 and proves from it the pointwise
-tuple-cover hypothesis and finite-subcover conclusion over `X \ S`.
+tuple-cover hypothesis and finite-subcover conclusion over `X \ S`, as well as
+the finite-complement Belyi-open statement behind Corollary 1.2.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
