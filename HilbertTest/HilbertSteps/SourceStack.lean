@@ -1375,6 +1375,55 @@ theorem hilbert_not_irrelevant_le_x1HomogeneousIdeal
     ¬ HomogeneousIdeal.irrelevant (grading K) ≤ x1HomogeneousIdeal K := by
   exact SourceStack.SchemeProjectiveLine.not_irrelevant_le_x1HomogeneousIdeal K
 
+theorem hilbert_x0PolynomialEquiv_X0 :
+    x0PolynomialEquiv K (X0 K) = Polynomial.X := by
+  exact SourceStack.SchemeProjectiveLine.x0PolynomialEquiv_X0 K
+
+theorem hilbert_x1PolynomialEquiv_X1 :
+    x1PolynomialEquiv K (X1 K) = Polynomial.X := by
+  exact SourceStack.SchemeProjectiveLine.x1PolynomialEquiv_X1 K
+
+theorem hilbert_polynomial_span_X_isPrime
+    [IsDomain K] :
+    (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime := by
+  exact SourceStack.SchemeProjectiveLine.polynomial_span_X_isPrime K
+
+theorem hilbert_x0Ideal_eq_comap_span_X :
+    x0Ideal K =
+      Ideal.comap
+        (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  exact SourceStack.SchemeProjectiveLine.x0Ideal_eq_comap_span_X K
+
+theorem hilbert_x1Ideal_eq_comap_span_X :
+    x1Ideal K =
+      Ideal.comap
+        (x1PolynomialEquiv K : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  exact SourceStack.SchemeProjectiveLine.x1Ideal_eq_comap_span_X K
+
+theorem hilbert_x0Ideal_isPrime
+    [IsDomain K] :
+    (x0Ideal K).IsPrime := by
+  exact SourceStack.SchemeProjectiveLine.x0Ideal_isPrime K
+
+theorem hilbert_x1Ideal_isPrime
+    [IsDomain K] :
+    (x1Ideal K).IsPrime := by
+  exact SourceStack.SchemeProjectiveLine.x1Ideal_isPrime K
+
+theorem hilbert_zeroPoint_asHomogeneousIdeal
+    [IsDomain K] :
+    (zeroPoint K).asHomogeneousIdeal = x0HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.zeroPoint_asHomogeneousIdeal K
+
+theorem hilbert_infinityPoint_asHomogeneousIdeal
+    [IsDomain K] :
+    (infinityPoint K).asHomogeneousIdeal = x1HomogeneousIdeal K := by
+  exact SourceStack.SchemeProjectiveLine.infinityPoint_asHomogeneousIdeal K
+
 end SchemeProjectiveLine
 
 namespace RationalMaps

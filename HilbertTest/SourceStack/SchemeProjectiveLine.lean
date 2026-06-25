@@ -1,6 +1,10 @@
 import HilbertTest.SourceStack.ProjectiveSpectrum
+import Mathlib.Algebra.MvPolynomial.Equiv
+import Mathlib.Logic.Equiv.Basic
+import Mathlib.RingTheory.Ideal.Maps
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.RingTheory.MvPolynomial.Ideal
+import Mathlib.RingTheory.Polynomial.Basic
 
 /-!
 Scheme-theoretic projective-line source wrappers.
@@ -219,6 +223,29 @@ def x0HomogeneousIdeal : HomogeneousIdeal (grading K) :=
 def x1HomogeneousIdeal : HomogeneousIdeal (grading K) :=
   ⟨x1Ideal K, x1Ideal_isHomogeneous K⟩
 
+/-- The coordinate order used by `MvPolynomial.finSuccEquiv`, sending `X₀` to the
+polynomial variable. -/
+abbrev x0PolynomialEquiv :
+    CoordinateRing K ≃ₐ[K] Polynomial (MvPolynomial (Fin 1) K) :=
+  MvPolynomial.finSuccEquiv K 1
+
+/-- The transposition of the two homogeneous coordinates. -/
+abbrev coordinateSwap : Fin 2 ≃ Fin 2 :=
+  Equiv.swap (0 : Fin 2) 1
+
+/-- The coordinate order sending `X₁` to the polynomial variable. -/
+abbrev x1PolynomialEquiv :
+    CoordinateRing K ≃ₐ[K] Polynomial (MvPolynomial (Fin 1) K) :=
+  (MvPolynomial.renameEquiv K coordinateSwap).trans (MvPolynomial.finSuccEquiv K 1)
+
+theorem x0PolynomialEquiv_X0 :
+    x0PolynomialEquiv K (X0 K) = Polynomial.X := by
+  simp [x0PolynomialEquiv, X0, MvPolynomial.finSuccEquiv_X_zero]
+
+theorem x1PolynomialEquiv_X1 :
+    x1PolynomialEquiv K (X1 K) = Polynomial.X := by
+  simp [x1PolynomialEquiv, coordinateSwap, X1, MvPolynomial.finSuccEquiv_X_zero]
+
 theorem x0_mem_irrelevant :
     X0 K ∈ HomogeneousIdeal.irrelevant (grading K) := by
   rw [HomogeneousIdeal.mem_irrelevant_iff]
@@ -282,6 +309,101 @@ theorem not_irrelevant_le_x1HomogeneousIdeal :
   exact x0_not_mem_x1Ideal K (hle (x0_mem_irrelevant K))
 
 end Nontrivial
+
+section Domain
+
+variable [IsDomain K]
+
+theorem polynomial_span_X_isPrime :
+    (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime := by
+  let S := MvPolynomial (Fin 1) K
+  have hXne : (Polynomial.X : Polynomial S) ≠ 0 := Polynomial.X_ne_zero
+  have hXprime : Prime (Polynomial.X : Polynomial S) := Polynomial.prime_X
+  exact (Ideal.span_singleton_prime hXne).2 hXprime
+
+omit [IsDomain K] in
+theorem x0Ideal_eq_comap_span_X :
+    x0Ideal K =
+      Ideal.comap
+        (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  have hmap :
+      Ideal.map
+          (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+            Polynomial (MvPolynomial (Fin 1) K))
+          (x0Ideal K) =
+        Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K))) := by
+    rw [x0Ideal, Ideal.map_span]
+    simp [X0, MvPolynomial.finSuccEquiv_X_zero]
+  rw [← hmap]
+  exact (Ideal.comap_map_of_bijective
+    (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+      Polynomial (MvPolynomial (Fin 1) K))
+    (MvPolynomial.finSuccEquiv K 1).bijective).symm
+
+omit [IsDomain K] in
+theorem x1Ideal_eq_comap_span_X :
+    x1Ideal K =
+      Ideal.comap
+        (x1PolynomialEquiv K : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  have hmap :
+      Ideal.map
+          (x1PolynomialEquiv K : CoordinateRing K →+*
+            Polynomial (MvPolynomial (Fin 1) K))
+          (x1Ideal K) =
+        Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K))) := by
+    rw [x1Ideal, Ideal.map_span]
+    simp [x1PolynomialEquiv, coordinateSwap, X1, MvPolynomial.finSuccEquiv_X_zero]
+  rw [← hmap]
+  exact (Ideal.comap_map_of_bijective
+    (x1PolynomialEquiv K : CoordinateRing K →+*
+      Polynomial (MvPolynomial (Fin 1) K))
+    (x1PolynomialEquiv K).bijective).symm
+
+theorem x0Ideal_isPrime :
+    (x0Ideal K).IsPrime := by
+  rw [x0Ideal_eq_comap_span_X K]
+  haveI :
+      (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime :=
+    polynomial_span_X_isPrime K
+  exact Ideal.comap_isPrime
+    (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+      Polynomial (MvPolynomial (Fin 1) K))
+    (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K))))
+
+theorem x1Ideal_isPrime :
+    (x1Ideal K).IsPrime := by
+  rw [x1Ideal_eq_comap_span_X K]
+  haveI :
+      (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime :=
+    polynomial_span_X_isPrime K
+  exact Ideal.comap_isPrime
+    (x1PolynomialEquiv K : CoordinateRing K →+*
+      Polynomial (MvPolynomial (Fin 1) K))
+    (Ideal.span ({Polynomial.X} : Set (Polynomial (MvPolynomial (Fin 1) K))))
+
+/-- The scheme-theoretic point `[0:1]` of `Proj K[X₀,X₁]`. -/
+def zeroPoint : _root_.ProjectiveSpectrum (grading K) where
+  asHomogeneousIdeal := x0HomogeneousIdeal K
+  isPrime := x0Ideal_isPrime K
+  not_irrelevant_le := not_irrelevant_le_x0HomogeneousIdeal K
+
+/-- The scheme-theoretic point `[1:0]` of `Proj K[X₀,X₁]`. -/
+def infinityPoint : _root_.ProjectiveSpectrum (grading K) where
+  asHomogeneousIdeal := x1HomogeneousIdeal K
+  isPrime := x1Ideal_isPrime K
+  not_irrelevant_le := not_irrelevant_le_x1HomogeneousIdeal K
+
+theorem zeroPoint_asHomogeneousIdeal :
+    (zeroPoint K).asHomogeneousIdeal = x0HomogeneousIdeal K := rfl
+
+theorem infinityPoint_asHomogeneousIdeal :
+    (infinityPoint K).asHomogeneousIdeal = x1HomogeneousIdeal K := rfl
+
+end Domain
 
 end
 end SchemeProjectiveLine
