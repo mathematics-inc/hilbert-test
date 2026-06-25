@@ -72,6 +72,9 @@ available as ready-to-use Mathlib components:
 
 ## Realistic next milestones
 
+0. Optionally formalize the page-9 polynomial construction in Belyi's
+   *On Galois Extensions of a Maximal Cyclotomic Field*; see
+   `BELYI_1980_ASSESSMENT.md`.
 1. Complete Lemma 2.1 over `Polynomial ℚ`, including the derivative calculation
    and the finite-set image/cardinality argument.
 2. Formalize Lemma 2.3 over `ℂ` and its rational specialization.
