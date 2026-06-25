@@ -4,6 +4,7 @@ import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
+import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
@@ -25,6 +26,7 @@ open Set
 open CategoryTheory
 open AlgebraicGeometry
 open scoped TensorProduct
+open scoped IntermediateField Polynomial
 
 section FiniteSet
 
@@ -373,6 +375,137 @@ theorem hilbert_genericPoint_eq_of_isOpenImmersion
   exact SourceStack.FunctionFields.genericPoint_eq_of_isOpenImmersion f
 
 end FunctionFields
+
+namespace FieldTheory
+
+universe u v w
+
+variable (F E : Type*) [Field F] [Field E] [Algebra F E]
+
+theorem hilbert_primitive_element_exists
+    [FiniteDimensional F E] [Algebra.IsSeparable F E] :
+    ∃ α : E, F⟮α⟯ = ⊤ := by
+  exact SourceStack.FieldTheory.primitive_element_exists F E
+
+theorem hilbert_primitive_element_exists_of_finite_intermediateField
+    [Finite (IntermediateField F E)] (K : IntermediateField F E) :
+    ∃ α : E, F⟮α⟯ = K := by
+  exact SourceStack.FieldTheory.primitive_element_exists_of_finite_intermediateField F E K
+
+theorem hilbert_finiteDimensional_of_exists_primitive_element
+    [Algebra.IsAlgebraic F E]
+    (h : ∃ α : E, F⟮α⟯ = ⊤) :
+    FiniteDimensional F E := by
+  exact SourceStack.FieldTheory.finiteDimensional_of_exists_primitive_element F E h
+
+theorem hilbert_finite_intermediateField_of_exists_primitive_element
+    [Algebra.IsAlgebraic F E]
+    (h : ∃ α : E, F⟮α⟯ = ⊤) :
+    Finite (IntermediateField F E) := by
+  exact SourceStack.FieldTheory.finite_intermediateField_of_exists_primitive_element F E h
+
+theorem hilbert_exists_primitive_element_iff_finite_intermediateField :
+    (Algebra.IsAlgebraic F E ∧ ∃ α : E, F⟮α⟯ = ⊤) ↔
+      Finite (IntermediateField F E) := by
+  exact SourceStack.FieldTheory.exists_primitive_element_iff_finite_intermediateField F E
+
+theorem hilbert_adjoin_finiteDimensional {x : E} (hx : IsIntegral F x) :
+    FiniteDimensional F F⟮x⟯ := by
+  exact SourceStack.FieldTheory.adjoin_finiteDimensional F E hx
+
+theorem hilbert_finiteDimensional_adjoin {S : Set E} [Finite S]
+    (hS : ∀ x ∈ S, IsIntegral F x) :
+    FiniteDimensional F (IntermediateField.adjoin F S) := by
+  exact SourceStack.FieldTheory.finiteDimensional_adjoin F E hS
+
+theorem hilbert_adjoin_finrank_eq_minpoly_natDegree {x : E} (hx : IsIntegral F x) :
+    Module.finrank F F⟮x⟯ = (minpoly F x).natDegree := by
+  exact SourceStack.FieldTheory.adjoin_finrank_eq_minpoly_natDegree F E hx
+
+theorem hilbert_isSeparable_adjoin_simple_iff_isSeparable {x : E} :
+    Algebra.IsSeparable F F⟮x⟯ ↔ IsSeparable F x := by
+  exact SourceStack.FieldTheory.isSeparable_adjoin_simple_iff_isSeparable F E
+
+theorem hilbert_isSeparable_adjoin_pair_of_isSeparable {x y : E}
+    (hx : IsSeparable F x) (hy : IsSeparable F y) :
+    Algebra.IsSeparable F F⟮x, y⟯ := by
+  exact SourceStack.FieldTheory.isSeparable_adjoin_pair_of_isSeparable F E hx hy
+
+theorem hilbert_isSeparable_adjoin_iff_isSeparable {S : Set E} :
+    Algebra.IsSeparable F (IntermediateField.adjoin F S) ↔
+      ∀ x ∈ S, IsSeparable F x := by
+  exact SourceStack.FieldTheory.isSeparable_adjoin_iff_isSeparable F E
+
+theorem hilbert_minpoly_natDegree_le
+    (x : E) [FiniteDimensional F E] :
+    (minpoly F x).natDegree ≤ Module.finrank F E := by
+  exact SourceStack.FieldTheory.minpoly_natDegree_le F E x
+
+theorem hilbert_minpoly_degree_dvd {x : E} (hx : IsIntegral F x) :
+    (minpoly F x).natDegree ∣ Module.finrank F E := by
+  exact SourceStack.FieldTheory.minpoly_degree_dvd F E hx
+
+theorem hilbert_galois_iff :
+    IsGalois F E ↔ Algebra.IsSeparable F E ∧ Normal F E := by
+  exact SourceStack.FieldTheory.galois_iff F E
+
+theorem hilbert_isGalois_integral [IsGalois F E] (x : E) :
+    IsIntegral F x := by
+  exact SourceStack.FieldTheory.isGalois_integral F E x
+
+theorem hilbert_isGalois_separable [IsGalois F E] (x : E) :
+    IsSeparable F x := by
+  exact SourceStack.FieldTheory.isGalois_separable F E x
+
+theorem hilbert_isGalois_splits [IsGalois F E] (x : E) :
+    Polynomial.Splits (algebraMap F E) (minpoly F x) := by
+  exact SourceStack.FieldTheory.isGalois_splits F E x
+
+theorem hilbert_isGalois_card_aut_eq_finrank
+    [FiniteDimensional F E] [IsGalois F E] :
+    Fintype.card (E ≃ₐ[F] E) = Module.finrank F E := by
+  exact SourceStack.FieldTheory.isGalois_card_aut_eq_finrank F E
+
+theorem hilbert_normal_criterion :
+    Normal F E ↔
+      ∀ x : E, IsIntegral F x ∧ Polynomial.Splits (algebraMap F E) (minpoly F x) := by
+  exact SourceStack.FieldTheory.normal_criterion F E
+
+theorem hilbert_normal_isIntegral [Normal F E] (x : E) :
+    IsIntegral F x := by
+  exact SourceStack.FieldTheory.normal_isIntegral F E x
+
+theorem hilbert_normal_splits [Normal F E] (x : E) :
+    Polynomial.Splits (algebraMap F E) (minpoly F x) := by
+  exact SourceStack.FieldTheory.normal_splits F E x
+
+theorem hilbert_normal_exists_isSplittingField
+    [Normal F E] [FiniteDimensional F E] :
+    ∃ p : F[X], Polynomial.IsSplittingField F E p := by
+  exact SourceStack.FieldTheory.normal_exists_isSplittingField F E
+
+theorem hilbert_minpoly_exists_algEquiv_of_root
+    [Normal F E] {x y : E} (hy : IsAlgebraic F y)
+    (h_ev : (Polynomial.aeval x) (minpoly F y) = 0) :
+    ∃ σ : E ≃ₐ[F] E, σ x = y := by
+  exact SourceStack.FieldTheory.minpoly_exists_algEquiv_of_root F E hy h_ev
+
+theorem hilbert_minpoly_exists_algEquiv_of_root'
+    [Normal F E] {x y : E} (hy : IsAlgebraic F y)
+    (h_ev : (Polynomial.aeval x) (minpoly F y) = 0) :
+    ∃ σ : E ≃ₐ[F] E, σ y = x := by
+  exact SourceStack.FieldTheory.minpoly_exists_algEquiv_of_root' F E hy h_ev
+
+variable (K : Type*) [Field K] [Algebra F K] [Algebra K E]
+variable [IsScalarTower F K E]
+
+theorem hilbert_restrictNormalHom_surjective
+    [Normal F K] [Normal F E] :
+    Function.Surjective (AlgEquiv.restrictNormalHom K :
+      (E ≃ₐ[F] E) → K ≃ₐ[F] K) := by
+  exact SourceStack.FieldTheory.restrictNormalHom_surjective F E K
+
+end FieldTheory
 
 namespace UnramifiedEtale
 

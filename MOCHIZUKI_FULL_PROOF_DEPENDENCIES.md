@@ -42,6 +42,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.FunctionFields`: Mathlib function-field wrappers for
   integral schemes, nonempty affine opens, and generic-point behavior under open
   immersions.
+- `HilbertTest.SourceStack.FieldTheory`: primitive-element, finite adjoin,
+  separable-adjoin, minimal-polynomial degree, normality, Galois, splitting
+  field, conjugacy-by-automorphism, and normal-tower restriction wrappers
+  around Mathlib's field theory API.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, closed-immersion and separated/universally
   closed bridges, plus the bridge from proper scheme morphisms to topologically
@@ -200,7 +204,10 @@ Lean-facing declarations needed:
   `SourceStack.ComplexSeparation`; still missing is the scheme-`P^1` morphism
   packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
-  polynomials.
+  polynomials.  The underlying primitive-element, separability, normal/Galois,
+  splitting, and minimal-polynomial conjugacy facts are checked in
+  `SourceStack.FieldTheory`; what remains is the `P^1(Qbar)` point/model layer
+  and rational-map packaging needed to apply those field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 
@@ -214,7 +221,9 @@ Sources:
 Lean-facing declarations needed:
 
 - algebraic closure `Qbar`, number fields inside `Qbar`, and points defined over
-  a number field.
+  a number field.  Mathlib field-theory facts for finite/simple/Galois
+  extensions are now wrapped in `SourceStack.FieldTheory`; this item is the
+  geometric field-of-definition interface for curve and projective-line points.
 - finite Galois-stable point sets and images under morphisms.
 - minimal polynomial fields of definition for points of `P^1(Qbar)`.
 - if data are defined over a number field `F`, the constructed map can be chosen

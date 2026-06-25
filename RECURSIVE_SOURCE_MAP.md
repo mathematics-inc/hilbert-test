@@ -78,6 +78,10 @@ Formalization use:
 - The explicit Belyi polynomial
   `(m+n)^(m+n)/(m^m*n^n) * t^m * (1 - t)^n`
   for a normalized triple `{0, m/(m+n), 1}`.
+- Galois/normal-field descent for algebraic points on `P^1`.  The pure
+  field-theory facts are now checked in `HilbertTest.SourceStack.FieldTheory`;
+  the remaining part is the geometric bridge from algebraic projective-line
+  points and rational maps to those field extensions.
 
 ### 2. Curve reduction: Riemann-Roch spaces and finite morphisms to `P^1`
 
@@ -197,6 +201,10 @@ Formalization use:
 - Galois-stable finite sets and divisors.
 - Descent of marked maps or Belyi maps.
 - Field-of-definition clauses for maps and automorphisms.
+- Primitive elements, finite adjoining, separability of generated extensions,
+  normal/Galois splitting, minimal-polynomial conjugacy by automorphisms, and
+  restriction of automorphisms in a normal tower are already checked as
+  bottom-layer field-theory source wrappers.
 
 Recommended treatment:
 
@@ -258,6 +266,7 @@ follows.
 | Branch triple and four-point bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` and `{0,r,1,infinity}` in `SourceStack.ProjectiveLine`, including the image-cardinality drop when the four-point set maps into the branch triple |
 | Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
 | Finite image cardinality and pigeonhole | Elementary finite-set theory; Mochizuki Lemma 2.2 induction | Checked collision, subset-image drop, and four-points-to-three-images cardinality-drop packages in `SourceStack.FiniteSet` |
+| Algebraic point Galois conjugacy | Mathlib field theory; Stacks Project field extensions; standard primitive-element theorem | Checked primitive-element, finite adjoin, separability, normal/Galois, splitting, minimal-polynomial conjugacy, and normal-tower restriction wrappers in `SourceStack.FieldTheory`; still needs `P^1(Qbar)` point/model bridge |
 | Lemma 2.1 auxiliary polynomial separation | Mochizuki Lemma 2.1; Belyi 1980 polynomial calculation | Checked real-polynomial ratio, positivity, scaled separation, and unit-interval separation consequences in `NoncriticalBelyi.Elementary`; still needs full `P^1` finite-set packaging |
 | Finite morphisms to `P^1` | Stacks Project finite morphisms; Scherr-Zieve Proposition 2.1 | Checked general closed-immersion/finite/proper/separated/universally-closed stability and characterization wrappers in `SourceStack.Schemes`; still needs the curve-specific theorem that a nonconstant rational function on a proper curve induces a finite morphism |
 | Branch locus and noncriticality | Stacks Project unramified/etale morphisms; SGA 1 for covers | Checked algebraic formal-unramified/formal-etale and separability source facts in `SourceStack.UnramifiedEtale`; still needs scheme-level unramified morphisms, branch locus, and finite-cover specialization |

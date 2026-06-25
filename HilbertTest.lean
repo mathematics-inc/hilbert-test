@@ -6,6 +6,7 @@ import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 import HilbertTest.SourceStack.FunctionFields
+import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.LocalFields
