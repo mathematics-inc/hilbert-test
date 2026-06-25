@@ -82,7 +82,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
   finite/smooth/separated/proper/etale morphisms, closed-immersion and
   separated/universally closed bridges, plus the bridge from proper scheme
-  morphisms to topologically proper underlying maps.
+  morphisms to topologically proper underlying maps.  It also checks
+  quasi-separated composition/base-change and affine/terminal bridges, together
+  with qcqs global-section localization and power-clearing lemmas on basic
+  opens.
 - `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
@@ -179,9 +182,10 @@ Lean-facing declarations needed:
 - nonconstant rational function `X -> P^1` induces a finite morphism.
   General quasi-compact scheme-morphism composition, base-change,
   compact-preimage, affine-target, terminal-morphism, finite, affine,
-  integral, and proper wrappers are now checked in `SourceStack.Schemes`,
-  including the bridge from integral plus locally finite type to finite.  The
-  missing theorem is the curve-specific finite-morphism construction.
+  integral, proper, quasi-separated, and qcqs section-localization wrappers are
+  now checked in `SourceStack.Schemes`, including the bridge from integral plus
+  locally finite type to finite.  The missing theorem is the curve-specific
+  finite-morphism construction.
 
 ### B. Divisors, line bundles, degree
 

@@ -2529,6 +2529,81 @@ theorem hilbert_proper_quasiCompact
     QuasiCompact f := by
   exact SourceStack.Schemes.proper_quasiCompact f
 
+theorem hilbert_quasiSeparated_comp
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [QuasiSeparated f] [QuasiSeparated g] :
+    QuasiSeparated (f ≫ g) := by
+  exact SourceStack.Schemes.quasiSeparated_comp f g
+
+theorem hilbert_quasiSeparated_stable_under_base_change :
+    MorphismProperty.IsStableUnderBaseChange (@QuasiSeparated) := by
+  exact SourceStack.Schemes.quasiSeparated_stable_under_base_change
+
+theorem hilbert_quasiSeparated_over_affine_iff
+    (f : X ⟶ Y) [IsAffine Y] :
+    QuasiSeparated f ↔ QuasiSeparatedSpace X := by
+  exact SourceStack.Schemes.quasiSeparated_over_affine_iff f
+
+theorem hilbert_quasiSeparatedSpace_iff_quasiSeparated
+    (X : Scheme.{u}) :
+    QuasiSeparatedSpace X ↔ QuasiSeparated (CategoryTheory.Limits.terminal.from X) := by
+  exact SourceStack.Schemes.quasiSeparatedSpace_iff_quasiSeparated X
+
+theorem hilbert_affine_quasiSeparatedSpace
+    (X : Scheme.{u}) [IsAffine X] :
+    QuasiSeparatedSpace X := by
+  exact SourceStack.Schemes.affine_quasiSeparatedSpace X
+
+theorem hilbert_isCompact_basicOpen
+    (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact (U : Set X))
+    (f : Γ(X, U)) :
+    IsCompact (X.basicOpen f : Set X) := by
+  exact SourceStack.Schemes.isCompact_basicOpen X hU f
+
+theorem hilbert_exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
+    (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact U.1)
+    (x f : Γ(X, U)) (H : x |_ᵣ (X.basicOpen f) = 0) :
+    ∃ n : ℕ, f ^ n * x = 0 := by
+  exact SourceStack.Schemes.exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
+    X hU x f H
+
+theorem hilbert_exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated
+    (X : Scheme.{u}) (U : X.Opens)
+    (hU : IsCompact U.1) (hU' : IsQuasiSeparated U.1)
+    (f : Γ(X, U)) (x : Γ(X, X.basicOpen f)) :
+    ∃ (n : ℕ) (y : Γ(X, U)),
+      y |_ᵣ X.basicOpen f = (f |_ᵣ X.basicOpen f) ^ n * x := by
+  exact SourceStack.Schemes.exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated
+    X U hU hU' f x
+
+theorem hilbert_isLocalization_basicOpen_of_qcqs
+    {U : X.Opens} (hU : IsCompact U.1) (hU' : IsQuasiSeparated U.1)
+    (f : Γ(X, U)) :
+    IsLocalization.Away f (Γ(X, X.basicOpen f)) := by
+  exact SourceStack.Schemes.isLocalization_basicOpen_of_qcqs hU hU' f
+
+theorem hilbert_exists_of_res_eq_of_qcqs
+    {U : X.Opens} (hU : IsCompact U.1) (hU' : IsQuasiSeparated U.1)
+    {f g s : Γ(X, U)} (hfg : f |_ᵣ X.basicOpen s = g |_ᵣ X.basicOpen s) :
+    ∃ n, s ^ n * f = s ^ n * g := by
+  exact SourceStack.Schemes.exists_of_res_eq_of_qcqs hU hU' hfg
+
+theorem hilbert_exists_of_res_zero_of_qcqs
+    {U : X.Opens} (hU : IsCompact U.1) (hU' : IsQuasiSeparated U.1)
+    {f s : Γ(X, U)} (hf : f |_ᵣ X.basicOpen s = 0) :
+    ∃ n, s ^ n * f = 0 := by
+  exact SourceStack.Schemes.exists_of_res_zero_of_qcqs hU hU' hf
+
+theorem hilbert_isNilpotent_iff_basicOpen_eq_bot_of_isCompact
+    {U : X.Opens} (hU : IsCompact (U : Set X)) (f : Γ(X, U)) :
+    IsNilpotent f ↔ X.basicOpen f = ⊥ := by
+  exact SourceStack.Schemes.isNilpotent_iff_basicOpen_eq_bot_of_isCompact hU f
+
+theorem hilbert_zeroLocus_eq_top_iff_subset_nilradical_of_isCompact
+    {U : X.Opens} (hU : IsCompact (U : Set X)) (s : Set Γ(X, U)) :
+    X.zeroLocus s = ⊤ ↔ s ⊆ nilradical Γ(X, U) := by
+  exact SourceStack.Schemes.zeroLocus_eq_top_iff_subset_nilradical_of_isCompact hU s
+
 theorem hilbert_closedImmersion_comp
     (f : X ⟶ Y) (g : Y ⟶ Z)
     [IsClosedImmersion f] [IsClosedImmersion g] :
