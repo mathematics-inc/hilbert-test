@@ -53,7 +53,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   membership on the affine chart reduces to coordinate membership in `{0,1}`
   and `{0,r,1}`; if that four-point set maps into the
   branch triple, its image has strictly smaller cardinality and two of the four
-  distinguished points have the same image; also the linear fractional
+  distinguished points have the same image; if a finite projective-line set
+  contains the four-point set and maps into the branch triple, then the whole
+  image has smaller cardinality, matching the Lemma 2.2 induction handoff; also
+  the linear fractional
   reciprocal translate
   `[X:Y] -> [Y:X - lambda Y]` and its action on affine points, the pole, and
   infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`; both

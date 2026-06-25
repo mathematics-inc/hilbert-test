@@ -60,7 +60,10 @@ are checked as injective on projective points.  The same source layer now checks
 that affine coordinates are injective, every point is affine or infinity, and
 the branch triple and four-point collections both as finsets and finite sets;
 membership in these branch/four-point sets reduces to coordinate membership on
-the affine chart.  This is still below the scheme morphism layer.
+the affine chart.  It also checks the Lemma 2.2 induction bookkeeping that any
+finite projective-line set containing `{0,r,1,∞}` has strictly smaller image
+cardinality when the whole set maps into `{0,1,∞}`.  This is still below the
+scheme morphism layer.
 
 `HilbertTest/SourceStack/LinearAlgebra.lean` checks the Scherr-Zieve linear
 source layer over infinite fields: finite unions of proper subspaces do not

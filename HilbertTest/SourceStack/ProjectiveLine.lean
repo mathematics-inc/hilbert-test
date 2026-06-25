@@ -494,6 +494,21 @@ theorem exists_distinct_same_image_fourPoint_of_maps_to_branch
   exact exists_distinct_same_image_of_maps_to_smaller
     (fourPointFinset K r) (branchFinset K) f hcard hmap
 
+/-- Lemma 2.2 cardinality-drop package on the linear projective line: if a
+finite set contains `{0,r,1,∞}` and maps into the branch triple, then its image
+has strictly smaller cardinality. -/
+theorem image_card_lt_of_fourPoint_subset_maps_to_branch
+    [DecidableEq (P1 K)]
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (S : Finset (P1 K)) (f : P1 K → P1 K)
+    (hsubset : fourPointFinset K r ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ branchFinset K) :
+    (S.image f).card < S.card := by
+  exact card_image_lt_of_subset_with_smaller_subimage
+    S (fourPointFinset K r) f hsubset
+    (image_fourPointFinset_card_lt_of_maps_to_branch K hr0 hr1 f
+      (fun x hx => hmap x (hsubset hx)))
+
 end ProjectiveLine
 
 end SourceStack
