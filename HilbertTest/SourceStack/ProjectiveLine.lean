@@ -88,6 +88,10 @@ theorem infinity_mem_branchFinset : infinity K ∈ branchFinset K := by
   classical
   simp [branchFinset]
 
+theorem branchFinset_card : (branchFinset K).card = 3 := by
+  classical
+  simp [branchFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K]
+
 end ProjectiveLine
 
 end SourceStack

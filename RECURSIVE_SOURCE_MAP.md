@@ -254,6 +254,7 @@ follows.
 | --- | --- | --- |
 | Smooth proper connected curves | Stacks Project, Algebraic Curves; Liu, Chapters 3-4 and 7 | A bundled curve structure over a field, eventually as a one-dimensional smooth proper connected scheme |
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
+| Branch triple bookkeeping | Linear projectivization and finite-set arithmetic | Checked distinctness/membership/cardinality for `{0,1,infinity}` in `SourceStack.ProjectiveLine` |
 | Complex finite-set separation | Mochizuki Lemma 2.3; elementary metric topology on `C`; density of `Q` in `R` | Checked in `SourceStack.ComplexSeparation`; still needs scheme `P^1` packaging |
 | Finite image cardinality and pigeonhole | Elementary finite-set theory; Mochizuki Lemma 2.2 induction | Checked in `SourceStack.FiniteSet` |
 | Finite morphisms to `P^1` | Stacks Project finite morphisms; Scherr-Zieve Proposition 2.1 | Nonconstant rational function on a proper curve induces a finite morphism |

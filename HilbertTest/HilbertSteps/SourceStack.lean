@@ -145,6 +145,10 @@ theorem hilbert_infinity_mem_branchFinset :
     SourceStack.ProjectiveLine.infinity K ∈ SourceStack.ProjectiveLine.branchFinset K := by
   exact SourceStack.ProjectiveLine.infinity_mem_branchFinset K
 
+theorem hilbert_branchFinset_card :
+    (SourceStack.ProjectiveLine.branchFinset K).card = 3 := by
+  exact SourceStack.ProjectiveLine.branchFinset_card K
+
 end ProjectiveLine
 
 namespace Schemes
