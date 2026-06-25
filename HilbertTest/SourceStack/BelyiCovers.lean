@@ -201,6 +201,21 @@ theorem exists_belyiOpen_inside_complement
   rcases D.exists_for_finite_disjoint hA hsingleton hdis with ⟨φ, hφA, hφx⟩
   exact ⟨φ, hφA, hφx x (by simp)⟩
 
+/-- Theorem 2.5-style finite-set existence, restated as a Belyi-open
+containment statement: for finite disjoint sets `S` and `T`, there is a Belyi
+open containing `T` and contained in the complement of `S`. -/
+theorem exists_belyiOpen_containing_finite_inside_complement
+    [T1Space P] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ Sᶜ := by
+  rcases D.exists_for_finite_disjoint hS hT hdis with ⟨φ, hφS, hφT⟩
+  exact
+    ⟨φ, D.toBelyiCoverData.belyiOpen_isOpen φ, hφT,
+      D.toBelyiCoverData.belyiOpen_subset_compl_of_sendsSetToBranch hφS⟩
+
 /-- Abstract finite-complement form of Mochizuki Corollary 1.2: if a target
 open set has finite complement and contains `x`, then the Theorem 2.5-style
 existence interface supplies a Belyi open containing `x` and contained in that
@@ -217,6 +232,24 @@ theorem exists_belyiOpen_inside_open_of_finite_complement
       (show x ∉ Vᶜ by simpa using hxV) with
     ⟨φ, hopen, hx, hsubset⟩
   exact ⟨φ, hopen, hx, by simpa only [compl_compl] using hsubset⟩
+
+/-- Finite-set version of the Corollary 1.2 wrapper: if `V` has finite
+complement and contains a finite set `T`, then a Belyi open contains `T` and is
+contained in `V`. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space P] {V T : Set X} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  have hdis : Disjoint Vᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxV hxT
+    exact hxV (hTsub hxT)
+  rcases D.exists_belyiOpen_containing_finite_inside_complement hVcompl hT hdis with
+    ⟨φ, hopen, hTopen, hsubset⟩
+  exact ⟨φ, hopen, hTopen, by simpa only [compl_compl] using hsubset⟩
 
 end NoncriticalBelyiExistence
 

@@ -129,9 +129,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
   extraction step over `X \ S`; it also exposes a `NoncriticalBelyiExistence`
   interface matching the finite disjoint-set conclusion of Theorem 2.5 and
-  derives the pointwise tuple-cover hypothesis plus the explicit-complement and
-  open-with-finite-complement Belyi-open consequences of Corollary 1.2 from
-  that interface.
+  derives the pointwise tuple-cover hypothesis plus finite-set Belyi-open
+  containment, explicit-complement, and open-with-finite-complement consequences
+  of Corollary 1.2 from that interface.
 - `HilbertTest.SourceStack.SchemeBelyi`: scheme-level abstract Definition 1.1
   wrappers for a target with a branch-complement open, dominant morphisms etale
   over that open, the preimage Belyi open, and the restriction/open-immersion
@@ -386,7 +386,8 @@ Lean-facing declarations needed:
   complement version restricts to maps sending the fixed set `S` to the branch
   set.  The module also checks that a Theorem 2.5-style finite disjoint-set
   existence interface implies the needed pointwise tuple-cover hypothesis and
-  the open-with-finite-complement Corollary 1.2 wrapper.  The
+  finite-set Belyi-open containment, including the open-with-finite-complement
+  Corollary 1.2 wrapper.  The
   missing part is the actual curve/Riemann-Roch construction instantiating that
   interface with genuine Belyi maps.
 - Theorem 2.5 implies the family of all `U_phi` covers the relevant points.

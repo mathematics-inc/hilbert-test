@@ -49,10 +49,10 @@ Formalization target:
 - Derive Zariski-base and finite-collection corollaries.  The abstract
   finite-branch-set topological consequences of these corollaries, including
   the explicit-complement and open-with-finite-complement Belyi-open steps for
-  Corollary 1.2, and the reduction from a Theorem 2.5-style finite disjoint-set
-  source interface, are now checked in `HilbertTest.SourceStack.BelyiCovers`;
-  the remaining target-layer work is to instantiate that interface with actual
-  curve Belyi maps.
+  Corollary 1.2, finite-set Belyi-open containment, and the reduction from a
+  Theorem 2.5-style finite disjoint-set source interface, are now checked in
+  `HilbertTest.SourceStack.BelyiCovers`; the remaining target-layer work is to
+  instantiate that interface with actual curve Belyi maps.
 - The general residue-field/stalk representation of scheme points and
   field-valued points is now checked in
   `HilbertTest.SourceStack.ResidueFields`; the remaining target-layer work is
