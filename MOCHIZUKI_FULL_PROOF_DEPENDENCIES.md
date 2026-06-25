@@ -44,9 +44,12 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `0`, `1`, `infinity`, their distinctness, and the branch finset
   `{0,1,infinity}` with cardinality `3`, plus affine points `[r:1]` and the
   four-point finset `{0,r,1,infinity}` with cardinality `4` when `r != 0,1`;
-  if that four-point set maps into the branch triple, its image has strictly
-  smaller cardinality and two of the four distinguished points have the same
-  image; also the linear fractional reciprocal translate
+  affine coordinates are injective, every point is affine or infinity, and
+  branch/four-point membership on the affine chart reduces to coordinate
+  membership in `{0,1}` and `{0,r,1}`; if that four-point set maps into the
+  branch triple, its image has strictly smaller cardinality and two of the four
+  distinguished points have the same image; also the linear fractional
+  reciprocal translate
   `[X:Y] -> [Y:X - lambda Y]` and its action on affine points, the pole, and
   infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`; both
   classes of maps are checked as injective on projective points.

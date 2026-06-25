@@ -402,6 +402,16 @@ theorem hilbert_affinePoint_ne_one {r : K} (hr : r ≠ 1) :
       SourceStack.ProjectiveLine.one K := by
   exact SourceStack.ProjectiveLine.affinePoint_ne_one K hr
 
+theorem hilbert_affinePoint_injective :
+    Function.Injective (SourceStack.ProjectiveLine.affinePoint K) := by
+  exact SourceStack.ProjectiveLine.affinePoint_injective K
+
+theorem hilbert_point_eq_affine_or_infinity
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    (∃ r : K, p = SourceStack.ProjectiveLine.affinePoint K r) ∨
+      p = SourceStack.ProjectiveLine.infinity K := by
+  exact SourceStack.ProjectiveLine.point_eq_affine_or_infinity K p
+
 section FractionalLinear
 
 variable (F : Type*) [Field F]
@@ -483,6 +493,12 @@ theorem hilbert_branchFinset_card :
     (SourceStack.ProjectiveLine.branchFinset K).card = 3 := by
   exact SourceStack.ProjectiveLine.branchFinset_card K
 
+theorem hilbert_affinePoint_mem_branchFinset_iff (r : K) :
+    SourceStack.ProjectiveLine.affinePoint K r ∈
+        SourceStack.ProjectiveLine.branchFinset K ↔
+      r = 0 ∨ r = 1 := by
+  exact SourceStack.ProjectiveLine.affinePoint_mem_branchFinset_iff K r
+
 theorem hilbert_zero_mem_fourPointFinset (r : K) :
     SourceStack.ProjectiveLine.zero K ∈
       SourceStack.ProjectiveLine.fourPointFinset K r := by
@@ -502,6 +518,12 @@ theorem hilbert_infinity_mem_fourPointFinset (r : K) :
     SourceStack.ProjectiveLine.infinity K ∈
       SourceStack.ProjectiveLine.fourPointFinset K r := by
   exact SourceStack.ProjectiveLine.infinity_mem_fourPointFinset K r
+
+theorem hilbert_affinePoint_mem_fourPointFinset_iff (r x : K) :
+    SourceStack.ProjectiveLine.affinePoint K x ∈
+        SourceStack.ProjectiveLine.fourPointFinset K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  exact SourceStack.ProjectiveLine.affinePoint_mem_fourPointFinset_iff K r x
 
 theorem hilbert_fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
     (SourceStack.ProjectiveLine.fourPointFinset K r).card = 4 := by

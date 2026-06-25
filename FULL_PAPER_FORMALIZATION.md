@@ -56,8 +56,10 @@ linear-projectivization map induced by homogeneous coordinates
 `[X:Y] ↦ [Y:X - λY]`, including its action on affine points away from the pole,
 the pole, and infinity; it also checks affine-linear transformations
 `[X:Y] ↦ [aX + bY:Y]` for `a != 0`.  Both classes of linear projective maps
-are checked as injective on projective points.  This is still below the scheme
-morphism layer.
+are checked as injective on projective points.  The same source layer now checks
+that affine coordinates are injective, every point is affine or infinity, and
+membership in the branch/four-point sets reduces to coordinate membership on
+the affine chart.  This is still below the scheme morphism layer.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the middle-value
 positivity and AM-GM bound

@@ -115,6 +115,49 @@ theorem affinePoint_ne_one {r : K} (hr : r ≠ 1) :
   simp at h0 h1
   exact hr (h0.symm.trans h1)
 
+/-- Affine coordinates on the linear projective line are injective. -/
+theorem affinePoint_injective :
+    Function.Injective (affinePoint K) := by
+  intro r s h
+  unfold affinePoint at h
+  rw [Projectivization.mk_eq_mk_iff'] at h
+  obtain ⟨a, ha⟩ := h
+  have h0 := congr_fun ha 0
+  have h1 := congr_fun ha 1
+  simp at h0 h1
+  simpa [h1] using h0.symm
+
+/-- Every point of the linear projective line is either affine or infinity. -/
+theorem point_eq_affine_or_infinity (p : P1 K) :
+    (∃ r : K, p = affinePoint K r) ∨ p = infinity K := by
+  induction p using Projectivization.ind with
+  | h v hv =>
+      by_cases hden : v 1 = 0
+      · right
+        unfold infinity
+        rw [Projectivization.mk_eq_mk_iff']
+        have hv0 : v 0 ≠ 0 := by
+          intro hv0
+          apply hv
+          funext i
+          fin_cases i
+          · exact hv0
+          · exact hden
+        refine ⟨v 0, ?_⟩
+        ext i
+        fin_cases i
+        · simp
+        · simp [hden]
+      · left
+        refine ⟨(v 1)⁻¹ * v 0, ?_⟩
+        unfold affinePoint
+        rw [Projectivization.mk_eq_mk_iff']
+        refine ⟨v 1, ?_⟩
+        ext i
+        fin_cases i
+        · simp [hden]
+        · simp
+
 section FractionalLinear
 
 variable (F : Type*) [Field F]
@@ -304,6 +347,24 @@ theorem branchFinset_card : (branchFinset K).card = 3 := by
   classical
   simp [branchFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K]
 
+/-- On the affine chart, membership in the branch triple is exactly membership
+in `{0,1}`. -/
+theorem affinePoint_mem_branchFinset_iff (r : K) :
+    affinePoint K r ∈ branchFinset K ↔ r = 0 ∨ r = 1 := by
+  classical
+  constructor
+  · intro h
+    simp [branchFinset] at h
+    rcases h with h | h | h
+    · left
+      exact affinePoint_injective K h
+    · right
+      exact affinePoint_injective K h
+    · exact False.elim ((affinePoint_ne_infinity K r) h)
+  · rintro (rfl | rfl)
+    · simpa [affinePoint_zero] using zero_mem_branchFinset K
+    · simpa [affinePoint_one] using one_mem_branchFinset K
+
 /-- The finite set `{0,r,1,∞}` from Mochizuki Lemma 2.1. -/
 noncomputable def fourPointFinset (r : K) : Finset (P1 K) :=
   by
@@ -329,6 +390,32 @@ theorem infinity_mem_fourPointFinset (r : K) :
     infinity K ∈ fourPointFinset K r := by
   classical
   simp [fourPointFinset]
+
+/-- On the affine chart, membership in `{0,r,1,∞}` is membership in
+`{0,r,1}`. -/
+theorem affinePoint_mem_fourPointFinset_iff (r x : K) :
+    affinePoint K x ∈ fourPointFinset K r ↔ x = 0 ∨ x = r ∨ x = 1 := by
+  classical
+  constructor
+  · intro h
+    simp [fourPointFinset] at h
+    rcases h with h | h | h | h
+    · left
+      exact affinePoint_injective K h
+    · right
+      left
+      exact affinePoint_injective K h
+    · right
+      right
+      exact affinePoint_injective K h
+    · exact False.elim ((affinePoint_ne_infinity K x) h)
+  · rintro (hx | hx | hx)
+    · rw [hx]
+      exact zero_mem_fourPointFinset K r
+    · rw [hx]
+      exact affinePoint_mem_fourPointFinset K r
+    · rw [hx]
+      exact one_mem_fourPointFinset K r
 
 theorem fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
     (fourPointFinset K r).card = 4 := by
