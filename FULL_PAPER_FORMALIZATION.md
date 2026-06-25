@@ -64,6 +64,12 @@ positivity and AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
 Lemma 2.1.
 
+`HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
+the local compactness layer of Corollary 3.2: compact images under continuous
+maps, finite subcovers, finite unions of compact subsets and compact images,
+coordinate projections of compact product subsets, compactness of products, and
+basic topological proper-map compact-preimage/composition/closed-map wrappers.
+
 The checked output is:
 
 ```text

@@ -281,6 +281,30 @@ theorem hilbert_compact_elim_finite_subcover_indexed
     ∃ b' : Set ι, b' ⊆ b ∧ Set.Finite b' ∧ s ⊆ ⋃ i ∈ b', c i := by
   exact SourceStack.compact_elim_finite_subcover_indexed hs hcopen hcover
 
+theorem hilbert_compact_iUnion_of_finite
+    {κ : Type*} [Finite κ] (K : κ → Set X)
+    (hK : ∀ i, IsCompact (K i)) :
+    IsCompact (⋃ i, K i) := by
+  exact SourceStack.compact_iUnion_of_finite K hK
+
+theorem hilbert_compact_iUnion_image_of_finite
+    {κ : Type*} [Finite κ] (K : κ → Set X)
+    (hK : ∀ i, IsCompact (K i)) (hf : Continuous f) :
+    IsCompact (⋃ i, f '' K i) := by
+  exact SourceStack.compact_iUnion_image_of_finite K hK hf
+
+theorem hilbert_compact_pi_projection_image
+    {κ : Type*} {Z : κ → Type*} [∀ i, TopologicalSpace (Z i)]
+    {t : Set ((i : κ) → Z i)} (ht : IsCompact t) (i : κ) :
+    IsCompact ((fun x : (j : κ) → Z j => x i) '' t) := by
+  exact SourceStack.compact_pi_projection_image ht i
+
+theorem hilbert_compactSpace_pi
+    {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, CompactSpace (Z i)] :
+    CompactSpace ((i : κ) → Z i) := by
+  exact SourceStack.compactSpace_pi Z
+
 theorem hilbert_properMap_preimage_compact
     {K : Set Y} (hf : IsProperMap f) (hK : IsCompact K) :
     IsCompact (f ⁻¹' K) := by

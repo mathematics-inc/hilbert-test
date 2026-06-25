@@ -33,6 +33,35 @@ theorem compact_elim_finite_subcover_indexed
     ∃ b' : Set ι, b' ⊆ b ∧ Set.Finite b' ∧ s ⊆ ⋃ i ∈ b', c i :=
   hs.elim_finite_subcover_image hcopen hcover
 
+/-- A finite union of compact subsets is compact. -/
+theorem compact_iUnion_of_finite
+    {κ : Type*} [Finite κ] (K : κ → Set X)
+    (hK : ∀ i, IsCompact (K i)) :
+    IsCompact (⋃ i, K i) :=
+  isCompact_iUnion hK
+
+/-- A finite union of continuous images of compact subsets is compact. -/
+theorem compact_iUnion_image_of_finite
+    {κ : Type*} [Finite κ] (K : κ → Set X)
+    (hK : ∀ i, IsCompact (K i)) (hf : Continuous f) :
+    IsCompact (⋃ i, f '' K i) :=
+  isCompact_iUnion fun i => (hK i).image hf
+
+/-- Coordinate projections send compact subsets of a product to compact
+subsets.  This is the topological projection step in Mochizuki Corollary 3.2. -/
+theorem compact_pi_projection_image
+    {κ : Type*} {Z : κ → Type*} [∀ i, TopologicalSpace (Z i)]
+    {s : Set ((i : κ) → Z i)} (hs : IsCompact s) (i : κ) :
+    IsCompact ((fun x : (j : κ) → Z j => x i) '' s) :=
+  hs.image (continuous_apply i)
+
+/-- Products of compact spaces are compact in Mathlib's product topology. -/
+theorem compactSpace_pi
+    {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, CompactSpace (Z i)] :
+    CompactSpace ((i : κ) → Z i) :=
+  inferInstance
+
 /-- A proper topological map pulls compact subsets back to compact subsets. -/
 theorem properMap_preimage_compact
     {K : Set Y} (hf : IsProperMap f) (hK : IsCompact K) :

@@ -99,8 +99,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.Cohomology`: generic abelian sheaf cohomology as Ext
   groups, cohomology presheaves, and the abelian category of sheaves of modules
   over a scheme.
-- `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts, and
-  topological proper-map compact-preimage/composition/closed-map wrappers.
+- `HilbertTest.SourceStack.Topology`: compact image, finite-subcover facts,
+  finite compact unions, compact product projections/products, and topological
+  proper-map compact-preimage/composition/closed-map wrappers.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
   locally compact infinite-place completion wrappers currently available in
   Mathlib.
@@ -347,12 +348,13 @@ Lean-facing declarations needed:
 - proper curve/product has compact local-point space.
 - open subsets of locally compact spaces admit relatively compact exhaustion
   when second countable/countable dense hypotheses are available.
-- continuous image of a compact set is compact.  This topological step is already
-  checked in `SourceStack.Topology`; the proper-morphism-to-proper-map bridge is
-  checked in `SourceStack.Schemes`; topological proper-map compact-preimage
-  facts are also checked in `SourceStack.Topology`; the missing step is the
-  local-field point topology for arbitrary proper varieties and the full
-  proper-variety compactness theorem.
+- continuous image of a compact set is compact; finite unions of compact sets
+  are compact; coordinate projections from product spaces preserve compactness.
+  These topological steps are already checked in `SourceStack.Topology`; the
+  proper-morphism-to-proper-map bridge is checked in `SourceStack.Schemes`;
+  topological proper-map compact-preimage facts are also checked in
+  `SourceStack.Topology`; the missing step is the local-field point topology for
+  arbitrary proper varieties and the full proper-variety compactness theorem.
 
 ## Dependency order for actual implementation
 
