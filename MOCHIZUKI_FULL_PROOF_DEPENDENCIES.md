@@ -55,7 +55,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   classes of maps are checked as injective on projective points.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
-  basic opens, stalk localization, and separatedness of `Proj`.
+  basic opens, stalk localization, chart compatibility with the structure
+  morphism, intersections of standard affine charts, and separatedness of
+  `Proj`.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes.
@@ -308,7 +310,8 @@ Lean-facing declarations needed:
 
 - scheme-theoretic `P^1_k` connected to the linear projectivization layer.
   Mathlib's general `Proj` layer is now wrapped in
-  `SourceStack.ProjectiveSpectrum`; the missing item is the specialized
+  `SourceStack.ProjectiveSpectrum`, including standard affine chart
+  compatibility and intersections; the missing item is the specialized
   construction and API identifying `P^1_k` as `Proj k[X,Y]` with its three
   marked points.
 - rational points `0`, `1`, `infinity` agree with the scheme points.

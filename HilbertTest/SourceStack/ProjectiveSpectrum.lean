@@ -134,6 +134,50 @@ theorem basicOpenIsoAway_exists
     Nonempty (CommRingCat.of (Away 𝒜 f) ≅ Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)) :=
   ⟨Proj.basicOpenIsoAway 𝒜 f f_deg hm⟩
 
+/-- The canonical map from the degree-zero localization to sections on a
+projective basic open. -/
+theorem awayToSection_exists
+    (f : A) :
+    Nonempty (CommRingCat.of (Away 𝒜 f) ⟶ Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)) :=
+  ⟨Proj.awayToSection 𝒜 f⟩
+
+/-- The canonical morphism from a projective basic open to the corresponding
+degree-zero localization spectrum. -/
+theorem basicOpenToSpec_exists
+    (f : A) :
+    Nonempty ((Proj.basicOpen 𝒜 f).toScheme ⟶ Spec (.of (Away 𝒜 f))) :=
+  ⟨Proj.basicOpenToSpec 𝒜 f⟩
+
+/-- The standard affine chart map is compatible with the structure morphism to
+`Spec A₀`. -/
+theorem awayι_toSpecZero
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    Proj.awayι 𝒜 f f_deg hm ≫ Proj.toSpecZero 𝒜 =
+      Spec.map (CommRingCat.ofHom (fromZeroRingHom 𝒜 (Submonoid.powers f))) :=
+  Proj.awayι_toSpecZero 𝒜 f f_deg hm
+
+/-- Refining a standard affine chart by multiplying by another homogeneous
+element agrees with the induced map on degree-zero localizations. -/
+theorem specMap_awayMap_awayι
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m')
+    {x : A} (hx : x = f * g) :
+    Spec.map (CommRingCat.ofHom (awayMap 𝒜 g_deg hx)) ≫
+      Proj.awayι 𝒜 f f_deg hm =
+        Proj.awayι 𝒜 x (hx ▸ SetLike.mul_mem_graded f_deg g_deg)
+          (hm.trans_le (m.le_add_right m')) :=
+  Proj.SpecMap_awayMap_awayι 𝒜 f_deg hm g_deg hx
+
+/-- The intersection of two standard affine charts is the standard affine chart
+of their product. -/
+theorem pullbackAwayιIso_exists
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    Nonempty (Limits.pullback (Proj.awayι 𝒜 f f_deg hm) (Proj.awayι 𝒜 g g_deg hm') ≅
+      Spec (CommRingCat.of (Away 𝒜 x))) :=
+  ⟨Proj.pullbackAwayιIso 𝒜 f_deg hm g_deg hm' hx⟩
+
 end ProjectiveSpectrum
 end SourceStack
 end HilbertTest

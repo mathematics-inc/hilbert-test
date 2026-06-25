@@ -855,6 +855,40 @@ theorem hilbert_basicOpenIsoAway_exists
     Nonempty (CommRingCat.of (Away 𝒜 f) ≅ Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)) := by
   exact SourceStack.ProjectiveSpectrum.basicOpenIsoAway_exists 𝒜 f f_deg hm
 
+theorem hilbert_awayToSection_exists
+    (f : A) :
+    Nonempty (CommRingCat.of (Away 𝒜 f) ⟶ Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)) := by
+  exact SourceStack.ProjectiveSpectrum.awayToSection_exists 𝒜 f
+
+theorem hilbert_basicOpenToSpec_exists
+    (f : A) :
+    Nonempty ((Proj.basicOpen 𝒜 f).toScheme ⟶ Spec (.of (Away 𝒜 f))) := by
+  exact SourceStack.ProjectiveSpectrum.basicOpenToSpec_exists 𝒜 f
+
+theorem hilbert_awayι_toSpecZero
+    (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) :
+    Proj.awayι 𝒜 f f_deg hm ≫ Proj.toSpecZero 𝒜 =
+      Spec.map (CommRingCat.ofHom (fromZeroRingHom 𝒜 (Submonoid.powers f))) := by
+  exact SourceStack.ProjectiveSpectrum.awayι_toSpecZero 𝒜 f f_deg hm
+
+theorem hilbert_specMap_awayMap_awayι
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m')
+    {x : A} (hx : x = f * g) :
+    Spec.map (CommRingCat.ofHom (awayMap 𝒜 g_deg hx)) ≫
+      Proj.awayι 𝒜 f f_deg hm =
+        Proj.awayι 𝒜 x (hx ▸ SetLike.mul_mem_graded f_deg g_deg)
+          (hm.trans_le (m.le_add_right m')) := by
+  exact SourceStack.ProjectiveSpectrum.specMap_awayMap_awayι 𝒜 f_deg hm g_deg hx
+
+theorem hilbert_pullbackAwayιIso_exists
+    {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    {m' : ℕ} {g : A} (g_deg : g ∈ 𝒜 m') (hm' : 0 < m')
+    {x : A} (hx : x = f * g) :
+    Nonempty (Limits.pullback (Proj.awayι 𝒜 f f_deg hm) (Proj.awayι 𝒜 g g_deg hm') ≅
+      Spec (CommRingCat.of (Away 𝒜 x))) := by
+  exact SourceStack.ProjectiveSpectrum.pullbackAwayιIso_exists 𝒜 f_deg hm g_deg hm' hx
+
 end ProjectiveSpectrum
 
 namespace RationalMaps
