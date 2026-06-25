@@ -58,7 +58,8 @@ the pole, and infinity; it also checks affine-linear transformations
 `[X:Y] ↦ [aX + bY:Y]` for `a != 0`.  Both classes of linear projective maps
 are checked as injective on projective points.  The same source layer now checks
 that affine coordinates are injective, every point is affine or infinity, and
-membership in the branch/four-point sets reduces to coordinate membership on
+the branch triple and four-point collections both as finsets and finite sets;
+membership in these branch/four-point sets reduces to coordinate membership on
 the affine chart.  This is still below the scheme morphism layer.
 
 `HilbertTest/SourceStack/LinearAlgebra.lean` checks the Scherr-Zieve linear

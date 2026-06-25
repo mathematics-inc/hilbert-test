@@ -347,6 +347,18 @@ theorem branchFinset_card : (branchFinset K).card = 3 := by
   classical
   simp [branchFinset, zero_ne_one K, zero_ne_infinity K, one_ne_infinity K]
 
+/-- The branch triple `{0,1,∞}` as a set of linear projective points. -/
+noncomputable def branchSet : Set (P1 K) :=
+  branchFinset K
+
+/-- The branch triple is finite as a set. -/
+theorem branchSet_finite : (branchSet K).Finite :=
+  (branchFinset K).finite_toSet
+
+theorem mem_branchSet_iff (p : P1 K) :
+    p ∈ branchSet K ↔ p ∈ branchFinset K :=
+  Iff.rfl
+
 /-- On the affine chart, membership in the branch triple is exactly membership
 in `{0,1}`. -/
 theorem affinePoint_mem_branchFinset_iff (r : K) :
@@ -364,6 +376,11 @@ theorem affinePoint_mem_branchFinset_iff (r : K) :
   · rintro (rfl | rfl)
     · simpa [affinePoint_zero] using zero_mem_branchFinset K
     · simpa [affinePoint_one] using one_mem_branchFinset K
+
+/-- Set-valued branch-triple membership on the affine chart. -/
+theorem affinePoint_mem_branchSet_iff (r : K) :
+    affinePoint K r ∈ branchSet K ↔ r = 0 ∨ r = 1 := by
+  exact affinePoint_mem_branchFinset_iff K r
 
 /-- The finite set `{0,r,1,∞}` from Mochizuki Lemma 2.1. -/
 noncomputable def fourPointFinset (r : K) : Finset (P1 K) :=
@@ -391,6 +408,18 @@ theorem infinity_mem_fourPointFinset (r : K) :
   classical
   simp [fourPointFinset]
 
+/-- The set `{0,r,1,∞}` from Mochizuki Lemma 2.1. -/
+noncomputable def fourPointSet (r : K) : Set (P1 K) :=
+  fourPointFinset K r
+
+/-- The four-point set is finite. -/
+theorem fourPointSet_finite (r : K) : (fourPointSet K r).Finite :=
+  (fourPointFinset K r).finite_toSet
+
+theorem mem_fourPointSet_iff (r : K) (p : P1 K) :
+    p ∈ fourPointSet K r ↔ p ∈ fourPointFinset K r :=
+  Iff.rfl
+
 /-- On the affine chart, membership in `{0,r,1,∞}` is membership in
 `{0,r,1}`. -/
 theorem affinePoint_mem_fourPointFinset_iff (r x : K) :
@@ -416,6 +445,11 @@ theorem affinePoint_mem_fourPointFinset_iff (r x : K) :
       exact affinePoint_mem_fourPointFinset K r
     · rw [hx]
       exact one_mem_fourPointFinset K r
+
+/-- Set-valued four-point membership on the affine chart. -/
+theorem affinePoint_mem_fourPointSet_iff (r x : K) :
+    affinePoint K x ∈ fourPointSet K r ↔ x = 0 ∨ x = r ∨ x = 1 := by
+  exact affinePoint_mem_fourPointFinset_iff K r x
 
 theorem fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
     (fourPointFinset K r).card = 4 := by

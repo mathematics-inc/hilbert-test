@@ -829,11 +829,26 @@ theorem hilbert_branchFinset_card :
     (SourceStack.ProjectiveLine.branchFinset K).card = 3 := by
   exact SourceStack.ProjectiveLine.branchFinset_card K
 
+theorem hilbert_branchSet_finite :
+    (SourceStack.ProjectiveLine.branchSet K).Finite := by
+  exact SourceStack.ProjectiveLine.branchSet_finite K
+
+theorem hilbert_mem_branchSet_iff (p : SourceStack.ProjectiveLine.P1 K) :
+    p ∈ SourceStack.ProjectiveLine.branchSet K ↔
+      p ∈ SourceStack.ProjectiveLine.branchFinset K := by
+  exact SourceStack.ProjectiveLine.mem_branchSet_iff K p
+
 theorem hilbert_affinePoint_mem_branchFinset_iff (r : K) :
     SourceStack.ProjectiveLine.affinePoint K r ∈
         SourceStack.ProjectiveLine.branchFinset K ↔
       r = 0 ∨ r = 1 := by
   exact SourceStack.ProjectiveLine.affinePoint_mem_branchFinset_iff K r
+
+theorem hilbert_affinePoint_mem_branchSet_iff (r : K) :
+    SourceStack.ProjectiveLine.affinePoint K r ∈
+        SourceStack.ProjectiveLine.branchSet K ↔
+      r = 0 ∨ r = 1 := by
+  exact SourceStack.ProjectiveLine.affinePoint_mem_branchSet_iff K r
 
 theorem hilbert_zero_mem_fourPointFinset (r : K) :
     SourceStack.ProjectiveLine.zero K ∈
@@ -855,11 +870,27 @@ theorem hilbert_infinity_mem_fourPointFinset (r : K) :
       SourceStack.ProjectiveLine.fourPointFinset K r := by
   exact SourceStack.ProjectiveLine.infinity_mem_fourPointFinset K r
 
+theorem hilbert_fourPointSet_finite (r : K) :
+    (SourceStack.ProjectiveLine.fourPointSet K r).Finite := by
+  exact SourceStack.ProjectiveLine.fourPointSet_finite K r
+
+theorem hilbert_mem_fourPointSet_iff
+    (r : K) (p : SourceStack.ProjectiveLine.P1 K) :
+    p ∈ SourceStack.ProjectiveLine.fourPointSet K r ↔
+      p ∈ SourceStack.ProjectiveLine.fourPointFinset K r := by
+  exact SourceStack.ProjectiveLine.mem_fourPointSet_iff K r p
+
 theorem hilbert_affinePoint_mem_fourPointFinset_iff (r x : K) :
     SourceStack.ProjectiveLine.affinePoint K x ∈
         SourceStack.ProjectiveLine.fourPointFinset K r ↔
       x = 0 ∨ x = r ∨ x = 1 := by
   exact SourceStack.ProjectiveLine.affinePoint_mem_fourPointFinset_iff K r x
+
+theorem hilbert_affinePoint_mem_fourPointSet_iff (r x : K) :
+    SourceStack.ProjectiveLine.affinePoint K x ∈
+        SourceStack.ProjectiveLine.fourPointSet K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  exact SourceStack.ProjectiveLine.affinePoint_mem_fourPointSet_iff K r x
 
 theorem hilbert_fourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
     (SourceStack.ProjectiveLine.fourPointFinset K r).card = 4 := by
