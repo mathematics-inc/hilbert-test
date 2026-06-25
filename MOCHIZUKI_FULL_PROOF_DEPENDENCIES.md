@@ -121,6 +121,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   interface matching the finite disjoint-set conclusion of Theorem 2.5 and
   derives the pointwise tuple-cover hypothesis and the finite-complement
   Belyi-open consequence of Corollary 1.2 from that interface.
+- `HilbertTest.SourceStack.SchemeBelyi`: scheme-level abstract Definition 1.1
+  wrappers for a target with a branch-complement open, dominant morphisms etale
+  over that open, the preimage Belyi open, and the restriction/open-immersion
+  identity for the Belyi open.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness/properness and
   locally compact infinite-place completion wrappers currently available in
   Mathlib.

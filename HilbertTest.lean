@@ -21,6 +21,7 @@ import HilbertTest.SourceStack.Cohomology
 import HilbertTest.SourceStack.SmoothKaehler
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.BelyiCovers
+import HilbertTest.SourceStack.SchemeBelyi
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
 import HilbertTest.HilbertSteps.SourceStack

@@ -108,6 +108,13 @@ disjoint-set conclusion of Theorem 2.5 and proves from it the pointwise
 tuple-cover hypothesis and finite-subcover conclusion over `X \ S`, as well as
 the finite-complement Belyi-open statement behind Corollary 1.2.
 
+`HilbertTest/SourceStack/SchemeBelyi.lean` now formalizes the scheme-level
+abstract part of Definition 1.1: a target scheme with a branch-complement open,
+a dominant morphism etale over that open, the source Belyi open as the preimage,
+and the open-immersion/restriction identity for that preimage.  The missing
+piece is the specialized `P^1` target with marked points `0`, `1`, and
+`infinity`.
+
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite
 type, smooth, etale, and separated.  It also checks that finite, smooth,

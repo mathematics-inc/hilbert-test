@@ -41,7 +41,10 @@ Sources:
 Formalization target:
 
 - Define Belyi maps as finite morphisms `C -> P^1` whose branch locus is
-  contained in `{0, 1, infinity}`.
+  contained in `{0, 1, infinity}`.  The abstract scheme-level version with an
+  arbitrary branch-complement open is now checked in
+  `HilbertTest.SourceStack.SchemeBelyi`; the specialized `P^1` marked-point
+  API is still missing.
 - Prove existence with prescribed finite-point behavior.
 - Derive Zariski-base and finite-collection corollaries.  The abstract
   finite-branch-set topological consequences of these corollaries, including

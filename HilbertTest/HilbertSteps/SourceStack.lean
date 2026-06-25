@@ -18,6 +18,7 @@ import HilbertTest.SourceStack.Cohomology
 import HilbertTest.SourceStack.SmoothKaehler
 import HilbertTest.SourceStack.Topology
 import HilbertTest.SourceStack.BelyiCovers
+import HilbertTest.SourceStack.SchemeBelyi
 import HilbertTest.SourceStack.LocalFields
 import HilbertTest.SourceStack.Schemes
 
@@ -464,6 +465,36 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_complement
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_complement E hA hxA
 
 end BelyiCovers
+
+section SchemeBelyi
+
+universe u
+
+variable {X P : Scheme.{u}} {T : SourceStack.SchemeBelyi.BelyiTarget P}
+variable (φ : SourceStack.SchemeBelyi.BelyiMap T X)
+
+theorem hilbert_schemeBelyi_isDominant_hom :
+    IsDominant φ.hom := by
+  exact SourceStack.SchemeBelyi.BelyiMap.isDominant_hom φ
+
+theorem hilbert_schemeBelyi_denseRange_hom :
+    DenseRange φ.hom.base := by
+  exact SourceStack.SchemeBelyi.BelyiMap.denseRange_hom φ
+
+theorem hilbert_schemeBelyi_isEtale_restrict_branchOpen :
+    IsEtale (φ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.BelyiMap.isEtale_restrict_branchOpen φ
+
+theorem hilbert_schemeBelyi_belyiOpen_ι_isOpenImmersion :
+    IsOpenImmersion φ.belyiOpen.ι := by
+  exact SourceStack.SchemeBelyi.BelyiMap.belyiOpen_ι_isOpenImmersion φ
+
+theorem hilbert_schemeBelyi_morphismRestrict_to_branchOpen_ι :
+    (φ.hom ∣_ T.branchOpen) ≫ T.branchOpen.ι =
+      φ.belyiOpen.ι ≫ φ.hom := by
+  exact SourceStack.SchemeBelyi.BelyiMap.morphismRestrict_to_branchOpen_ι φ
+
+end SchemeBelyi
 
 namespace LocalFields
 
