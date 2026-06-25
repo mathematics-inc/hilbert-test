@@ -357,6 +357,47 @@ theorem hilbert_compactSpace_pi
     CompactSpace ((i : κ) → Z i) := by
   exact SourceStack.compactSpace_pi Z
 
+theorem hilbert_sigmaCompact_of_locallyCompact_secondCountable
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    SigmaCompactSpace X := by
+  exact SourceStack.sigmaCompact_of_locallyCompact_secondCountable
+
+theorem hilbert_compactExhaustion_of_locallyCompact_secondCountable
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    Nonempty (CompactExhaustion X) := by
+  exact SourceStack.compactExhaustion_of_locallyCompact_secondCountable
+
+theorem hilbert_compactExhaustion_isCompact
+    (K : CompactExhaustion X) (n : ℕ) :
+    IsCompact (K n) := by
+  exact SourceStack.compactExhaustion_isCompact K n
+
+theorem hilbert_compactExhaustion_iUnion_eq
+    (K : CompactExhaustion X) :
+    (⋃ n, K n) = Set.univ := by
+  exact SourceStack.compactExhaustion_iUnion_eq K
+
+theorem hilbert_compactExhaustion_subset_interior_succ
+    (K : CompactExhaustion X) (n : ℕ) :
+    K n ⊆ interior (K (n + 1)) := by
+  exact SourceStack.compactExhaustion_subset_interior_succ K n
+
+theorem hilbert_compactExhaustion_subset
+    (K : CompactExhaustion X) {m n : ℕ} (h : m ≤ n) :
+    K m ⊆ K n := by
+  exact SourceStack.compactExhaustion_subset K h
+
+theorem hilbert_compactExhaustion_exists_superset_of_isCompact
+    (K : CompactExhaustion X) {t : Set X} (ht : IsCompact t) :
+    ∃ n, t ⊆ K n := by
+  exact SourceStack.compactExhaustion_exists_superset_of_isCompact K ht
+
+theorem hilbert_locallyCompact_exists_compact_subset
+    [LocallyCompactSpace X] {x : X} {U : Set X}
+    (hU : IsOpen U) (hx : x ∈ U) :
+    ∃ K : Set X, IsCompact K ∧ x ∈ interior K ∧ K ⊆ U := by
+  exact SourceStack.locallyCompact_exists_compact_subset hU hx
+
 theorem hilbert_properMap_preimage_compact
     {K : Set Y} (hf : IsProperMap f) (hK : IsCompact K) :
     IsCompact (f ⁻¹' K) := by

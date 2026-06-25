@@ -86,8 +86,11 @@ the local compactness layer of Corollary 3.2: compact images under continuous
 maps, finite subcovers, finite unions of compact subsets and compact images,
 coordinate projections of compact product subsets, compactness of products, and
 finite unions of coordinate projections of compact product subsets.  It also
-checks basic topological proper-map compact-preimage/composition/closed-map
-wrappers.
+checks compact-exhaustion wrappers for locally compact second-countable spaces,
+including compactness of the exhaustion sets, the interior containment step,
+coverage of the whole space, eventual containment of compact subsets, and the
+basic locally compact compact-neighborhood lemma.  It also checks basic
+topological proper-map compact-preimage/composition/closed-map wrappers.
 It also checks the Corollary 3.1 open-cover infrastructure: compact-space
 finite subcovers, continuous preimages of opens, finite intersections of opens,
 finite-set complements in T1 spaces, and tuple-coordinate finite-avoidance

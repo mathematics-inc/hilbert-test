@@ -115,7 +115,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   finite compact unions, compact product projections/products, and topological
   proper-map compact-preimage/composition/closed-map wrappers, including the
   finite union of coordinate projection images used to build the compact sets
-  `H_v` in Corollary 3.2.
+  `H_v` in Corollary 3.2.  It now also checks the compact-exhaustion API for
+  locally compact second-countable spaces and the locally compact
+  compact-neighborhood lemma.
 - `HilbertTest.SourceStack.BelyiCovers`: abstract Belyi-open and Belyi-cover
   consequences from finite branch sets and continuous map families, including
   the Corollary 1.2 open-inside-complement step and the Corollary 3.1 finite
@@ -396,12 +398,14 @@ Lean-facing declarations needed:
 - finite extensions of local fields.
 - strong topology on `X(L)` for a variety over a local field.
 - proper curve/product has compact local-point space.
-- open subsets of locally compact spaces admit relatively compact exhaustion
-  when second countable/countable dense hypotheses are available.
+- locally compact second-countable spaces admit compact exhaustions, with
+  monotonicity, interior-containment, whole-space coverage, and eventual
+  containment of compact subsets.
 - continuous image of a compact set is compact; finite unions of compact sets
   are compact; coordinate projections from product spaces preserve compactness.
   These topological steps, including finite unions of coordinate projection
-  images, are already checked in `SourceStack.Topology`; the
+  images and compact-exhaustion wrappers, are already checked in
+  `SourceStack.Topology`; the
   proper-morphism-to-proper-map bridge is checked in `SourceStack.Schemes`;
   topological proper-map compact-preimage facts are also checked in
   `SourceStack.Topology`; the missing step is the local-field point topology for

@@ -1,4 +1,5 @@
 import Mathlib.Topology.Compactness.Compact
+import Mathlib.Topology.Compactness.SigmaCompact
 import Mathlib.Topology.Maps.Proper.Basic
 import Mathlib.Topology.Separation.Basic
 
@@ -135,6 +136,58 @@ theorem compactSpace_pi
     [∀ i, CompactSpace (Z i)] :
     CompactSpace ((i : κ) → Z i) :=
   inferInstance
+
+/-- Locally compact second-countable spaces are sigma-compact.  This is the
+countability input behind compact exhaustions in Mochizuki Corollary 3.2. -/
+theorem sigmaCompact_of_locallyCompact_secondCountable
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    SigmaCompactSpace X :=
+  inferInstance
+
+/-- A locally compact second-countable space admits a compact exhaustion. -/
+theorem compactExhaustion_of_locallyCompact_secondCountable
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    Nonempty (CompactExhaustion X) :=
+  ⟨CompactExhaustion.choice X⟩
+
+/-- The compact sets in a compact exhaustion are compact. -/
+theorem compactExhaustion_isCompact
+    (K : CompactExhaustion X) (n : ℕ) :
+    IsCompact (K n) :=
+  K.isCompact n
+
+/-- A compact exhaustion covers the whole space. -/
+theorem compactExhaustion_iUnion_eq
+    (K : CompactExhaustion X) :
+    (⋃ n, K n) = Set.univ :=
+  K.iUnion_eq
+
+/-- Each compact set in a compact exhaustion is contained in the interior of
+the next one. -/
+theorem compactExhaustion_subset_interior_succ
+    (K : CompactExhaustion X) (n : ℕ) :
+    K n ⊆ interior (K (n + 1)) :=
+  K.subset_interior_succ n
+
+/-- Compact exhaustions are monotone. -/
+theorem compactExhaustion_subset
+    (K : CompactExhaustion X) {m n : ℕ} (h : m ≤ n) :
+    K m ⊆ K n :=
+  K.subset h
+
+/-- Every compact subset is eventually contained in a compact exhaustion. -/
+theorem compactExhaustion_exists_superset_of_isCompact
+    (K : CompactExhaustion X) {s : Set X} (hs : IsCompact s) :
+    ∃ n, s ⊆ K n :=
+  K.exists_superset_of_isCompact hs
+
+/-- In a locally compact space, every open neighborhood of a point contains a
+compact set whose interior still contains the point. -/
+theorem locallyCompact_exists_compact_subset
+    [LocallyCompactSpace X] {x : X} {U : Set X}
+    (hU : IsOpen U) (hx : x ∈ U) :
+    ∃ K : Set X, IsCompact K ∧ x ∈ interior K ∧ K ⊆ U :=
+  exists_compact_subset hU hx
 
 /-- A proper topological map pulls compact subsets back to compact subsets. -/
 theorem properMap_preimage_compact
