@@ -407,7 +407,7 @@ Lean-facing declarations needed:
   finite-subcover wrappers, both for the raw projective-spectrum target and for
   maps whose target type is the scheme carrier `P1 K`, plus one-map Belyi-cover
   data and branch-avoidance open-locus facts attached to a partial map's dense
-  domain.  The missing item is the
+  domain and to a rational map's canonical domain.  The missing item is the
   morphism/rational-function API using these marked points as the branch target.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.

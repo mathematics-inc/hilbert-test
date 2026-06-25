@@ -1980,6 +1980,40 @@ theorem hilbert_partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBr
   exact SourceStack.SchemeMarkedBelyi.partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
     K f hS
 
+theorem hilbert_rationalMapMarkedCoverData_branch
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).branch = markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_branch K f
+
+theorem hilbert_rationalMapMarkedCoverData_branch_finite
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).branch.Finite := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_branch_finite K f
+
+theorem hilbert_rationalMapMarkedCoverData_mem_belyiOpen_iff
+    [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :
+    x ∈ (rationalMapMarkedCoverData K f).belyiOpen () ↔
+      f.toPartialMap.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_mem_belyiOpen_iff K f x
+
+theorem hilbert_rationalMapMarkedCoverData_belyiOpen_eq
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).belyiOpen () =
+      {x : f.domain | f.toPartialMap.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_belyiOpen_eq K f
+
+theorem hilbert_rationalMapMarkedCoverData_belyiOpen_isOpen
+    [IsReduced C] [T1Space (P1 K)] (f : C ⤏ P1 K) :
+    IsOpen ((rationalMapMarkedCoverData K f).belyiOpen ()) := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_belyiOpen_isOpen K f
+
+theorem hilbert_rationalMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    [IsReduced C] (f : C ⤏ P1 K) {S : Set f.domain}
+    (hS : (rationalMapMarkedCoverData K f).sendsSetToBranch S ()) :
+    (rationalMapMarkedCoverData K f).belyiOpen () ⊆ Sᶜ := by
+  exact SourceStack.SchemeMarkedBelyi.rationalMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    K f hS
+
 end PartialMapDomain
 
 end SchemeMarkedBelyi

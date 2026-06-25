@@ -355,6 +355,48 @@ theorem partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
     (partialMapMarkedCoverData K f).belyiOpen () ⊆ Sᶜ := by
   exact (partialMapMarkedCoverData K f).belyiOpen_subset_compl_of_sendsSetToBranch hS
 
+/-- A rational map to `P1 K` from a reduced source gives one-map Belyi-cover
+data on its canonical dense domain. -/
+def rationalMapMarkedCoverData
+    [IsReduced C] (f : C ⤏ P1 K) :
+    BelyiCoverData f.domain (P1 K) Unit where
+  branch := markedSchemePointSet K
+  branch_finite := markedSchemePointSet_finite K
+  map _ := RationalMaps.p1PartialMapDomainMap K f.toPartialMap
+  continuous_map _ := RationalMaps.continuous_p1PartialMapDomainMap K f.toPartialMap
+
+theorem rationalMapMarkedCoverData_branch
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).branch = markedSchemePointSet K := rfl
+
+theorem rationalMapMarkedCoverData_branch_finite
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).branch.Finite := by
+  exact markedSchemePointSet_finite K
+
+theorem rationalMapMarkedCoverData_mem_belyiOpen_iff
+    [IsReduced C] (f : C ⤏ P1 K) (x : f.domain) :
+    x ∈ (rationalMapMarkedCoverData K f).belyiOpen () ↔
+      f.toPartialMap.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem rationalMapMarkedCoverData_belyiOpen_eq
+    [IsReduced C] (f : C ⤏ P1 K) :
+    (rationalMapMarkedCoverData K f).belyiOpen () =
+      {x : f.domain | f.toPartialMap.hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
+theorem rationalMapMarkedCoverData_belyiOpen_isOpen
+    [IsReduced C] [T1Space (P1 K)] (f : C ⤏ P1 K) :
+    IsOpen ((rationalMapMarkedCoverData K f).belyiOpen ()) := by
+  exact (rationalMapMarkedCoverData K f).belyiOpen_isOpen ()
+
+theorem rationalMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    [IsReduced C] (f : C ⤏ P1 K) {S : Set f.domain}
+    (hS : (rationalMapMarkedCoverData K f).sendsSetToBranch S ()) :
+    (rationalMapMarkedCoverData K f).belyiOpen () ⊆ Sᶜ := by
+  exact (rationalMapMarkedCoverData K f).belyiOpen_subset_compl_of_sendsSetToBranch hS
+
 end PartialMapDomain
 
 end
