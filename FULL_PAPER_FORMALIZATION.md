@@ -63,7 +63,8 @@ the affine chart.  This is still below the scheme morphism layer.
 
 `HilbertTest/SourceStack/LinearAlgebra.lean` checks the Scherr-Zieve linear
 source layer over infinite fields: finite unions of proper subspaces do not
-cover, finitely many nonzero linear forms have a common nonvanishing vector,
+cover, Riemann-Roch dimension inequalities give proper subspaces via smaller
+`finrank`, finitely many nonzero linear forms have a common nonvanishing vector,
 and the constrained common-kernel form needed after Riemann-Roch supplies
 evaluations chooses a vector vanishing on one finite family of linear forms and
 nonvanishing on another when the avoid forms remain nonzero on the common

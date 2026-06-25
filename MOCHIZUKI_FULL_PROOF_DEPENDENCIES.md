@@ -27,7 +27,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   bound used for Mochizuki Lemma 2.1, plus a packaged theorem combining the
   normalized endpoint values, middle criticality, and middle value.
 - `HilbertTest.SourceStack.LinearAlgebra`: Scherr-Zieve finite-union avoidance
-  for proper subspaces over an infinite field, the finite nonzero
+  for proper subspaces over an infinite field, the `finrank` inequality bridge
+  from Riemann-Roch dimensions to proper subspaces, the finite nonzero
   linear-evaluation avoidance bridge used for Riemann-Roch spaces, and the
   common-kernel constrained vanishing/nonvanishing handoff.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
@@ -241,10 +242,11 @@ Lean-facing declarations needed:
   `Gamma(X, L) -> L_x` is surjective for every point `x`.
 - finite-family evaluation avoidance: choose a global section vanishing on one
   finite set and nonzero on another.  The infinite-field vector-space part, the
-  generic nonzero-evaluation-to-proper-kernel bridge, and the common-kernel
-  constrained vanishing/nonvanishing package are checked in
-  `SourceStack.LinearAlgebra`; the missing part is connecting curve evaluation
-  maps and Riemann-Roch dimensions to those linear forms.
+  `finrank` inequality-to-proper-subspace bridge, the generic
+  nonzero-evaluation-to-proper-kernel bridge, and the common-kernel constrained
+  vanishing/nonvanishing package are checked in `SourceStack.LinearAlgebra`; the
+  missing part is connecting curve evaluation maps and actual Riemann-Roch
+  dimension formulas to those linear forms.
 The commutative-algebra smoothness/differential layer below smooth-curve
 cohomology is now checked in `SourceStack.SmoothKaehler`, including
 standard-smooth presentations and relative-dimension stability; the missing

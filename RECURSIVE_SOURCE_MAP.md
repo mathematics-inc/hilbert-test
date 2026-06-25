@@ -143,9 +143,10 @@ Minimal theorem package needed:
 - Riemann-Roch in the form `ell(D) = deg(D) + 1 - g` for
   `deg(D) >= 2g - 1`.
 - The vector-space lemma that a finite union of proper subspaces does not cover
-  a finite-dimensional vector space over an infinite field, plus the generic
-  bridge from nonzero linear evaluations to proper kernels and the common-kernel
-  constrained vanishing/nonvanishing package.  The finite-field
+  a finite-dimensional vector space over an infinite field, the `finrank`
+  inequality bridge from Riemann-Roch dimensions to proper subspaces, plus the
+  generic bridge from nonzero linear evaluations to proper kernels and the
+  common-kernel constrained vanishing/nonvanishing package.  The finite-field
   inclusion-exclusion variant used by Scherr-Zieve remains separate.
 
 ### 3. Scheme morphism layer
@@ -335,7 +336,7 @@ follows.
 | Degree and canonical bundle | Stacks Project Algebraic Curves 53.4-53.5; Liu 7.3; Hartshorne IV | Degree of line bundles and `deg omega = 2g - 2` |
 | Riemann-Roch spaces | Scherr-Zieve Lemma 2.2; Stacks Algebraic Curves 53.5; Liu 7.3 | `dim L(D)` and enough rational functions with prescribed poles |
 | Basepoint-free/very ample line bundles | Vakil Class 44; Hartshorne IV.3; Stacks Algebraic Curves 53.7 | `deg L >= 2g` gives global generation; `deg L >= 2g+1` gives closed immersion |
-| Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Checked infinite-field finite-subspace avoidance, nonzero-linear-form avoidance, common finite vanishing kernels, and constrained vanish/nonvanish selection in `SourceStack.LinearAlgebra`; still needs finite-field counting if positive-characteristic finite fields are targeted |
+| Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Checked infinite-field finite-subspace avoidance, `finrank` inequality-to-proper-subspace bridge, nonzero-linear-form avoidance, common finite vanishing kernels, and constrained vanish/nonvanish selection in `SourceStack.LinearAlgebra`; still needs finite-field counting if positive-characteristic finite fields are targeted |
 | Descent and field of definition | Weil; Dèbes-Emsalem; Dèbes-Douai; Sijsling-Voight | Galois-stable marked maps descend to the intended field |
 | Open-cover finite-subcover step in Corollary 3.1 | General topology compactness and finite branch-set complements | Checked compact-space finite-subcover wrappers and the topological openness of tuple-coordinate finite-avoidance loci in `SourceStack.Topology`; checked the abstract Belyi-cover finite extraction from pointwise avoidance, including the fixed-set complement version over `X \ S`, in `SourceStack.BelyiCovers`; still needs the curve-product quasi-compactness theorem and the Belyi-map cover/nonemptiness statement |
 | Local compactness in Corollary 3.2 | Lorscheid; Serre/Cassels local fields; Stacks properness | Checked compact image, finite subcover, finite compact-union, product compactness/projection, finite unions of coordinate projection images, compact-exhaustion wrappers, locally compact compact-neighborhoods, and topological proper-map compact-preimage wrappers in `SourceStack.Topology`; checked scheme quasi-compact compact-preimage/compact-space bridge wrappers in `SourceStack.Schemes`; checked p-adic compact/proper/second-countable/sigma-compact/compact-exhaustion wrappers and infinite-place completion local compactness, second countability, sigma compactness, compact exhaustions, and real/complex isometry models in `SourceStack.LocalFields`; still needs the algebraic theorem that proper varieties over arbitrary local fields have compact point spaces in the strong topology |

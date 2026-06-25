@@ -101,6 +101,19 @@ theorem hilbert_scherr_zieve_exists_vector_avoiding_finite_proper_subspaces
   exact SourceStack.scherr_zieve_exists_vector_avoiding_finite_proper_subspaces s hproper
 
 omit [Infinite K] in
+theorem hilbert_subspace_ne_top_of_finrank_lt
+    [FiniteDimensional K V] (W : Subspace K V)
+    (h : Module.finrank K W < Module.finrank K V) :
+    W ≠ ⊤ := by
+  exact SourceStack.subspace_ne_top_of_finrank_lt W h
+
+theorem hilbert_exists_vector_avoiding_subspaces_of_finrank_lt
+    [FiniteDimensional K V] (s : Finset (Subspace K V))
+    (hfinrank : ∀ W ∈ s, Module.finrank K W < Module.finrank K V) :
+    ∃ v : V, ∀ W ∈ s, v ∉ W := by
+  exact SourceStack.exists_vector_avoiding_subspaces_of_finrank_lt s hfinrank
+
+omit [Infinite K] in
 theorem hilbert_linearMap_ker_ne_top_of_ne_zero
     {W : Type*} [AddCommGroup W] [Module K W]
     (f : V →ₗ[K] W) (hf : f ≠ 0) :

@@ -1,4 +1,5 @@
 import Mathlib.GroupTheory.CosetCover
+import Mathlib.LinearAlgebra.FiniteDimensional
 
 /-!
 Source-stack lemmas for the linear algebra used in Scherr-Zieve's
@@ -56,6 +57,25 @@ theorem scherr_zieve_exists_vector_avoiding_finite_proper_subspaces
       obtain ⟨W, hWs, hvW⟩ := hnone v
       exact mem_iUnion.2 ⟨W, mem_iUnion.2 ⟨hWs, hvW⟩⟩
   exact scherr_zieve_no_finite_cover_by_proper_subspaces s hproper hcover
+
+omit [Infinite K] in
+/-- Riemann-Roch handoff: a subspace with smaller `finrank` than the ambient
+finite-dimensional vector space is proper. -/
+theorem subspace_ne_top_of_finrank_lt
+    [FiniteDimensional K V] (W : Subspace K V)
+    (h : Module.finrank K W < Module.finrank K V) :
+    W ≠ ⊤ := by
+  exact ne_of_lt (Submodule.lt_top_of_finrank_lt_finrank h)
+
+/-- Scherr-Zieve/Riemann-Roch handoff: if every member of a finite family of
+subspaces has strictly smaller dimension than the ambient finite-dimensional
+vector space, then one can choose a vector outside all of them. -/
+theorem exists_vector_avoiding_subspaces_of_finrank_lt
+    [FiniteDimensional K V] (s : Finset (Subspace K V))
+    (hfinrank : ∀ W ∈ s, Module.finrank K W < Module.finrank K V) :
+    ∃ v : V, ∀ W ∈ s, v ∉ W := by
+  exact scherr_zieve_exists_vector_avoiding_finite_proper_subspaces s
+    (fun W hW => subspace_ne_top_of_finrank_lt W (hfinrank W hW))
 
 /-- Finite nonzero linear evaluations can be made simultaneously nonzero over
 an infinite field.  This is the pure linear-algebra core of the finite
