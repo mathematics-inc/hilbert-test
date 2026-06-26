@@ -698,6 +698,45 @@ theorem hilbert_p1ReductionExistence_exists_for_finite_disjoint
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_for_finite_disjoint
     E hS hT hdis
 
+theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_complement
+    [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ Aᶜ := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_complement
+    E hA hxA
+
+theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_open_of_finite_complement
+    E hU hUcompl hxU
+
+theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    E hU hxU
+
 end BelyiReduction
 
 namespace ProjectiveSectionMaps
