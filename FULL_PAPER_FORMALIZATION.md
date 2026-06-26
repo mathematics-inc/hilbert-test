@@ -145,13 +145,16 @@ representatives of `s0` and `s1`, and the equation
 `ratio * denominator = numerator`; this package feeds the section-ratio chart
 bridge.  A unit-denominator refinement now constructs this ratio as
 `numerator * denominator⁻¹` whenever the chosen local denominator is a unit,
-and proves the quotient equation.  The finite marked family interface can now
-also be instantiated directly from those trivialized ratio maps once the
-corresponding finite marked Belyi maps are supplied and shown to agree
-pointwise with the glued maps.  The remaining missing input is now narrower:
-construct those local representatives, denominator units, and chart-ring maps
-from an actual invertible-sheaf trivialization, then prove the finite marked
-family/branch-control facts for the resulting map.
+and proves the quotient equation.  The scheme basic-open layer now proves that
+the defining denominator section restricts to an explicit unit on its own
+basic open, so the denominator-unit field can be supplied once the local
+trivializing opens are chosen as denominator basic opens.  The finite marked
+family interface can now also be instantiated directly from those trivialized
+ratio maps once the corresponding finite marked Belyi maps are supplied and
+shown to agree pointwise with the glued maps.  The remaining missing input is
+now narrower: construct the local representatives and chart-ring maps from an
+actual invertible-sheaf trivialization on those opens, then prove the finite
+marked family/branch-control facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section
@@ -452,7 +455,8 @@ It also now
 checks quasi-separated composition/base-change and affine/terminal bridges, plus
 the qcqs global-section localization layer: compact basic opens, power-clearing
 for sections on basic opens, the localization statement for sections on
-`D(f)`, nilpotent iff empty basic open on compact opens, and the compact-open
+`D(f)`, the explicit unit obtained by restricting a section to its own basic
+open, nilpotent iff empty basic open on compact opens, and the compact-open
 zero-locus/nilradical criterion.
 
 `HilbertTest/SourceStack/UnramifiedEtale.lean` checks algebraic

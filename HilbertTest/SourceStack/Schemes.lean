@@ -215,6 +215,26 @@ theorem isCompact_basicOpen
     IsCompact (X.basicOpen f : Set X) :=
   AlgebraicGeometry.isCompact_basicOpen X hU f
 
+/-- The defining section of a basic open restricts to a unit on that basic
+open. -/
+theorem isUnit_res_basicOpen
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    IsUnit (f |_ᵣ X.basicOpen f) :=
+  X.toRingedSpace.isUnit_res_basicOpen f
+
+/-- The explicit unit obtained by restricting a section to its own basic
+open. -/
+def basicOpenUnit
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    Γ(X, X.basicOpen f)ˣ :=
+  (isUnit_res_basicOpen X f).unit
+
+@[simp]
+theorem basicOpenUnit_coe
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    (basicOpenUnit X f : Γ(X, X.basicOpen f)) = f |_ᵣ X.basicOpen f :=
+  (isUnit_res_basicOpen X f).unit_spec
+
 /-- If a section vanishes on a basic open inside a compact open, some power of
 the defining section kills it. -/
 theorem exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact

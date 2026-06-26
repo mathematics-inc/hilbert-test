@@ -6860,6 +6860,17 @@ theorem hilbert_isCompact_basicOpen
     IsCompact (X.basicOpen f : Set X) := by
   exact SourceStack.Schemes.isCompact_basicOpen X hU f
 
+theorem hilbert_isUnit_res_basicOpen
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    IsUnit (f |_ᵣ X.basicOpen f) := by
+  exact SourceStack.Schemes.isUnit_res_basicOpen X f
+
+theorem hilbert_basicOpenUnit_coe
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    (SourceStack.Schemes.basicOpenUnit X f : Γ(X, X.basicOpen f)) =
+      f |_ᵣ X.basicOpen f := by
+  exact SourceStack.Schemes.basicOpenUnit_coe X f
+
 theorem hilbert_exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
     (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact U.1)
     (x f : Γ(X, U)) (H : x |_ᵣ (X.basicOpen f) = 0) :

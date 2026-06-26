@@ -254,8 +254,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   restriction/quasi-compactness, and compactness of schemes universally closed
   or proper over a field.  It also checks
   quasi-separated composition/base-change and affine/terminal bridges, together
-  with qcqs global-section localization and power-clearing lemmas on basic
-  opens.
+  with qcqs global-section localization, power-clearing lemmas on basic opens,
+  and the explicit unit obtained by restricting a section to its own basic
+  open.
 - `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
@@ -368,7 +369,8 @@ Lean-facing declarations needed:
   compact-preimage, affine-target, terminal-morphism, finite, affine,
   integral, proper, quasi-separated, and qcqs section-localization wrappers are
   now checked in `SourceStack.Schemes`, including the bridge from integral plus
-  locally finite type to finite and the direct finite-to-separated bridge.  The
+  locally finite type to finite, the direct finite-to-separated bridge, and the
+  unit restriction of a denominator section on its basic open.  The
   missing theorem is the curve-specific finite-morphism construction; pinned
   Mathlib also does not yet provide the integral/universally-closed bridge
   needed to derive finite-implies-proper.
