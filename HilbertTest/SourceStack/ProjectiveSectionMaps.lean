@@ -1431,6 +1431,81 @@ theorem exists_for_finite_disjoint
 
 end IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
 
+/-- A finite marked family whose projective-section maps are supplied by the
+canonical two-basic-open Bezout section-ratio package.  This connects the
+explicit two-section construction directly to the finite marked Belyi family
+interface. -/
+structure TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  isUnitFamily : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V
+  twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V
+  trivialized_evalData_eq :
+    ∀ s : V, (isUnitFamily.trivialized s).evalData = (twoSection s).evalData
+  trivialized_section0_eq :
+    ∀ s : V, (isUnitFamily.trivialized s).section0 = (twoSection s).section0
+  trivialized_section1_eq :
+    ∀ s : V, (isUnitFamily.trivialized s).section1 = (twoSection s).section1
+
+namespace TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
+
+variable {C : Scheme.{u}}
+variable (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+
+/-- The evaluation package inherited from the denominator-is-unit finite
+family. -/
+def evalPackage : RiemannRochFiniteEvaluationPackage K C V :=
+  F.isUnitFamily.evalPackage
+
+/-- The marked-open proof inherited from the denominator-is-unit finite family. -/
+def hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ :=
+  F.isUnitFamily.hmarkedOpen
+
+/-- The finite marked Belyi map family inherited from the denominator-is-unit
+finite family. -/
+def map (s : V) : SchemeBelyi.FiniteBelyiMap
+    (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C :=
+  F.isUnitFamily.map s
+
+/-- The denominator-is-unit trivialized data obtained from the canonical
+two-section package. -/
+def trivialized (s : V) : TrivializedIsUnitSectionRatioData K C V :=
+  F.isUnitFamily.trivialized s
+
+theorem trivialized_evalData_eq_spec (s : V) :
+    (F.trivialized s).evalData = (F.twoSection s).evalData :=
+  F.trivialized_evalData_eq s
+
+theorem trivialized_section0_eq_spec (s : V) :
+    (F.trivialized s).section0 = (F.twoSection s).section0 :=
+  F.trivialized_section0_eq s
+
+theorem trivialized_section1_eq_spec (s : V) :
+    (F.trivialized s).section1 = (F.twoSection s).section1 :=
+  F.trivialized_section1_eq s
+
+/-- Forget the canonical two-section package to the denominator-is-unit finite
+marked family interface. -/
+def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V :=
+  F.isUnitFamily
+
+theorem toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
+    (s : V) :
+    F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Direct finite disjoint-set conclusion for canonical two-section Bezout
+finite marked families. -/
+theorem exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    F.isUnitFamily hS hT hdis
+
+end TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
+
 end ProjectiveSectionMaps
 end SourceStack
 end HilbertTest

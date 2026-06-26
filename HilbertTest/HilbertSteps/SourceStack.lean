@@ -1270,6 +1270,49 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_for_
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     ITF hS hT hdis
 
+variable (TSF : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
+    TSF.evalPackage = TSF.isUnitFamily.evalPackage := by
+  rfl
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized
+    (s : V) :
+    TSF.trivialized s = TSF.isUnitFamily.trivialized s := by
+  rfl
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized_evalData_eq_spec
+    (s : V) :
+    (TSF.trivialized s).evalData = (TSF.twoSection s).evalData := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.trivialized_evalData_eq_spec
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized_section0_eq_spec
+    (s : V) :
+    (TSF.trivialized s).section0 = (TSF.twoSection s).section0 := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.trivialized_section0_eq_spec
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized_section1_eq_spec
+    (s : V) :
+    (TSF.trivialized s).section1 = (TSF.twoSection s).section1 := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.trivialized_section1_eq_spec
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toIsUnit_map_apply
+    (s : V) :
+    TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = TSF.map s := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (TSF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    TSF hS hT hdis
+
 end ProjectiveSectionMaps
 
 namespace CurveDivisorSections
