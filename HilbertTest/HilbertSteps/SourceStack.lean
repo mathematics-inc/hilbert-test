@@ -347,6 +347,18 @@ theorem hilbert_schemeSectionControlled_toSectionControlledBelyiData_map_apply
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toSectionControlledBelyiData_map_apply
     D s x
 
+theorem hilbert_schemeSectionControlled_eval_zero_to_marked
+    (s : V) {x : C} (hx : D.evalPackage.eval x s = 0) :
+    (D.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.eval_zero_to_marked
+    D s hx
+
+theorem hilbert_schemeSectionControlled_eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : D.evalPackage.eval x s ≠ 0) :
+    (D.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.eval_nonzero_avoids_marked
+    D s hx
+
 theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_hmarkedOpen
     [Infinite K] :
     D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by

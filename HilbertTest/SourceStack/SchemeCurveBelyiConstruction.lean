@@ -76,6 +76,32 @@ theorem toSectionControlledBelyiData_map_apply
     (s : V) (x : C) :
     D.toSectionControlledBelyiData.map s x = (D.map s).hom.base x := rfl
 
+/-- A pointwise zero evaluation sends the associated finite marked Belyi map
+into the marked branch set. -/
+theorem eval_zero_to_marked
+    (s : V) {x : C} (hx : D.evalPackage.eval x s = 0) :
+    (D.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact D.sends_vanishing_to_marked (S := {x}) (s := s)
+    (by
+      intro y hy
+      rw [Set.mem_singleton_iff] at hy
+      subst y
+      exact hx)
+    x (by simp)
+
+/-- A pointwise nonzero evaluation makes the associated finite marked Belyi map
+avoid the marked branch set. -/
+theorem eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : D.evalPackage.eval x s ≠ 0) :
+    (D.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact D.nonzero_avoids_marked (T := {x}) (s := s)
+    (by
+      intro y hy
+      rw [Set.mem_singleton_iff] at hy
+      subst y
+      exact hx)
+    x (by simp)
+
 /-- The scheme-level section-controlled package instantiates the paper-facing
 finite marked Belyi existence interface over an infinite field. -/
 def toFiniteMarkedBelyiExistence [Infinite K] :
