@@ -1066,6 +1066,13 @@ theorem hilbert_trivializedIsUnitSectionRatioData_local_ratio_mul_denominator_eq
   exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.local_ratio_mul_denominator_eq_numerator
     IUD i
 
+theorem hilbert_trivializedIsUnitSectionRatioData_localChartCoordinate_eq_ratio
+    (i : IUD.cover.J) :
+    standardChartCoordinateSection K (IUD.localChartRingHom i) =
+      IUD.localSectionRatio i := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.localChartCoordinate_eq_ratio
+    IUD i
+
 theorem hilbert_trivializedIsUnitSectionRatioData_toProjectiveLineSectionPair_hom :
     IUD.toProjectiveLineSectionPair.hom = IUD.globalHom := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.toProjectiveLineSectionPair_hom
@@ -1170,6 +1177,60 @@ theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_denominator_
     (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).denominator_isUnit i =
       TwoSectionBezoutTrivializedIsUnitData.denominator_isUnit TSD i := by
   rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_localSection0
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection0 i =
+      TwoSectionBezoutTrivializedIsUnitData.localSection0 TSD i := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_localSection0
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_localSection1
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection1 i =
+      TwoSectionBezoutTrivializedIsUnitData.localSection1 TSD i := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_localSection1
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_localChartRingHom
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localChartRingHom i =
+      TwoSectionBezoutTrivializedIsUnitData.localChartRingHom TSD i := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_localChartRingHom
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_localSectionRatio_eq_unitRatio
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSectionRatio i =
+      LocalSectionRatioChart.unitRatio
+        (TwoSectionBezoutTrivializedIsUnitData.ratioChart TSD i)
+        (TwoSectionBezoutTrivializedIsUnitData.localSection0 TSD i)
+        (TwoSectionBezoutTrivializedIsUnitData.localSection1 TSD i)
+        ((TwoSectionBezoutTrivializedIsUnitData.denominator_isUnit TSD i).unit) := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_localSectionRatio_eq_unitRatio
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_localChartCoordinate_eq_ratio
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    standardChartCoordinateSection K
+        ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localChartRingHom i) =
+      (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSectionRatio i := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_localChartCoordinate_eq_ratio
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_local_ratio_mul_denominator_eq_numerator
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSectionRatio i *
+        LocalSectionRatioChart.denominator
+          ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).ratioChart i)
+          ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection0 i)
+          ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection1 i) =
+      LocalSectionRatioChart.numerator
+        ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).ratioChart i)
+        ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection0 i)
+        ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection1 i) := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_local_ratio_mul_denominator_eq_numerator
+    TSD i
 
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 

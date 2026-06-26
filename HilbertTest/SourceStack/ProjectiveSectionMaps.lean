@@ -1008,6 +1008,11 @@ theorem local_ratio_mul_denominator_eq_numerator (i : D.cover.J) :
         (D.localSection0 i) (D.localSection1 i) := by
   exact D.toTrivializedUnitSectionRatioData.local_ratio_mul_denominator_eq_numerator i
 
+theorem localChartCoordinate_eq_ratio (i : D.cover.J) :
+    standardChartCoordinateSection K (D.localChartRingHom i) =
+      D.localSectionRatio i := by
+  exact D.toTrivializedUnitSectionRatioData.localChartCoordinate_eq_ratio i
+
 def globalHom : C ⟶ P1 K :=
   D.toTrivializedUnitSectionRatioData.globalHom
 
@@ -1208,6 +1213,41 @@ def toTrivializedIsUnitSectionRatioData :
   local_section0_vanishes_of_zero := by
     intro i x hx
     exact D.local_section0_vanishes_of_zero i x (by simpa [cover] using hx)
+
+theorem toTrivialized_localSection0 (i : D.cover.J) :
+    (D.toTrivializedIsUnitSectionRatioData).localSection0 i =
+      D.localSection0 i := rfl
+
+theorem toTrivialized_localSection1 (i : D.cover.J) :
+    (D.toTrivializedIsUnitSectionRatioData).localSection1 i =
+      D.localSection1 i := rfl
+
+theorem toTrivialized_localChartRingHom (i : D.cover.J) :
+    (D.toTrivializedIsUnitSectionRatioData).localChartRingHom i =
+      D.localChartRingHom i := rfl
+
+theorem toTrivialized_localSectionRatio_eq_unitRatio (i : D.cover.J) :
+    (D.toTrivializedIsUnitSectionRatioData).localSectionRatio i =
+      LocalSectionRatioChart.unitRatio (D.ratioChart i)
+        (D.localSection0 i) (D.localSection1 i) ((D.denominator_isUnit i).unit) := rfl
+
+theorem toTrivialized_localChartCoordinate_eq_ratio (i : D.cover.J) :
+    standardChartCoordinateSection K
+        ((D.toTrivializedIsUnitSectionRatioData).localChartRingHom i) =
+      (D.toTrivializedIsUnitSectionRatioData).localSectionRatio i := by
+  exact (D.toTrivializedIsUnitSectionRatioData).localChartCoordinate_eq_ratio i
+
+theorem toTrivialized_local_ratio_mul_denominator_eq_numerator (i : D.cover.J) :
+    (D.toTrivializedIsUnitSectionRatioData).localSectionRatio i *
+        LocalSectionRatioChart.denominator
+          ((D.toTrivializedIsUnitSectionRatioData).ratioChart i)
+          ((D.toTrivializedIsUnitSectionRatioData).localSection0 i)
+          ((D.toTrivializedIsUnitSectionRatioData).localSection1 i) =
+      LocalSectionRatioChart.numerator
+        ((D.toTrivializedIsUnitSectionRatioData).ratioChart i)
+        ((D.toTrivializedIsUnitSectionRatioData).localSection0 i)
+        ((D.toTrivializedIsUnitSectionRatioData).localSection1 i) := by
+  exact (D.toTrivializedIsUnitSectionRatioData).local_ratio_mul_denominator_eq_numerator i
 
 end TwoSectionBezoutTrivializedIsUnitData
 
