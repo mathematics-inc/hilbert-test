@@ -206,9 +206,10 @@ and checks the corresponding branch-avoidance Belyi open and containment facts;
 the same construction is also stated for rational maps on their canonical
 domains.  It additionally packages honest scheme-morphism families
 `C ⟶ P1 K` as marked Belyi-cover data and as the same noncritical finite-set
-existence interface.  The remaining missing input is the curve theorem
-producing such morphism/rational-function families with the paper's required
-branch control.
+existence interface, and bridges scheme-level Belyi maps to the marked `P1 K`
+target back to the topological marked cover-data open.  The remaining missing
+input is the curve theorem producing such morphism/rational-function families
+with the paper's required branch control.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
@@ -258,9 +259,10 @@ open-with-finite-complement specializations behind Corollary 1.2.
 `HilbertTest/SourceStack/SchemeBelyi.lean` now formalizes the scheme-level
 abstract part of Definition 1.1: a target scheme with a branch-complement open,
 a dominant morphism etale over that open, the source Belyi open as the preimage,
-and the open-immersion/restriction identity for that preimage.  The missing
-piece is the specialized `P^1` target with marked points `0`, `1`, and
-`infinity`.
+and the open-immersion/restriction identity for that preimage.  It also defines
+the marked `P1 K` branch-complement open and marked Belyi target, with membership
+in the resulting source Belyi open identified as avoidance of the checked marked
+triple.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite

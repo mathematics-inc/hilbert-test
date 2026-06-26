@@ -1,4 +1,6 @@
 import HilbertTest.SourceStack.Schemes
+import HilbertTest.SourceStack.SchemeProjectiveLine
+import HilbertTest.SourceStack.Topology
 import Mathlib.AlgebraicGeometry.Morphisms.UnderlyingMap
 
 /-!
@@ -18,6 +20,8 @@ open AlgebraicGeometry
 namespace HilbertTest
 namespace SourceStack
 namespace SchemeBelyi
+
+open SchemeProjectiveLine
 
 universe u
 
@@ -69,6 +73,76 @@ theorem morphismRestrict_to_branchOpen_ι :
   exact morphismRestrict_ι φ.hom T.branchOpen
 
 end BelyiMap
+
+section MarkedProjectiveLineTarget
+
+variable (K : Type u) [CommRing K] [IsDomain K]
+
+/-- In a T1 target topology, the complement of the checked marked triple on
+`P1 K` is open.  The more general target below accepts this openness as an
+explicit hypothesis, since scheme topologies are not T1 in full generality. -/
+theorem markedSchemePointSet_compl_isOpen
+    [T1Space (P1 K)] :
+    IsOpen (markedSchemePointSet K)ᶜ :=
+  finite_compl_isOpen (markedSchemePointSet_finite K)
+
+/-- The branch-complement open `P1 K \\ {0,1,infinity}` as an open subscheme
+carrier, assuming the complement of the checked marked triple is open. -/
+def markedBranchOpen
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ) :
+    (P1 K).Opens where
+  carrier := (markedSchemePointSet K)ᶜ
+  is_open' := hmarkedOpen
+
+theorem markedBranchOpen_carrier
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ) :
+    (markedBranchOpen K hmarkedOpen : Set (P1 K)) =
+      (markedSchemePointSet K)ᶜ := rfl
+
+theorem mem_markedBranchOpen_iff
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ) (p : P1 K) :
+    p ∈ markedBranchOpen K hmarkedOpen ↔ p ∉ markedSchemePointSet K := by
+  rfl
+
+/-- Mochizuki's marked `P1` target in the abstract scheme-level Belyi-map API. -/
+def markedBelyiTarget
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ) :
+    BelyiTarget (P1 K) where
+  branchOpen := markedBranchOpen K hmarkedOpen
+
+theorem markedBelyiTarget_branchOpen
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ) :
+    (markedBelyiTarget K hmarkedOpen).branchOpen =
+      markedBranchOpen K hmarkedOpen := rfl
+
+/-- T1-specialized marked `P1` target, convenient for topological cover
+arguments that already assume finite sets are closed. -/
+def markedBelyiTargetOfT1
+    [T1Space (P1 K)] :
+    BelyiTarget (P1 K) :=
+  markedBelyiTarget K (markedSchemePointSet_compl_isOpen K)
+
+theorem markedBelyiTargetOfT1_branchOpen
+    [T1Space (P1 K)] :
+    (markedBelyiTargetOfT1 K).branchOpen =
+      markedBranchOpen K (markedSchemePointSet_compl_isOpen K) := rfl
+
+variable {K}
+variable {X : Scheme.{u}}
+variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
+
+theorem BelyiMap.mem_marked_belyiOpen_iff
+    (φ : BelyiMap (markedBelyiTarget K hmarkedOpen) X) (x : X) :
+    x ∈ φ.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem BelyiMap.marked_belyiOpen_carrier
+    (φ : BelyiMap (markedBelyiTarget K hmarkedOpen) X) :
+    (φ.belyiOpen : Set X) =
+      {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
+end MarkedProjectiveLineTarget
 
 end SchemeBelyi
 end SourceStack

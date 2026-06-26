@@ -1,4 +1,5 @@
 import HilbertTest.SourceStack.BelyiCovers
+import HilbertTest.SourceStack.SchemeBelyi
 import HilbertTest.SourceStack.SchemeProjectiveLine
 import HilbertTest.SourceStack.RationalMaps
 
@@ -579,6 +580,49 @@ theorem morphismMarkedNoncritical_finite_subcover_on_complement
     exists_morphism_for_finite_disjoint).finite_subcover_on_complement (κ := κ) hS
 
 end MorphismFamily
+
+section SchemeBelyiMapBridge
+
+variable {C : Scheme.{u}}
+variable (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+variable (φ : SchemeBelyi.BelyiMap (SchemeBelyi.markedBelyiTarget K hmarkedOpen) C)
+
+/-- A scheme-level Belyi map to the marked `P1 K` target gives the corresponding
+one-map marked cover datum on the source carrier. -/
+def schemeBelyiMapMarkedCoverData :
+    BelyiCoverData C (P1 K) Unit :=
+  morphismMarkedCoverData K Unit C (fun _ => φ.hom)
+
+theorem schemeBelyiMapMarkedCoverData_branch :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).branch =
+      markedSchemePointSet K := rfl
+
+theorem schemeBelyiMapMarkedCoverData_branch_finite :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).branch.Finite := by
+  exact markedSchemePointSet_finite K
+
+theorem schemeBelyiMapMarkedCoverData_map_apply
+    (x : C) :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).map () x = φ.hom.base x := by
+  rfl
+
+theorem schemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
+    (x : C) :
+    x ∈ (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () ↔
+      φ.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem schemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () =
+      (φ.belyiOpen : Set C) := by
+  rfl
+
+theorem schemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
+    IsOpen ((schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen ()) := by
+  rw [schemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi K hmarkedOpen φ]
+  exact φ.belyiOpen.2
+
+end SchemeBelyiMapBridge
 
 end
 end SchemeMarkedBelyi

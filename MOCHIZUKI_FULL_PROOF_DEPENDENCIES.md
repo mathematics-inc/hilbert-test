@@ -210,7 +210,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.SchemeBelyi`: scheme-level abstract Definition 1.1
   wrappers for a target with a branch-complement open, dominant morphisms etale
   over that open, the preimage Belyi open, and the restriction/open-immersion
-  identity for the Belyi open.
+  identity for the Belyi open.  It now also defines the marked `P1 K`
+  branch-complement open and marked target, and identifies membership in the
+  source Belyi open with avoidance of the checked marked triple.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness, properness,
   second-countability, sigma-compactness, and compact-exhaustion wrappers, plus
   locally compact/second-countable/sigma-compact infinite-place completions,
@@ -411,9 +413,10 @@ Lean-facing declarations needed:
   maps whose target type is the scheme carrier `P1 K`, plus one-map Belyi-cover
   data and branch-avoidance open-locus facts attached to a partial map's dense
   domain and to a rational map's canonical domain, and marked cover/noncritical
-  interfaces attached to honest morphism families `C ⟶ P1 K`.  The missing item
-  is the curve theorem producing those morphisms/rational functions with the
-  required branch target control.
+  interfaces attached to honest morphism families `C ⟶ P1 K`.  It also bridges
+  scheme-level Belyi maps to the marked `P1 K` target back to the topological
+  marked cover-data open.  The missing item is the curve theorem producing those
+  morphisms/rational functions with the required branch target control.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
