@@ -6326,14 +6326,102 @@ namespace SchemeAffineLinePoints
 open SourceStack.MarkedProjectiveLine
 open SourceStack.P1SchemePointBridge
 open SourceStack.SchemeAffineLinePoints
+open SourceStack.SchemeProjectiveLine
 
 universe u
 
 variable (K : Type u) [Field K]
 
+theorem hilbert_schemeAffineLinePoints_C_mem_degree_zero
+    (r : K) :
+    (MvPolynomial.C r : CoordinateRing K) ∈ grading K 0 := by
+  exact SourceStack.SchemeAffineLinePoints.C_mem_degree_zero K r
+
+theorem hilbert_schemeAffineLinePoints_C_mul_x1_mem_degree_one
+    (r : K) :
+    (MvPolynomial.C r : CoordinateRing K) * X1 K ∈ grading K 1 := by
+  exact SourceStack.SchemeAffineLinePoints.C_mul_x1_mem_degree_one K r
+
+theorem hilbert_schemeAffineLinePoints_affinePointCoordinate_mem_degree_one
+    (r : K) :
+    affinePointCoordinate K r ∈ grading K 1 := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointCoordinate_mem_degree_one K r
+
+theorem hilbert_schemeAffineLinePoints_affinePointIdeal_isHomogeneous
+    (r : K) :
+    (affinePointIdeal K r).IsHomogeneous (grading K) := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointIdeal_isHomogeneous K r
+
+theorem hilbert_schemeAffineLinePoints_x0PolynomialEquiv_C
+    (r : K) :
+    x0PolynomialEquiv K (MvPolynomial.C r : CoordinateRing K) =
+      Polynomial.C (MvPolynomial.C r : MvPolynomial (Fin 1) K) := by
+  exact SourceStack.SchemeAffineLinePoints.x0PolynomialEquiv_C K r
+
+theorem hilbert_schemeAffineLinePoints_x0PolynomialEquiv_affinePointCoordinate
+    (r : K) :
+    x0PolynomialEquiv K (affinePointCoordinate K r) =
+      affinePointPolynomialTarget K r := by
+  exact SourceStack.SchemeAffineLinePoints.x0PolynomialEquiv_affinePointCoordinate
+    K r
+
+theorem hilbert_schemeAffineLinePoints_affinePointIdeal_eq_comap_span
+    (r : K) :
+    affinePointIdeal K r =
+      Ideal.comap
+        (MvPolynomial.finSuccEquiv K 1 : CoordinateRing K →+*
+          Polynomial (MvPolynomial (Fin 1) K))
+        (Ideal.span ({affinePointPolynomialTarget K r} :
+          Set (Polynomial (MvPolynomial (Fin 1) K)))) := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointIdeal_eq_comap_span K r
+
+theorem hilbert_schemeAffineLinePoints_x1_not_mem_affinePointIdeal
+    (r : K) :
+    X1 K ∉ affinePointIdeal K r := by
+  exact SourceStack.SchemeAffineLinePoints.x1_not_mem_affinePointIdeal K r
+
+theorem hilbert_schemeAffineLinePoints_not_irrelevant_le_affinePointHomogeneousIdeal
+    (r : K) :
+    ¬ HomogeneousIdeal.irrelevant (grading K) ≤ affinePointHomogeneousIdeal K r := by
+  exact SourceStack.SchemeAffineLinePoints.not_irrelevant_le_affinePointHomogeneousIdeal
+    K r
+
+theorem hilbert_schemeAffineLinePoints_polynomial_span_affinePointTarget_isPrime
+    (r : K) :
+    (Ideal.span ({affinePointPolynomialTarget K r} :
+      Set (Polynomial (MvPolynomial (Fin 1) K)))).IsPrime := by
+  exact SourceStack.SchemeAffineLinePoints.polynomial_span_affinePointTarget_isPrime
+    K r
+
+theorem hilbert_schemeAffineLinePoints_affinePointIdeal_isPrime
+    (r : K) :
+    (affinePointIdeal K r).IsPrime := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointIdeal_isPrime K r
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_asHomogeneousIdeal
+    (r : K) :
+    (affinePoint K r).asHomogeneousIdeal = affinePointHomogeneousIdeal K r := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_asHomogeneousIdeal K r
+
+theorem hilbert_schemeAffineLinePoints_affinePointIdeal_zero :
+    affinePointIdeal K 0 = x0Ideal K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointIdeal_zero K
+
+theorem hilbert_schemeAffineLinePoints_affinePointHomogeneousIdeal_zero :
+    affinePointHomogeneousIdeal K 0 = x0HomogeneousIdeal K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointHomogeneousIdeal_zero K
+
 theorem hilbert_schemeAffineLinePoints_affinePoint_zero :
     affinePoint K 0 = SourceStack.SchemeProjectiveLine.zeroPoint K := by
   exact SourceStack.SchemeAffineLinePoints.affinePoint_zero K
+
+theorem hilbert_schemeAffineLinePoints_affinePointIdeal_one :
+    affinePointIdeal K 1 = x0SubX1Ideal K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointIdeal_one K
+
+theorem hilbert_schemeAffineLinePoints_affinePointHomogeneousIdeal_one :
+    affinePointHomogeneousIdeal K 1 = x0SubX1HomogeneousIdeal K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePointHomogeneousIdeal_one K
 
 theorem hilbert_schemeAffineLinePoints_affinePoint_one :
     affinePoint K 1 = SourceStack.SchemeProjectiveLine.onePoint K := by
@@ -6407,11 +6495,46 @@ theorem hilbert_schemeAffineLinePoints_affinePoint_mem_x1_basicOpen
       (SourceStack.SchemeProjectiveLine.X1 K) := by
   exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_x1_basicOpen K r
 
+theorem hilbert_schemeAffineLinePoints_eval_affinePointPolynomialTarget
+    (r s : K) :
+    Polynomial.aeval (MvPolynomial.C r * MvPolynomial.X (0 : Fin 1))
+        (affinePointPolynomialTarget K s) =
+      MvPolynomial.C (r - s) * MvPolynomial.X (0 : Fin 1) := by
+  exact SourceStack.SchemeAffineLinePoints.eval_affinePointPolynomialTarget K r s
+
+theorem hilbert_schemeAffineLinePoints_C_sub_mul_X_ne_zero
+    {r s : K} (h : r ≠ s) :
+    MvPolynomial.C (r - s) * MvPolynomial.X (0 : Fin 1) ≠ 0 := by
+  exact SourceStack.SchemeAffineLinePoints.C_sub_mul_X_ne_zero K h
+
+theorem hilbert_schemeAffineLinePoints_zeroPoint_mem_schemeFourPointFinset
+    (r : K) :
+    zeroPoint K ∈ schemeFourPointFinset K r := by
+  exact SourceStack.SchemeAffineLinePoints.zeroPoint_mem_schemeFourPointFinset
+    K r
+
+theorem hilbert_schemeAffineLinePoints_onePoint_mem_schemeFourPointFinset
+    (r : K) :
+    onePoint K ∈ schemeFourPointFinset K r := by
+  exact SourceStack.SchemeAffineLinePoints.onePoint_mem_schemeFourPointFinset
+    K r
+
+theorem hilbert_schemeAffineLinePoints_infinityPoint_mem_schemeFourPointFinset
+    (r : K) :
+    infinityPoint K ∈ schemeFourPointFinset K r := by
+  exact SourceStack.SchemeAffineLinePoints.infinityPoint_mem_schemeFourPointFinset
+    K r
+
 theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_affinePoint
     (r : K) :
     linearToSchemePoint K (SourceStack.ProjectiveLine.affinePoint K r) =
       affinePoint K r := by
   exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_affinePoint K r
+
+theorem hilbert_schemeAffineLinePoints_not_exists_affinePoint_eq_infinity :
+    ¬ ∃ r : K, SourceStack.ProjectiveLine.infinity K =
+      SourceStack.ProjectiveLine.affinePoint K r := by
+  exact SourceStack.SchemeAffineLinePoints.not_exists_affinePoint_eq_infinity K
 
 theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_infinity :
     linearToSchemePoint K (SourceStack.ProjectiveLine.infinity K) =
