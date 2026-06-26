@@ -65,9 +65,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   construction `numerator * denominator⁻¹`, extracts the denominator unit from
   an `IsUnit` proof when that is the available local input, packages the glued
   map as a `ProjectiveLineSectionPair`, assembles finite marked families
-  directly from trivialized ratio maps whose finite Belyi maps agree with the
-  glued maps, and proves that finite marked Belyi maps built from such pairs
-  instantiate the section-controlled finite marked bridge.
+  directly from trivialized ratio maps, including denominator-is-unit local
+  ratio maps, whose finite Belyi maps agree with the glued maps, and proves
+  that finite marked Belyi maps built from such pairs instantiate the
+  section-controlled finite marked bridge.
 - `HilbertTest.SourceStack.CurveDivisorSections`: divisor-section selection
   layer for the same proof passage.  Given the zero-section of `O_X(D)` and
   nonzero evaluation functionals on the finite support, it chooses a second

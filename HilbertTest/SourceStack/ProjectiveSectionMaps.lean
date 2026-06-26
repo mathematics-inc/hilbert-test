@@ -1171,6 +1171,79 @@ theorem exists_for_finite_disjoint
 
 end TrivializedProjectiveSectionFiniteMarkedFamily
 
+/-- A concrete finite marked family whose projective-section maps are supplied
+by denominator-is-unit local section-ratio data.  This removes the need to
+materialize explicit denominator units before entering the finite marked Belyi
+family interface. -/
+structure IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalPackage : RiemannRochFiniteEvaluationPackage K C V
+  hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ
+  trivialized : V → TrivializedIsUnitSectionRatioData K C V
+  map : V → SchemeBelyi.FiniteBelyiMap
+    (SchemeBelyi.markedBelyiTarget K hmarkedOpen) C
+  map_base_eq_globalHom :
+    ∀ s x, (map s).hom.base x = (trivialized s).globalHom.base x
+  trivialized_section0_eval_eq_index :
+    ∀ s x, (trivialized s).evalData.eval x (trivialized s).section0 = evalPackage.eval x s
+  nonzero_avoids_marked :
+    ∀ {T : Set C} {s : V},
+      evalPackage.toEvaluationData.nonzeroOnSet T s →
+        ∀ x ∈ T, (map s).hom.base x ∉ markedSchemePointSet K
+
+namespace IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
+
+variable {C : Scheme.{u}}
+variable (F : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+
+/-- The projective-section pair attached to a section through denominator-is-unit
+local ratio data. -/
+def pair (s : V) : ProjectiveLineSectionPair K C V :=
+  (F.trivialized s).toProjectiveLineSectionPair
+
+theorem pair_hom (s : V) :
+    (F.pair s).hom = (F.trivialized s).globalHom := rfl
+
+theorem map_base_eq_pair (s : V) (x : C) :
+    (F.map s).hom.base x = (F.pair s).hom.base x := by
+  exact F.map_base_eq_globalHom s x
+
+theorem pair_section0_eval_eq_index (s : V) (x : C) :
+    (F.pair s).evalData.eval x (F.pair s).section0 =
+      F.evalPackage.eval x s := by
+  exact F.trivialized_section0_eval_eq_index s x
+
+/-- Forget denominator-is-unit local data to the projective-section finite
+marked family interface. -/
+def toProjectiveSectionFiniteMarkedFamily :
+    ProjectiveSectionFiniteMarkedFamily K C V where
+  evalPackage := F.evalPackage
+  hmarkedOpen := F.hmarkedOpen
+  pair := F.pair
+  map := F.map
+  map_base_eq_pair := F.map_base_eq_pair
+  pair_section0_eval_eq_index := F.pair_section0_eval_eq_index
+  nonzero_avoids_marked := by
+    intro T s hs
+    exact F.nonzero_avoids_marked hs
+
+theorem toProjectiveSectionFiniteMarkedFamily_map_apply
+    (s : V) :
+    F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Direct finite disjoint-set conclusion for denominator-is-unit trivialized
+finite marked families. -/
+theorem exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    hS hT hdis
+
+end IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
+
 end ProjectiveSectionMaps
 end SourceStack
 end HilbertTest

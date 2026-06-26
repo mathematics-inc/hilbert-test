@@ -234,9 +234,10 @@ Minimal theorem package needed:
   construction `numerator * denominator⁻¹`, extracts the denominator unit from
   an `IsUnit` proof when that is the available local input, packages the result
   as a `ProjectiveLineSectionPair`, assembles finite marked families directly
-  from trivialized ratio maps whose finite Belyi maps agree with the glued
-  maps, and proves that finite marked Belyi maps built from such pairs feed
-  into the section-controlled finite marked bridge.  The
+  from trivialized ratio maps, including denominator-is-unit local ratio maps,
+  whose finite Belyi maps agree with the glued maps, and proves that finite
+  marked Belyi maps built from such pairs feed into the section-controlled
+  finite marked bridge.  The
   `CurveDivisorSections` layer now checks the finite linear-avoidance step that
   chooses `s1` nonzero on the divisor support and derives the basepoint-free
   pair from the zero-section.  The `CurveCohomologySections` layer now checks

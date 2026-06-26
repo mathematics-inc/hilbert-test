@@ -1141,6 +1141,41 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     TF hS hT hdis
 
+variable (ITF : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_pair_hom
+    (s : V) :
+    (ITF.pair s).hom = (ITF.trivialized s).globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.pair_hom
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_base_eq_pair
+    (s : V) (x : C) :
+    (ITF.map s).hom.base x = (ITF.pair s).hom.base x := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_base_eq_pair
+    ITF s x
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_pair_section0_eval_eq_index
+    (s : V) (x : C) :
+    (ITF.pair s).evalData.eval x (ITF.pair s).section0 =
+      ITF.evalPackage.eval x s := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.pair_section0_eval_eq_index
+    ITF s x
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toProjectiveSectionFiniteMarkedFamily_map_apply
+    (s : V) :
+    ITF.toProjectiveSectionFiniteMarkedFamily.map s = ITF.map s := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (ITF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    ITF hS hT hdis
+
 end ProjectiveSectionMaps
 
 namespace CurveDivisorSections

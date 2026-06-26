@@ -153,11 +153,12 @@ field can be supplied once the local trivializing opens are chosen as
 denominator basic opens; the same unit is also transported through `U.topIso`
 to the top sections of the open subscheme used as a cover object.  The finite
 marked family interface can now also be instantiated directly from those
-trivialized ratio maps once the corresponding finite marked Belyi maps are
-supplied and shown to agree pointwise with the glued maps.  The remaining
-missing input is now narrower: construct the local representatives and
-chart-ring maps from an actual invertible-sheaf trivialization on those opens,
-then prove the finite marked family/branch-control facts for the resulting map.
+trivialized ratio maps, including the denominator-is-unit variant, once the
+corresponding finite marked Belyi maps are supplied and shown to agree
+pointwise with the glued maps.  The remaining missing input is now narrower:
+construct the local representatives and chart-ring maps from an actual
+invertible-sheaf trivialization on those opens, then prove the finite marked
+family/branch-control facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section
