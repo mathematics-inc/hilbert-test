@@ -126,11 +126,13 @@ curve divisors, line-bundle sections, and finite morphisms.
 `HilbertTest/SourceStack/ProjectiveSectionMaps.lean` now isolates the next
 piece of Mochizuki's Theorem 2.5 proof: if a section `s0` vanishes exactly on a
 set `T` and a section `s1` is nonzero on `T`, then the pair has no common
-basepoint.  It also packages the still-missing Stacks/Vakil construction of the
-basepoint-free two-section morphism to `P1 K` as a `ProjectiveLineSectionPair`,
-and proves that a finite marked family built from such pairs feeds into
-`SectionControlledFiniteMarkedBelyiData`, hence into the checked Belyi-open and
-finite-disjoint-set conclusions.
+basepoint.  It also checks the scheme-gluing bridge for the projective-line map:
+compatible local chart morphisms on an open cover glue to an honest global
+morphism `C ⟶ P1 K`, the local zero-section criteria descend to the global map,
+and the result feeds the existing `ProjectiveLineSectionPair` interface.  The
+remaining missing input is now narrower: construct those compatible local chart
+morphisms from actual line-bundle trivializations of the two selected sections,
+then prove the finite marked family/branch-control facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section

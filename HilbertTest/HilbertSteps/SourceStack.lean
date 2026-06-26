@@ -635,6 +635,44 @@ theorem hilbert_projectiveLineSectionPair_avoids_zeroPoint_of_section0_nonzero
   exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.avoids_zeroPoint_of_section0_nonzero
     P hx
 
+variable (G : GluedProjectiveLineSectionData K C V)
+
+theorem hilbert_gluedProjectiveLineSectionData_cover_map_globalHom
+    (i : G.cover.J) :
+    G.cover.map i ≫ G.globalHom = G.localHom i := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.cover_map_globalHom
+    G i
+
+theorem hilbert_gluedProjectiveLineSectionData_globalHom_base_of_cover
+    (i : G.cover.J) (x : G.cover.obj i) :
+    G.globalHom.base ((G.cover.map i).base x) = (G.localHom i).base x := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.globalHom_base_of_cover
+    G i x
+
+theorem hilbert_gluedProjectiveLineSectionData_global_zero_of_section0_vanishes
+    (x : C) (hx : G.evalData.eval x G.section0 = 0) :
+    G.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.global_zero_of_section0_vanishes
+    G x hx
+
+theorem hilbert_gluedProjectiveLineSectionData_section0_vanishes_of_global_zero
+    (x : C)
+    (hx : G.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    G.evalData.eval x G.section0 = 0 := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.section0_vanishes_of_global_zero
+    G x hx
+
+theorem hilbert_gluedProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
+    G.toProjectiveLineSectionPair.hom = G.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.toProjectiveLineSectionPair_hom
+    G
+
+theorem hilbert_gluedProjectiveLineSectionData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : G.evalData.eval x G.section0 = 0) :
+    G.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    G hx
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply

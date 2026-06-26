@@ -1,5 +1,6 @@
 import HilbertTest.SourceStack.MarkedProjectiveLine
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
+import Mathlib.AlgebraicGeometry.Gluing
 
 /-!
 Projective-section source layer for the curve step in Theorem 2.5.
@@ -16,6 +17,8 @@ that feeds into the existing finite marked Belyi machinery.
 noncomputable section
 
 open AlgebraicGeometry
+open CategoryTheory
+open CategoryTheory.Limits
 
 namespace HilbertTest
 namespace SourceStack
@@ -105,6 +108,109 @@ theorem avoids_zeroPoint_of_section0_nonzero
   exact hx (P.section0_vanishes_of_zero x hzero)
 
 end ProjectiveLineSectionPair
+
+/-- Local chart data for constructing the projective-line morphism attached to
+two sections.  This is the checked scheme-gluing bridge: the global morphism
+`C ⟶ P1 K` is no longer a primitive field, but is obtained from compatible
+local morphisms on an open cover.  The remaining source-material obligation is
+to construct the local chart maps themselves from trivializations of the line
+bundle. -/
+structure GluedProjectiveLineSectionData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  localHom : ∀ i : cover.J, cover.obj i ⟶ P1 K
+  local_compat :
+    ∀ i j : cover.J,
+      pullback.fst (cover.map i) (cover.map j) ≫ localHom i =
+        pullback.snd (cover.map i) (cover.map j) ≫ localHom j
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (localHom i).base x = schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (localHom i).base x = schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace GluedProjectiveLineSectionData
+
+variable {C : Scheme.{u}}
+variable (D : GluedProjectiveLineSectionData K C V)
+
+/-- The projective-line morphism obtained by gluing compatible local chart
+morphisms. -/
+def globalHom : C ⟶ P1 K :=
+  D.cover.glueMorphisms D.localHom D.local_compat
+
+@[reassoc]
+theorem cover_map_globalHom (i : D.cover.J) :
+    D.cover.map i ≫ D.globalHom = D.localHom i := by
+  exact D.cover.ι_glueMorphisms D.localHom D.local_compat i
+
+/-- On each member of the cover, the glued morphism has the prescribed local
+description. -/
+theorem globalHom_base_of_cover (i : D.cover.J) (x : D.cover.obj i) :
+    D.globalHom.base ((D.cover.map i).base x) = (D.localHom i).base x := by
+  change ((D.cover.map i ≫ D.globalHom).base x) = (D.localHom i).base x
+  rw [D.cover_map_globalHom i]
+
+/-- If the first section vanishes at a point, the glued map sends that point to
+the checked scheme point `0 ∈ P1`. -/
+theorem global_zero_of_section0_vanishes
+    (x : C) (hx : D.evalData.eval x D.section0 = 0) :
+    D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  classical
+  rcases D.cover.covers x with ⟨y, hy⟩
+  calc
+    D.globalHom.base x =
+        D.globalHom.base ((D.cover.map (D.cover.f x)).base y) := by
+          rw [hy]
+    _ = (D.localHom (D.cover.f x)).base y := D.globalHom_base_of_cover (D.cover.f x) y
+    _ = schemeCarrierPoint K MarkedPointLabel.zero :=
+        D.local_zero_of_section0_vanishes (D.cover.f x) y (by simpa [hy] using hx)
+
+/-- Conversely, if the glued map sends a point to `0 ∈ P1`, the first section
+vanishes there. -/
+theorem section0_vanishes_of_global_zero
+    (x : C)
+    (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    D.evalData.eval x D.section0 = 0 := by
+  classical
+  rcases D.cover.covers x with ⟨y, hy⟩
+  have hlocal :
+      (D.localHom (D.cover.f x)).base y =
+        schemeCarrierPoint K MarkedPointLabel.zero := by
+    rw [← D.globalHom_base_of_cover (D.cover.f x) y]
+    simpa [hy] using hx
+  have hv :=
+    D.local_section0_vanishes_of_zero (D.cover.f x) y hlocal
+  simpa [hy] using hv
+
+/-- The glued local chart data supplies the narrower projective-section pair
+interface used by the existing finite marked Belyi bridge. -/
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  hom := D.globalHom
+  zero_of_section0_vanishes := D.global_zero_of_section0_vanishes
+  section0_vanishes_of_zero := D.section0_vanishes_of_global_zero
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end GluedProjectiveLineSectionData
 
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
