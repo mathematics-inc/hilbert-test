@@ -62,6 +62,21 @@ theorem finite_subcover_of_pointwise
     (fun φ => D.tupleAvoidSet_isOpen (κ := κ) φ)
     (D.tupleAvoidSet_cover_of_pointwise (κ := κ) hcover)
 
+/-- Membership form of `finite_subcover_of_pointwise`: every tuple is covered
+by one of finitely many selected maps. -/
+theorem finite_subcover_of_pointwise_forall
+    [Finite κ] [T1Space P] [CompactSpace (κ → X)]
+    (hcover : ∀ x : κ → X, ∃ φ : Φ, x ∈ D.tupleAvoidSet (κ := κ) φ) :
+    ∃ t : Finset Φ,
+      ∀ x : κ → X, ∃ φ ∈ t, x ∈ D.tupleAvoidSet (κ := κ) φ := by
+  rcases D.finite_subcover_of_pointwise (κ := κ) hcover with ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  have hx : x ∈ ⋃ φ ∈ t, D.tupleAvoidSet (κ := κ) φ := by
+    rw [ht]
+    trivial
+  simpa [Set.mem_iUnion] using hx
+
 /-- A map sends a fixed subset of the source to the finite branch set.  In
 Corollary 3.1 this is the condition `phi(S) subset {0,1,infinity}`. -/
 def sendsSetToBranch (S : Set X) (φ : Φ) : Prop :=
@@ -98,6 +113,22 @@ theorem finite_subcover_on_complement_of_pointwise
   intro x
   rcases hcover x with ⟨φ, hφS, hφx⟩
   exact ⟨⟨φ, hφS⟩, hφx⟩
+
+/-- Membership form of the complement finite-subcover theorem. -/
+theorem finite_subcover_on_complement_of_pointwise_forall
+    [Finite κ] [T1Space P] {S : Set X} [CompactSpace (κ → {x : X // x ∉ S})]
+    (hcover : ∀ x : κ → {x : X // x ∉ S},
+      ∃ φ : Φ, D.sendsSetToBranch S φ ∧ ∀ i, D.map φ (x i).1 ∉ D.branch) :
+    ∃ t : Finset {φ : Φ // D.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t, x ∈ (D.complementCoverData S).tupleAvoidSet (κ := κ) φ := by
+  rcases D.finite_subcover_on_complement_of_pointwise (κ := κ) hcover with ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  have hx : x ∈ ⋃ φ ∈ t, (D.complementCoverData S).tupleAvoidSet (κ := κ) φ := by
+    rw [ht]
+    trivial
+  simpa [Set.mem_iUnion] using hx
 
 /-- The Belyi open attached to a map: the preimage of the complement of the
 finite branch set. -/
@@ -180,6 +211,17 @@ theorem finite_subcover_on_complement
       (⋃ φ ∈ t, (D.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact D.toBelyiCoverData.finite_subcover_on_complement_of_pointwise
+    (fun x => D.pointwise_cover_complement hS x)
+
+/-- Membership form of the abstract Corollary 3.1 finite subcover. -/
+theorem finite_subcover_on_complement_forall
+    [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
+    [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // D.toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ (D.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ := by
+  exact D.toBelyiCoverData.finite_subcover_on_complement_of_pointwise_forall
     (fun x => D.pointwise_cover_complement hS x)
 
 /-- Abstract Corollary 1.2 from the Theorem 2.5-style existence interface: for

@@ -1808,6 +1808,13 @@ theorem hilbert_finite_subcover_of_pointwise
       (⋃ φ ∈ t, D.tupleAvoidSet (κ := κ) φ) = (Set.univ : Set (κ → X)) := by
   exact SourceStack.BelyiCoverData.finite_subcover_of_pointwise D hcover
 
+theorem hilbert_finite_subcover_of_pointwise_forall
+    [Finite κ] [T1Space P] [CompactSpace (κ → X)]
+    (hcover : ∀ x : κ → X, ∃ φ : Φ, x ∈ D.tupleAvoidSet (κ := κ) φ) :
+    ∃ t : Finset Φ,
+      ∀ x : κ → X, ∃ φ ∈ t, x ∈ D.tupleAvoidSet (κ := κ) φ := by
+  exact SourceStack.BelyiCoverData.finite_subcover_of_pointwise_forall D hcover
+
 theorem hilbert_complement_tupleAvoidSet_eq
     [Finite κ] (S : Set X) (φ : {φ : Φ // D.sendsSetToBranch S φ}) :
     (D.complementCoverData S).tupleAvoidSet (κ := κ) φ =
@@ -1822,6 +1829,16 @@ theorem hilbert_finite_subcover_on_complement_of_pointwise
       (⋃ φ ∈ t, (D.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.BelyiCoverData.finite_subcover_on_complement_of_pointwise D hcover
+
+theorem hilbert_finite_subcover_on_complement_of_pointwise_forall
+    [Finite κ] [T1Space P] {S : Set X} [CompactSpace (κ → {x : X // x ∉ S})]
+    (hcover : ∀ x : κ → {x : X // x ∉ S},
+      ∃ φ : Φ, D.sendsSetToBranch S φ ∧ ∀ i, D.map φ (x i).1 ∉ D.branch) :
+    ∃ t : Finset {φ : Φ // D.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t, x ∈ (D.complementCoverData S).tupleAvoidSet (κ := κ) φ := by
+  exact SourceStack.BelyiCoverData.finite_subcover_on_complement_of_pointwise_forall
+    D hcover
 
 theorem hilbert_belyiOpen_isOpen
     [T1Space P] (φ : Φ) :
@@ -1860,6 +1877,16 @@ theorem hilbert_noncritical_finite_subcover_on_complement
       (⋃ φ ∈ t, (E.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ) =
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.NoncriticalBelyiExistence.finite_subcover_on_complement E hS
+
+theorem hilbert_noncritical_finite_subcover_on_complement_forall
+    [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
+    [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // E.toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ (E.toBelyiCoverData.complementCoverData S).tupleAvoidSet (κ := κ) φ := by
+  exact SourceStack.NoncriticalBelyiExistence.finite_subcover_on_complement_forall
+    E hS
 
 theorem hilbert_noncritical_exists_belyiOpen_inside_complement
     [T1Space P] {A : Set X} (hA : A.Finite) {x : X} (hxA : x ∉ A) :
