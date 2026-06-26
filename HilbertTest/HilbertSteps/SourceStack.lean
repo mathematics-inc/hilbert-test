@@ -6949,6 +6949,26 @@ theorem hilbert_basicOpenTopUnit_coe
       (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
   exact SourceStack.Schemes.basicOpenTopUnit_coe X f
 
+theorem hilbert_iSup_basicOpen_of_span_eq_top
+    (X : Scheme.{u}) (U : X.Opens) (s : Set Γ(X, U))
+    (hs : Ideal.span s = ⊤) :
+    (⨆ f ∈ s, X.basicOpen f) = U := by
+  exact SourceStack.Schemes.iSup_basicOpen_of_span_eq_top X U s hs
+
+theorem hilbert_iSup_basicOpen_range_eq_top_of_span_eq_top
+    (X : Scheme.{u}) {ι : Type*} (f : ι → Γ(X, ⊤))
+    (hs : Ideal.span (Set.range f) = ⊤) :
+    (⨆ i, X.basicOpen (f i)) = ⊤ := by
+  exact SourceStack.Schemes.iSup_basicOpen_range_eq_top_of_span_eq_top X f hs
+
+theorem hilbert_basicOpenCoverOfSpanEqTop_iSup_opensRange
+    (X : Scheme.{u}) {ι : Type*} (f : ι → Γ(X, ⊤))
+    (hs : Ideal.span (Set.range f) = ⊤) :
+    (⨆ i, ((SourceStack.Schemes.basicOpenCoverOfSpanEqTop X f hs).map i).opensRange) =
+      ⊤ := by
+  exact Scheme.OpenCover.iSup_opensRange
+    (SourceStack.Schemes.basicOpenCoverOfSpanEqTop X f hs)
+
 theorem hilbert_exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
     (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact U.1)
     (x f : Γ(X, U)) (H : x |_ᵣ (X.basicOpen f) = 0) :

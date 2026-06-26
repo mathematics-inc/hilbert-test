@@ -159,6 +159,9 @@ pointwise with the glued maps.  The remaining missing input is now narrower:
 construct the local representatives and chart-ring maps from an actual
 invertible-sheaf trivialization on those opens, then prove the finite marked
 family/branch-control facts for the resulting map.
+The scheme-local cover input below this is now checked: whenever local
+representatives span the unit ideal, their basic opens cover the trivializing
+open, and a range-indexed spanning family gives an explicit `OpenCover`.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section
@@ -461,8 +464,9 @@ the qcqs global-section localization layer: compact basic opens, power-clearing
 for sections on basic opens, the localization statement for sections on
 `D(f)`, the explicit unit obtained by restricting a section to its own basic
 open, transport of such units across the open-subscheme top-section isomorphism,
-nilpotent iff empty basic open on compact opens, and the compact-open
-zero-locus/nilradical criterion.
+the basic-open cover from sections spanning the unit ideal, nilpotent iff empty
+basic open on compact opens, and the compact-open zero-locus/nilradical
+criterion.
 
 `HilbertTest/SourceStack/UnramifiedEtale.lean` checks algebraic
 formal-unramified and formal-etale source facts, including the

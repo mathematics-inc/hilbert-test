@@ -261,6 +261,32 @@ theorem basicOpenTopUnit_coe
       (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
   simp [basicOpenTopUnit]
 
+/-- If a set of sections spans the unit ideal, their basic opens cover the
+ambient open. -/
+theorem iSup_basicOpen_of_span_eq_top
+    (X : Scheme.{u}) (U : X.Opens) (s : Set Γ(X, U))
+    (hs : Ideal.span s = ⊤) :
+    (⨆ f ∈ s, X.basicOpen f) = U :=
+  AlgebraicGeometry.iSup_basicOpen_of_span_eq_top U s hs
+
+/-- A range-indexed family of global sections spanning the unit ideal gives a
+basic-open cover of the whole scheme. -/
+theorem iSup_basicOpen_range_eq_top_of_span_eq_top
+    (X : Scheme.{u}) {ι : Type*} (f : ι → Γ(X, ⊤))
+    (hs : Ideal.span (Set.range f) = ⊤) :
+    (⨆ i, X.basicOpen (f i)) = ⊤ := by
+  simpa [iSup_range] using
+    (iSup_basicOpen_of_span_eq_top X ⊤ (Set.range f) hs)
+
+/-- The open cover by basic opens attached to a range-indexed family of global
+sections spanning the unit ideal. -/
+def basicOpenCoverOfSpanEqTop
+    (X : Scheme.{u}) {ι : Type*} (f : ι → Γ(X, ⊤))
+    (hs : Ideal.span (Set.range f) = ⊤) :
+    X.OpenCover :=
+  X.openCoverOfISupEqTop (fun i => X.basicOpen (f i))
+    (iSup_basicOpen_range_eq_top_of_span_eq_top X f hs)
+
 /-- If a section vanishes on a basic open inside a compact open, some power of
 the defining section kills it. -/
 theorem exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
