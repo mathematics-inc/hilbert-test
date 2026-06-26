@@ -473,7 +473,7 @@ open SourceStack.SchemeBelyi
 open SourceStack.SchemeMarkedBelyi
 open SourceStack.SchemeProjectiveLine
 
-universe u
+universe u z
 
 variable {K : Type u} [Field K]
 variable {C : Scheme.{u}}
@@ -736,6 +736,30 @@ theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_nonemptyOpe
             (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     E hU hxU
+
+theorem hilbert_p1ReductionExistence_pointwise_cover_complement
+    (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ i : ReductionIndex C,
+      (FiniteMarkedBelyiExistence.toMarkedCoverData K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i ∧
+        ∀ j, (E.map i).hom.base (x j).1 ∉ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.pointwise_cover_complement
+    E κ hS x
+
+theorem hilbert_p1ReductionExistence_finite_subcover_on_complement
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      (⋃ i ∈ t,
+          ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.finite_subcover_on_complement
+    E κ hS
 
 end BelyiReduction
 

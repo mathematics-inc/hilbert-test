@@ -24,7 +24,7 @@ open SchemeBelyi
 open SchemeMarkedBelyi
 open SchemeProjectiveLine
 
-universe u
+universe u z
 
 variable {K : Type u} [Field K]
 variable {C : Scheme.{u}}
@@ -423,6 +423,32 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
             (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hxU
+
+/-- Pointwise tuple-cover consequence directly from a reduction family. -/
+theorem pointwise_cover_complement
+    (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ i : ReductionIndex C,
+      (FiniteMarkedBelyiExistence.toMarkedCoverData K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i ∧
+        ∀ j, (E.map i).hom.base (x j).1 ∉ markedSchemePointSet K := by
+  exact FiniteMarkedBelyiExistence.pointwise_cover_complement
+    K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS x
+
+/-- Finite tuple-subcover consequence directly from a reduction family. -/
+theorem finite_subcover_on_complement
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      (⋃ i ∈ t,
+          ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement
+    K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS
 
 end P1ReductionExistence
 
