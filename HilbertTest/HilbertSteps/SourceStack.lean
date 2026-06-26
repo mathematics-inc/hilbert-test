@@ -1703,6 +1703,24 @@ theorem hilbert_finite_compl_isOpen
     IsOpen Tᶜ := by
   exact SourceStack.finite_compl_isOpen hT
 
+theorem hilbert_finite_compl_of_isOpen_nonempty
+    [SourceStack.NonemptyOpenFiniteComplement X] {U : Set X}
+    (hU : IsOpen U) (hne : U.Nonempty) :
+    Uᶜ.Finite := by
+  exact SourceStack.finite_compl_of_isOpen_nonempty hU hne
+
+theorem hilbert_finite_compl_of_isOpen_of_mem
+    [SourceStack.NonemptyOpenFiniteComplement X] {U : Set X}
+    (hU : IsOpen U) {x : X} (hx : x ∈ U) :
+    Uᶜ.Finite := by
+  exact SourceStack.finite_compl_of_isOpen_of_mem hU hx
+
+theorem hilbert_cofiniteTopology_finite_compl_of_isOpen_nonempty
+    (X : Type*) {U : Set (CofiniteTopology X)}
+    (hU : IsOpen U) (hne : U.Nonempty) :
+    Uᶜ.Finite := by
+  exact SourceStack.finite_compl_of_isOpen_nonempty hU hne
+
 theorem hilbert_isOpen_avoid_finite_preimage
     [T1Space Y] (hf : Continuous f) {T : Set Y} (hT : T.Finite) :
     IsOpen {x : X | f x ∉ T} := by
@@ -1976,6 +1994,16 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_finite_complement
           E.toBelyiCoverData.belyiOpen φ ⊆ V := by
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_finite_complement
     E hV hVcompl hxV
+
+theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ E.toBelyiCoverData.belyiOpen φ ∧
+          E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    E hV hxV
 
 theorem hilbert_noncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space P] {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)

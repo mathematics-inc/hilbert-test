@@ -1,5 +1,6 @@
 import Mathlib.Topology.Compactness.Compact
 import Mathlib.Topology.Compactness.SigmaCompact
+import Mathlib.Topology.Constructions
 import Mathlib.Topology.Maps.Proper.Basic
 import Mathlib.Topology.Separation.Basic
 
@@ -16,6 +17,32 @@ section Compactness
 
 variable {X Y ι : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 variable {s : Set X} {f : X → Y}
+
+/-- Curve-style cofinite-open property: every nonempty open subset has finite
+complement.  For algebraic curves this is supplied by the theorem that a
+nonempty open of a proper irreducible curve has finite complement; this class
+keeps that source theorem as a precise topological input. -/
+class NonemptyOpenFiniteComplement (X : Type*) [TopologicalSpace X] : Prop where
+  finite_compl_of_isOpen_nonempty :
+    ∀ {U : Set X}, IsOpen U → U.Nonempty → Uᶜ.Finite
+
+theorem finite_compl_of_isOpen_nonempty
+    [NonemptyOpenFiniteComplement X] {U : Set X}
+    (hU : IsOpen U) (hne : U.Nonempty) :
+    Uᶜ.Finite :=
+  NonemptyOpenFiniteComplement.finite_compl_of_isOpen_nonempty hU hne
+
+theorem finite_compl_of_isOpen_of_mem
+    [NonemptyOpenFiniteComplement X] {U : Set X}
+    (hU : IsOpen U) {x : X} (hx : x ∈ U) :
+    Uᶜ.Finite :=
+  finite_compl_of_isOpen_nonempty hU ⟨x, hx⟩
+
+instance cofiniteTopology_nonemptyOpenFiniteComplement (X : Type*) :
+    NonemptyOpenFiniteComplement (CofiniteTopology X) where
+  finite_compl_of_isOpen_nonempty := by
+    intro U hU hne
+    exact (CofiniteTopology.isOpen_iff.mp hU) hne
 
 /-- Continuous images of compact sets are compact.  This is the exact topological
 step needed after local-field properness supplies compactness of point spaces. -/

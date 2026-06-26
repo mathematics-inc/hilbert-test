@@ -275,6 +275,20 @@ theorem exists_belyiOpen_inside_open_of_finite_complement
     ⟨φ, hopen, hx, hsubset⟩
   exact ⟨φ, hopen, hx, by simpa only [compl_compl] using hsubset⟩
 
+/-- Abstract finite-complement-space form of Mochizuki Corollary 1.2: if
+nonempty opens in the source have finite complement, then any open neighborhood
+of a point contains a Belyi open through that point.  The curve-specific source
+material instantiates `NonemptyOpenFiniteComplement`. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact D.exists_belyiOpen_inside_open_of_finite_complement hV
+    (finite_compl_of_isOpen_of_mem hV hxV) hxV
+
 /-- Finite-set version of the Corollary 1.2 wrapper: if `V` has finite
 complement and contains a finite set `T`, then a Belyi open contains `T` and is
 contained in `V`. -/
