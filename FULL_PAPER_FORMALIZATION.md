@@ -143,10 +143,12 @@ same global projective-line morphism.  A further local-trivialization algebra
 layer records which section is the denominator, the local regular
 representatives of `s0` and `s1`, and the equation
 `ratio * denominator = numerator`; this package feeds the section-ratio chart
-bridge.  The remaining missing input is now narrower: construct those local
-representatives, ratios, and chart-ring maps from an actual invertible-sheaf
-trivialization, then prove the finite marked family/branch-control facts for
-the resulting map.
+bridge.  The finite marked family interface can now also be instantiated
+directly from those trivialized ratio maps once the corresponding finite marked
+Belyi maps are supplied and shown to agree pointwise with the glued maps.  The
+remaining missing input is now narrower: construct those local representatives,
+ratios, and chart-ring maps from an actual invertible-sheaf trivialization, then
+prove the finite marked family/branch-control facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section

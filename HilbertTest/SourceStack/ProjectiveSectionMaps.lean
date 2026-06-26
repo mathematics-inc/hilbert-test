@@ -844,6 +844,78 @@ theorem exists_belyiOpen_inside_complement
 
 end ProjectiveSectionFiniteMarkedFamily
 
+/-- A concrete version of the finite marked family whose projective-section
+maps are supplied by trivialized local section-ratio data.  This assembles the
+line-bundle chart construction layer with the finite marked Belyi-map layer. -/
+structure TrivializedProjectiveSectionFiniteMarkedFamily
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalPackage : RiemannRochFiniteEvaluationPackage K C V
+  hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ
+  trivialized : V → TrivializedSectionRatioData K C V
+  map : V → SchemeBelyi.FiniteBelyiMap
+    (SchemeBelyi.markedBelyiTarget K hmarkedOpen) C
+  map_base_eq_globalHom :
+    ∀ s x, (map s).hom.base x = (trivialized s).globalHom.base x
+  trivialized_section0_eval_eq_index :
+    ∀ s x, (trivialized s).evalData.eval x (trivialized s).section0 = evalPackage.eval x s
+  nonzero_avoids_marked :
+    ∀ {T : Set C} {s : V},
+      evalPackage.toEvaluationData.nonzeroOnSet T s →
+        ∀ x ∈ T, (map s).hom.base x ∉ markedSchemePointSet K
+
+namespace TrivializedProjectiveSectionFiniteMarkedFamily
+
+variable {C : Scheme.{u}}
+variable (F : TrivializedProjectiveSectionFiniteMarkedFamily K C V)
+
+/-- The projective-section pair attached to a section through its trivialized
+local ratio data. -/
+def pair (s : V) : ProjectiveLineSectionPair K C V :=
+  (F.trivialized s).toProjectiveLineSectionPair
+
+theorem pair_hom (s : V) :
+    (F.pair s).hom = (F.trivialized s).globalHom := rfl
+
+theorem map_base_eq_pair (s : V) (x : C) :
+    (F.map s).hom.base x = (F.pair s).hom.base x := by
+  exact F.map_base_eq_globalHom s x
+
+theorem pair_section0_eval_eq_index (s : V) (x : C) :
+    (F.pair s).evalData.eval x (F.pair s).section0 =
+      F.evalPackage.eval x s := by
+  exact F.trivialized_section0_eval_eq_index s x
+
+/-- Forget the trivialized-ratio construction to the existing projective-section
+finite marked family interface. -/
+def toProjectiveSectionFiniteMarkedFamily :
+    ProjectiveSectionFiniteMarkedFamily K C V where
+  evalPackage := F.evalPackage
+  hmarkedOpen := F.hmarkedOpen
+  pair := F.pair
+  map := F.map
+  map_base_eq_pair := F.map_base_eq_pair
+  pair_section0_eval_eq_index := F.pair_section0_eval_eq_index
+  nonzero_avoids_marked := by
+    intro T s hs
+    exact F.nonzero_avoids_marked hs
+
+theorem toProjectiveSectionFiniteMarkedFamily_map_apply
+    (s : V) :
+    F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Direct finite disjoint-set conclusion for the concrete trivialized-ratio
+finite marked family. -/
+theorem exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    hS hT hdis
+
+end TrivializedProjectiveSectionFiniteMarkedFamily
+
 end ProjectiveSectionMaps
 end SourceStack
 end HilbertTest

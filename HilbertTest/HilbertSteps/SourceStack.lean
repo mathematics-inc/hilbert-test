@@ -1027,6 +1027,41 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_comp
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
     F hA hxA
 
+variable (TF : TrivializedProjectiveSectionFiniteMarkedFamily K C V)
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_pair_hom
+    (s : V) :
+    (TF.pair s).hom = (TF.trivialized s).globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.pair_hom
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_base_eq_pair
+    (s : V) (x : C) :
+    (TF.map s).hom.base x = (TF.pair s).hom.base x := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_base_eq_pair
+    TF s x
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_pair_section0_eval_eq_index
+    (s : V) (x : C) :
+    (TF.pair s).evalData.eval x (TF.pair s).section0 =
+      TF.evalPackage.eval x s := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.pair_section0_eval_eq_index
+    TF s x
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toProjectiveSectionFiniteMarkedFamily_map_apply
+    (s : V) :
+    TF.toProjectiveSectionFiniteMarkedFamily.map s = TF.map s := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (TF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (TF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    TF hS hT hdis
+
 end ProjectiveSectionMaps
 
 namespace CurveDivisorSections

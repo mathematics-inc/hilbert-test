@@ -62,8 +62,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   adjunction, tracks the pulled-back chart coordinate as the named local section
   ratio, records the local trivialization equation
   `ratio * denominator = numerator`, packages the glued map as a
-  `ProjectiveLineSectionPair`, and proves that finite marked Belyi maps built
-  from such pairs instantiate the
+  `ProjectiveLineSectionPair`, assembles finite marked families directly from
+  trivialized ratio maps whose finite Belyi maps agree with the glued maps, and
+  proves that finite marked Belyi maps built from such pairs instantiate the
   section-controlled finite marked bridge.
 - `HilbertTest.SourceStack.CurveDivisorSections`: divisor-section selection
   layer for the same proof passage.  Given the zero-section of `O_X(D)` and
