@@ -152,6 +152,32 @@ theorem exists_concrete_scheme_separation_package
         concreteSchemePolynomialTargetPoint_eq_bridge F K P]
         using hx)
 
+/-- Scalar-value form of the concrete scheme-carrier separation package:
+the chosen target value avoids `0` and `1`, separates the finite input set by
+polynomial values, and has only noncritical preimages. -/
+theorem exists_concrete_scheme_separation_scalar_package
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = p ∧
+        (Polynomial.aeval β P.polynomial ≠ 0 ∧
+          Polynomial.aeval β P.polynomial ≠ 1) ∧
+          (∀ x ∈ S, Polynomial.aeval x P.polynomial ≠
+            Polynomial.aeval β P.polynomial) ∧
+            ∀ x : K, Polynomial.aeval x P.polynomial =
+              Polynomial.aeval β P.polynomial →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  obtain ⟨β, P, hP, _htarget, _hsep, _hcrit⟩ :=
+    exists_concrete_scheme_separation_package F K hS p hpder
+  refine ⟨β, P, hP, ⟨P.target_ne_zero, P.target_ne_one⟩, ?_, ?_⟩
+  · intro x hx
+    exact PolynomialSeparation.PolynomialSeparationStep.aeval_ne_target_of_mem
+      P.toPolynomialSeparationStep hx
+  · intro x hx
+    exact PolynomialSeparation.PolynomialSeparationStep.derivative_ne_zero_at_preimage
+      P.toPolynomialSeparationStep hx
+
 end ConcretePolynomialSchemeSeparation
 end SourceStack
 end HilbertTest

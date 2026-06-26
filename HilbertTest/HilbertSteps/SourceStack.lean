@@ -6556,6 +6556,22 @@ theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separa
   exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_package
     F K hS p hpder
 
+theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_scalar_package
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = p ∧
+        (Polynomial.aeval β P.polynomial ≠ 0 ∧
+          Polynomial.aeval β P.polynomial ≠ 1) ∧
+          (∀ x ∈ S, Polynomial.aeval x P.polynomial ≠
+            Polynomial.aeval β P.polynomial) ∧
+            ∀ x : K, Polynomial.aeval x P.polynomial =
+              Polynomial.aeval β P.polynomial →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_scalar_package
+    F K hS p hpder
+
 end ConcretePolynomialSchemeSeparation
 
 namespace UnramifiedEtale
