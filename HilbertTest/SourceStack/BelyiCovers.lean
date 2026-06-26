@@ -350,6 +350,24 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact D.exists_belyiOpen_inside_open_of_finite_complement hV
     (finite_compl_of_isOpen_of_mem hV hxV) hxV
 
+/-- Recursive open-subspace form of Corollary 1.2: after restricting a
+noncritical Belyi existence package to an open subtype whose ambient source has
+finite complements for nonempty opens, every open neighborhood in the subtype
+contains a Belyi open through the chosen point. -/
+theorem restrictSubtype_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {W : Set U} (hW : IsOpen W)
+    {x : U} (hxW : x ∈ W) :
+    ∃ φ : Φ,
+      IsOpen ((D.restrictSubtype U).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ (D.restrictSubtype U).toBelyiCoverData.belyiOpen φ ∧
+          (D.restrictSubtype U).toBelyiCoverData.belyiOpen φ ⊆ W := by
+  haveI : NonemptyOpenFiniteComplement U :=
+    nonemptyOpenFiniteComplement_subtype_of_isOpen hU
+  exact
+    (D.restrictSubtype U).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      hW hxW
+
 /-- Finite-set version of the Corollary 1.2 wrapper: if `V` has finite
 complement and contains a finite set `T`, then a Belyi open contains `T` and is
 contained in `V`. -/

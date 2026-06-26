@@ -2730,6 +2730,18 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteCo
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     E hV hxV
 
+theorem hilbert_noncritical_restrictSubtype_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {W : Set U} (hW : IsOpen W)
+    {x : U} (hxW : x ∈ W) :
+    ∃ φ : Φ,
+      IsOpen ((E.restrictSubtype U).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ (E.restrictSubtype U).toBelyiCoverData.belyiOpen φ ∧
+          (E.restrictSubtype U).toBelyiCoverData.belyiOpen φ ⊆ W := by
+  exact
+    SourceStack.NoncriticalBelyiExistence.restrictSubtype_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      E hU hW hxW
+
 theorem hilbert_noncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space P] {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
     (hT : T.Finite) (hTsub : T ⊆ V) :
