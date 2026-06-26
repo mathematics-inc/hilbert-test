@@ -1533,6 +1533,20 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_open
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     F hU hxU
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
+    F κ hS
+
 variable (TF : TrivializedProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_pair_hom
@@ -1619,6 +1633,20 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     TF hU hxU
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
+    TF κ hS
+
 variable (ITF : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_pair_hom
@@ -1704,6 +1732,20 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_bely
             ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     ITF hU hxU
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
+    ITF κ hS
 
 variable (TSF : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
 
@@ -1798,6 +1840,20 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_belyi
             TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     TSF hU hxU
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
+    TSF κ hS
 
 end ProjectiveSectionMaps
 
