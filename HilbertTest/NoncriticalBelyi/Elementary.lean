@@ -247,6 +247,45 @@ theorem belyi_aux_strict_mono_on_gt_one
     field_simp [ha0, ha1]
   nlinarith
 
+theorem belyi_aux_half_ratio_ge_scale
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    beta / alpha <= belyiAux m n beta / (2 * belyiAux m n alpha) := by
+  have halpha_pos : 0 < alpha := by nlinarith
+  have hbeta_gt_alpha : alpha < beta :=
+    beta_gt_alpha_of_scale (alpha := alpha) (beta := beta) (C := C)
+      hC halpha_pos hscale
+  have hbeta_ge_alpha : alpha <= beta := hbeta_gt_alpha.le
+  have hquad := belyi_aux_ratio_ge_quadratic (m := m) (n := n)
+    hm hn halpha hbeta_ge_alpha
+  have hscale_two : 2 <= beta / alpha := by nlinarith
+  have hhalf : beta / alpha <= (1 / 2) * (beta / alpha) ^ 2 := by
+    nlinarith [sq_nonneg (beta / alpha),
+      mul_nonneg (by nlinarith : 0 <= beta / alpha)
+        (by nlinarith : 0 <= beta / alpha - 2)]
+  have hhalf_prod :
+      beta / alpha <=
+        (1 / 2) *
+          ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) := by
+    nlinarith
+  have hpos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  have heq : belyiAux m n beta =
+      belyiAux m n alpha *
+        ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) := by
+    unfold belyiAux
+    have ha0 : alpha ≠ 0 := by nlinarith
+    have ha1 : alpha - 1 ≠ 0 := by nlinarith
+    field_simp [ha0, ha1]
+  have hden_pos : 0 < 2 * belyiAux m n alpha := by positivity
+  rw [le_div_iff₀ hden_pos]
+  rw [heq]
+  have hmul := mul_le_mul_of_nonneg_right hhalf_prod hden_pos.le
+  nlinarith
+
 theorem half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
@@ -267,6 +306,36 @@ theorem offset_ratio_ge_half_denominator_ratio
   have hBt : 0 <= B * t := by
     exact mul_nonneg hB_pos.le ht_nonneg
   nlinarith
+
+theorem belyi_aux_shifted_ratio_ge_scale_of_offset_le_value
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C)
+    {f0 : Real}
+    (hf0_nonneg : 0 <= f0)
+    (hf0_le_value : f0 <= belyiAux m n alpha) :
+    C <= (belyiAux m n beta + f0) / (belyiAux m n alpha + f0) := by
+  have halpha_pos : 0 < alpha := by nlinarith
+  have hbeta_gt_alpha : alpha < beta :=
+    beta_gt_alpha_of_scale (alpha := alpha) (beta := beta) (C := C)
+      hC halpha_pos hscale
+  have hbeta_gt_one : 1 < beta := by nlinarith
+  have hA_nonneg : 0 <= belyiAux m n beta :=
+    (belyi_aux_pos_of_gt_one (m := m) (n := n) hbeta_gt_one).le
+  have hB_pos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  have hshift :=
+    offset_ratio_ge_half_denominator_ratio
+      (A := belyiAux m n beta) (B := belyiAux m n alpha) (t := f0)
+      hA_nonneg hB_pos hf0_nonneg hf0_le_value
+  have hratio :=
+    belyi_aux_half_ratio_ge_scale (m := m) (n := n)
+      hm hn hC halpha hscale
+  have hC_le_half : C <= belyiAux m n beta / (2 * belyiAux m n alpha) := by
+    exact le_trans (by simpa [ge_iff_le] using hscale) hratio
+  exact le_trans hC_le_half hshift
 
 theorem offset_ratio_ge_div_two_offset
     {A B t : Real}

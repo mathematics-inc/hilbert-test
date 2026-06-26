@@ -119,6 +119,34 @@ theorem hilbert_belyi_aux_strict_mono_on_gt_one
   exact NoncriticalBelyi.belyi_aux_strict_mono_on_gt_one
     hm hn halpha hbeta
 
+theorem hilbert_belyi_aux_half_ratio_ge_scale
+    {m n : Nat} {alpha beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    beta / alpha <=
+      NoncriticalBelyi.belyiAux m n beta /
+        (2 * NoncriticalBelyi.belyiAux m n alpha) := by
+  exact NoncriticalBelyi.belyi_aux_half_ratio_ge_scale
+    hm hn hC halpha hscale
+
+theorem hilbert_belyi_aux_shifted_ratio_ge_scale_of_offset_le_value
+    {m n : Nat} {alpha beta C f0 : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C)
+    (hf0_nonneg : 0 <= f0)
+    (hf0_le_value : f0 <= NoncriticalBelyi.belyiAux m n alpha) :
+    C <=
+      (NoncriticalBelyi.belyiAux m n beta + f0) /
+        (NoncriticalBelyi.belyiAux m n alpha + f0) := by
+  exact NoncriticalBelyi.belyi_aux_shifted_ratio_ge_scale_of_offset_le_value
+    hm hn hC halpha hscale hf0_nonneg hf0_le_value
+
 theorem hilbert_half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
