@@ -266,6 +266,12 @@ theorem hilbert_rr_package_exists_section_for_disjoint_finite_sets
   exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
     P hS hT hdis
 
+theorem hilbert_rr_package_exists_section_vanishing_on_finite_nonzero_at
+    [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet S s ∧ P.eval x s ≠ 0 := by
+  exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_nonzero_at
+    P hS hx
+
 end CurveRiemannRoch
 
 namespace CurveBelyiConstruction
@@ -1897,6 +1903,13 @@ theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_fin
   exact
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finite_sets
       RE hS hT hdis
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_finite_nonzero_at
+    [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
+    ∃ s : V, RE.evalData.vanishesOnSet S s ∧ RE.evalData.eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_finite_nonzero_at
+      RE hS hx
 
 variable (D : CohomologicalDivisorSectionData K X V)
 

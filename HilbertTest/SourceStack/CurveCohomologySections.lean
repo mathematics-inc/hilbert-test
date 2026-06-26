@@ -120,6 +120,15 @@ theorem exists_section_for_disjoint_finite_sets
   exact E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
     hS hT hdis
 
+/-- Singleton-target form of restricted evaluation surjectivity: vanish on a
+finite set and remain nonzero at a point outside it. -/
+theorem exists_section_vanishing_on_finite_nonzero_at
+    [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
+    ∃ s : V, E.evalData.vanishesOnSet S s ∧ E.evalData.eval x s ≠ 0 := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_nonzero_at
+      hS hx
+
 end RestrictedEvaluationSurjectivityData
 
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
