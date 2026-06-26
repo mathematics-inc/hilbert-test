@@ -84,6 +84,26 @@ theorem hilbert_belyi_aux_pos_of_gt_one
     0 < NoncriticalBelyi.belyiAux m n x := by
   exact NoncriticalBelyi.belyi_aux_pos_of_gt_one hx
 
+theorem hilbert_abs_belyi_aux_middle_eq_power_product
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    |NoncriticalBelyi.belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| =
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  exact NoncriticalBelyi.abs_belyi_aux_middle_eq_power_product hm hn
+
+theorem hilbert_abs_belyi_aux_middle_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 <
+      |NoncriticalBelyi.belyiAux m n
+        ((m : Real) / ((m + n : Nat) : Real))| := by
+  exact NoncriticalBelyi.abs_belyi_aux_middle_pos hm hn
+
+theorem hilbert_abs_belyi_aux_middle_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    |NoncriticalBelyi.belyiAux m n
+        ((m : Real) / ((m + n : Nat) : Real))| <= 1 / 4 := by
+  exact NoncriticalBelyi.abs_belyi_aux_middle_le_quarter hm hn
+
 theorem hilbert_belyi_aux_beta_ge_four_mul_of_scale
     {m n : Nat} {alpha beta C : Real}
     (hm : 1 <= m)

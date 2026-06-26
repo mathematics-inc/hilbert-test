@@ -1,4 +1,5 @@
 import Mathlib
+import HilbertTest.Belyi1980.Polynomial
 
 /-!
 Lean formalization notes for `noncritical-belyi-maps_backtranslated.tex`.
@@ -170,6 +171,36 @@ theorem belyi_aux_pos_of_gt_one
     0 < belyiAux m n x := by
   unfold belyiAux
   exact mul_pos (pow_pos (by nlinarith) m) (pow_pos (by nlinarith) n)
+
+theorem abs_belyi_aux_middle_eq_power_product
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| =
+      ((m : Real) / ((m + n : Nat) : Real)) ^ m *
+        ((n : Real) / ((m + n : Nat) : Real)) ^ n := by
+  have hden_pos : 0 < ((m + n : Nat) : Real) := by
+    exact_mod_cast Nat.add_pos_left hm n
+  have hmratio_nonneg : 0 <= (m : Real) / ((m + n : Nat) : Real) := by positivity
+  have hnratio_nonneg : 0 <= (n : Real) / ((m + n : Nat) : Real) := by positivity
+  have hsub :
+      (m : Real) / ((m + n : Nat) : Real) - 1 =
+        -((n : Real) / ((m + n : Nat) : Real)) := by
+    have h := Belyi1980.one_sub_middle_eq_right_ratio (m := m) (n := n) hm hn
+    linarith
+  unfold belyiAux
+  rw [hsub, abs_mul, abs_pow, abs_pow, abs_neg,
+    abs_of_nonneg hmratio_nonneg, abs_of_nonneg hnratio_nonneg]
+
+theorem abs_belyi_aux_middle_pos
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    0 < |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| := by
+  rw [abs_belyi_aux_middle_eq_power_product (m := m) (n := n) hm hn]
+  exact Belyi1980.middle_power_product_pos hm hn
+
+theorem abs_belyi_aux_middle_le_quarter
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
+    |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| <= 1 / 4 := by
+  rw [abs_belyi_aux_middle_eq_power_product (m := m) (n := n) hm hn]
+  exact Belyi1980.middle_power_product_le_quarter hm hn
 
 theorem belyi_aux_beta_ge_four_mul_of_scale
     (hm : 1 <= m)
