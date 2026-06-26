@@ -245,9 +245,10 @@ refinement.  It also introduces the paper-facing
 maps to the marked `P1 K` target satisfying the Theorem 2.5 finite disjoint-set
 condition, together with checked conversions to marked cover data,
 noncritical-existence data, open-locus comparison with the scheme-level Belyi
-open, and Corollary 3.1-style finite-subcover output.  The remaining missing
-input is the curve theorem producing such finite marked Belyi-map families with
-the paper's required branch control.
+open, Corollary 1.2-style Belyi-open containment wrappers, and Corollary
+3.1-style finite-subcover output.  The remaining missing input is the curve
+theorem producing such finite marked Belyi-map families with the paper's
+required branch control.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

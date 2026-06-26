@@ -114,7 +114,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   morphism-family cover/noncritical interfaces.  It also checks the
   `FiniteMarkedBelyiExistence` family interface for finite marked Belyi maps and
   its conversion to marked cover data, noncritical-existence data, scheme-open
-  comparison, and finite-subcover output.
+  comparison, Corollary 1.2-style Belyi-open containment wrappers, and
+  finite-subcover output.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes, with direct
