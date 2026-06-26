@@ -235,6 +235,32 @@ theorem basicOpenUnit_coe
     (basicOpenUnit X f : Γ(X, X.basicOpen f)) = f |_ᵣ X.basicOpen f :=
   (isUnit_res_basicOpen X f).unit_spec
 
+/-- Transport a unit in the sections on an open subset to a unit in the global
+sections of the corresponding open subscheme. -/
+def opensTopUnit
+    (U : X.Opens) (u : Γ(X, U)ˣ) :
+    Γ(U, ⊤)ˣ :=
+  Units.map U.topIso.inv.hom.toMonoidHom u
+
+@[simp]
+theorem opensTopUnit_coe
+    (U : X.Opens) (u : Γ(X, U)ˣ) :
+    (opensTopUnit U u : Γ(U, ⊤)) = U.topIso.inv u := rfl
+
+/-- The explicit unit on the open subscheme associated to the basic open of a
+section. -/
+def basicOpenTopUnit
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    Γ(X.basicOpen f, ⊤)ˣ :=
+  opensTopUnit (X.basicOpen f) (basicOpenUnit X f)
+
+@[simp]
+theorem basicOpenTopUnit_coe
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    (basicOpenTopUnit X f : Γ(X.basicOpen f, ⊤)) =
+      (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
+  simp [basicOpenTopUnit]
+
 /-- If a section vanishes on a basic open inside a compact open, some power of
 the defining section kills it. -/
 theorem exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact

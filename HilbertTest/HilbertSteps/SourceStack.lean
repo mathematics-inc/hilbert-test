@@ -6871,6 +6871,18 @@ theorem hilbert_basicOpenUnit_coe
       f |_ᵣ X.basicOpen f := by
   exact SourceStack.Schemes.basicOpenUnit_coe X f
 
+theorem hilbert_opensTopUnit_coe
+    (U : X.Opens) (u : Γ(X, U)ˣ) :
+    (SourceStack.Schemes.opensTopUnit U u : Γ(U, ⊤)) =
+      U.topIso.inv u := by
+  exact SourceStack.Schemes.opensTopUnit_coe U u
+
+theorem hilbert_basicOpenTopUnit_coe
+    (X : Scheme.{u}) {U : X.Opens} (f : Γ(X, U)) :
+    (SourceStack.Schemes.basicOpenTopUnit X f : Γ(X.basicOpen f, ⊤)) =
+      (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
+  exact SourceStack.Schemes.basicOpenTopUnit_coe X f
+
 theorem hilbert_exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
     (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact U.1)
     (x f : Γ(X, U)) (H : x |_ᵣ (X.basicOpen f) = 0) :
