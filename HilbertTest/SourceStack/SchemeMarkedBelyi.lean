@@ -415,6 +415,171 @@ theorem rationalMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
 
 end PartialMapDomain
 
+section MorphismFamily
+
+variable (C : Scheme.{u})
+variable (morphism : Φ → (C ⟶ P1 K))
+
+/-- A family of honest scheme morphisms to `P1 K` gives marked-branch Belyi
+cover data on the source carrier. -/
+def morphismMarkedCoverData :
+    BelyiCoverData C (P1 K) Φ where
+  branch := markedSchemePointSet K
+  branch_finite := markedSchemePointSet_finite K
+  map φ x := (morphism φ).base x
+  continuous_map φ := (morphism φ).continuous
+
+theorem morphismMarkedCoverData_branch :
+    (morphismMarkedCoverData K Φ C morphism).branch = markedSchemePointSet K := rfl
+
+theorem morphismMarkedCoverData_branch_finite :
+    (morphismMarkedCoverData K Φ C morphism).branch.Finite := by
+  exact markedSchemePointSet_finite K
+
+theorem morphismMarkedCoverData_map_apply
+    (φ : Φ) (x : C) :
+    (morphismMarkedCoverData K Φ C morphism).map φ x = (morphism φ).base x := by
+  rfl
+
+theorem morphismMarkedCoverData_sendsSetToBranch_iff
+    (S : Set C) (φ : Φ) :
+    (morphismMarkedCoverData K Φ C morphism).sendsSetToBranch S φ ↔
+      ∀ x ∈ S, (morphism φ).base x ∈ markedSchemePointSet K := by
+  rfl
+
+theorem morphismMarkedCoverData_mem_belyiOpen_iff
+    (φ : Φ) (x : C) :
+    x ∈ (morphismMarkedCoverData K Φ C morphism).belyiOpen φ ↔
+      (morphism φ).base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem morphismMarkedCoverData_belyiOpen_eq
+    (φ : Φ) :
+    (morphismMarkedCoverData K Φ C morphism).belyiOpen φ =
+      {x : C | (morphism φ).base x ∉ markedSchemePointSet K} := by
+  rfl
+
+theorem morphismMarkedCoverData_belyiOpen_isOpen
+    [T1Space (P1 K)] (φ : Φ) :
+    IsOpen ((morphismMarkedCoverData K Φ C morphism).belyiOpen φ) := by
+  exact (morphismMarkedCoverData K Φ C morphism).belyiOpen_isOpen φ
+
+theorem morphismMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
+    {S : Set C} {φ : Φ}
+    (hS : (morphismMarkedCoverData K Φ C morphism).sendsSetToBranch S φ) :
+    (morphismMarkedCoverData K Φ C morphism).belyiOpen φ ⊆ Sᶜ := by
+  exact (morphismMarkedCoverData K Φ C morphism).belyiOpen_subset_compl_of_sendsSetToBranch hS
+
+variable (exists_morphism_for_finite_disjoint :
+  ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+    ∃ φ : Φ, (∀ x ∈ S, (morphism φ).base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (morphism φ).base x ∉ markedSchemePointSet K)
+
+/-- The noncritical finite-set existence interface specialized to honest
+scheme-morphism families `C ⟶ P1 K`. -/
+def morphismMarkedNoncriticalExistence :
+    NoncriticalBelyiExistence C (P1 K) Φ where
+  branch := markedSchemePointSet K
+  branch_finite := markedSchemePointSet_finite K
+  map φ x := (morphism φ).base x
+  continuous_map φ := (morphism φ).continuous
+  exists_for_finite_disjoint := by
+    intro S T hS hT hdis
+    rcases exists_morphism_for_finite_disjoint hS hT hdis with ⟨φ, hφS, hφT⟩
+    exact ⟨φ, hφS, hφT⟩
+
+theorem morphismMarkedNoncriticalExistence_branch :
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).branch = markedSchemePointSet K := rfl
+
+theorem morphismMarkedNoncriticalExistence_toCoverData_branch :
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).toBelyiCoverData.branch =
+      markedSchemePointSet K := rfl
+
+theorem morphismMarkedNoncritical_exists_belyiOpen_inside_complement
+    [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Aᶜ := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_inside_complement hA hxA
+
+theorem morphismMarkedNoncritical_exists_belyiOpen_containing_finite_inside_complement
+    [T1Space (P1 K)]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ Sᶜ := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_complement
+      hS hT hdis
+
+theorem morphismMarkedNoncritical_exists_belyiOpen_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {V : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_inside_open_of_finite_complement
+      hV hVcompl hxV
+
+theorem morphismMarkedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hV hVcompl hT hTsub
+
+theorem morphismMarkedNoncritical_pointwise_cover_complement
+    (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ φ : Φ,
+      (morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ ∧
+        ∀ i, (morphism φ).base (x i).1 ∉ markedSchemePointSet K := by
+  rcases (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).pointwise_cover_complement hS x with ⟨φ, hφS, hφx⟩
+  exact ⟨φ, hφS, hφx⟩
+
+theorem morphismMarkedNoncritical_finite_subcover_on_complement
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).finite_subcover_on_complement (κ := κ) hS
+
+end MorphismFamily
+
 end
 end SchemeMarkedBelyi
 end SourceStack

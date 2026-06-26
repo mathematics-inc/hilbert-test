@@ -204,9 +204,11 @@ is the scheme carrier `P1 K`.  It also turns a partial map to `P1 K` into
 one-map Belyi-cover data on its dense domain, with the same marked branch set,
 and checks the corresponding branch-avoidance Belyi open and containment facts;
 the same construction is also stated for rational maps on their canonical
-domains.  The remaining missing input is the bridge from
-these marked scheme points to rational functions and branch-locus statements
-for morphisms to `P^1`.
+domains.  It additionally packages honest scheme-morphism families
+`C ⟶ P1 K` as marked Belyi-cover data and as the same noncritical finite-set
+existence interface.  The remaining missing input is the curve theorem
+producing such morphism/rational-function families with the paper's required
+branch control.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous
