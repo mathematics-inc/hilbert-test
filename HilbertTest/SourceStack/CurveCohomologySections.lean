@@ -148,6 +148,20 @@ def toDivisorZeroSectionData : DivisorZeroSectionData K X V where
 theorem toDivisorZeroSectionData_support :
     D.toDivisorZeroSectionData.support = D.evalSurjectivity.support := rfl
 
+/-- The cohomological divisor zero-section vanishes at exactly the support
+points. -/
+theorem zeroSection_eval_eq_zero_iff_mem_support (x : X) :
+    D.evalSurjectivity.evalData.eval x D.zeroSection = 0 ↔
+      x ∈ D.evalSurjectivity.support := by
+  exact D.toDivisorZeroSectionData.zeroSection_eval_eq_zero_iff_mem_support x
+
+/-- Away from the cohomological divisor support, the distinguished zero-section
+is nonzero. -/
+theorem zeroSection_eval_ne_zero_iff_not_mem_support (x : X) :
+    D.evalSurjectivity.evalData.eval x D.zeroSection ≠ 0 ↔
+      x ∉ D.evalSurjectivity.support := by
+  exact D.toDivisorZeroSectionData.zeroSection_eval_ne_zero_iff_not_mem_support x
+
 /-- The cohomological source package supplies a second section nonzero on the
 divisor support. -/
 theorem exists_section_nonzero_on_support

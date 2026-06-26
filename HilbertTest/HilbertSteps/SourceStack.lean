@@ -1784,6 +1784,18 @@ theorem hilbert_divisorZeroSection_zeroSection_hasZeroSet_apply :
   exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.zeroSection_hasZeroSet_apply
     D
 
+theorem hilbert_divisorZeroSection_zeroSection_eval_eq_zero_iff_mem_support
+    (x : X) :
+    D.evalData.eval x D.zeroSection = 0 ↔ x ∈ D.support := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.zeroSection_eval_eq_zero_iff_mem_support
+    D x
+
+theorem hilbert_divisorZeroSection_zeroSection_eval_ne_zero_iff_not_mem_support
+    (x : X) :
+    D.evalData.eval x D.zeroSection ≠ 0 ↔ x ∉ D.support := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.zeroSection_eval_ne_zero_iff_not_mem_support
+    D x
+
 theorem hilbert_divisorZeroSection_exists_section_nonzero_on_support
     [Infinite K] (hsupport : D.support.Finite) :
     ∃ s1 : V, D.evalData.nonzeroOnSet D.support s1 := by
@@ -1892,6 +1904,20 @@ theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
     D.toDivisorZeroSectionData.support = D.evalSurjectivity.support := by
   exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.toDivisorZeroSectionData_support
     D
+
+theorem hilbert_cohomologicalDivisor_zeroSection_eval_eq_zero_iff_mem_support
+    (x : X) :
+    D.evalSurjectivity.evalData.eval x D.zeroSection = 0 ↔
+      x ∈ D.evalSurjectivity.support := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.zeroSection_eval_eq_zero_iff_mem_support
+    D x
+
+theorem hilbert_cohomologicalDivisor_zeroSection_eval_ne_zero_iff_not_mem_support
+    (x : X) :
+    D.evalSurjectivity.evalData.eval x D.zeroSection ≠ 0 ↔
+      x ∉ D.evalSurjectivity.support := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.zeroSection_eval_ne_zero_iff_not_mem_support
+    D x
 
 theorem hilbert_cohomologicalDivisor_exists_section_nonzero_on_support
     [Infinite K] (hsupport : D.evalSurjectivity.support.Finite) :

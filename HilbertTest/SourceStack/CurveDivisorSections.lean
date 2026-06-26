@@ -47,6 +47,20 @@ theorem zeroSection_hasZeroSet_apply :
     HasZeroSet D.evalData D.zeroSection D.support :=
   D.zeroSection_hasZeroSet
 
+/-- The distinguished zero-section vanishes at exactly the support points. -/
+theorem zeroSection_eval_eq_zero_iff_mem_support (x : X) :
+    D.evalData.eval x D.zeroSection = 0 ↔ x ∈ D.support :=
+  D.zeroSection_hasZeroSet x
+
+/-- Away from the support, the distinguished zero-section is nonzero. -/
+theorem zeroSection_eval_ne_zero_iff_not_mem_support (x : X) :
+    D.evalData.eval x D.zeroSection ≠ 0 ↔ x ∉ D.support := by
+  constructor
+  · intro hzero hx
+    exact hzero ((D.zeroSection_hasZeroSet x).2 hx)
+  · intro hx hzero
+    exact hx ((D.zeroSection_hasZeroSet x).1 hzero)
+
 /-- Over an infinite field, finitely many nonzero evaluation forms can be
 avoided simultaneously, so there is a section nonzero on the divisor support. -/
 theorem exists_section_nonzero_on_support
