@@ -193,8 +193,9 @@ proof that `p(beta)` avoids this forbidden set into a
 algebraically-closed-field realization step: if the coefficient-mapped
 polynomial has positive degree, then every target value is `p(beta)` for some
 `beta`.  Combining this with the forbidden-target layer yields an actual
-`beta` outside the forbidden set, and with nonzero derivative gives an existing
-`P1PolynomialSeparationStep`.
+`beta` outside the forbidden set.  It also checks that nonzero formal derivative
+implies positive degree after coefficient extension, so nonzero derivative alone
+gives an existing `P1PolynomialSeparationStep`.
 
 `HilbertTest/SourceStack/P1SchemePointBridge.lean` now isolates the remaining
 linear-to-scheme point-model interface for `P1`: an injective bridge from the

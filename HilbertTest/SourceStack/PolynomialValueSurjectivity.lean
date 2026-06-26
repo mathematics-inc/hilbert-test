@@ -26,6 +26,22 @@ universe u v
 variable (F : Type u) (E : Type v)
 variable [Field F] [Field E] [Algebra F E]
 
+/-- A polynomial with nonzero formal derivative has positive degree. -/
+theorem natDegree_pos_of_derivative_ne_zero
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    0 < p.natDegree := by
+  by_contra hnot
+  have hzero : p.natDegree = 0 := Nat.eq_zero_of_not_pos hnot
+  exact hpder (Polynomial.derivative_of_natDegree_zero hzero)
+
+/-- A polynomial with nonzero formal derivative remains positive-degree after
+coefficient extension to a nontrivial field. -/
+theorem map_natDegree_pos_of_derivative_ne_zero
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    0 < (p.map (algebraMap F E)).natDegree := by
+  rw [Polynomial.natDegree_map]
+  exact natDegree_pos_of_derivative_ne_zero F p hpder
+
 /-- A positive-degree polynomial over an algebraically closed target field
 realizes every prescribed target value after applying coefficients to that
 field. -/
@@ -72,6 +88,18 @@ theorem exists_p1PolynomialSeparationStep
   obtain ⟨β, hβ⟩ := exists_beta_not_mem_forbiddenTargetSet F E hS p hp
   refine ⟨β, toP1PolynomialSeparationStep F E p hpder hβ, ?_⟩
   exact toP1PolynomialSeparationStep_polynomial F E p hpder hβ
+
+/-- Over an algebraically closed target field, a polynomial with nonzero formal
+derivative yields a selected `P1` polynomial-separation step for any finite
+input set. -/
+theorem exists_p1PolynomialSeparationStep_of_derivative_ne_zero
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : E, ∃ P : P1PolynomialSeparation.P1PolynomialSeparationStep F E S β,
+      P.polynomial = p := by
+  exact exists_p1PolynomialSeparationStep F E hS p
+    (map_natDegree_pos_of_derivative_ne_zero F E p hpder) hpder
 
 end PolynomialValueSurjectivity
 end SourceStack

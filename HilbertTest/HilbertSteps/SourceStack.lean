@@ -4427,6 +4427,18 @@ universe u v
 
 variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
 
+theorem hilbert_polynomialValueSurjectivity_natDegree_pos_of_derivative_ne_zero
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    0 < p.natDegree := by
+  exact SourceStack.PolynomialValueSurjectivity.natDegree_pos_of_derivative_ne_zero
+    F p hpder
+
+theorem hilbert_polynomialValueSurjectivity_map_natDegree_pos_of_derivative_ne_zero
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    0 < (p.map (algebraMap F E)).natDegree := by
+  exact SourceStack.PolynomialValueSurjectivity.map_natDegree_pos_of_derivative_ne_zero
+    F E p hpder
+
 theorem hilbert_polynomialValueSurjectivity_exists_aeval_eq_of_map_natDegree_pos
     [IsAlgClosed E]
     (p : F[X]) (hp : 0 < (p.map (algebraMap F E)).natDegree) (y : E) :
@@ -4451,6 +4463,15 @@ theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep
       P.polynomial = p := by
   exact SourceStack.PolynomialValueSurjectivity.exists_p1PolynomialSeparationStep
     F E hS p hp hpder
+
+theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep_of_derivative_ne_zero
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : E, ∃ P : SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep F E S β,
+      P.polynomial = p := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_p1PolynomialSeparationStep_of_derivative_ne_zero
+    F E hS p hpder
 
 end PolynomialValueSurjectivity
 
