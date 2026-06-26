@@ -62,6 +62,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   nonzero evaluation functionals on the finite support, it chooses a second
   section nonzero on that support and proves the resulting pair has no common
   basepoint.
+- `HilbertTest.SourceStack.CurveCohomologySections`: cohomology-to-evaluation
+  layer for the long exact cohomology argument.  It proves that surjectivity of
+  an evaluation map to a nontrivial fiber makes it a nonzero linear form, then
+  converts supportwise evaluation surjectivity into the divisor-section package.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also

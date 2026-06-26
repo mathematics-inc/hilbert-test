@@ -132,6 +132,14 @@ field and proves that the pair with the zero-section has no common basepoint.
 The remaining missing input is the actual divisor/line-bundle theorem supplying
 this package from `O_X(D)` on a smooth proper curve.
 
+`HilbertTest/SourceStack/CurveCohomologySections.lean` now isolates the
+cohomological input to that divisor-section package.  It proves that a
+surjective linear evaluation map to a nontrivial fiber is nonzero, packages
+surjective point evaluations on a finite support, and converts that package into
+the divisor zero-section interface that supplies the second section and
+basepoint-free pair.  The remaining missing input is the curve theorem proving
+those evaluation maps are surjective from the vanishing of `H^1(L(-x))`.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

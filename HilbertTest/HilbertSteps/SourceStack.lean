@@ -5,6 +5,7 @@ import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
 import HilbertTest.SourceStack.ProjectiveSectionMaps
 import HilbertTest.SourceStack.CurveDivisorSections
+import HilbertTest.SourceStack.CurveCohomologySections
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -553,6 +554,55 @@ theorem hilbert_divisorZeroSection_exists_second_section_no_common_zero
     D hsupport
 
 end CurveDivisorSections
+
+namespace CurveCohomologySections
+
+open SourceStack.CurveCohomologySections
+open SourceStack.CurveDivisorSections
+open SourceStack.ProjectiveSectionMaps
+
+universe u v w
+
+variable {K : Type u} [Field K]
+variable {X : Type v}
+variable {V : Type w} [AddCommGroup V] [Module K V]
+
+theorem hilbert_linearMap_ne_zero_of_surjective
+    {W : Type*} [AddCommGroup W] [Module K W] [Nontrivial W]
+    (f : V →ₗ[K] W) (hf : Function.Surjective f) :
+    f ≠ 0 := by
+  exact SourceStack.CurveCohomologySections.linearMap_ne_zero_of_surjective
+    f hf
+
+variable (E : EvaluationSurjectivityData K X V)
+
+theorem hilbert_evaluationSurjectivity_eval_nonzero_on_support :
+    ∀ x ∈ E.support, E.evalData.eval x ≠ 0 := by
+  exact SourceStack.CurveCohomologySections.EvaluationSurjectivityData.eval_nonzero_on_support
+    E
+
+variable (D : CohomologicalDivisorSectionData K X V)
+
+theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
+    D.toDivisorZeroSectionData.support = D.evalSurjectivity.support := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.toDivisorZeroSectionData_support
+    D
+
+theorem hilbert_cohomologicalDivisor_exists_section_nonzero_on_support
+    [Infinite K] (hsupport : D.evalSurjectivity.support.Finite) :
+    ∃ s1 : V, D.evalSurjectivity.evalData.nonzeroOnSet
+      D.evalSurjectivity.support s1 := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_section_nonzero_on_support
+    D hsupport
+
+theorem hilbert_cohomologicalDivisor_exists_second_section_no_common_zero
+    [Infinite K] (hsupport : D.evalSurjectivity.support.Finite) :
+    ∃ s1 : V, HasNoCommonZero
+      D.evalSurjectivity.evalData D.zeroSection s1 := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_second_section_no_common_zero
+    D hsupport
+
+end CurveCohomologySections
 
 section ComplexSeparation
 
