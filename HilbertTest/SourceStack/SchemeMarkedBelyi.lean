@@ -150,6 +150,21 @@ theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_fini
     exists_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       hV hVcompl hT hTsub
 
+theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))] [NonemptyOpenFiniteComplement X]
+    {V T : Set X} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hV hVne hT hTsub
+
 theorem markedNoncritical_pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set X} (hS : S.Finite)
     (x : κ → {x : X // x ∉ S}) :
@@ -319,6 +334,21 @@ theorem markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_open_o
   exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
     exists_scheme_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       hV hVcompl hT hTsub
+
+theorem markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X]
+    {V T : Set X} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+    exists_scheme_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hV hVne hT hTsub
 
 theorem markedSchemeNoncritical_pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set X} (hS : S.Finite)
@@ -627,6 +657,21 @@ theorem morphismMarkedNoncritical_exists_belyiOpen_containing_finite_inside_open
     exists_morphism_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       hV hVcompl hT hTsub
 
+theorem morphismMarkedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {V T : Set C} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hV hVne hT hTsub
+
 theorem morphismMarkedNoncritical_pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
     (x : κ → {x : C // x ∉ S}) :
@@ -865,6 +910,18 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
   exact
     (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       hV hVcompl hT hTsub
+
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {V T : Set C} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+          ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact
+    (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hV hVne hT hTsub
 
 theorem pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
