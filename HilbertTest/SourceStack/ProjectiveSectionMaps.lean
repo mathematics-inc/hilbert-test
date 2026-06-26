@@ -1325,6 +1325,22 @@ theorem exists_belyiOpen_inside_complement
       hA hxA
 
 /-- Corollary 1.2-style one-point open consequence of the projective-section
+finite marked family, with the finite complement supplied explicitly. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.exists_belyiOpen_inside_open_of_finite_complement
+      hU hUcompl hxU
+
+/-- Corollary 1.2-style one-point open consequence of the projective-section
 finite marked family in the curve-style finite-complement topology form. -/
 theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
@@ -1412,6 +1428,51 @@ theorem exists_for_finite_disjoint
   exact F.toProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     hS hT hdis
 
+/-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
+finite marked families. -/
+theorem exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Aᶜ := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
+    hA hxA
+
+/-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
+finite marked families, with the finite complement supplied explicitly. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_finite_complement
+    hU hUcompl hxU
+
+/-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
+finite marked families in the curve-style finite-complement topology form. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    hU hxU
+
 end TrivializedProjectiveSectionFiniteMarkedFamily
 
 /-- A concrete finite marked family whose projective-section maps are supplied
@@ -1484,6 +1545,53 @@ theorem exists_for_finite_disjoint
       ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
   exact F.toProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     hS hT hdis
+
+/-- Direct one-point Belyi-open consequence for denominator-is-unit
+trivialized finite marked families. -/
+theorem exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Aᶜ := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
+    hA hxA
+
+/-- Direct one-point Belyi-open consequence for denominator-is-unit
+trivialized finite marked families, with the finite complement supplied
+explicitly. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_finite_complement
+    hU hUcompl hxU
+
+/-- Direct one-point Belyi-open consequence for denominator-is-unit
+trivialized finite marked families in the curve-style finite-complement
+topology form. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    hU hxU
 
 end IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
 
@@ -1559,6 +1667,54 @@ theorem exists_for_finite_disjoint
       ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
   exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     F.isUnitFamily hS hT hdis
+
+/-- Direct one-point Belyi-open consequence for canonical two-section Bezout
+finite marked families. -/
+theorem exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Aᶜ := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily hA hxA
+
+/-- Direct one-point Belyi-open consequence for canonical two-section Bezout
+finite marked families, with the finite complement supplied explicitly. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_finite_complement
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily hU hUcompl hxU
+
+/-- Direct one-point Belyi-open consequence for canonical two-section Bezout
+finite marked families in the curve-style finite-complement topology form. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily hU hxU
 
 end TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
 
