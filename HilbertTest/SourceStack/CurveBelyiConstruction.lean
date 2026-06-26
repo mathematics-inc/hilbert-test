@@ -119,6 +119,38 @@ theorem exists_for_finite_disjoint
       D.sendsSetToBranch_of_vanishesOnSet hsS,
       D.avoidsBranch_of_nonzeroOnSet hsT⟩
 
+/-- Pointwise tuple-cover consequence for section-controlled Belyi data. -/
+theorem pointwise_cover_complement
+    [Infinite K] (κ : Type*) [Finite κ] {S : Set X} (hS : S.Finite)
+    (x : κ → {x : X // x ∉ S}) :
+    ∃ s : V, D.toBelyiCoverData.sendsSetToBranch S s ∧
+      ∀ i, D.map s (x i).1 ∉ D.branch := by
+  exact D.toNoncriticalBelyiExistence.pointwise_cover_complement hS x
+
+/-- Finite tuple-subcover consequence for section-controlled Belyi data. -/
+theorem finite_subcover_on_complement
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space P]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {s : V // D.toBelyiCoverData.sendsSetToBranch S s},
+      (⋃ s ∈ t, (D.toBelyiCoverData.complementCoverData S).tupleAvoidSet
+          (κ := κ) s) =
+        (Set.univ : Set (κ → {x : X // x ∉ S})) := by
+  exact D.toNoncriticalBelyiExistence.finite_subcover_on_complement
+    (κ := κ) hS
+
+/-- Membership form of the finite tuple-subcover consequence for
+section-controlled Belyi data. -/
+theorem finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space P]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {s : V // D.toBelyiCoverData.sendsSetToBranch S s},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ (D.toBelyiCoverData.complementCoverData S).tupleAvoidSet
+            (κ := κ) s := by
+  exact D.toNoncriticalBelyiExistence.finite_subcover_on_complement_forall
+    (κ := κ) hS
+
 end SectionControlledBelyiData
 
 end CurveBelyiConstruction
