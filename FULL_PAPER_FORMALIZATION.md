@@ -124,6 +124,14 @@ and proves that a finite marked family built from such pairs feeds into
 `SectionControlledFiniteMarkedBelyiData`, hence into the checked Belyi-open and
 finite-disjoint-set conclusions.
 
+`HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
+finite linear-avoidance step in that proof passage.  Given a divisor zero-section
+whose zero set is the finite support and nonzero evaluation forms at that
+support, it chooses a second section nonzero on the support over an infinite
+field and proves that the pair with the zero-section has no common basepoint.
+The remaining missing input is the actual divisor/line-bundle theorem supplying
+this package from `O_X(D)` on a smooth proper curve.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

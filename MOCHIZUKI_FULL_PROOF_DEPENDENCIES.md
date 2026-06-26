@@ -57,6 +57,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   nonzero on `T`, packages the missing two-section morphism to `P1 K` as a
   `ProjectiveLineSectionPair`, and proves that finite marked Belyi maps built
   from such pairs instantiate the section-controlled finite marked bridge.
+- `HilbertTest.SourceStack.CurveDivisorSections`: divisor-section selection
+  layer for the same proof passage.  Given the zero-section of `O_X(D)` and
+  nonzero evaluation functionals on the finite support, it chooses a second
+  section nonzero on that support and proves the resulting pair has no common
+  basepoint.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also

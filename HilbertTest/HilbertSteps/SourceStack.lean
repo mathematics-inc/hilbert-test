@@ -4,6 +4,7 @@ import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
 import HilbertTest.SourceStack.ProjectiveSectionMaps
+import HilbertTest.SourceStack.CurveDivisorSections
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -515,6 +516,43 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_comp
     F hA hxA
 
 end ProjectiveSectionMaps
+
+namespace CurveDivisorSections
+
+open SourceStack.CurveDivisorSections
+open SourceStack.ProjectiveSectionMaps
+
+universe u v w
+
+variable {K : Type u} [Field K]
+variable {X : Type v}
+variable {V : Type w} [AddCommGroup V] [Module K V]
+variable (D : DivisorZeroSectionData K X V)
+
+theorem hilbert_divisorZeroSection_zeroSection_hasZeroSet_apply :
+    HasZeroSet D.evalData D.zeroSection D.support := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.zeroSection_hasZeroSet_apply
+    D
+
+theorem hilbert_divisorZeroSection_exists_section_nonzero_on_support
+    [Infinite K] (hsupport : D.support.Finite) :
+    ∃ s1 : V, D.evalData.nonzeroOnSet D.support s1 := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_section_nonzero_on_support
+    D hsupport
+
+theorem hilbert_divisorZeroSection_hasNoCommonZero_zeroSection_of_nonzero_on_support
+    {s1 : V} (hs1 : D.evalData.nonzeroOnSet D.support s1) :
+    HasNoCommonZero D.evalData D.zeroSection s1 := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.hasNoCommonZero_zeroSection_of_nonzero_on_support
+    D hs1
+
+theorem hilbert_divisorZeroSection_exists_second_section_no_common_zero
+    [Infinite K] (hsupport : D.support.Finite) :
+    ∃ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_second_section_no_common_zero
+    D hsupport
+
+end CurveDivisorSections
 
 section ComplexSeparation
 
