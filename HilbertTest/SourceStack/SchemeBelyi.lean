@@ -182,6 +182,37 @@ theorem compAux_isDominant_hom {Y : Scheme.{u}} {T : BelyiTarget P}
     IsDominant (φ.compAux aux hEtale).hom :=
   (φ.compAux aux hEtale).dominant
 
+/-- If the auxiliary morphism is étale over the preimage of the branch-open,
+then the composite is étale over the branch-open. -/
+theorem compAux_etale_of_aux_restrict {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen) := by
+  rw [morphismRestrict_comp]
+  letI : IsEtale (aux ∣_ φ.hom ⁻¹ᵁ T.branchOpen) := by
+    simpa [BelyiMap.belyiOpen] using hAuxEtale
+  letI : IsEtale (φ.hom ∣_ T.branchOpen) := φ.etale_on_branchOpen
+  exact _root_.HilbertTest.SourceStack.Schemes.etale_comp
+    (aux ∣_ φ.hom ⁻¹ᵁ T.branchOpen) (φ.hom ∣_ T.branchOpen)
+
+/-- Compose a finite Belyi map with an auxiliary finite dominant morphism that
+is étale over the preimage of the branch-complement open. -/
+def compAuxOfAuxEtale {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    FiniteBelyiMap T X :=
+  φ.compAux aux (φ.compAux_etale_of_aux_restrict aux hAuxEtale)
+
+theorem compAuxOfAuxEtale_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    (φ.compAuxOfAuxEtale aux hAuxEtale).hom = aux ≫ φ.hom := rfl
+
+theorem compAuxOfAuxEtale_base {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) (x : X) :
+    (φ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = φ.hom.base (aux.base x) := rfl
+
 end FiniteBelyiMap
 
 section MarkedProjectiveLineTarget

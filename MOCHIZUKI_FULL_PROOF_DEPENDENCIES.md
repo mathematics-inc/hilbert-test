@@ -79,9 +79,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `P1`.  It constructs the finite bad target set `ψ(S) ∪ badValues`, provides
   `P1ReductionStep` constructors using that set, builds the composed finite
   Belyi map from a finite dominant auxiliary morphism and the chosen finite
-  Belyi map on `P1` once composite étaleness over the marked branch-open is
-  supplied, checks the marked-image/marked-avoidance set control for the
-  composition, and converts a family of such reductions into
+  Belyi map on `P1`, proves composite étaleness from auxiliary étaleness over
+  the preimage of the marked branch-open, checks the marked-image/
+  marked-avoidance set control for the composition, and converts a family of
+  such reductions into
   `FiniteMarkedBelyiExistence`.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the

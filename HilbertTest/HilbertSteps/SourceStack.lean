@@ -601,6 +601,53 @@ theorem hilbert_p1ReductionStep_ofBadValuesComposed_composed_base_eq
     hS badValues hbad aux p1Map hcomposedEtale p1Map_maps_bad_to_marked
     targetPoint maps_T_to_target p1Map_target_avoids_marked x
 
+theorem hilbert_p1ReductionStep_ofBadValuesComposedAuxEtale_composed_hom
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hAuxEtale : IsEtale (aux ∣_ p1Map.toBelyiMap.belyiOpen))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (P1ReductionStep.ofBadValuesComposedAuxEtale
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map hAuxEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom =
+        aux ≫ p1Map.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValuesComposedAuxEtale_composed_hom
+    hS badValues hbad aux p1Map hAuxEtale p1Map_maps_bad_to_marked
+    targetPoint maps_T_to_target p1Map_target_avoids_marked
+
+theorem hilbert_p1ReductionStep_ofBadValuesComposedAuxEtale_composed_base_eq
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hAuxEtale : IsEtale (aux ∣_ p1Map.toBelyiMap.belyiOpen))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K)
+    (x : C) :
+    (P1ReductionStep.ofBadValuesComposedAuxEtale
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map hAuxEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom.base x =
+        p1Map.hom.base (aux.base x) := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValuesComposedAuxEtale_composed_base_eq
+    hS badValues hbad aux p1Map hAuxEtale p1Map_maps_bad_to_marked
+    targetPoint maps_T_to_target p1Map_target_avoids_marked x
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
@@ -1617,6 +1664,27 @@ theorem hilbert_schemeBelyi_finite_compAux_isDominant_hom
     (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
     IsDominant (ψ.compAux aux hEtale).hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_isDominant_hom ψ aux hEtale
+
+theorem hilbert_schemeBelyi_finite_compAux_etale_of_aux_restrict
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_etale_of_aux_restrict
+    ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    (ψ.compAuxOfAuxEtale aux hAuxEtale).hom = aux ≫ ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_hom
+    ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_base
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) (x : Y) :
+    (ψ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = ψ.hom.base (aux.base x) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_base
+    ψ aux hAuxEtale x
 
 section MarkedProjectiveLineTarget
 

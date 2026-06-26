@@ -172,12 +172,13 @@ and `T` maps to a point whose image avoids the marked triple, then the composed
 map has the required marked-image and marked-avoidance behavior.  The
 scheme-level Belyi layer now constructs that composed finite Belyi map from a
 finite dominant auxiliary morphism `aux` and a finite Belyi map on `P1`,
-provided the composite is étale over the marked branch-complement open.  A
-family of such steps for all finite disjoint `S,T` instantiates
+provided the composite is étale over the marked branch-complement open; it also
+proves this composite étaleness from étaleness of `aux` over the preimage of
+that branch-complement open.  A family of such steps for all finite disjoint `S,T` instantiates
 `FiniteMarkedBelyiExistence`.  The same file now constructs the standard finite
 bad set `aux(S) ∪ badValues`, proves its finiteness and containment facts, and
-provides `P1ReductionStep.ofBadValues` and `.ofBadValuesComposed` constructors
-using that standard set.
+provides `P1ReductionStep.ofBadValues`, `.ofBadValuesComposed`, and
+`.ofBadValuesComposedAuxEtale` constructors using that standard set.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound

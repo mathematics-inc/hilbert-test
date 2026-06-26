@@ -237,6 +237,68 @@ theorem ofBadValuesComposed_composed_base_eq
         p1Map.hom.base (aux.base x) := by
   exact SchemeBelyi.FiniteBelyiMap.compAux_base p1Map aux hcomposedEtale x
 
+/-- Variant of `ofBadValuesComposed` where composite étaleness is proved from
+étaleness of the auxiliary morphism over the preimage of the marked
+branch-complement open. -/
+def ofBadValuesComposedAuxEtale
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hAuxEtale : IsEtale (aux ∣_ p1Map.toBelyiMap.belyiOpen))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    P1ReductionStep K C hmarkedOpen S T :=
+  ofBadValuesComposed (K := K) (C := C) (hmarkedOpen := hmarkedOpen)
+    (S := S) (T := T) hS badValues hbad aux p1Map
+    (p1Map.compAux_etale_of_aux_restrict aux hAuxEtale)
+    p1Map_maps_bad_to_marked targetPoint maps_T_to_target p1Map_target_avoids_marked
+
+theorem ofBadValuesComposedAuxEtale_composed_hom
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hAuxEtale : IsEtale (aux ∣_ p1Map.toBelyiMap.belyiOpen))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (ofBadValuesComposedAuxEtale (K := K) (C := C) (hmarkedOpen := hmarkedOpen)
+      (S := S) (T := T) hS badValues hbad aux p1Map hAuxEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom =
+        aux ≫ p1Map.hom := rfl
+
+theorem ofBadValuesComposedAuxEtale_composed_base_eq
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hAuxEtale : IsEtale (aux ∣_ p1Map.toBelyiMap.belyiOpen))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K)
+    (x : C) :
+    (ofBadValuesComposedAuxEtale (K := K) (C := C) (hmarkedOpen := hmarkedOpen)
+      (S := S) (T := T) hS badValues hbad aux p1Map hAuxEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom.base x =
+        p1Map.hom.base (aux.base x) := by
+  exact SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_base p1Map aux hAuxEtale x
+
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
