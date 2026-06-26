@@ -4,13 +4,13 @@ import HilbertTest.SourceStack.P1PolynomialSeparation
 /-!
 Bridge from the linear projective-line point model to the scheme carrier `P1 K`.
 
-The project currently has two checked point models for `P^1`: Mathlib's linear
-projectivization and the scheme carrier of `Proj K[X0,X1]`.  The concrete
-identification between arbitrary points of these two models is still a missing
-source theorem.  This file isolates the exact interface needed downstream:
-an injective map from the linear model to the scheme carrier that agrees with
-the marked labels `0,1,infinity`.  From that interface, branch membership and
-the polynomial-separation handoff transport formally.
+The project has two checked point models for `P^1`: Mathlib's linear
+projectivization and the scheme carrier of `Proj K[X0,X1]`.  This file isolates
+the exact interface needed downstream: an injective map from the linear model to
+the scheme carrier that agrees with the marked labels `0,1,infinity`.  The
+concrete instance is constructed in `SchemeAffineLinePoints`; from this
+interface, branch membership and the polynomial-separation handoff transport
+formally.
 -/
 
 noncomputable section

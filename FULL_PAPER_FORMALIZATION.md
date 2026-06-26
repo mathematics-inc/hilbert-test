@@ -208,6 +208,7 @@ separation/noncriticality package.
 affine family `[r:1]` on scheme-theoretic `P^1_K = Proj K[X0,X1]` as the
 homogeneous ideal `(X0 - r X1)`, proves its chart behavior, injectivity,
 agreement with the marked zero/one points, disjointness from infinity, and
+membership in the marked triple exactly when `r = 0` or `r = 1`, and
 instantiates the concrete `LinearSchemePointBridge`.
 
 `HilbertTest/SourceStack/PolynomialSchemeSeparation.lean` composes value
@@ -221,7 +222,8 @@ and noncritical-preimage package needed before the Belyi-map reduction.
 that package with the constructed `Proj` bridge.  It identifies the bridged
 scheme point map with the concrete affine scheme point map `x |-> [p(x):1]`
 and gives the same marked-avoidance/separation/noncriticality conclusion with
-no abstract bridge parameter.
+no abstract bridge parameter.  It also reduces marked-triple membership of
+`[p(x):1]` and `[p(beta):1]` to the field equalities `p(x) = 0` or `p(x) = 1`.
 
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field

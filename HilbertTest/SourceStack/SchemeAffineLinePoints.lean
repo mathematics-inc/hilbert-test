@@ -311,6 +311,31 @@ theorem affinePoint_ne_one {r : K} (hr : r ≠ 1) :
   intro h
   exact hr ((affinePoint_eq_iff K r 1).1 (by simpa [affinePoint_one K] using h))
 
+theorem affinePoint_mem_markedSchemePointSet_iff (r : K) :
+    affinePoint K r ∈ markedSchemePointSet K ↔ r = 0 ∨ r = 1 := by
+  constructor
+  · intro h
+    change affinePoint K r ∈ markedPointFinset K at h
+    simp [markedPointFinset, affinePoint_ne_infinity K r] at h
+    rcases h with h0 | h1
+    · left
+      exact (affinePoint_eq_iff K r 0).1 (by simpa [affinePoint_zero K] using h0)
+    · right
+      exact (affinePoint_eq_iff K r 1).1 (by simpa [affinePoint_one K] using h1)
+  · intro h
+    change affinePoint K r ∈ markedPointFinset K
+    rcases h with rfl | rfl
+    · simpa [affinePoint_zero K] using zeroPoint_mem_markedPointFinset K
+    · simpa [affinePoint_one K] using onePoint_mem_markedPointFinset K
+
+theorem affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
+    {r : K} (h0 : r ≠ 0) (h1 : r ≠ 1) :
+    affinePoint K r ∉ markedSchemePointSet K := by
+  intro h
+  rcases (affinePoint_mem_markedSchemePointSet_iff K r).1 h with hr | hr
+  · exact h0 hr
+  · exact h1 hr
+
 end Domain
 
 section LinearBridge

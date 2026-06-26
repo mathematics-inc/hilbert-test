@@ -60,6 +60,34 @@ theorem concreteSchemePolynomialTargetPoint_eq_bridge :
   rw [P1PolynomialSeparationStep.targetPoint,
     SchemeAffineLinePoints.linearToSchemePoint_affinePoint]
 
+theorem concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
+    (p : F[X]) (x : K) :
+    concreteSchemePolynomialPointMap F K p x ∈
+        SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval x p = 0 ∨ Polynomial.aeval x p = 1 := by
+  simpa [concreteSchemePolynomialPointMap] using
+    SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K
+      (Polynomial.aeval x p)
+
+theorem concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
+    (p : F[X]) (β : K) :
+    concreteSchemePolynomialTargetPoint F K p β ∈
+        SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval β p = 0 ∨ Polynomial.aeval β p = 1 := by
+  simpa [concreteSchemePolynomialTargetPoint] using
+    SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K
+      (Polynomial.aeval β p)
+
+theorem concreteSchemePolynomialTargetPoint_not_mem_markedSchemePointSet
+    {p : F[X]} {β : K}
+    (h0 : Polynomial.aeval β p ≠ 0)
+    (h1 : Polynomial.aeval β p ≠ 1) :
+    concreteSchemePolynomialTargetPoint F K p β ∉
+      SchemeProjectiveLine.markedSchemePointSet K := by
+  simpa [concreteSchemePolynomialTargetPoint] using
+    SchemeAffineLinePoints.affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
+      K h0 h1
+
 /-- Concrete scheme-carrier separation package: for a finite input set and a
 polynomial with nonzero derivative over an algebraically closed target field,
 choose `beta` so `[p(beta):1]` avoids the marked scheme triple, is separated

@@ -212,8 +212,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.SchemeAffineLinePoints`: concrete construction of
   the affine scheme points `[r:1]` on `Proj K[X0,X1]` via `(X0 - r X1)`,
   including injectivity, agreement with zero/one, avoidance of infinity, and
-  the concrete `LinearSchemePointBridge` from the linear projective-line model
-  to the scheme carrier.
+  marked-triple membership exactly for `r = 0` or `r = 1`, plus the concrete
+  `LinearSchemePointBridge` from the linear projective-line model to the
+  scheme carrier.
 - `HilbertTest.SourceStack.PolynomialSchemeSeparation`: composition of the
   previous polynomial layers with the scheme-point bridge.  From finite input
   data and nonzero derivative over an algebraically closed target field, it
@@ -222,7 +223,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ConcretePolynomialSchemeSeparation`: the same
   scheme-carrier package after instantiating the bridge with the concrete
   `Proj` affine-point construction, identifying the point map with
-  `x |-> [p(x):1]` and the selected target with `[p(beta):1]`.
+  `x |-> [p(x):1]` and the selected target with `[p(beta):1]`, and reducing
+  marked membership to the branch values `0` and `1`.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for

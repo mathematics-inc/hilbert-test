@@ -4593,6 +4593,13 @@ theorem hilbert_schemeAffineLinePoints_affinePoint_eq_iff
     affinePoint K r = affinePoint K s ↔ r = s := by
   exact SourceStack.SchemeAffineLinePoints.affinePoint_eq_iff K r s
 
+theorem hilbert_schemeAffineLinePoints_affinePoint_mem_markedSchemePointSet_iff
+    (r : K) :
+    affinePoint K r ∈ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      r = 0 ∨ r = 1 := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff
+    K r
+
 theorem hilbert_schemeAffineLinePoints_affinePoint_ne_zero
     {r : K} (hr : r ≠ 0) :
     affinePoint K r ≠ SourceStack.SchemeProjectiveLine.zeroPoint K := by
@@ -4602,6 +4609,12 @@ theorem hilbert_schemeAffineLinePoints_affinePoint_ne_one
     {r : K} (hr : r ≠ 1) :
     affinePoint K r ≠ SourceStack.SchemeProjectiveLine.onePoint K := by
   exact SourceStack.SchemeAffineLinePoints.affinePoint_ne_one K hr
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
+    {r : K} (h0 : r ≠ 0) (h1 : r ≠ 1) :
+    affinePoint K r ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
+    K h0 h1
 
 theorem hilbert_schemeAffineLinePoints_affinePoint_mem_x1_basicOpen
     (r : K) :
@@ -4709,6 +4722,31 @@ theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_eq_bridge :
       concreteSchemePolynomialTargetPoint F K P.polynomial β := by
   exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_eq_bridge
     F K P
+
+theorem hilbert_concretePolynomialSchemeSeparation_pointMap_mem_markedSchemePointSet_iff
+    (p : F[X]) (x : K) :
+    concreteSchemePolynomialPointMap F K p x ∈
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval x p = 0 ∨ Polynomial.aeval x p = 1 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
+    F K p x
+
+theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_mem_markedSchemePointSet_iff
+    (p : F[X]) (β : K) :
+    concreteSchemePolynomialTargetPoint F K p β ∈
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval β p = 0 ∨ Polynomial.aeval β p = 1 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
+    F K p β
+
+theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_not_mem_markedSchemePointSet
+    {p : F[X]} {β : K}
+    (h0 : Polynomial.aeval β p ≠ 0)
+    (h1 : Polynomial.aeval β p ≠ 1) :
+    concreteSchemePolynomialTargetPoint F K p β ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_not_mem_markedSchemePointSet
+    F K h0 h1
 
 theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_package
     [IsAlgClosed K]
