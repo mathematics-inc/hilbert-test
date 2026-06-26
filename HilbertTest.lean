@@ -25,6 +25,7 @@ import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.P1PolynomialSeparation
+import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr

@@ -182,6 +182,14 @@ values, records that a selected affine target with value neither `0` nor `1`
 avoids `{0,1,infinity}`, and packages the resulting `P1` separation and
 noncritical-preimage statement.
 
+`HilbertTest/SourceStack/P1SchemePointBridge.lean` now isolates the remaining
+linear-to-scheme point-model interface for `P1`: an injective bridge from the
+linear projective line to the scheme carrier that agrees on the marked labels.
+From that interface it proves marked-set membership equivalence, branch
+avoidance transport, and the scheme-carrier version of the polynomial
+separation/noncriticality package.  The concrete construction of this bridge
+from the scheme `Proj` model is still an external source theorem to formalize.
+
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
 source layer available in Mathlib: dense-domain and partial-map representative

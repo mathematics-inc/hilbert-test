@@ -24,6 +24,7 @@ import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.P1PolynomialSeparation
+import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -4316,6 +4317,89 @@ theorem hilbert_p1PolynomialSeparation_separates_avoids_branch_and_noncritical :
     P
 
 end P1PolynomialSeparation
+
+namespace P1SchemePointBridge
+
+open SourceStack.MarkedProjectiveLine
+open SourceStack.P1PolynomialSeparation
+open SourceStack.P1SchemePointBridge
+
+universe u v
+
+variable (K : Type u) [Field K]
+variable (B : LinearSchemePointBridge K)
+
+theorem hilbert_p1SchemePointBridge_toScheme_linearPoint
+    (label : MarkedPointLabel) :
+    B.toScheme (linearPoint K label) = schemeCarrierPoint K label := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_linearPoint
+    B label
+
+theorem hilbert_p1SchemePointBridge_toScheme_mem_markedSchemePointSet_of_mem_branchSet
+    {p : SourceStack.ProjectiveLine.P1 K}
+    (hp : p ∈ SourceStack.ProjectiveLine.branchSet K) :
+    B.toScheme p ∈ SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_mem_markedSchemePointSet_of_mem_branchSet
+    B hp
+
+theorem hilbert_p1SchemePointBridge_mem_branchSet_of_toScheme_mem_markedSchemePointSet
+    {p : SourceStack.ProjectiveLine.P1 K}
+    (hp : B.toScheme p ∈ SourceStack.SchemeProjectiveLine.markedSchemePointSet K) :
+    p ∈ SourceStack.ProjectiveLine.branchSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.mem_branchSet_of_toScheme_mem_markedSchemePointSet
+    B hp
+
+theorem hilbert_p1SchemePointBridge_toScheme_mem_markedSchemePointSet_iff
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    B.toScheme p ∈ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      p ∈ SourceStack.ProjectiveLine.branchSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_mem_markedSchemePointSet_iff
+    B p
+
+theorem hilbert_p1SchemePointBridge_toScheme_not_mem_markedSchemePointSet_of_not_mem_branchSet
+    {p : SourceStack.ProjectiveLine.P1 K}
+    (hp : p ∉ SourceStack.ProjectiveLine.branchSet K) :
+    B.toScheme p ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_not_mem_markedSchemePointSet_of_not_mem_branchSet
+    B hp
+
+theorem hilbert_p1SchemePointBridge_toScheme_eq_iff
+    {p q : SourceStack.ProjectiveLine.P1 K} :
+    B.toScheme p = B.toScheme q ↔ p = q := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_eq_iff
+    B
+
+variable (F : Type v) [Field F] [Algebra F K]
+variable {S : Set K} {β : K}
+variable (P : P1PolynomialSeparationStep F K S β)
+
+theorem hilbert_p1SchemePointBridge_schemeTargetPoint_not_mem_markedSchemePointSet :
+    B.schemeTargetPoint F P ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.schemeTargetPoint_not_mem_markedSchemePointSet
+    B F P
+
+theorem hilbert_p1SchemePointBridge_schemePointMap_ne_target_of_mem
+    {x : K} (hx : x ∈ S) :
+    B.schemePointMap F P x ≠ B.schemeTargetPoint F P := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.schemePointMap_ne_target_of_mem
+    B F P hx
+
+theorem hilbert_p1SchemePointBridge_derivative_ne_zero_at_schemePointMap_preimage
+    {x : K} (hx : B.schemePointMap F P x = B.schemeTargetPoint F P) :
+    Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.derivative_ne_zero_at_schemePointMap_preimage
+    B F P hx
+
+theorem hilbert_p1SchemePointBridge_scheme_separates_avoids_marked_and_noncritical :
+    B.schemeTargetPoint F P ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ∧
+      (∀ x ∈ S, B.schemePointMap F P x ≠ B.schemeTargetPoint F P) ∧
+        ∀ x : K, B.schemePointMap F P x = B.schemeTargetPoint F P →
+          Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.scheme_separates_avoids_marked_and_noncritical
+    B F P
+
+end P1SchemePointBridge
 
 namespace UnramifiedEtale
 
