@@ -207,6 +207,40 @@ theorem derivative_aeval_comp_ne_zero
   rw [aeval_derivative_comp F E p q x]
   exact mul_ne_zero hq hp
 
+/-- If `q` maps `S` into `T` and `p` separates `T` from the selected outer
+target value, then `p.comp q` separates `S` from the selected composed target. -/
+theorem aeval_comp_ne_target_of_mapsTo_and_outer_separates
+    {S T : Set E} {p q : F[X]} {β x : E}
+    (hmap : ∀ z ∈ S, Polynomial.aeval z q ∈ T)
+    (hsep : ∀ y ∈ T,
+      Polynomial.aeval y p ≠ Polynomial.aeval (Polynomial.aeval β q) p)
+    (hx : x ∈ S) :
+    Polynomial.aeval x (p.comp q) ≠ Polynomial.aeval β (p.comp q) := by
+  rw [aeval_comp F E p q x, aeval_comp F E p q β]
+  exact hsep (Polynomial.aeval x q) (hmap x hx)
+
+/-- Noncriticality over a composed target follows from noncriticality of the
+inner map at composed-target preimages and of the outer map at the induced outer
+preimages. -/
+theorem derivative_aeval_comp_ne_zero_of_target_preimage
+    (p q : F[X]) {β x : E}
+    (hq : ∀ z : E,
+      Polynomial.aeval z (p.comp q) = Polynomial.aeval β (p.comp q) →
+        Polynomial.aeval z q.derivative ≠ 0)
+    (hp : ∀ y : E,
+      Polynomial.aeval y p = Polynomial.aeval (Polynomial.aeval β q) p →
+        Polynomial.aeval y p.derivative ≠ 0)
+    (hx : Polynomial.aeval x (p.comp q) = Polynomial.aeval β (p.comp q)) :
+    Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
+  have hq_nonzero := hq x hx
+  have houter_eq :
+      Polynomial.aeval (Polynomial.aeval x q) p =
+        Polynomial.aeval (Polynomial.aeval β q) p := by
+    have h := hx
+    rw [aeval_comp F E p q x, aeval_comp F E p q β] at h
+    exact h
+  exact derivative_aeval_comp_ne_zero F E p q hq_nonzero (hp _ houter_eq)
+
 end PolynomialMaps
 end SourceStack
 end HilbertTest

@@ -5022,6 +5022,29 @@ theorem hilbert_derivative_aeval_comp_ne_zero
     Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
   exact SourceStack.PolynomialMaps.derivative_aeval_comp_ne_zero F E p q hq hp
 
+theorem hilbert_aeval_comp_ne_target_of_mapsTo_and_outer_separates
+    {S T : Set E} {p q : F[X]} {β x : E}
+    (hmap : ∀ z ∈ S, Polynomial.aeval z q ∈ T)
+    (hsep : ∀ y ∈ T,
+      Polynomial.aeval y p ≠ Polynomial.aeval (Polynomial.aeval β q) p)
+    (hx : x ∈ S) :
+    Polynomial.aeval x (p.comp q) ≠ Polynomial.aeval β (p.comp q) := by
+  exact SourceStack.PolynomialMaps.aeval_comp_ne_target_of_mapsTo_and_outer_separates
+    F E hmap hsep hx
+
+theorem hilbert_derivative_aeval_comp_ne_zero_of_target_preimage
+    (p q : F[X]) {β x : E}
+    (hq : ∀ z : E,
+      Polynomial.aeval z (p.comp q) = Polynomial.aeval β (p.comp q) →
+        Polynomial.aeval z q.derivative ≠ 0)
+    (hp : ∀ y : E,
+      Polynomial.aeval y p = Polynomial.aeval (Polynomial.aeval β q) p →
+        Polynomial.aeval y p.derivative ≠ 0)
+    (hx : Polynomial.aeval x (p.comp q) = Polynomial.aeval β (p.comp q)) :
+    Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
+  exact SourceStack.PolynomialMaps.derivative_aeval_comp_ne_zero_of_target_preimage
+    F E p q hq hp hx
+
 end PolynomialMaps
 
 namespace PolynomialSeparation
