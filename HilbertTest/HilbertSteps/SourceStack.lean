@@ -2372,6 +2372,11 @@ theorem hilbert_finite_compl_of_isOpen_of_mem
     Uᶜ.Finite := by
   exact SourceStack.finite_compl_of_isOpen_of_mem hU hx
 
+theorem hilbert_nonemptyOpenFiniteComplement_subtype_of_isOpen
+    [SourceStack.NonemptyOpenFiniteComplement X] {U : Set X} (hU : IsOpen U) :
+    SourceStack.NonemptyOpenFiniteComplement U := by
+  exact SourceStack.nonemptyOpenFiniteComplement_subtype_of_isOpen hU
+
 theorem hilbert_cofiniteTopology_finite_compl_of_isOpen_nonempty
     (X : Type*) {U : Set (CofiniteTopology X)}
     (hU : IsOpen U) (hne : U.Nonempty) :

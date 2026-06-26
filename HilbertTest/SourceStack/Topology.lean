@@ -38,6 +38,34 @@ theorem finite_compl_of_isOpen_of_mem
     Uᶜ.Finite :=
   finite_compl_of_isOpen_nonempty hU ⟨x, hx⟩
 
+/-- The finite-complement-open property is inherited by open subspaces.  This
+is the topological bridge used when the Belyi construction repeatedly restricts
+from a curve to a nonempty open. -/
+theorem nonemptyOpenFiniteComplement_subtype_of_isOpen
+    [NonemptyOpenFiniteComplement X] {U : Set X} (hU : IsOpen U) :
+    NonemptyOpenFiniteComplement U where
+  finite_compl_of_isOpen_nonempty := by
+    intro V hV hne
+    have hVimageOpen : IsOpen ((Subtype.val : U → X) '' V) :=
+      hU.isOpenMap_subtype_val V hV
+    have hVimageNonempty : (((Subtype.val : U → X) '' V) : Set X).Nonempty := by
+      rcases hne with ⟨x, hx⟩
+      exact ⟨x.1, ⟨x, hx, rfl⟩⟩
+    have hfiniteCompl : (((Subtype.val : U → X) '' V)ᶜ : Set X).Finite :=
+      finite_compl_of_isOpen_nonempty hVimageOpen hVimageNonempty
+    have himageComplSubset :
+        ((Subtype.val : U → X) '' Vᶜ : Set X) ⊆
+          (((Subtype.val : U → X) '' V)ᶜ : Set X) := by
+      intro y hy hyV
+      rcases hy with ⟨x, hxcompl, rfl⟩
+      rcases hyV with ⟨z, hzV, hz⟩
+      have hxz : x = z := Subtype.ext hz.symm
+      exact hxcompl (by simpa [hxz] using hzV)
+    have himageComplFinite : ((Subtype.val : U → X) '' Vᶜ : Set X).Finite :=
+      hfiniteCompl.subset himageComplSubset
+    exact himageComplFinite.of_finite_image
+      (fun _ hx _ _ hxy => Subtype.ext hxy)
+
 instance cofiniteTopology_nonemptyOpenFiniteComplement (X : Type*) :
     NonemptyOpenFiniteComplement (CofiniteTopology X) where
   finite_compl_of_isOpen_nonempty := by
