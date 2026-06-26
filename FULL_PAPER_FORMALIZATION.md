@@ -87,9 +87,11 @@ a curve-facing Riemann-Roch section-evaluation interface: finite-set vanishing
 is identified with a common kernel of evaluation forms, finite nonvanishing is
 the pointwise nonzero evaluation condition, and a
 `RiemannRochFiniteEvaluationPackage` over an infinite field yields a section
-vanishing on one finite set and nonzero on a disjoint finite set.  The remaining
-missing input is still the actual divisor/Riemann-Roch theorem that instantiates
-this package for smooth proper curves.
+vanishing on one finite set and nonzero on a disjoint finite set, both in
+`Finset` form and in the finite-`Set` form used by the Belyi existence
+interfaces.  The remaining missing input is still the actual
+divisor/Riemann-Roch theorem that instantiates this package for smooth proper
+curves.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound

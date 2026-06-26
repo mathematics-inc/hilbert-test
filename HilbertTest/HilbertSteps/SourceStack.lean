@@ -201,6 +201,18 @@ theorem hilbert_rr_nonzeroOn_iff
   exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.nonzeroOn_iff
     D T s
 
+theorem hilbert_rr_vanishesOn_toFinset_iff
+    {S : Set X} (hS : S.Finite) (s : V) :
+    D.vanishesOn hS.toFinset s ↔ D.vanishesOnSet S s := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.vanishesOn_toFinset_iff
+    D hS s
+
+theorem hilbert_rr_nonzeroOn_toFinset_iff
+    {T : Set X} (hT : T.Finite) (s : V) :
+    D.nonzeroOn hT.toFinset s ↔ D.nonzeroOnSet T s := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.nonzeroOn_toFinset_iff
+    D hT s
+
 theorem hilbert_rr_exists_section_nonzero_on_finite
     [Infinite K] (T : Finset X)
     (hT : ∀ x ∈ T, D.eval x ≠ 0) :
@@ -230,6 +242,14 @@ theorem hilbert_rr_package_exists_section_for_disjoint_finsets
       (P.toEvaluationData).nonzeroOn T s := by
   exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finsets
     P hdis
+
+theorem hilbert_rr_package_exists_section_for_disjoint_finite_sets
+    [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet S s ∧
+      (P.toEvaluationData).nonzeroOnSet T s := by
+  exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
+    P hS hT hdis
 
 end CurveRiemannRoch
 

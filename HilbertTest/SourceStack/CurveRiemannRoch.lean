@@ -40,6 +40,16 @@ is nonzero. -/
 def nonzeroOn (T : Finset X) (s : V) : Prop :=
   ∀ x ∈ T, D.eval x s ≠ 0
 
+/-- Set-level version of finite-set vanishing, matching the statement style of
+the Belyi-map existence interfaces. -/
+def vanishesOnSet (S : Set X) (s : V) : Prop :=
+  ∀ x ∈ S, D.eval x s = 0
+
+/-- Set-level version of finite-set nonvanishing, matching the statement style
+of the Belyi-map existence interfaces. -/
+def nonzeroOnSet (T : Set X) (s : V) : Prop :=
+  ∀ x ∈ T, D.eval x s ≠ 0
+
 /-- Vanishing on a finite set is membership in the common kernel of the
 corresponding evaluation forms. -/
 theorem vanishesOn_iff_mem_commonKernel
@@ -55,6 +65,28 @@ theorem nonzeroOn_iff
     (T : Finset X) (s : V) :
     D.nonzeroOn T s ↔ ∀ x ∈ T, D.eval x s ≠ 0 := by
   rfl
+
+/-- Converting a finite set to a finset preserves the section-vanishing
+condition. -/
+theorem vanishesOn_toFinset_iff
+    {S : Set X} (hS : S.Finite) (s : V) :
+    D.vanishesOn hS.toFinset s ↔ D.vanishesOnSet S s := by
+  constructor
+  · intro hs x hx
+    exact hs x ((Set.Finite.mem_toFinset hS).2 hx)
+  · intro hs x hx
+    exact hs x ((Set.Finite.mem_toFinset hS).1 hx)
+
+/-- Converting a finite set to a finset preserves the section-nonvanishing
+condition. -/
+theorem nonzeroOn_toFinset_iff
+    {T : Set X} (hT : T.Finite) (s : V) :
+    D.nonzeroOn hT.toFinset s ↔ D.nonzeroOnSet T s := by
+  constructor
+  · intro hs x hx
+    exact hs x ((Set.Finite.mem_toFinset hT).2 hx)
+  · intro hs x hx
+    exact hs x ((Set.Finite.mem_toFinset hT).1 hx)
 
 /-- If all evaluations in a finite family are nonzero linear forms, then some
 section is nonzero at every point in the family. -/
@@ -116,6 +148,25 @@ theorem exists_section_for_disjoint_finsets
     (by
       intro x hx
       exact D.restricted_eval_nonzero hdis x hx)
+
+/-- Set-level form of the finite Riemann-Roch evaluation handoff: finite
+disjoint sets yield a section vanishing on the first and nonzero on the second. -/
+theorem exists_section_for_disjoint_finite_sets
+    [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (D.toEvaluationData).vanishesOnSet S s ∧
+      (D.toEvaluationData).nonzeroOnSet T s := by
+  have hdisFin : Disjoint hS.toFinset hT.toFinset := by
+    rw [Finset.disjoint_left]
+    intro x hxS hxT
+    exact (Set.disjoint_left.mp hdis)
+      ((Set.Finite.mem_toFinset hS).1 hxS)
+      ((Set.Finite.mem_toFinset hT).1 hxT)
+  rcases D.exists_section_for_disjoint_finsets hdisFin with ⟨s, hsS, hsT⟩
+  exact
+    ⟨s,
+      ((D.toEvaluationData).vanishesOn_toFinset_iff hS s).1 hsS,
+      ((D.toEvaluationData).nonzeroOn_toFinset_iff hT s).1 hsT⟩
 
 end RiemannRochFiniteEvaluationPackage
 

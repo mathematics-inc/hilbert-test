@@ -39,7 +39,7 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   common-kernel membership, finite-set nonvanishing as pointwise nonzero
   evaluation, and the abstract finite-evaluation package that yields a section
   vanishing on one finite set and nonzero on a disjoint finite set over an
-  infinite field.
+  infinite field, with both `Finset` and finite-`Set` theorem forms.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also
@@ -335,8 +335,9 @@ Lean-facing declarations needed:
   nonzero-evaluation-to-proper-kernel bridge, and the common-kernel constrained
   vanishing/nonvanishing package are checked in `SourceStack.LinearAlgebra`.
   `SourceStack.CurveRiemannRoch` now packages these into a curve-facing
-  finite-evaluation interface; the missing part is connecting actual curve
-  evaluation maps and Riemann-Roch dimension formulas to that interface.
+  finite-evaluation interface, including the finite-`Set` form used by the
+  Belyi existence layer; the missing part is connecting actual curve evaluation
+  maps and Riemann-Roch dimension formulas to that interface.
 The commutative-algebra smoothness/differential layer below smooth-curve
 cohomology is now checked in `SourceStack.SmoothKaehler`, including
 standard-smooth presentations and relative-dimension stability; the missing
