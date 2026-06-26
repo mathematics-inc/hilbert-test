@@ -115,6 +115,15 @@ wrappers, and Corollary 3.1-style finite-subcover conclusions directly.  The
 remaining missing input is to construct this package from actual
 curve divisors, line-bundle sections, and finite morphisms.
 
+`HilbertTest/SourceStack/ProjectiveSectionMaps.lean` now isolates the next
+piece of Mochizuki's Theorem 2.5 proof: if a section `s0` vanishes exactly on a
+set `T` and a section `s1` is nonzero on `T`, then the pair has no common
+basepoint.  It also packages the still-missing Stacks/Vakil construction of the
+basepoint-free two-section morphism to `P1 K` as a `ProjectiveLineSectionPair`,
+and proves that a finite marked family built from such pairs feeds into
+`SectionControlledFiniteMarkedBelyiData`, hence into the checked Belyi-open and
+finite-disjoint-set conclusions.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

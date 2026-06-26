@@ -51,6 +51,12 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   section-controlled finite marked Belyi data and exposing the Corollary
   1.2-style Belyi-open containment wrappers, pointwise tuple-cover wrappers, and
   finite-subcover consequences directly.
+- `HilbertTest.SourceStack.ProjectiveSectionMaps`: projective-section source
+  layer for the Theorem 2.5 line-bundle passage.  It proves the elementary
+  no-common-basepoint consequence from `s0` vanishing exactly on `T` and `s1`
+  nonzero on `T`, packages the missing two-section morphism to `P1 K` as a
+  `ProjectiveLineSectionPair`, and proves that finite marked Belyi maps built
+  from such pairs instantiate the section-controlled finite marked bridge.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also

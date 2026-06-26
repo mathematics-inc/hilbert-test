@@ -3,6 +3,7 @@ import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
+import HilbertTest.SourceStack.ProjectiveSectionMaps
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -439,6 +440,81 @@ theorem hilbert_schemeSectionControlled_finite_subcover_on_complement
     D κ hS
 
 end SchemeCurveBelyiConstruction
+
+namespace ProjectiveSectionMaps
+
+open SourceStack.ProjectiveSectionMaps
+open SourceStack.CurveRiemannRoch
+open SourceStack.SchemeProjectiveLine
+open SourceStack.SchemeMarkedBelyi
+open SourceStack.SchemeCurveBelyiConstruction
+open SourceStack.MarkedProjectiveLine
+
+universe u v w
+
+variable {K : Type u} [Field K]
+variable {X : Type v}
+variable {V : Type w} [AddCommGroup V] [Module K V]
+
+theorem hilbert_hasNoCommonZero_of_hasZeroSet_nonzeroOnSet
+    (D : RRSectionEvaluationData K X V) (s0 s1 : V) (T : Set X)
+    (hzero : HasZeroSet D s0 T)
+    (hnonzero : D.nonzeroOnSet T s1) :
+    HasNoCommonZero D s0 s1 := by
+  exact SourceStack.ProjectiveSectionMaps.hasNoCommonZero_of_hasZeroSet_nonzeroOnSet
+    D s0 s1 T hzero hnonzero
+
+variable {C : Scheme.{u}}
+variable (P : ProjectiveLineSectionPair K C V)
+
+theorem hilbert_projectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : P.evalData.eval x P.section0 = 0) :
+    P.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.maps_section0_zero_to_marked
+    P hx
+
+theorem hilbert_projectiveLineSectionPair_maps_zeroSet_to_marked
+    {T : Set C} (hzero : HasZeroSet P.evalData P.section0 T) :
+    ∀ x ∈ T, P.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.maps_zeroSet_to_marked
+    P hzero
+
+theorem hilbert_projectiveLineSectionPair_avoids_zeroPoint_of_section0_nonzero
+    {x : C} (hx : P.evalData.eval x P.section0 ≠ 0) :
+    P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.avoids_zeroPoint_of_section0_nonzero
+    P hx
+
+variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
+    (s : V) :
+    F.toSectionControlledFiniteMarkedBelyiData.map s = F.map s := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData_map_apply
+    F s
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
+    F hS hT hdis
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Aᶜ := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
+    F hA hxA
+
+end ProjectiveSectionMaps
 
 section ComplexSeparation
 
