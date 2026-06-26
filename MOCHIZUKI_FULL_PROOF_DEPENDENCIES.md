@@ -60,8 +60,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   the actual two standard affine `P1` charts via `Proj.awayι`, constructs those
   local chart morphisms from local chart-coordinate ring maps by the `Γ-Spec`
   adjunction, tracks the pulled-back chart coordinate as the named local section
-  ratio, packages the glued map as a `ProjectiveLineSectionPair`, and proves
-  that finite marked Belyi maps built from such pairs instantiate the
+  ratio, records the local trivialization equation
+  `ratio * denominator = numerator`, packages the glued map as a
+  `ProjectiveLineSectionPair`, and proves that finite marked Belyi maps built
+  from such pairs instantiate the
   section-controlled finite marked bridge.
 - `HilbertTest.SourceStack.CurveDivisorSections`: divisor-section selection
   layer for the same proof passage.  Given the zero-section of `O_X(D)` and

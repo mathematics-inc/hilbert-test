@@ -139,10 +139,14 @@ ring to global functions on a trivializing open produces the required local
 chart morphism by the checked `Γ-Spec` adjunction bridge.  The bridge now also
 names the pulled-back affine coordinate and proves that, when the coordinate is
 identified with a local ratio (`s1/s0` or `s0/s1`), that ratio data glues to the
-same global projective-line morphism.  The remaining missing input is now
-narrower: construct those local ratios and chart-ring maps from an actual
-line-bundle trivialization, then prove the finite marked family/branch-control
-facts for the resulting map.
+same global projective-line morphism.  A further local-trivialization algebra
+layer records which section is the denominator, the local regular
+representatives of `s0` and `s1`, and the equation
+`ratio * denominator = numerator`; this package feeds the section-ratio chart
+bridge.  The remaining missing input is now narrower: construct those local
+representatives, ratios, and chart-ring maps from an actual invertible-sheaf
+trivialization, then prove the finite marked family/branch-control facts for
+the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section

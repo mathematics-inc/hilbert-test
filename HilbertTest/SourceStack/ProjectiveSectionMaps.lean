@@ -559,6 +559,216 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end SectionRatioProjectiveLineSectionData
 
+/-- Choice of denominator in a local trivialization of the two selected
+sections.  If `section0` is the nonvanishing denominator, the point lands in
+the `X0 ≠ 0` chart with affine coordinate `s1/s0`; if `section1` is the
+nonvanishing denominator, it lands in the `X1 ≠ 0` chart with coordinate
+`s0/s1`. -/
+inductive LocalSectionRatioChart where
+  | section0
+  | section1
+  deriving DecidableEq, Inhabited
+
+namespace LocalSectionRatioChart
+
+/-- The standard affine chart selected by a nonvanishing local denominator. -/
+def toStandardAffineChart : LocalSectionRatioChart → StandardAffineChart
+  | section0 => StandardAffineChart.x0
+  | section1 => StandardAffineChart.x1
+
+/-- The numerator of the local affine coordinate for a pair of local section
+representatives. -/
+def numerator {R : Type*} : LocalSectionRatioChart → R → R → R
+  | section0, _s0, s1 => s1
+  | section1, s0, _s1 => s0
+
+/-- The denominator of the local affine coordinate for a pair of local section
+representatives. -/
+def denominator {R : Type*} : LocalSectionRatioChart → R → R → R
+  | section0, s0, _s1 => s0
+  | section1, _s0, s1 => s1
+
+/-- The local algebraic equation saying that `ratio` is the regular quotient of
+the two local section representatives on a trivializing open. -/
+def ratioEquation {R : Type*} [Mul R]
+    (c : LocalSectionRatioChart) (s0 s1 ratio : R) : Prop :=
+  ratio * denominator c s0 s1 = numerator c s0 s1
+
+@[simp]
+theorem toStandardAffineChart_section0 :
+    toStandardAffineChart section0 = StandardAffineChart.x0 := rfl
+
+@[simp]
+theorem toStandardAffineChart_section1 :
+    toStandardAffineChart section1 = StandardAffineChart.x1 := rfl
+
+@[simp]
+theorem numerator_section0 {R : Type*} (s0 s1 : R) :
+    numerator section0 s0 s1 = s1 := rfl
+
+@[simp]
+theorem numerator_section1 {R : Type*} (s0 s1 : R) :
+    numerator section1 s0 s1 = s0 := rfl
+
+@[simp]
+theorem denominator_section0 {R : Type*} (s0 s1 : R) :
+    denominator section0 s0 s1 = s0 := rfl
+
+@[simp]
+theorem denominator_section1 {R : Type*} (s0 s1 : R) :
+    denominator section1 s0 s1 = s1 := rfl
+
+theorem ratioEquation_section0 {R : Type*} [Mul R] (s0 s1 ratio : R) :
+    ratioEquation section0 s0 s1 ratio ↔ ratio * s0 = s1 := Iff.rfl
+
+theorem ratioEquation_section1 {R : Type*} [Mul R] (s0 s1 ratio : R) :
+    ratioEquation section1 s0 s1 ratio ↔ ratio * s1 = s0 := Iff.rfl
+
+end LocalSectionRatioChart
+
+/-- Local-trivialization algebra for the section-ratio construction.  A genuine
+invertible sheaf trivialization should supply local representatives of the two
+global sections and regular ratios satisfying the displayed quotient equations.
+This package proves that such local algebra feeds the already checked
+section-ratio chart construction. -/
+structure TrivializedSectionRatioData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  ratioChart : cover.J → LocalSectionRatioChart
+  localSection0 : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  localSection1 : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  localSectionRatio : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  local_ratio_spec :
+    ∀ i : cover.J,
+      LocalSectionRatioChart.ratioEquation (ratioChart i)
+        (localSection0 i) (localSection1 i) (localSectionRatio i)
+  localChartRingHom :
+    ∀ i : cover.J,
+      CommRingCat.of
+        (standardChartRing K (LocalSectionRatioChart.toStandardAffineChart (ratioChart i))) ⟶
+          Γ(cover.obj i, ⊤)
+  localChartCoordinate_eq_ratio :
+    ∀ i : cover.J,
+      standardChartCoordinateSection K (localChartRingHom i) = localSectionRatio i
+  local_compat :
+    ∀ i j : cover.J,
+      (pullback.fst (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom i)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (ratioChart i)) =
+        (pullback.snd (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom j)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (ratioChart j))
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace TrivializedSectionRatioData
+
+variable {C : Scheme.{u}}
+variable (D : TrivializedSectionRatioData K C V)
+
+/-- The standard `P1` chart selected on a local trivializing open. -/
+def chart (i : D.cover.J) : StandardAffineChart :=
+  LocalSectionRatioChart.toStandardAffineChart (D.ratioChart i)
+
+theorem chart_eq (i : D.cover.J) :
+    D.chart i = LocalSectionRatioChart.toStandardAffineChart (D.ratioChart i) := rfl
+
+/-- The local regular quotient equation supplied by the trivialization. -/
+theorem local_ratio_mul_denominator_eq_numerator (i : D.cover.J) :
+    D.localSectionRatio i *
+        LocalSectionRatioChart.denominator (D.ratioChart i)
+          (D.localSection0 i) (D.localSection1 i) =
+      LocalSectionRatioChart.numerator (D.ratioChart i)
+        (D.localSection0 i) (D.localSection1 i) :=
+  D.local_ratio_spec i
+
+/-- Expanded coordinate pullback statement for the local chart ring map. -/
+theorem localChartRingHom_coordinate_eq_ratio (i : D.cover.J) :
+    D.localChartRingHom i (standardChartCoordinate K (D.chart i)) =
+      D.localSectionRatio i := by
+  simpa [chart, standardChartCoordinateSection] using
+    D.localChartCoordinate_eq_ratio i
+
+/-- Forget local trivialized-section algebra to the section-ratio chart
+package. -/
+def toSectionRatioProjectiveLineSectionData :
+    SectionRatioProjectiveLineSectionData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  chart := D.chart
+  localSectionRatio := D.localSectionRatio
+  localChartRingHom := D.localChartRingHom
+  localChartCoordinate_eq_ratio := by
+    intro i
+    simpa [chart] using D.localChartCoordinate_eq_ratio i
+  local_compat := by
+    intro i j
+    simpa [chart] using D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    simpa [chart] using D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    exact D.local_section0_vanishes_of_zero i x (by simpa [chart] using hx)
+
+/-- The local map to `P1` obtained from the trivialized section-ratio data. -/
+def localHom (i : D.cover.J) : D.cover.obj i ⟶ P1 K :=
+  D.toSectionRatioProjectiveLineSectionData.localHom i
+
+def globalHom : C ⟶ P1 K :=
+  D.toSectionRatioProjectiveLineSectionData.globalHom
+
+@[reassoc]
+theorem cover_map_globalHom (i : D.cover.J) :
+    D.cover.map i ≫ D.globalHom = D.localHom i := by
+  exact D.toSectionRatioProjectiveLineSectionData.cover_map_globalHom i
+
+theorem globalHom_base_of_cover (i : D.cover.J) (x : D.cover.obj i) :
+    D.globalHom.base ((D.cover.map i).base x) = (D.localHom i).base x := by
+  exact D.toSectionRatioProjectiveLineSectionData.globalHom_base_of_cover i x
+
+theorem global_zero_of_section0_vanishes
+    (x : C) (hx : D.evalData.eval x D.section0 = 0) :
+    D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toSectionRatioProjectiveLineSectionData.global_zero_of_section0_vanishes x hx
+
+theorem section0_vanishes_of_global_zero
+    (x : C)
+    (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    D.evalData.eval x D.section0 = 0 := by
+  exact D.toSectionRatioProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end TrivializedSectionRatioData
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch

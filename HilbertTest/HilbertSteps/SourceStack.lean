@@ -818,6 +818,90 @@ theorem hilbert_sectionRatioProjectiveLineSectionData_toProjectiveLineSectionPai
   exact SourceStack.ProjectiveSectionMaps.SectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     SRD hx
 
+theorem hilbert_localSectionRatioChart_toStandardAffineChart_section0 :
+    LocalSectionRatioChart.toStandardAffineChart LocalSectionRatioChart.section0 =
+      StandardAffineChart.x0 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.toStandardAffineChart_section0
+
+theorem hilbert_localSectionRatioChart_toStandardAffineChart_section1 :
+    LocalSectionRatioChart.toStandardAffineChart LocalSectionRatioChart.section1 =
+      StandardAffineChart.x1 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.toStandardAffineChart_section1
+
+theorem hilbert_localSectionRatioChart_ratioEquation_section0
+    {R : Type*} [Mul R] (s0 s1 ratio : R) :
+    LocalSectionRatioChart.ratioEquation
+      LocalSectionRatioChart.section0 s0 s1 ratio ↔ ratio * s0 = s1 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.ratioEquation_section0
+    s0 s1 ratio
+
+theorem hilbert_localSectionRatioChart_ratioEquation_section1
+    {R : Type*} [Mul R] (s0 s1 ratio : R) :
+    LocalSectionRatioChart.ratioEquation
+      LocalSectionRatioChart.section1 s0 s1 ratio ↔ ratio * s1 = s0 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.ratioEquation_section1
+    s0 s1 ratio
+
+variable (TD : TrivializedSectionRatioData K C V)
+
+theorem hilbert_trivializedSectionRatioData_chart_eq
+    (i : TD.cover.J) :
+    TD.chart i = LocalSectionRatioChart.toStandardAffineChart (TD.ratioChart i) := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.chart_eq TD i
+
+theorem hilbert_trivializedSectionRatioData_local_ratio_mul_denominator_eq_numerator
+    (i : TD.cover.J) :
+    TD.localSectionRatio i *
+        LocalSectionRatioChart.denominator (TD.ratioChart i)
+          (TD.localSection0 i) (TD.localSection1 i) =
+      LocalSectionRatioChart.numerator (TD.ratioChart i)
+        (TD.localSection0 i) (TD.localSection1 i) := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.local_ratio_mul_denominator_eq_numerator
+    TD i
+
+theorem hilbert_trivializedSectionRatioData_localChartRingHom_coordinate_eq_ratio
+    (i : TD.cover.J) :
+    TD.localChartRingHom i (standardChartCoordinate K (TD.chart i)) =
+      TD.localSectionRatio i := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.localChartRingHom_coordinate_eq_ratio
+    TD i
+
+theorem hilbert_trivializedSectionRatioData_cover_map_globalHom
+    (i : TD.cover.J) :
+    TD.cover.map i ≫ TD.globalHom = TD.localHom i := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.cover_map_globalHom
+    TD i
+
+theorem hilbert_trivializedSectionRatioData_globalHom_base_of_cover
+    (i : TD.cover.J) (x : TD.cover.obj i) :
+    TD.globalHom.base ((TD.cover.map i).base x) = (TD.localHom i).base x := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.globalHom_base_of_cover
+    TD i x
+
+theorem hilbert_trivializedSectionRatioData_global_zero_of_section0_vanishes
+    (x : C) (hx : TD.evalData.eval x TD.section0 = 0) :
+    TD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.global_zero_of_section0_vanishes
+    TD x hx
+
+theorem hilbert_trivializedSectionRatioData_section0_vanishes_of_global_zero
+    (x : C)
+    (hx : TD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    TD.evalData.eval x TD.section0 = 0 := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.section0_vanishes_of_global_zero
+    TD x hx
+
+theorem hilbert_trivializedSectionRatioData_toProjectiveLineSectionPair_hom :
+    TD.toProjectiveLineSectionPair.hom = TD.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.toProjectiveLineSectionPair_hom
+    TD
+
+theorem hilbert_trivializedSectionRatioData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : TD.evalData.eval x TD.section0 = 0) :
+    TD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    TD hx
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
