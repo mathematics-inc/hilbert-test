@@ -413,6 +413,19 @@ theorem hilbert_schemeSectionControlled_exists_belyiOpen_inside_open_of_finite_c
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_belyiOpen_inside_open_of_finite_complement
     D hU hUcompl hxU
 
+theorem hilbert_schemeSectionControlled_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    D hU hxU
+
 theorem hilbert_schemeSectionControlled_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [Infinite K] [T1Space (P1 K)]
     {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
@@ -3926,6 +3939,16 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_open_of_finit
           ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ V := by
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_finite_complement
     K Φ F hV hVcompl hxV
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    {V : Set C} (hV : IsOpen V) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    K Φ F hV hxV
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]

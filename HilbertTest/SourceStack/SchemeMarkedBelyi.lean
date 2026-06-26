@@ -754,6 +754,17 @@ theorem exists_belyiOpen_inside_open_of_finite_complement
   exact (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_inside_open_of_finite_complement
     hV hVcompl hxV
 
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {V : Set C} (hV : IsOpen V) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ∧
+          ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact
+    (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      hV hxV
+
 theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
