@@ -163,7 +163,9 @@ The scheme-local cover input below this is now checked: whenever local
 representatives span the unit ideal, their basic opens cover the trivializing
 open, a range-indexed spanning family gives an explicit `OpenCover`, and a
 Bezout equation for two representatives gives the corresponding two-basic-open
-cover.
+cover.  The local-section input for that cover is also checked: restricting a
+global section to the top sections of another section's basic-open subscheme is
+available, and restricting a section to its own basic open is a unit there.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section
@@ -468,6 +470,7 @@ for sections on basic opens, the localization statement for sections on
 open, transport of such units across the open-subscheme top-section isomorphism,
 the basic-open cover from sections spanning the unit ideal, nilpotent iff empty
 basic open on compact opens, the two-section Bezout cover specialization, and
+the open-subscheme top-section restriction used for local representatives, and
 the compact-open zero-locus/nilradical criterion.
 
 `HilbertTest/SourceStack/UnramifiedEtale.lean` checks algebraic

@@ -260,7 +260,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   and the explicit unit obtained by restricting a section to its own basic
   open, including transport of such units to top sections of open subschemes
   through `U.topIso`, plus the basic-open cover obtained from sections
-  spanning the unit ideal and its two-section Bezout specialization.
+  spanning the unit ideal, its two-section Bezout specialization, and the
+  top-section restriction bridge for local representatives.
 - `HilbertTest.SourceStack.UnramifiedEtale`: algebraic formal-unramified and
   formal-etale source facts, including the Kähler-differential characterization,
   square-zero lift uniqueness, composition/base-change stability, and
@@ -376,7 +377,8 @@ Lean-facing declarations needed:
   locally finite type to finite, the direct finite-to-separated bridge, and the
   unit restriction of a denominator section on its basic open, transported to
   the associated open subscheme, plus the basic-open cover from a spanning
-  family of sections and the two-section Bezout cover specialization.  The
+  family of sections, the two-section Bezout cover specialization, and the
+  top-section restriction bridge for local representatives.  The
   missing theorem is the curve-specific finite-morphism construction; pinned
   Mathlib also does not yet provide the integral/universally-closed bridge
   needed to derive finite-implies-proper.

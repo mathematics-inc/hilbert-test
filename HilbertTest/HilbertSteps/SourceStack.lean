@@ -6949,6 +6949,17 @@ theorem hilbert_basicOpenTopUnit_coe
       (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
   exact SourceStack.Schemes.basicOpenTopUnit_coe X f
 
+theorem hilbert_basicOpenTopRestrict_self
+    (X : Scheme.{u}) (f : Γ(X, ⊤)) :
+    SourceStack.Schemes.basicOpenTopRestrict X f f =
+      (SourceStack.Schemes.basicOpenTopUnit X f : Γ(X.basicOpen f, ⊤)) := by
+  exact SourceStack.Schemes.basicOpenTopRestrict_self X f
+
+theorem hilbert_isUnit_basicOpenTopRestrict_self
+    (X : Scheme.{u}) (f : Γ(X, ⊤)) :
+    IsUnit (SourceStack.Schemes.basicOpenTopRestrict X f f) := by
+  exact SourceStack.Schemes.isUnit_basicOpenTopRestrict_self X f
+
 theorem hilbert_iSup_basicOpen_of_span_eq_top
     (X : Scheme.{u}) (U : X.Opens) (s : Set Γ(X, U))
     (hs : Ideal.span s = ⊤) :

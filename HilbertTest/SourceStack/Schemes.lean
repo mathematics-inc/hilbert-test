@@ -261,6 +261,29 @@ theorem basicOpenTopUnit_coe
       (X.basicOpen f).topIso.inv (f |_ᵣ X.basicOpen f) := by
   simp [basicOpenTopUnit]
 
+/-- Restrict a global section to the basic open of another global section, as a
+top section of the corresponding open subscheme. -/
+def basicOpenTopRestrict
+    (X : Scheme.{u}) (den sec : Γ(X, ⊤)) :
+    Γ(X.basicOpen den, ⊤) :=
+  (X.basicOpen den).topIso.inv (sec |_ᵣ X.basicOpen den)
+
+@[simp]
+theorem basicOpenTopRestrict_self
+    (X : Scheme.{u}) (f : Γ(X, ⊤)) :
+    basicOpenTopRestrict X f f =
+      (basicOpenTopUnit X f : Γ(X.basicOpen f, ⊤)) := by
+  rw [basicOpenTopUnit_coe]
+  rfl
+
+/-- The restriction of a global section to its own basic open is a unit on the
+corresponding open subscheme. -/
+theorem isUnit_basicOpenTopRestrict_self
+    (X : Scheme.{u}) (f : Γ(X, ⊤)) :
+    IsUnit (basicOpenTopRestrict X f f) := by
+  rw [basicOpenTopRestrict_self]
+  exact (basicOpenTopUnit X f).isUnit
+
 /-- If a set of sections spans the unit ideal, their basic opens cover the
 ambient open. -/
 theorem iSup_basicOpen_of_span_eq_top
