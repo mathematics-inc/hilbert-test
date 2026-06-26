@@ -136,9 +136,12 @@ local chart package is now tied to the actual two standard affine charts of
 immersions before gluing.  The chart-coordinate rings now also expose the
 homogeneous coordinates `X1/X0` and `X0/X1`; a local ring map from such a chart
 ring to global functions on a trivializing open produces the required local
-chart morphism by the checked `Γ-Spec` adjunction bridge.  The remaining missing
-input is now narrower: construct those local chart-ring maps from actual
-line-bundle section ratios, then prove the finite marked family/branch-control
+chart morphism by the checked `Γ-Spec` adjunction bridge.  The bridge now also
+names the pulled-back affine coordinate and proves that, when the coordinate is
+identified with a local ratio (`s1/s0` or `s0/s1`), that ratio data glues to the
+same global projective-line morphism.  The remaining missing input is now
+narrower: construct those local ratios and chart-ring maps from an actual
+line-bundle trivialization, then prove the finite marked family/branch-control
 facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding

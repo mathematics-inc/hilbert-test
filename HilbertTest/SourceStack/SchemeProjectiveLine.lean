@@ -200,6 +200,21 @@ theorem standardChartToP1HomOfRingHom_def
     standardChartToP1HomOfRingHom K φ =
       standardChartHomOfRingHom K φ ≫ standardChartMap K c := rfl
 
+/-- The regular function on `X` obtained by pulling back the distinguished
+affine coordinate of a standard chart.  In the line-bundle construction this is
+the local section ratio `s1/s0` on the `X0 ≠ 0` chart and `s0/s1` on the
+`X1 ≠ 0` chart. -/
+def standardChartCoordinateSection {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    Γ(X, ⊤) :=
+  φ (standardChartCoordinate K c)
+
+@[simp]
+theorem standardChartCoordinateSection_apply
+    {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    standardChartCoordinateSection K φ = φ (standardChartCoordinate K c) := rfl
+
 theorem basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =
       Proj.basicOpen (grading K) (X0 K) ⊓ Proj.basicOpen (grading K) (X1 K) := by
