@@ -29,6 +29,41 @@ variable {K : Type u} [Field K]
 variable {C : Scheme.{u}}
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
 
+/-- The finite bad set on `P1` used in the reduction: the image of the
+prescribed source set under the auxiliary morphism, union a prescribed finite
+set of bad target values such as ramification values. -/
+def reductionBadSet (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K)) :
+    Set (P1 K) :=
+  aux.base '' S ∪ badValues
+
+theorem reductionBadSet_finite
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    (hS : S.Finite) (hbad : badValues.Finite) :
+    (reductionBadSet aux S badValues).Finite := by
+  exact (hS.image aux.base).union hbad
+
+theorem aux_image_mem_reductionBadSet_of_mem
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    {x : C} (hx : x ∈ S) :
+    aux.base x ∈ reductionBadSet aux S badValues := by
+  exact Or.inl ⟨x, hx, rfl⟩
+
+theorem badValue_mem_reductionBadSet_of_mem
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    {y : P1 K} (hy : y ∈ badValues) :
+    y ∈ reductionBadSet aux S badValues := by
+  exact Or.inr hy
+
+theorem image_subset_reductionBadSet
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K)) :
+    aux.base '' S ⊆ reductionBadSet aux S badValues := by
+  exact Set.subset_union_left
+
+theorem badValues_subset_reductionBadSet
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K)) :
+    badValues ⊆ reductionBadSet aux S badValues := by
+  exact Set.subset_union_right
+
 /-- One reduction step for fixed finite sets `S,T` on the source curve.  The
 `bad` set is the finite set on `P1` that the later Belyi map must send to the
 marked branch triple; in the paper it contains `ψ(S)` and the ramification

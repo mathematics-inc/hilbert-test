@@ -463,6 +463,40 @@ universe u
 
 variable {K : Type u} [Field K]
 variable {C : Scheme.{u}}
+
+theorem hilbert_reductionBadSet_finite
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    {S : Set C} {badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)}
+    (hS : S.Finite) (hbad : badValues.Finite) :
+    (reductionBadSet aux S badValues).Finite := by
+  exact SourceStack.BelyiReduction.reductionBadSet_finite aux hS hbad
+
+theorem hilbert_aux_image_mem_reductionBadSet_of_mem
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    {S : Set C} {badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)}
+    {x : C} (hx : x ∈ S) :
+    aux.base x ∈ reductionBadSet aux S badValues := by
+  exact SourceStack.BelyiReduction.aux_image_mem_reductionBadSet_of_mem aux hx
+
+theorem hilbert_badValue_mem_reductionBadSet_of_mem
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    {S : Set C} {badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)}
+    {y : SourceStack.SchemeProjectiveLine.P1 K} (hy : y ∈ badValues) :
+    y ∈ reductionBadSet aux S badValues := by
+  exact SourceStack.BelyiReduction.badValue_mem_reductionBadSet_of_mem aux hy
+
+theorem hilbert_image_subset_reductionBadSet
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    (S : Set C) (badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)) :
+    aux.base '' S ⊆ reductionBadSet aux S badValues := by
+  exact SourceStack.BelyiReduction.image_subset_reductionBadSet aux S badValues
+
+theorem hilbert_badValues_subset_reductionBadSet
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    (S : Set C) (badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)) :
+    badValues ⊆ reductionBadSet aux S badValues := by
+  exact SourceStack.BelyiReduction.badValues_subset_reductionBadSet aux S badValues
+
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
