@@ -75,6 +75,16 @@ theorem exists_beta_not_mem_forbiddenTargetSet
   obtain ⟨β, hβ⟩ := exists_aeval_eq_of_map_natDegree_pos F E p hp y
   exact ⟨β, by simpa [hβ] using hy⟩
 
+/-- Over an algebraically closed target field, a polynomial with nonzero formal
+derivative has a value outside the finite forbidden target set. -/
+theorem exists_beta_not_mem_forbiddenTargetSet_of_derivative_ne_zero
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : E, Polynomial.aeval β p ∉ forbiddenTargetSet F E S p :=
+  exists_beta_not_mem_forbiddenTargetSet F E hS p
+    (map_natDegree_pos_of_derivative_ne_zero F E p hpder)
+
 /-- A positive-degree polynomial over an algebraically closed target field,
 with nonzero formal derivative, yields a selected `P1` polynomial-separation
 step for any finite input set. -/

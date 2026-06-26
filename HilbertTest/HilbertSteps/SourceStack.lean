@@ -5502,6 +5502,14 @@ theorem hilbert_polynomialValueSurjectivity_exists_beta_not_mem_forbiddenTargetS
   exact SourceStack.PolynomialValueSurjectivity.exists_beta_not_mem_forbiddenTargetSet
     F E hS p hp
 
+theorem hilbert_polynomialValueSurjectivity_exists_beta_not_mem_forbiddenTargetSet_of_derivative_ne_zero
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : E, Polynomial.aeval β p ∉ forbiddenTargetSet F E S p := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_beta_not_mem_forbiddenTargetSet_of_derivative_ne_zero
+    F E hS p hpder
+
 theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep
     [IsAlgClosed E]
     {S : Set E} (hS : S.Finite)
