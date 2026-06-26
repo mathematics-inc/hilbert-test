@@ -25,7 +25,7 @@ open CurveBelyiConstruction
 open SchemeProjectiveLine
 open SchemeMarkedBelyi
 
-universe u w
+universe u w z
 
 /-- Scheme-level section-controlled finite marked Belyi data.  The missing
 curve/line-bundle construction should instantiate this structure for smooth
@@ -112,6 +112,43 @@ theorem exists_for_finite_disjoint
     ⟨s,
       D.sends_vanishing_to_marked hsS,
       D.nonzero_avoids_marked hsT⟩
+
+theorem toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
+    [Infinite K] :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+      D.toFiniteMarkedBelyiExistence).branch = markedSchemePointSet K := by
+  exact FiniteMarkedBelyiExistence.toMarkedCoverData_branch K V
+    D.toFiniteMarkedBelyiExistence
+
+/-- Direct pointwise tuple-cover consequence for section-controlled finite
+marked Belyi data. -/
+theorem pointwise_cover_complement
+    [Infinite K] (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ s : V,
+      (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+        D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s ∧
+        ∀ i, (D.map s).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases FiniteMarkedBelyiExistence.pointwise_cover_complement
+      K V D.toFiniteMarkedBelyiExistence κ hS x with
+    ⟨s, hsS, hsx⟩
+  exact ⟨s, hsS, by simpa [toFiniteMarkedBelyiExistence] using hsx⟩
+
+/-- Direct Corollary 3.1-style finite-subcover consequence for
+section-controlled finite marked Belyi data. -/
+theorem finite_subcover_on_complement
+    [Infinite K] (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      (⋃ s ∈ t,
+          ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement
+    K V D.toFiniteMarkedBelyiExistence κ hS
 
 end SectionControlledFiniteMarkedBelyiData
 

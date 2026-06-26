@@ -354,6 +354,37 @@ theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint
     D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
+    [Infinite K] :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+      D.toFiniteMarkedBelyiExistence).branch = markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
+    D
+
+theorem hilbert_schemeSectionControlled_pointwise_cover_complement
+    [Infinite K] (κ : Type*) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ s : V,
+      (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+        D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s ∧
+        ∀ i, (D.map s).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.pointwise_cover_complement
+    D κ hS x
+
+theorem hilbert_schemeSectionControlled_finite_subcover_on_complement
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      (⋃ s ∈ t,
+          ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement
+    D κ hS
+
 end SchemeCurveBelyiConstruction
 
 section ComplexSeparation
