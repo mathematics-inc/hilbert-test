@@ -219,7 +219,9 @@ affine family `[r:1]` on scheme-theoretic `P^1_K = Proj K[X0,X1]` as the
 homogeneous ideal `(X0 - r X1)`, proves its chart behavior, injectivity,
 agreement with the marked zero/one points, disjointness from infinity, and
 membership in the marked triple exactly when `r = 0` or `r = 1`, and
-instantiates the concrete `LinearSchemePointBridge`.
+instantiates the concrete `LinearSchemePointBridge`.  It also defines the
+scheme four-point set `{0,r,1,infinity}`, proves its finiteness, its affine
+membership criterion, and cardinality `4` when `r != 0,1`.
 
 `HilbertTest/SourceStack/PolynomialSchemeSeparation.lean` composes value
 realization, forbidden-target avoidance, affine-chart transport, and the

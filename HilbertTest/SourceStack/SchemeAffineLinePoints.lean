@@ -336,6 +336,78 @@ theorem affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
   · exact h0 hr
   · exact h1 hr
 
+/-- The scheme-carrier four-point set `{0,r,1,∞}` used in the Lemma 2.2
+bookkeeping after transporting from the linear model. -/
+noncomputable def schemeFourPointFinset (r : K) : Finset (P1 K) := by
+  classical
+  exact {zeroPoint K, affinePoint K r, onePoint K, infinityPoint K}
+
+noncomputable def schemeFourPointSet (r : K) : Set (P1 K) :=
+  schemeFourPointFinset K r
+
+theorem zeroPoint_mem_schemeFourPointFinset (r : K) :
+    zeroPoint K ∈ schemeFourPointFinset K r := by
+  classical
+  simp [schemeFourPointFinset]
+
+theorem affinePoint_mem_schemeFourPointFinset (r : K) :
+    affinePoint K r ∈ schemeFourPointFinset K r := by
+  classical
+  simp [schemeFourPointFinset]
+
+theorem onePoint_mem_schemeFourPointFinset (r : K) :
+    onePoint K ∈ schemeFourPointFinset K r := by
+  classical
+  simp [schemeFourPointFinset]
+
+theorem infinityPoint_mem_schemeFourPointFinset (r : K) :
+    infinityPoint K ∈ schemeFourPointFinset K r := by
+  classical
+  simp [schemeFourPointFinset]
+
+theorem schemeFourPointSet_finite (r : K) :
+    (schemeFourPointSet K r).Finite :=
+  (schemeFourPointFinset K r).finite_toSet
+
+theorem affinePoint_mem_schemeFourPointFinset_iff (r x : K) :
+    affinePoint K x ∈ schemeFourPointFinset K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  classical
+  constructor
+  · intro h
+    simp [schemeFourPointFinset, affinePoint_ne_infinity K x] at h
+    rcases h with h0 | hr | h1
+    · left
+      exact (affinePoint_eq_iff K x 0).1 (by simpa [affinePoint_zero K] using h0)
+    · right
+      left
+      exact (affinePoint_eq_iff K x r).1 hr
+    · right
+      right
+      exact (affinePoint_eq_iff K x 1).1 (by simpa [affinePoint_one K] using h1)
+  · rintro (rfl | rfl | rfl)
+    · simp [schemeFourPointFinset, affinePoint_zero K]
+    · simp [schemeFourPointFinset]
+    · simp [schemeFourPointFinset, affinePoint_one K]
+
+theorem affinePoint_mem_schemeFourPointSet_iff (r x : K) :
+    affinePoint K x ∈ schemeFourPointSet K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  exact affinePoint_mem_schemeFourPointFinset_iff K r x
+
+theorem schemeFourPointFinset_card {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
+    (schemeFourPointFinset K r).card = 4 := by
+  classical
+  have hzA : zeroPoint K ≠ affinePoint K r :=
+    (affinePoint_ne_zero K hr0).symm
+  have hA1 : affinePoint K r ≠ onePoint K :=
+    affinePoint_ne_one K hr1
+  have hAinf : affinePoint K r ≠ infinityPoint K :=
+    affinePoint_ne_infinity K r
+  simp [schemeFourPointFinset, zeroPoint_ne_onePoint K,
+    zeroPoint_ne_infinityPoint K, onePoint_ne_infinityPoint K,
+    hzA, hA1, hAinf]
+
 end Domain
 
 section LinearBridge

@@ -4703,6 +4703,30 @@ theorem hilbert_schemeAffineLinePoints_affinePoint_not_mem_markedSchemePointSet_
   exact SourceStack.SchemeAffineLinePoints.affinePoint_not_mem_markedSchemePointSet_of_ne_zero_one
     K h0 h1
 
+theorem hilbert_schemeAffineLinePoints_schemeFourPointSet_finite
+    (r : K) :
+    (schemeFourPointSet K r).Finite := by
+  exact SourceStack.SchemeAffineLinePoints.schemeFourPointSet_finite K r
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_mem_schemeFourPointFinset_iff
+    (r x : K) :
+    affinePoint K x ∈ schemeFourPointFinset K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_schemeFourPointFinset_iff
+    K r x
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_mem_schemeFourPointSet_iff
+    (r x : K) :
+    affinePoint K x ∈ schemeFourPointSet K r ↔
+      x = 0 ∨ x = r ∨ x = 1 := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_schemeFourPointSet_iff
+    K r x
+
+theorem hilbert_schemeAffineLinePoints_schemeFourPointFinset_card
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1) :
+    (schemeFourPointFinset K r).card = 4 := by
+  exact SourceStack.SchemeAffineLinePoints.schemeFourPointFinset_card K hr0 hr1
+
 theorem hilbert_schemeAffineLinePoints_affinePoint_mem_x1_basicOpen
     (r : K) :
     affinePoint K r ∈ AlgebraicGeometry.Proj.basicOpen
