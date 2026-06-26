@@ -181,6 +181,27 @@ theorem hilbert_two_mul_le_div_two_offset_of_offset_le_quarter
   exact NoncriticalBelyi.two_mul_le_div_two_offset_of_offset_le_quarter
     hA_nonneg ht_pos ht_le_quarter
 
+theorem hilbert_value_le_shifted_div_offset_of_offset_le_one
+    {A t : Real}
+    (hA_nonneg : 0 <= A)
+    (ht_pos : 0 < t)
+    (ht_le_one : t <= 1) :
+    A <= (A + t) / t := by
+  exact NoncriticalBelyi.value_le_shifted_div_offset_of_offset_le_one
+    hA_nonneg ht_pos ht_le_one
+
+theorem hilbert_belyi_aux_shifted_zero_ratio_ge_scale
+    {m n : Nat} {beta C f0 : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (hC_le_beta : C <= beta)
+    (hf0_pos : 0 < f0)
+    (hf0_le_quarter : f0 <= 1 / 4) :
+    C <= (NoncriticalBelyi.belyiAux m n beta + f0) / (0 + f0) := by
+  exact NoncriticalBelyi.belyi_aux_shifted_zero_ratio_ge_scale
+    hm hn hC hC_le_beta hf0_pos hf0_le_quarter
+
 theorem hilbert_belyi_aux_shifted_ratio_ge_scale_of_value_le_offset
     {m n : Nat} {alpha beta C f0 : Real}
     (hm : 1 <= m)
