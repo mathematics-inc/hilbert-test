@@ -386,6 +386,38 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     ⟨φ, hopen, hTopen, hsubset⟩
   exact ⟨φ, hopen, hTopen, by simpa only [compl_compl] using hsubset⟩
 
+/-- Finite-set finite-complement-space form of Corollary 1.2: if nonempty
+opens in the source have finite complement, then any nonempty open
+neighborhood of a finite set contains a Belyi open containing that finite set. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {V T : Set X} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ D.toBelyiCoverData.belyiOpen φ ∧
+          D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact D.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    hV (finite_compl_of_isOpen_nonempty hV hVne) hT hTsub
+
+/-- Recursive finite-set open-subspace form of Corollary 1.2: after restricting
+a noncritical Belyi existence package to an open subtype whose ambient source
+has finite complements for nonempty opens, any nonempty open neighborhood of a
+finite subtype set contains a Belyi open containing that finite set. -/
+theorem restrictSubtype_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {W T : Set U} (hW : IsOpen W)
+    (hWne : W.Nonempty) (hT : T.Finite) (hTsub : T ⊆ W) :
+    ∃ φ : Φ,
+      IsOpen ((D.restrictSubtype U).toBelyiCoverData.belyiOpen φ) ∧
+        T ⊆ (D.restrictSubtype U).toBelyiCoverData.belyiOpen φ ∧
+          (D.restrictSubtype U).toBelyiCoverData.belyiOpen φ ⊆ W := by
+  haveI : NonemptyOpenFiniteComplement U :=
+    nonemptyOpenFiniteComplement_subtype_of_isOpen hU
+  exact
+    (D.restrictSubtype U).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hW hWne hT hTsub
+
 end NoncriticalBelyiExistence
 
 end SourceStack
