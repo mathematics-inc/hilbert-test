@@ -38,6 +38,19 @@ theorem hilbert_hasDerivAt_auxPolynomial
         (n : Real) * x ^ m * (1 - x) ^ (n - 1)) x := by
   exact Belyi1980.hasDerivAt_auxPolynomial m n x
 
+theorem hilbert_auxDerivativeValue_factor
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) (x : Real) :
+    Belyi1980.auxDerivativeValue m n x =
+      x ^ (m - 1) * (1 - x) ^ (n - 1) *
+        ((m : Real) * (1 - x) - (n : Real) * x) := by
+  exact Belyi1980.auxDerivativeValue_factor hm hn x
+
+theorem hilbert_auxDerivativeValue_eq_zero_iff
+    {m n : Nat} (hm : 1 < m) (hn : 1 < n) (x : Real) :
+    Belyi1980.auxDerivativeValue m n x = 0 ↔
+      x = 0 ∨ x = 1 ∨ x = (m : Real) / ((m + n : Nat) : Real) := by
+  exact Belyi1980.auxDerivativeValue_eq_zero_iff hm hn x
+
 theorem hilbert_middle_linear_factor_zero
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     (m : Real) * (1 - (m : Real) / ((m + n : Nat) : Real)) -

@@ -29,6 +29,11 @@ def normalizedAuxPolynomial (m n : Nat) (x : Real) : Real :=
   (((m + n : Nat) : Real) ^ (m + n) / ((m : Real) ^ m * (n : Real) ^ n)) *
     auxPolynomial m n x
 
+/-- The derivative value of the unscaled auxiliary polynomial. -/
+def auxDerivativeValue (m n : Nat) (x : Real) : Real :=
+  (m : Real) * x ^ (m - 1) * (1 - x) ^ n -
+    (n : Real) * x ^ m * (1 - x) ^ (n - 1)
+
 /-- The unscaled auxiliary polynomial sends `0` to `0` when `m > 0`. -/
 theorem auxPolynomial_zero
     {m n : Nat} (hm : 0 < m) :
@@ -73,6 +78,54 @@ theorem hasDerivAt_auxPolynomial
     simpa [one_mul] using honeSub.pow n
   convert hxpow.mul hright using 1
   ring
+
+/-- Factored derivative value of `x^m * (1-x)^n`. -/
+theorem auxDerivativeValue_factor
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) (x : Real) :
+    auxDerivativeValue m n x =
+      x ^ (m - 1) * (1 - x) ^ (n - 1) *
+        ((m : Real) * (1 - x) - (n : Real) * x) := by
+  unfold auxDerivativeValue
+  have hxm : x ^ m = x ^ (m - 1) * x := by
+    conv_lhs => rw [show m = (m - 1) + 1 by omega]
+    rw [pow_succ]
+  have hyn : (1 - x) ^ n = (1 - x) ^ (n - 1) * (1 - x) := by
+    conv_lhs => rw [show n = (n - 1) + 1 by omega]
+    rw [pow_succ]
+  rw [hxm, hyn]
+  ring
+
+/-- When both endpoint exponents are at least two, the derivative value
+vanishes exactly at `0`, `1`, and the middle point `m/(m+n)`. -/
+theorem auxDerivativeValue_eq_zero_iff
+    {m n : Nat} (hm : 1 < m) (hn : 1 < n) (x : Real) :
+    auxDerivativeValue m n x = 0 ↔
+      x = 0 ∨ x = 1 ∨ x = (m : Real) / ((m + n : Nat) : Real) := by
+  have hm0 : 0 < m := lt_trans Nat.zero_lt_one hm
+  have hn0 : 0 < n := lt_trans Nat.zero_lt_one hn
+  have hmexp : m - 1 ≠ 0 := by omega
+  have hnexp : n - 1 ≠ 0 := by omega
+  rw [auxDerivativeValue_factor hm0 hn0 x]
+  rw [mul_eq_zero, mul_eq_zero]
+  have hx0 : x ^ (m - 1) = 0 ↔ x = 0 := pow_eq_zero_iff hmexp
+  have hx1 : (1 - x) ^ (n - 1) = 0 ↔ x = 1 := by
+    rw [pow_eq_zero_iff hnexp]
+    constructor <;> intro h <;> linarith
+  have hden : ((m + n : Nat) : Real) ≠ 0 := by
+    exact_mod_cast (Nat.add_pos_left hm0 n).ne'
+  have hlin : (m : Real) * (1 - x) - (n : Real) * x = 0 ↔
+      x = (m : Real) / ((m + n : Nat) : Real) := by
+    constructor
+    · intro h
+      rw [eq_div_iff hden]
+      have hsum : ((m + n : Nat) : Real) = (m : Real) + (n : Real) := by norm_num
+      rw [hsum]
+      linarith
+    · intro h
+      rw [h]
+      field_simp [hden]
+      ring
+  tauto
 
 /-- The middle critical point makes the linear factor in the derivative vanish. -/
 theorem middle_linear_factor_zero
