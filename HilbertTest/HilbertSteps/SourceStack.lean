@@ -499,6 +499,58 @@ theorem hilbert_badValues_subset_reductionBadSet
 
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
 variable {S T : Set C}
+
+theorem hilbert_p1ReductionStep_ofBadValues_bad
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K)
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (composed : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) C)
+    (composed_base_eq :
+      ∀ x : C, composed.hom.base x = p1Map.hom.base (aux.base x))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (P1ReductionStep.ofBadValues
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map composed composed_base_eq
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).bad =
+        reductionBadSet aux S badValues := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValues_bad
+    hS badValues hbad aux p1Map composed composed_base_eq
+    p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+    p1Map_target_avoids_marked
+
+theorem hilbert_p1ReductionStep_ofBadValues_bad_finite
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K)
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (composed : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) C)
+    (composed_base_eq :
+      ∀ x : C, composed.hom.base x = p1Map.hom.base (aux.base x))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (P1ReductionStep.ofBadValues
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map composed composed_base_eq
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).bad.Finite := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValues_bad_finite
+    hS badValues hbad aux p1Map composed composed_base_eq
+    p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+    p1Map_target_avoids_marked
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :

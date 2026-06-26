@@ -90,6 +90,85 @@ structure P1ReductionStep
 namespace P1ReductionStep
 
 variable {S T : Set C}
+
+/-- Construct a reduction step from the standard bad set
+`aux(S) ∪ badValues`.  This packages the routine finiteness and containment
+fields so that later curve-specific work only has to supply the auxiliary map,
+the marked Belyi map on `P1`, the composed finite map, and control of the
+chosen bad target values. -/
+def ofBadValues
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K)
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (composed : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) C)
+    (composed_base_eq :
+      ∀ x : C, composed.hom.base x = p1Map.hom.base (aux.base x))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    P1ReductionStep K C hmarkedOpen S T where
+  bad := reductionBadSet aux S badValues
+  bad_finite := reductionBadSet_finite aux hS hbad
+  aux := aux
+  p1Map := p1Map
+  composed := composed
+  composed_base_eq := composed_base_eq
+  maps_S_to_bad := by
+    intro x hx
+    exact aux_image_mem_reductionBadSet_of_mem aux hx
+  p1Map_maps_bad_to_marked := p1Map_maps_bad_to_marked
+  targetPoint := targetPoint
+  maps_T_to_target := maps_T_to_target
+  p1Map_target_avoids_marked := p1Map_target_avoids_marked
+
+theorem ofBadValues_bad
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K)
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (composed : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) C)
+    (composed_base_eq :
+      ∀ x : C, composed.hom.base x = p1Map.hom.base (aux.base x))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (ofBadValues (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map composed composed_base_eq
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).bad =
+        reductionBadSet aux S badValues := rfl
+
+theorem ofBadValues_bad_finite
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K)
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (composed : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) C)
+    (composed_base_eq :
+      ∀ x : C, composed.hom.base x = p1Map.hom.base (aux.base x))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (ofBadValues (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map composed composed_base_eq
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).bad.Finite :=
+  reductionBadSet_finite aux hS hbad
+
+variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 /-- The composed map sends the prescribed source set to the marked branch

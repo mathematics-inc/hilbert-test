@@ -148,7 +148,8 @@ and `T` maps to a point whose image avoids the marked triple, then the composed
 map has the required marked-image and marked-avoidance behavior.  A family of
 such steps for all finite disjoint `S,T` instantiates
 `FiniteMarkedBelyiExistence`.  The same file now constructs the standard finite
-bad set `aux(S) ∪ badValues` and proves its finiteness and containment facts.
+bad set `aux(S) ∪ badValues`, proves its finiteness and containment facts, and
+provides a `P1ReductionStep.ofBadValues` constructor using that standard set.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
