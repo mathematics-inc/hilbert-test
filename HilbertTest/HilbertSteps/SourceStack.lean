@@ -1360,6 +1360,19 @@ theorem hilbert_divisorZeroSection_projectivePair_maps_support_to_marked
   exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.projectivePair_maps_support_to_marked
     D P heval hsection0
 
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_marked
+    [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (hsupport : D.support.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∀ x ∈ D.support, (mkPair s1 hnc).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_projectivePair_maps_support_to_marked
+    D hsupport mkPair hmk_eval hmk_section0
+
 end CurveDivisorSections
 
 namespace CurveCohomologySections
@@ -1418,6 +1431,22 @@ theorem hilbert_cohomologicalDivisor_projectivePair_maps_support_to_marked
     ∀ x ∈ D.evalSurjectivity.support, P.hom.base x ∈ markedSchemePointSet K := by
   exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.projectivePair_maps_support_to_marked
     D P heval hsection0
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_marked
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (hsupport : D.evalSurjectivity.support.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        ∀ x ∈ D.evalSurjectivity.support,
+          (mkPair s1 hnc).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_projectivePair_maps_support_to_marked
+    D hsupport mkPair hmk_eval hmk_section0
 
 end CurveCohomologySections
 

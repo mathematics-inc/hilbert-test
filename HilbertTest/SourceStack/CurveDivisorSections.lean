@@ -102,6 +102,23 @@ theorem projectivePair_maps_support_to_marked
     exact (D.zeroSection_hasZeroSet x).2 hx
   exact P.maps_section0_zero_to_marked hzero
 
+/-- Factory form of the divisor-section bridge: once the line-bundle
+construction upgrades every basepoint-free pair `(s0, s1)` to a projective-line
+section pair, the divisor source data supplies such a pair mapping the support
+to the marked branch point. -/
+theorem exists_projectivePair_maps_support_to_marked
+    [Infinite K] (hsupport : D.support.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∀ x ∈ D.support, (mkPair s1 hnc).hom.base x ∈ markedSchemePointSet K := by
+  rcases D.exists_second_section_no_common_zero hsupport with ⟨s1, hnc⟩
+  exact ⟨s1, hnc,
+    D.projectivePair_maps_support_to_marked
+      (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)⟩
+
 end DivisorZeroSectionData
 
 end SchemeSupport

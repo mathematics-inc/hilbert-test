@@ -122,6 +122,27 @@ theorem projectivePair_maps_support_to_marked
     exact (D.zeroSection_hasZeroSet x).2 hx
   exact P.maps_section0_zero_to_marked hzero
 
+/-- Factory form of the cohomological bridge: after the line-bundle
+construction upgrades basepoint-free section pairs to projective-line section
+pairs, the cohomological divisor package supplies one whose support maps to the
+marked branch point. -/
+theorem exists_projectivePair_maps_support_to_marked
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] (hsupport : D.evalSurjectivity.support.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        ∀ x ∈ D.evalSurjectivity.support,
+          (mkPair s1 hnc).hom.base x ∈ markedSchemePointSet K := by
+  rcases D.exists_second_section_no_common_zero hsupport with ⟨s1, hnc⟩
+  exact ⟨s1, hnc,
+    D.projectivePair_maps_support_to_marked
+      (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)⟩
+
 end SchemeSupport
 
 end CohomologicalDivisorSectionData
