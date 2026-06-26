@@ -717,6 +717,50 @@ theorem hilbert_standardChartProjectiveLineSectionData_toProjectiveLineSectionPa
   exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     SC hx
 
+variable (RD : StandardChartProjectiveLineSectionRingData K C V)
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_localHom_eq
+    (i : RD.cover.J) :
+    RD.localHom i = RD.localChartHom i ≫ standardChartMap K (RD.chart i) := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.localHom_eq
+    RD i
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_cover_map_globalHom
+    (i : RD.cover.J) :
+    RD.cover.map i ≫ RD.globalHom = RD.localHom i := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.cover_map_globalHom
+    RD i
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_globalHom_base_of_cover
+    (i : RD.cover.J) (x : RD.cover.obj i) :
+    RD.globalHom.base ((RD.cover.map i).base x) = (RD.localHom i).base x := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.globalHom_base_of_cover
+    RD i x
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_global_zero_of_section0_vanishes
+    (x : C) (hx : RD.evalData.eval x RD.section0 = 0) :
+    RD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.global_zero_of_section0_vanishes
+    RD x hx
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_section0_vanishes_of_global_zero
+    (x : C)
+    (hx : RD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    RD.evalData.eval x RD.section0 = 0 := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.section0_vanishes_of_global_zero
+    RD x hx
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_toProjectiveLineSectionPair_hom :
+    RD.toProjectiveLineSectionPair.hom = RD.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.toProjectiveLineSectionPair_hom
+    RD
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : RD.evalData.eval x RD.section0 = 0) :
+    RD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    RD hx
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
@@ -2091,6 +2135,25 @@ theorem hilbert_standardChartOpen_isAffineOpen
     (c : StandardAffineChart) :
     IsAffineOpen (standardChartOpen K c) := by
   exact SourceStack.SchemeProjectiveLine.standardChartOpen_isAffineOpen K c
+
+theorem hilbert_standardChartCoordinate_x0 :
+    standardChartCoordinate K StandardAffineChart.x0 =
+      Away.mk (grading K) (x0_mem_degree_one K) 1 (X1 K)
+        (by simpa using x1_mem_degree_one K) := by
+  exact SourceStack.SchemeProjectiveLine.standardChartCoordinate_x0 K
+
+theorem hilbert_standardChartCoordinate_x1 :
+    standardChartCoordinate K StandardAffineChart.x1 =
+      Away.mk (grading K) (x1_mem_degree_one K) 1 (X0 K)
+        (by simpa using x0_mem_degree_one K) := by
+  exact SourceStack.SchemeProjectiveLine.standardChartCoordinate_x1 K
+
+theorem hilbert_standardChartToP1HomOfRingHom_def
+    {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    standardChartToP1HomOfRingHom K φ =
+      standardChartHomOfRingHom K φ ≫ standardChartMap K c := by
+  exact SourceStack.SchemeProjectiveLine.standardChartToP1HomOfRingHom_def K φ
 
 theorem hilbert_basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =

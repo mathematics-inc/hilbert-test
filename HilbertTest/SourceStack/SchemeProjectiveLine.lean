@@ -110,12 +110,20 @@ inductive StandardAffineChart where
   | x1
   deriving DecidableEq, Inhabited
 
+/-- The coordinate ring of a standard affine chart of `P1`. -/
+abbrev standardChartRing (K : Type u) [CommRing K] :
+    StandardAffineChart → Type u
+  | StandardAffineChart.x0 => Away (grading K) (X0 K)
+  | StandardAffineChart.x1 => Away (grading K) (X1 K)
+
+instance standardChartRingCommRing (c : StandardAffineChart) :
+    CommRing (standardChartRing K c) := by
+  cases c <;> infer_instance
+
 /-- The affine scheme underlying a standard chart of `P1`. -/
-def standardChartScheme : StandardAffineChart → Scheme.{u}
-  | StandardAffineChart.x0 =>
-      Spec (CommRingCat.of (Away (grading K) (X0 K)))
-  | StandardAffineChart.x1 =>
-      Spec (CommRingCat.of (Away (grading K) (X1 K)))
+abbrev standardChartScheme (K : Type u) [CommRing K]
+    (c : StandardAffineChart) : Scheme.{u} :=
+  Spec (CommRingCat.of (standardChartRing K c))
 
 /-- The standard chart open in `P1`. -/
 def standardChartOpen : StandardAffineChart → (P1 K).Opens
@@ -148,6 +156,49 @@ theorem standardChartOpen_isAffineOpen (c : StandardAffineChart) :
   cases c
   · exact x0_basicOpen_isAffineOpen K
   · exact x1_basicOpen_isAffineOpen K
+
+/-- The affine coordinate on a standard chart: `X₁/X₀` on the `X₀ ≠ 0`
+chart, and `X₀/X₁` on the `X₁ ≠ 0` chart. -/
+def standardChartCoordinate : (c : StandardAffineChart) → standardChartRing K c
+  | StandardAffineChart.x0 =>
+      Away.mk (grading K) (x0_mem_degree_one K) 1 (X1 K)
+        (by simpa using x1_mem_degree_one K)
+  | StandardAffineChart.x1 =>
+      Away.mk (grading K) (x1_mem_degree_one K) 1 (X0 K)
+        (by simpa using x0_mem_degree_one K)
+
+@[simp]
+theorem standardChartCoordinate_x0 :
+    standardChartCoordinate K StandardAffineChart.x0 =
+      Away.mk (grading K) (x0_mem_degree_one K) 1 (X1 K)
+        (by simpa using x1_mem_degree_one K) := rfl
+
+@[simp]
+theorem standardChartCoordinate_x1 :
+    standardChartCoordinate K StandardAffineChart.x1 =
+      Away.mk (grading K) (x1_mem_degree_one K) 1 (X0 K)
+        (by simpa using x0_mem_degree_one K) := rfl
+
+/-- A ring map from the coordinate ring of a standard chart to global sections
+of a scheme gives a morphism into that standard chart by the `Γ-Spec`
+adjunction. -/
+def standardChartHomOfRingHom {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    X ⟶ standardChartScheme K c :=
+  X.toSpecΓ ≫ Spec.map φ
+
+/-- Composing a `Γ-Spec` chart morphism with the standard chart open immersion
+gives a morphism to `P1`. -/
+def standardChartToP1HomOfRingHom {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    X ⟶ P1 K :=
+  standardChartHomOfRingHom K φ ≫ standardChartMap K c
+
+theorem standardChartToP1HomOfRingHom_def
+    {X : Scheme.{u}} {c : StandardAffineChart}
+    (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
+    standardChartToP1HomOfRingHom K φ =
+      standardChartHomOfRingHom K φ ≫ standardChartMap K c := rfl
 
 theorem basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =

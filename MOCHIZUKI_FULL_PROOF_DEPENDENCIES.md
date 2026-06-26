@@ -57,10 +57,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   nonzero on `T`, checks the scheme-gluing bridge from compatible local chart
   morphisms on an open cover to a global morphism `C ⟶ P1 K`, descends the
   local zero-section criteria to that global map, specializes the local maps to
-  the actual two standard affine `P1` charts via `Proj.awayι`, packages the
-  glued map as a `ProjectiveLineSectionPair`, and proves that finite marked
-  Belyi maps built from such pairs instantiate the section-controlled finite
-  marked bridge.
+  the actual two standard affine `P1` charts via `Proj.awayι`, constructs those
+  local chart morphisms from local chart-coordinate ring maps by the `Γ-Spec`
+  adjunction, packages the glued map as a `ProjectiveLineSectionPair`, and
+  proves that finite marked Belyi maps built from such pairs instantiate the
+  section-controlled finite marked bridge.
 - `HilbertTest.SourceStack.CurveDivisorSections`: divisor-section selection
   layer for the same proof passage.  Given the zero-section of `O_X(D)` and
   nonzero evaluation functionals on the finite support, it chooses a second

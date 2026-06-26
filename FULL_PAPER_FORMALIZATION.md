@@ -133,10 +133,13 @@ and the result feeds the existing `ProjectiveLineSectionPair` interface.  The
 local chart package is now tied to the actual two standard affine charts of
 `P1`: local maps land in `Spec (K[X0,X1]_{X0})_0` or
 `Spec (K[X0,X1]_{X1})_0`, then compose with Mathlib's `Proj.awayι` open
-immersions before gluing.  The remaining missing input is now narrower:
-construct those standard-chart local maps from actual line-bundle
-trivializations of the two selected sections, then prove the finite marked
-family/branch-control facts for the resulting map.
+immersions before gluing.  The chart-coordinate rings now also expose the
+homogeneous coordinates `X1/X0` and `X0/X1`; a local ring map from such a chart
+ring to global functions on a trivializing open produces the required local
+chart morphism by the checked `Γ-Spec` adjunction bridge.  The remaining missing
+input is now narrower: construct those local chart-ring maps from actual
+line-bundle section ratios, then prove the finite marked family/branch-control
+facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section

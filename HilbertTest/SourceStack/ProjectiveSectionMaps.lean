@@ -317,6 +317,119 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end StandardChartProjectiveLineSectionData
 
+/-- Ring-hom form of the concrete standard-chart local package.  This is one
+step closer to the line-bundle construction: local section ratios should supply
+ring maps from the standard chart coordinate rings to global functions on the
+trivializing opens; the `Γ-Spec` adjunction then constructs the local chart
+morphisms used by `StandardChartProjectiveLineSectionData`. -/
+structure StandardChartProjectiveLineSectionRingData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  chart : cover.J → StandardAffineChart
+  localChartRingHom :
+    ∀ i : cover.J,
+      CommRingCat.of (standardChartRing K (chart i)) ⟶ Γ(cover.obj i, ⊤)
+  local_compat :
+    ∀ i j : cover.J,
+      (pullback.fst (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom i)) ≫
+            standardChartMap K (chart i) =
+        (pullback.snd (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom j)) ≫
+            standardChartMap K (chart j)
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace StandardChartProjectiveLineSectionRingData
+
+variable {C : Scheme.{u}}
+variable (D : StandardChartProjectiveLineSectionRingData K C V)
+
+/-- The local standard-chart morphism obtained from the local chart coordinate
+ring map. -/
+def localChartHom (i : D.cover.J) :
+    D.cover.obj i ⟶ standardChartScheme K (D.chart i) :=
+  standardChartHomOfRingHom K (D.localChartRingHom i)
+
+/-- The local map to `P1` obtained from the ring-hom chart morphism. -/
+def localHom (i : D.cover.J) : D.cover.obj i ⟶ P1 K :=
+  standardChartToP1HomOfRingHom K (D.localChartRingHom i)
+
+theorem localHom_eq (i : D.cover.J) :
+    D.localHom i = D.localChartHom i ≫ standardChartMap K (D.chart i) := rfl
+
+/-- Convert local chart coordinate-ring maps to local standard-chart morphism
+data. -/
+def toStandardChartProjectiveLineSectionData :
+    StandardChartProjectiveLineSectionData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  chart := D.chart
+  localChartHom := D.localChartHom
+  local_compat := by
+    intro i j
+    simpa [localChartHom] using D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    simpa [localHom, localChartHom, standardChartToP1HomOfRingHom_def] using
+      D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    exact D.local_section0_vanishes_of_zero i x
+      (by simpa [localHom, localChartHom, standardChartToP1HomOfRingHom_def] using hx)
+
+def globalHom : C ⟶ P1 K :=
+  D.toStandardChartProjectiveLineSectionData.globalHom
+
+@[reassoc]
+theorem cover_map_globalHom (i : D.cover.J) :
+    D.cover.map i ≫ D.globalHom = D.localHom i := by
+  exact D.toStandardChartProjectiveLineSectionData.cover_map_globalHom i
+
+theorem globalHom_base_of_cover (i : D.cover.J) (x : D.cover.obj i) :
+    D.globalHom.base ((D.cover.map i).base x) = (D.localHom i).base x := by
+  exact D.toStandardChartProjectiveLineSectionData.globalHom_base_of_cover i x
+
+theorem global_zero_of_section0_vanishes
+    (x : C) (hx : D.evalData.eval x D.section0 = 0) :
+    D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toStandardChartProjectiveLineSectionData.global_zero_of_section0_vanishes x hx
+
+theorem section0_vanishes_of_global_zero
+    (x : C)
+    (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    D.evalData.eval x D.section0 = 0 := by
+  exact D.toStandardChartProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toStandardChartProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end StandardChartProjectiveLineSectionRingData
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch
