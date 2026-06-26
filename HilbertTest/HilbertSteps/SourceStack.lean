@@ -2958,6 +2958,11 @@ section FractionalLinear
 
 variable (F : Type*) [Field F]
 
+theorem hilbert_reciprocalTranslateLinear_injective
+    (lambda : F) :
+    Function.Injective (SourceStack.ProjectiveLine.reciprocalTranslateLinear F lambda) := by
+  exact SourceStack.ProjectiveLine.reciprocalTranslateLinear_injective F lambda
+
 theorem hilbert_reciprocalTranslate_affinePoint_of_ne
     (lambda r : F) (hr : r ≠ lambda) :
     SourceStack.ProjectiveLine.reciprocalTranslate F lambda
@@ -3004,6 +3009,11 @@ theorem hilbert_affineLinearMap_affinePoint
         (SourceStack.ProjectiveLine.affinePoint F r) =
       SourceStack.ProjectiveLine.affinePoint F (a * r + b) := by
   exact SourceStack.ProjectiveLine.affineLinearMap_affinePoint F ha r
+
+theorem hilbert_affineLinearMapLinear_injective
+    {a b : F} (ha : a ≠ 0) :
+    Function.Injective (SourceStack.ProjectiveLine.affineLinearMapLinear F a b) := by
+  exact SourceStack.ProjectiveLine.affineLinearMapLinear_injective F ha
 
 theorem hilbert_affineLinearMap_injective
     {a b : F} (ha : a ≠ 0) :
