@@ -1024,6 +1024,64 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end TrivializedIsUnitSectionRatioData
 
+/-- The two-open cover attached to a pair of global functions satisfying a
+Bezout equation.  The first open uses `section0` as denominator, the second
+uses `section1`. -/
+def twoSectionBezoutCover
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    C.OpenCover :=
+  Schemes.twoSectionBasicOpenCoverOfLinearCombination C s0 s1 a b h
+
+/-- Chart choices for the two basic opens of a two-section Bezout cover. -/
+def twoSectionRatioChart : Fin 2 → LocalSectionRatioChart
+  | 0 => LocalSectionRatioChart.section0
+  | 1 => LocalSectionRatioChart.section1
+
+@[simp]
+theorem twoSectionRatioChart_zero :
+    twoSectionRatioChart 0 = LocalSectionRatioChart.section0 := rfl
+
+@[simp]
+theorem twoSectionRatioChart_one :
+    twoSectionRatioChart 1 = LocalSectionRatioChart.section1 := rfl
+
+/-- The first global function restricted to one member of the two-section
+Bezout cover. -/
+def twoSectionLocalSection0
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    Γ((twoSectionBezoutCover C s0 s1 a b h).obj i, ⊤) :=
+  Schemes.basicOpenTopRestrict C (Schemes.twoElementFamily s0 s1 i) s0
+
+/-- The second global function restricted to one member of the two-section
+Bezout cover. -/
+def twoSectionLocalSection1
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    Γ((twoSectionBezoutCover C s0 s1 a b h).obj i, ⊤) :=
+  Schemes.basicOpenTopRestrict C (Schemes.twoElementFamily s0 s1 i) s1
+
+/-- On each member of the two-section Bezout cover, the selected denominator is
+a unit. -/
+theorem twoSectionLocal_denominator_isUnit
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    IsUnit (LocalSectionRatioChart.denominator (twoSectionRatioChart i)
+      (twoSectionLocalSection0 C s0 s1 a b h i)
+      (twoSectionLocalSection1 C s0 s1 a b h i)) := by
+  fin_cases i
+  · dsimp [twoSectionRatioChart, twoSectionLocalSection0, twoSectionLocalSection1,
+      Schemes.basicOpenTopRestrict]
+    apply RingHom.isUnit_map
+    simpa [Schemes.basicOpenTopRestrict] using
+      Schemes.isUnit_basicOpenTopRestrict_self C s0
+  · dsimp [twoSectionRatioChart, twoSectionLocalSection0, twoSectionLocalSection1,
+      Schemes.basicOpenTopRestrict]
+    apply RingHom.isUnit_map
+    simpa [Schemes.basicOpenTopRestrict] using
+      Schemes.isUnit_basicOpenTopRestrict_self C s1
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch

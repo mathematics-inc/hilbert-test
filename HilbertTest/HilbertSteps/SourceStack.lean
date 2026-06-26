@@ -1077,6 +1077,47 @@ theorem hilbert_trivializedIsUnitSectionRatioData_toProjectiveLineSectionPair_ma
   exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     IUD hx
 
+theorem hilbert_twoSectionBezoutCover_eq
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    twoSectionBezoutCover C s0 s1 a b h =
+      SourceStack.Schemes.twoSectionBasicOpenCoverOfLinearCombination
+        C s0 s1 a b h := by
+  rfl
+
+theorem hilbert_twoSectionRatioChart_zero :
+    twoSectionRatioChart 0 = LocalSectionRatioChart.section0 := by
+  exact SourceStack.ProjectiveSectionMaps.twoSectionRatioChart_zero
+
+theorem hilbert_twoSectionRatioChart_one :
+    twoSectionRatioChart 1 = LocalSectionRatioChart.section1 := by
+  exact SourceStack.ProjectiveSectionMaps.twoSectionRatioChart_one
+
+theorem hilbert_twoSectionLocalSection0_eq
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    twoSectionLocalSection0 C s0 s1 a b h i =
+      SourceStack.Schemes.basicOpenTopRestrict C
+        (SourceStack.Schemes.twoElementFamily s0 s1 i) s0 := by
+  rfl
+
+theorem hilbert_twoSectionLocalSection1_eq
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    twoSectionLocalSection1 C s0 s1 a b h i =
+      SourceStack.Schemes.basicOpenTopRestrict C
+        (SourceStack.Schemes.twoElementFamily s0 s1 i) s1 := by
+  rfl
+
+theorem hilbert_twoSectionLocal_denominator_isUnit
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : Fin 2) :
+    IsUnit (LocalSectionRatioChart.denominator (twoSectionRatioChart i)
+      (twoSectionLocalSection0 C s0 s1 a b h i)
+      (twoSectionLocalSection1 C s0 s1 a b h i)) := by
+  exact SourceStack.ProjectiveSectionMaps.twoSectionLocal_denominator_isUnit
+    C s0 s1 a b h i
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
