@@ -95,7 +95,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   pointwise-cover/finite-subcover wrappers, both for the raw projective-spectrum
   target and for maps whose target type is the scheme carrier `P1 K`, plus
   one-map partial/rational-map cover data and honest `C ⟶ P1 K`
-  morphism-family cover/noncritical interfaces.
+  morphism-family cover/noncritical interfaces.  It also checks the
+  `FiniteMarkedBelyiExistence` family interface for finite marked Belyi maps and
+  its conversion to marked cover data, noncritical-existence data, scheme-open
+  comparison, and finite-subcover output.
 - `HilbertTest.SourceStack.RationalMaps`: Mathlib rational-map domain and
   partial-map representative wrappers, plus function-field reconstruction and
   uniqueness facts for rational maps out of integral schemes, with direct
@@ -415,9 +418,12 @@ Lean-facing declarations needed:
   maps whose target type is the scheme carrier `P1 K`, plus one-map Belyi-cover
   data and branch-avoidance open-locus facts attached to a partial map's dense
   domain and to a rational map's canonical domain, and marked cover/noncritical
-  interfaces attached to honest morphism families `C ⟶ P1 K`.  It also bridges
-  scheme-level Belyi maps to the marked `P1 K` target back to the topological
-  marked cover-data open, including the finite-map refinement.  The missing item
+  interfaces attached to honest morphism families `C ⟶ P1 K`; it also checks
+  the finite marked Belyi-map family interface that converts Theorem 2.5-style
+  finite disjoint-set behavior into marked cover/noncritical data and
+  Corollary 3.1-style finite-subcover output, and bridges scheme-level Belyi
+  maps to the marked `P1 K` target back to the topological marked cover-data
+  open, including the finite-map refinement.  The missing item
   is the curve theorem producing those morphisms/rational functions with the
   required branch target control.
 - rational points `0`, `1`, `infinity` agree with the scheme points.

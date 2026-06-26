@@ -208,8 +208,14 @@ domains.  It additionally packages honest scheme-morphism families
 `C ⟶ P1 K` as marked Belyi-cover data and as the same noncritical finite-set
 existence interface, and bridges scheme-level Belyi maps to the marked `P1 K`
 target back to the topological marked cover-data open, including the finite-map
-refinement.  The remaining missing input is the curve theorem producing such
-morphism/rational-function families with the paper's required branch control.
+refinement.  It also introduces the paper-facing
+`FiniteMarkedBelyiExistence` interface: a family of finite scheme-level Belyi
+maps to the marked `P1 K` target satisfying the Theorem 2.5 finite disjoint-set
+condition, together with checked conversions to marked cover data,
+noncritical-existence data, open-locus comparison with the scheme-level Belyi
+open, and Corollary 3.1-style finite-subcover output.  The remaining missing
+input is the curve theorem producing such finite marked Belyi-map families with
+the paper's required branch control.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

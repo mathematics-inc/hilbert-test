@@ -657,6 +657,97 @@ theorem finiteSchemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
 
 end SchemeBelyiMapBridge
 
+section FiniteMarkedBelyiExistence
+
+/-- Paper-facing source interface: a family of finite scheme-level Belyi maps to
+the marked `P1 K` target that satisfies the Theorem 2.5 finite disjoint-set
+condition.  The missing curve/Riemann-Roch theorem is precisely an
+instantiation of this structure for smooth proper connected curves. -/
+structure FiniteMarkedBelyiExistence
+    (K : Type u) [CommRing K] [IsDomain K] (Φ : Type w) (C : Scheme.{u}) where
+  hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ
+  map : Φ → SchemeBelyi.FiniteBelyiMap (SchemeBelyi.markedBelyiTarget K hmarkedOpen) C
+  exists_for_finite_disjoint :
+    ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+      ∃ φ : Φ, (∀ x ∈ S, (map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (map φ).hom.base x ∉ markedSchemePointSet K
+
+namespace FiniteMarkedBelyiExistence
+
+variable {C : Scheme.{u}} (F : FiniteMarkedBelyiExistence K Φ C)
+
+/-- Forget a finite marked Belyi family to its underlying morphism family. -/
+def morphism : Φ → (C ⟶ P1 K) :=
+  fun φ => (F.map φ).hom
+
+/-- The topological marked cover data attached to a finite marked Belyi family. -/
+def toMarkedCoverData :
+    BelyiCoverData C (P1 K) Φ :=
+  morphismMarkedCoverData K Φ C (morphism K Φ F)
+
+/-- The noncritical finite-set existence interface attached to a finite marked
+Belyi family. -/
+def toMarkedNoncriticalExistence :
+    NoncriticalBelyiExistence C (P1 K) Φ :=
+  morphismMarkedNoncriticalExistence K Φ C (morphism K Φ F) F.exists_for_finite_disjoint
+
+theorem toMarkedCoverData_branch :
+    (toMarkedCoverData K Φ F).branch = markedSchemePointSet K := rfl
+
+theorem toMarkedNoncriticalExistence_branch :
+    (toMarkedNoncriticalExistence K Φ F).branch = markedSchemePointSet K := rfl
+
+theorem map_apply
+    (φ : Φ) (x : C) :
+    (toMarkedCoverData K Φ F).map φ x = (F.map φ).hom.base x := by
+  rfl
+
+theorem finite_hom
+    (φ : Φ) :
+    IsFinite (F.map φ).hom :=
+  (F.map φ).finite_hom
+
+theorem mem_belyiOpen_iff
+    (φ : Φ) (x : C) :
+    x ∈ (toMarkedCoverData K Φ F).belyiOpen φ ↔
+      (F.map φ).hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem belyiOpen_eq_schemeBelyi
+    (φ : Φ) :
+    (toMarkedCoverData K Φ F).belyiOpen φ =
+      ((F.map φ).toBelyiMap.belyiOpen : Set C) := by
+  rfl
+
+theorem belyiOpen_isOpen
+    (φ : Φ) :
+    IsOpen ((toMarkedCoverData K Φ F).belyiOpen φ) := by
+  rw [belyiOpen_eq_schemeBelyi K Φ F φ]
+  exact (F.map φ).toBelyiMap.belyiOpen.2
+
+theorem pointwise_cover_complement
+    (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ φ : Φ,
+      (toMarkedCoverData K Φ F).sendsSetToBranch S φ ∧
+        ∀ i, (F.map φ).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases (toMarkedNoncriticalExistence K Φ F).pointwise_cover_complement hS x with
+    ⟨φ, hφS, hφx⟩
+  exact ⟨φ, hφS, hφx⟩
+
+theorem finite_subcover_on_complement
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // (toMarkedCoverData K Φ F).sendsSetToBranch S φ},
+      (⋃ φ ∈ t, ((toMarkedCoverData K Φ F).complementCoverData S).tupleAvoidSet
+          (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact (toMarkedNoncriticalExistence K Φ F).finite_subcover_on_complement (κ := κ) hS
+
+end FiniteMarkedBelyiExistence
+
+end FiniteMarkedBelyiExistence
+
 end
 end SchemeMarkedBelyi
 end SourceStack
