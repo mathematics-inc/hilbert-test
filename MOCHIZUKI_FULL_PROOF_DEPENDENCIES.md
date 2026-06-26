@@ -66,6 +66,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   layer for the long exact cohomology argument.  It proves that surjectivity of
   an evaluation map to a nontrivial fiber makes it a nonzero linear form, then
   converts supportwise evaluation surjectivity into the divisor-section package.
+- `HilbertTest.SourceStack.BelyiReduction`: reduction-through-`P1` layer for
+  composing the auxiliary morphism `ψ : X -> P1` with a marked Belyi map on
+  `P1`.  It checks the marked-image/marked-avoidance set control for the
+  composition and converts a family of such reductions into
+  `FiniteMarkedBelyiExistence`.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also

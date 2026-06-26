@@ -6,6 +6,7 @@ import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
+import HilbertTest.SourceStack.BelyiReduction
 import HilbertTest.SourceStack.ProjectiveSectionMaps
 import HilbertTest.SourceStack.CurveDivisorSections
 import HilbertTest.SourceStack.CurveCohomologySections

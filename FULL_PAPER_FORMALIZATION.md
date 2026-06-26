@@ -140,6 +140,15 @@ the divisor zero-section interface that supplies the second section and
 basepoint-free pair.  The remaining missing input is the curve theorem proving
 those evaluation maps are surjective from the vanishing of `H^1(L(-x))`.
 
+`HilbertTest/SourceStack/BelyiReduction.lean` now formalizes the next reduction
+step in Theorem 2.5.  A `P1ReductionStep` records an auxiliary morphism
+`X -> P1`, a finite bad set on `P1`, a marked finite Belyi map on `P1`, and the
+composed finite Belyi map on `X`; it proves that if `S` maps into the bad set
+and `T` maps to a point whose image avoids the marked triple, then the composed
+map has the required marked-image and marked-avoidance behavior.  A family of
+such steps for all finite disjoint `S,T` instantiates
+`FiniteMarkedBelyiExistence`.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

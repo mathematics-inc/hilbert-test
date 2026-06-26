@@ -3,6 +3,7 @@ import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
+import HilbertTest.SourceStack.BelyiReduction
 import HilbertTest.SourceStack.ProjectiveSectionMaps
 import HilbertTest.SourceStack.CurveDivisorSections
 import HilbertTest.SourceStack.CurveCohomologySections
@@ -442,6 +443,58 @@ theorem hilbert_schemeSectionControlled_finite_subcover_on_complement
     D κ hS
 
 end SchemeCurveBelyiConstruction
+
+namespace BelyiReduction
+
+open SourceStack.BelyiReduction
+open SourceStack.SchemeBelyi
+open SourceStack.SchemeMarkedBelyi
+open SourceStack.SchemeProjectiveLine
+
+universe u
+
+variable {K : Type u} [Field K]
+variable {C : Scheme.{u}}
+variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
+variable {S T : Set C}
+variable (R : P1ReductionStep K C hmarkedOpen S T)
+
+theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
+    ∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_maps_S_to_marked R
+
+theorem hilbert_p1ReductionStep_composed_avoids_T_marked :
+    ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_avoids_T_marked R
+
+theorem hilbert_p1ReductionStep_composed_controls :
+    (∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_controls R
+
+variable (E : P1ReductionExistence K C)
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_hmarkedOpen :
+    E.toFiniteMarkedBelyiExistence.hmarkedOpen = E.hmarkedOpen := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_hmarkedOpen
+    E
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_map_apply
+    (i : ReductionIndex C) :
+    E.toFiniteMarkedBelyiExistence.map i = E.map i := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_map_apply
+    E i
+
+theorem hilbert_p1ReductionExistence_exists_for_finite_disjoint
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      (∀ x ∈ S, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_for_finite_disjoint
+    E hS hT hdis
+
+end BelyiReduction
 
 namespace ProjectiveSectionMaps
 
