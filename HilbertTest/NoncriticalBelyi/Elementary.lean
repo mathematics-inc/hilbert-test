@@ -345,6 +345,33 @@ theorem belyi_aux_beta_ne_unit_interval_value
     hm hn hbeta hx0 hx1
   exact ne_of_gt hlt
 
+theorem belyi_aux_beta_not_mem_image_of_finite_real_set
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hS_shape : ∀ x ∈ S, (0 <= x ∧ x <= 1) ∨ 1 < x)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C) :
+    belyiAux m n beta ∉ S.image (fun x => belyiAux m n x) := by
+  classical
+  have hbeta_ge_two : 2 <= beta :=
+    beta_ge_two_of_condition (beta := beta) (C := C) hC
+      (hscale 1 h_one_mem (by norm_num))
+  intro hmem
+  rcases (Finset.mem_image.mp hmem) with ⟨alpha, halpha_mem, halpha_eq⟩
+  rcases hS_shape alpha halpha_mem with hunit | hgt_one
+  · have hlt := belyi_aux_beta_gt_unit_interval_value (m := m) (n := n)
+      hm hn hbeta_ge_two hunit.1 hunit.2
+    nlinarith
+  · have halpha_ne_zero : alpha ≠ 0 := by nlinarith
+    have hbeta_gt_alpha : alpha < beta :=
+      beta_gt_alpha_of_scale (alpha := alpha) (beta := beta) (C := C)
+        hC (by nlinarith) (hscale alpha halpha_mem halpha_ne_zero)
+    have hlt := belyi_aux_strict_mono_on_gt_one (m := m) (n := n)
+      hm hn hgt_one hbeta_gt_alpha
+    nlinarith
+
 end Lemma21Arithmetic
 
 end NoncriticalBelyi

@@ -186,6 +186,20 @@ theorem hilbert_belyi_aux_beta_ne_unit_interval_value
   exact NoncriticalBelyi.belyi_aux_beta_ne_unit_interval_value
     hm hn hbeta hx0 hx1
 
+theorem hilbert_belyi_aux_beta_not_mem_image_of_finite_real_set
+    {m n : Nat} {beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hS_shape : ∀ x ∈ S, (0 <= x ∧ x <= 1) ∨ 1 < x)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C) :
+    NoncriticalBelyi.belyiAux m n beta ∉
+      S.image (fun x => NoncriticalBelyi.belyiAux m n x) := by
+  exact NoncriticalBelyi.belyi_aux_beta_not_mem_image_of_finite_real_set
+    hm hn hC h_one_mem hS_shape hscale
+
 theorem hilbert_paperPolynomial_eval_zero
     {m n : Nat} (hm : 0 < m) :
     (NoncriticalBelyi.paperPolynomial m n).eval 0 = 0 := by
