@@ -214,6 +214,17 @@ theorem BelyiMap.marked_belyiOpen_carrier
       {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
   rfl
 
+theorem FiniteBelyiMap.mem_marked_belyiOpen_iff
+    (φ : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) X) (x : X) :
+    x ∈ φ.toBelyiMap.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem FiniteBelyiMap.marked_belyiOpen_carrier
+    (φ : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) X) :
+    (φ.toBelyiMap.belyiOpen : Set X) =
+      {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
 end MarkedProjectiveLineTarget
 
 end SchemeBelyi

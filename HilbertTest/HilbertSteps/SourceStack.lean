@@ -759,6 +759,21 @@ theorem hilbert_schemeBelyi_marked_belyiOpen_carrier :
       {x : X | φmarked.hom.base x ∉ markedSchemePointSet K} := by
   exact SourceStack.SchemeBelyi.BelyiMap.marked_belyiOpen_carrier φmarked
 
+variable (ψmarked :
+  SourceStack.SchemeBelyi.FiniteBelyiMap
+    (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen) X)
+
+theorem hilbert_schemeBelyi_finite_mem_marked_belyiOpen_iff
+    (x : X) :
+    x ∈ ψmarked.toBelyiMap.belyiOpen ↔
+      ψmarked.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff ψmarked x
+
+theorem hilbert_schemeBelyi_finite_marked_belyiOpen_carrier :
+    (ψmarked.toBelyiMap.belyiOpen : Set X) =
+      {x : X | ψmarked.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.marked_belyiOpen_carrier ψmarked
+
 end MarkedProjectiveLineTarget
 
 end SchemeBelyi
@@ -2325,6 +2340,39 @@ theorem hilbert_schemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
     IsOpen ((schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen ()) := by
   exact SourceStack.SchemeMarkedBelyi.schemeBelyiMapMarkedCoverData_belyiOpen_isOpen
     K hmarkedOpen φ
+
+variable (φfin :
+  SourceStack.SchemeBelyi.FiniteBelyiMap
+    (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen) C)
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_branch :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).branch =
+      markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_branch
+    K hmarkedOpen φfin
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_isFinite_hom :
+    IsFinite φfin.hom := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_isFinite_hom
+    K hmarkedOpen φfin
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_map_apply
+    (x : C) :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).map () x =
+      φfin.hom.base x := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_map_apply
+    K hmarkedOpen φfin x
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () =
+      (φfin.toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi
+    K hmarkedOpen φfin
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
+    IsOpen ((finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen ()) := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_belyiOpen_isOpen
+    K hmarkedOpen φfin
 
 end SchemeBelyiMapBridge
 

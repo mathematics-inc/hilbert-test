@@ -622,6 +622,39 @@ theorem schemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
   rw [schemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi K hmarkedOpen φ]
   exact φ.belyiOpen.2
 
+variable (φfin :
+  SchemeBelyi.FiniteBelyiMap (SchemeBelyi.markedBelyiTarget K hmarkedOpen) C)
+
+/-- A finite scheme-level Belyi map to the marked `P1 K` target gives the same
+one-map marked cover datum after forgetting finiteness. -/
+def finiteSchemeBelyiMapMarkedCoverData :
+    BelyiCoverData C (P1 K) Unit :=
+  schemeBelyiMapMarkedCoverData K hmarkedOpen φfin.toBelyiMap
+
+theorem finiteSchemeBelyiMapMarkedCoverData_branch :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).branch =
+      markedSchemePointSet K := rfl
+
+theorem finiteSchemeBelyiMapMarkedCoverData_isFinite_hom :
+    IsFinite φfin.hom :=
+  φfin.finite_hom
+
+theorem finiteSchemeBelyiMapMarkedCoverData_map_apply
+    (x : C) :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).map () x =
+      φfin.hom.base x := by
+  rfl
+
+theorem finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () =
+      (φfin.toBelyiMap.belyiOpen : Set C) := by
+  rfl
+
+theorem finiteSchemeBelyiMapMarkedCoverData_belyiOpen_isOpen :
+    IsOpen ((finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen ()) := by
+  rw [finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi K hmarkedOpen φfin]
+  exact φfin.toBelyiMap.belyiOpen.2
+
 end SchemeBelyiMapBridge
 
 end

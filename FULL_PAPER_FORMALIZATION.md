@@ -207,9 +207,9 @@ the same construction is also stated for rational maps on their canonical
 domains.  It additionally packages honest scheme-morphism families
 `C ⟶ P1 K` as marked Belyi-cover data and as the same noncritical finite-set
 existence interface, and bridges scheme-level Belyi maps to the marked `P1 K`
-target back to the topological marked cover-data open.  The remaining missing
-input is the curve theorem producing such morphism/rational-function families
-with the paper's required branch control.
+target back to the topological marked cover-data open, including the finite-map
+refinement.  The remaining missing input is the curve theorem producing such
+morphism/rational-function families with the paper's required branch control.
 
 `HilbertTest/SourceStack/Topology.lean` checks the compactness facts needed by
 the local compactness layer of Corollary 3.2: compact images under continuous

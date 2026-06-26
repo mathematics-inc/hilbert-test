@@ -417,8 +417,9 @@ Lean-facing declarations needed:
   domain and to a rational map's canonical domain, and marked cover/noncritical
   interfaces attached to honest morphism families `C ⟶ P1 K`.  It also bridges
   scheme-level Belyi maps to the marked `P1 K` target back to the topological
-  marked cover-data open.  The missing item is the curve theorem producing those
-  morphisms/rational functions with the required branch target control.
+  marked cover-data open, including the finite-map refinement.  The missing item
+  is the curve theorem producing those morphisms/rational functions with the
+  required branch target control.
 - rational points `0`, `1`, `infinity` agree with the scheme points.
 - polynomial/rational functions define morphisms `P^1 -> P^1`.
 - critical points/critical values for `P^1 -> P^1` morphisms.
