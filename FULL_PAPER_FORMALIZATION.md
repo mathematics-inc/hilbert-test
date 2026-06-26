@@ -65,6 +65,14 @@ finite projective-line set containing `{0,r,1,∞}` has strictly smaller image
 cardinality when the whole set maps into `{0,1,∞}`.  This is still below the
 scheme morphism layer.
 
+`HilbertTest/SourceStack/SchemeProjectiveLineTransform.lean` transports the
+checked reciprocal-translate and affine-linear point maps through the concrete
+linear-to-scheme bridge.  It proves the expected scheme-carrier point formulas:
+away from the pole, `[r:1]` maps to `[(r-lambda)^-1:1]`; the pole maps to
+infinity; infinity maps to zero; and affine-linear maps send `[r:1]` to
+`[a*r+b:1]` and fix infinity.  This is still point-level transport rather than
+the full scheme-morphism construction.
+
 `HilbertTest/SourceStack/FiniteSet.lean` checks the finite combinatorics behind
 the Lemma 2.2 induction and the first reduction in Theorem 2.5: image
 cardinality drops after a collision, four points mapping into three values force

@@ -103,6 +103,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `[X:Y] -> [Y:X - lambda Y]` and its action on affine points, the pole, and
   infinity, plus affine-linear maps `[X:Y] -> [aX + bY:Y]` for `a != 0`; both
   classes of maps are checked as injective on projective points.
+- `HilbertTest.SourceStack.SchemeProjectiveLineTransform`: point-level
+  transport of those reciprocal and affine-linear transformations to the
+  scheme carrier through the concrete linear-to-scheme bridge, including the
+  expected formulas on affine points, poles, zero, and infinity.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure

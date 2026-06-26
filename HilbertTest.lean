@@ -29,6 +29,7 @@ import HilbertTest.SourceStack.PolynomialTargetAvoidance
 import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.SchemeAffineLinePoints
+import HilbertTest.SourceStack.SchemeProjectiveLineTransform
 import HilbertTest.SourceStack.PolynomialSchemeSeparation
 import HilbertTest.SourceStack.ConcretePolynomialSchemeSeparation
 import HilbertTest.SourceStack.UnramifiedEtale

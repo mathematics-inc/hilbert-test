@@ -28,6 +28,7 @@ import HilbertTest.SourceStack.PolynomialTargetAvoidance
 import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.SchemeAffineLinePoints
+import HilbertTest.SourceStack.SchemeProjectiveLineTransform
 import HilbertTest.SourceStack.PolynomialSchemeSeparation
 import HilbertTest.SourceStack.ConcretePolynomialSchemeSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
@@ -4755,6 +4756,56 @@ theorem hilbert_schemeAffineLinePoints_concreteBridge_maps_label
   exact (concreteLinearSchemePointBridge K).maps_label label
 
 end SchemeAffineLinePoints
+
+namespace SchemeProjectiveLineTransform
+
+open SourceStack.SchemeProjectiveLineTransform
+
+universe u
+
+variable (K : Type u) [Field K]
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) =
+      SourceStack.SchemeAffineLinePoints.affinePoint K ((r - lambda)⁻¹) := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_of_ne
+    K lambda r hr
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_pole
+    (lambda : K) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K lambda) =
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_pole
+    K lambda
+
+theorem hilbert_schemeReciprocalTranslatePoint_infinity
+    (lambda : K) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.infinity K) =
+      SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_infinity
+    K lambda
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) =
+      SourceStack.SchemeAffineLinePoints.affinePoint K (a * r + b) := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint
+    K a b ha r
+
+theorem hilbert_schemeAffineLinearPoint_infinity
+    (a b : K) (ha : a ≠ 0) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.infinity K) =
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_infinity
+    K a b ha
+
+end SchemeProjectiveLineTransform
 
 namespace PolynomialSchemeSeparation
 
