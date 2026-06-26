@@ -73,6 +73,36 @@ theorem derivative_paperPolynomial_eval_middle_eq_zero
     field_simp [hden]
   rw [hlin, mul_zero]
 
+/-- When both endpoint exponents are at least two, the formal derivative
+vanishes exactly at the two endpoints and the middle point `m/(m+n)`. -/
+theorem derivative_paperPolynomial_eval_eq_zero_iff
+    {m n : ℕ} (hm : 1 < m) (hn : 1 < n) (x : ℚ) :
+    (derivative (paperPolynomial m n)).eval x = 0 ↔
+      x = 0 ∨ x = 1 ∨ x = (m : ℚ) / (((m + n : ℕ) : ℚ)) := by
+  have hm0 : 0 < m := lt_trans Nat.zero_lt_one hm
+  have hn0 : 0 < n := lt_trans Nat.zero_lt_one hn
+  have hmexp : m - 1 ≠ 0 := by omega
+  have hnexp : n - 1 ≠ 0 := by omega
+  rw [derivative_paperPolynomial_factor hm0 hn0]
+  simp only [eval_mul, eval_pow, eval_sub, eval_X, eval_one, eval_C]
+  rw [mul_eq_zero, mul_eq_zero]
+  have hx0 : x ^ (m - 1) = 0 ↔ x = 0 := pow_eq_zero_iff hmexp
+  have hx1 : (x - 1) ^ (n - 1) = 0 ↔ x = 1 := by
+    rw [pow_eq_zero_iff hnexp, sub_eq_zero]
+  have hden : (((m + n : ℕ) : ℚ)) ≠ 0 := by
+    exact_mod_cast (Nat.add_pos_left hm0 n).ne'
+  have hlin : (((m + n : ℕ) : ℚ)) * x - (m : ℚ) = 0 ↔
+      x = (m : ℚ) / (((m + n : ℕ) : ℚ)) := by
+    constructor
+    · intro h
+      have hmx : (((m + n : ℕ) : ℚ)) * x = (m : ℚ) := by linarith
+      rw [eq_div_iff hden]
+      simpa [mul_comm] using hmx
+    · intro h
+      rw [h]
+      field_simp [hden]
+  tauto
+
 /-- Packaged algebraic data from Lemma 2.1: the two endpoint values, the
 factored derivative, and the middle critical-point evaluation. -/
 theorem paperPolynomial_basic_data
