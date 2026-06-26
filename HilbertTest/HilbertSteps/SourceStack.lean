@@ -938,6 +938,16 @@ theorem hilbert_localSectionRatioChart_ratioEquation_section1
   exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.ratioEquation_section1
     s0 s1 ratio
 
+theorem hilbert_localSectionRatioChart_unitRatio_mul_denominator_eq_numerator
+    {R : Type*} [CommMonoid R]
+    (c : LocalSectionRatioChart) (s0 s1 : R) (u : Rˣ)
+    (hden : LocalSectionRatioChart.denominator c s0 s1 = (u : R)) :
+    LocalSectionRatioChart.unitRatio c s0 s1 u *
+        LocalSectionRatioChart.denominator c s0 s1 =
+      LocalSectionRatioChart.numerator c s0 s1 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.unitRatio_mul_denominator_eq_numerator
+    c s0 s1 u hden
+
 variable (TD : TrivializedSectionRatioData K C V)
 
 theorem hilbert_trivializedSectionRatioData_chart_eq
@@ -997,6 +1007,44 @@ theorem hilbert_trivializedSectionRatioData_toProjectiveLineSectionPair_maps_sec
     TD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     TD hx
+
+variable (UD : TrivializedUnitSectionRatioData K C V)
+
+theorem hilbert_trivializedUnitSectionRatioData_denominator_eq_unit
+    (i : UD.cover.J) :
+    LocalSectionRatioChart.denominator (UD.ratioChart i)
+        (UD.localSection0 i) (UD.localSection1 i) =
+      (UD.denominatorUnit i : Γ(UD.cover.obj i, ⊤)) := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.denominator_eq_unit
+    UD i
+
+theorem hilbert_trivializedUnitSectionRatioData_local_ratio_mul_denominator_eq_numerator
+    (i : UD.cover.J) :
+    UD.localSectionRatio i *
+        LocalSectionRatioChart.denominator (UD.ratioChart i)
+          (UD.localSection0 i) (UD.localSection1 i) =
+      LocalSectionRatioChart.numerator (UD.ratioChart i)
+        (UD.localSection0 i) (UD.localSection1 i) := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.local_ratio_mul_denominator_eq_numerator
+    UD i
+
+theorem hilbert_trivializedUnitSectionRatioData_localChartCoordinate_eq_ratio
+    (i : UD.cover.J) :
+    standardChartCoordinateSection K (UD.localChartRingHom i) =
+      UD.localSectionRatio i := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.localChartCoordinate_eq_ratio
+    UD i
+
+theorem hilbert_trivializedUnitSectionRatioData_toProjectiveLineSectionPair_hom :
+    UD.toProjectiveLineSectionPair.hom = UD.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.toProjectiveLineSectionPair_hom
+    UD
+
+theorem hilbert_trivializedUnitSectionRatioData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : UD.evalData.eval x UD.section0 = 0) :
+    UD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    UD hx
 
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 

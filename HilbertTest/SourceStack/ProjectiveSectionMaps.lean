@@ -624,6 +624,23 @@ theorem ratioEquation_section0 {R : Type*} [Mul R] (s0 s1 ratio : R) :
 theorem ratioEquation_section1 {R : Type*} [Mul R] (s0 s1 ratio : R) :
     ratioEquation section1 s0 s1 ratio ↔ ratio * s1 = s0 := Iff.rfl
 
+/-- If the chosen denominator is a unit, the local quotient is represented by
+`numerator * denominator⁻¹`. -/
+def unitRatio {R : Type*} [Monoid R]
+    (c : LocalSectionRatioChart) (s0 s1 : R) (u : Rˣ) : R :=
+  numerator c s0 s1 * ↑(u⁻¹)
+
+/-- The unit-denominator quotient satisfies the ratio equation. -/
+theorem unitRatio_mul_denominator_eq_numerator
+    {R : Type*} [CommMonoid R]
+    (c : LocalSectionRatioChart) (s0 s1 : R) (u : Rˣ)
+    (hden : denominator c s0 s1 = (u : R)) :
+    unitRatio c s0 s1 u * denominator c s0 s1 =
+      numerator c s0 s1 := by
+  unfold unitRatio
+  rw [hden]
+  simp [mul_assoc, mul_comm, mul_left_comm]
+
 end LocalSectionRatioChart
 
 /-- Local-trivialization algebra for the section-ratio construction.  A genuine
@@ -768,6 +785,131 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
   exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
 
 end TrivializedSectionRatioData
+
+/-- A unit-denominator version of the local trivialized-section package.  This
+is the algebraic shape supplied on opens where one of the two local section
+representatives is invertible: the local ratio is constructed as
+`numerator * denominator⁻¹`, rather than assumed as a primitive field. -/
+structure TrivializedUnitSectionRatioData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  ratioChart : cover.J → LocalSectionRatioChart
+  localSection0 : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  localSection1 : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  denominatorUnit : ∀ i : cover.J, (Γ(cover.obj i, ⊤))ˣ
+  denominatorUnit_spec :
+    ∀ i : cover.J,
+      LocalSectionRatioChart.denominator (ratioChart i)
+        (localSection0 i) (localSection1 i) = (denominatorUnit i : Γ(cover.obj i, ⊤))
+  localChartRingHom :
+    ∀ i : cover.J,
+      CommRingCat.of
+        (standardChartRing K (LocalSectionRatioChart.toStandardAffineChart (ratioChart i))) ⟶
+          Γ(cover.obj i, ⊤)
+  localChartCoordinate_eq_unitRatio :
+    ∀ i : cover.J,
+      standardChartCoordinateSection K (localChartRingHom i) =
+        LocalSectionRatioChart.unitRatio (ratioChart i)
+          (localSection0 i) (localSection1 i) (denominatorUnit i)
+  local_compat :
+    ∀ i j : cover.J,
+      (pullback.fst (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom i)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (ratioChart i)) =
+        (pullback.snd (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom j)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (ratioChart j))
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace TrivializedUnitSectionRatioData
+
+variable {C : Scheme.{u}}
+variable (D : TrivializedUnitSectionRatioData K C V)
+
+/-- The standard `P1` chart selected on a local trivializing open. -/
+def chart (i : D.cover.J) : StandardAffineChart :=
+  LocalSectionRatioChart.toStandardAffineChart (D.ratioChart i)
+
+/-- The regular ratio constructed from the unit denominator. -/
+def localSectionRatio (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  LocalSectionRatioChart.unitRatio (D.ratioChart i)
+    (D.localSection0 i) (D.localSection1 i) (D.denominatorUnit i)
+
+theorem denominator_eq_unit (i : D.cover.J) :
+    LocalSectionRatioChart.denominator (D.ratioChart i)
+        (D.localSection0 i) (D.localSection1 i) =
+      (D.denominatorUnit i : Γ(D.cover.obj i, ⊤)) :=
+  D.denominatorUnit_spec i
+
+/-- The unit-constructed local ratio satisfies the quotient equation. -/
+theorem local_ratio_mul_denominator_eq_numerator (i : D.cover.J) :
+    D.localSectionRatio i *
+        LocalSectionRatioChart.denominator (D.ratioChart i)
+          (D.localSection0 i) (D.localSection1 i) =
+      LocalSectionRatioChart.numerator (D.ratioChart i)
+        (D.localSection0 i) (D.localSection1 i) := by
+  exact LocalSectionRatioChart.unitRatio_mul_denominator_eq_numerator
+    (D.ratioChart i) (D.localSection0 i) (D.localSection1 i)
+    (D.denominatorUnit i) (D.denominator_eq_unit i)
+
+theorem localChartCoordinate_eq_ratio (i : D.cover.J) :
+    standardChartCoordinateSection K (D.localChartRingHom i) =
+      D.localSectionRatio i := by
+  simpa [localSectionRatio] using D.localChartCoordinate_eq_unitRatio i
+
+/-- Forget unit-denominator data to the ratio-equation trivialized package. -/
+def toTrivializedSectionRatioData :
+    TrivializedSectionRatioData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  ratioChart := D.ratioChart
+  localSection0 := D.localSection0
+  localSection1 := D.localSection1
+  localSectionRatio := D.localSectionRatio
+  local_ratio_spec := D.local_ratio_mul_denominator_eq_numerator
+  localChartRingHom := D.localChartRingHom
+  localChartCoordinate_eq_ratio := D.localChartCoordinate_eq_ratio
+  local_compat := D.local_compat
+  local_zero_of_section0_vanishes := D.local_zero_of_section0_vanishes
+  local_section0_vanishes_of_zero := D.local_section0_vanishes_of_zero
+
+def globalHom : C ⟶ P1 K :=
+  D.toTrivializedSectionRatioData.globalHom
+
+theorem toTrivializedSectionRatioData_globalHom :
+    D.toTrivializedSectionRatioData.globalHom = D.globalHom := rfl
+
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toTrivializedSectionRatioData.toProjectiveLineSectionPair
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end TrivializedUnitSectionRatioData
 
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective

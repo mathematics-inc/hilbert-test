@@ -61,7 +61,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   local chart morphisms from local chart-coordinate ring maps by the `Γ-Spec`
   adjunction, tracks the pulled-back chart coordinate as the named local section
   ratio, records the local trivialization equation
-  `ratio * denominator = numerator`, packages the glued map as a
+  `ratio * denominator = numerator`, refines this to the unit-denominator
+  construction `numerator * denominator⁻¹`, packages the glued map as a
   `ProjectiveLineSectionPair`, assembles finite marked families directly from
   trivialized ratio maps whose finite Belyi maps agree with the glued maps, and
   proves that finite marked Belyi maps built from such pairs instantiate the
