@@ -1274,6 +1274,19 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_comp
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_complement
     F hA hxA
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    F hU hxU
+
 variable (TF : TrivializedProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_pair_hom

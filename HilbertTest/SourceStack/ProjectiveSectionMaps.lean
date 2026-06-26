@@ -1324,6 +1324,22 @@ theorem exists_belyiOpen_inside_complement
     F.toSectionControlledFiniteMarkedBelyiData.exists_belyiOpen_inside_complement
       hA hxA
 
+/-- Corollary 1.2-style one-point open consequence of the projective-section
+finite marked family in the curve-style finite-complement topology form. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      hU hxU
+
 end ProjectiveSectionFiniteMarkedFamily
 
 /-- A concrete version of the finite marked family whose projective-section
