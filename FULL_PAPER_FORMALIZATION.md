@@ -110,8 +110,9 @@ bridge to scheme-level finite marked Belyi maps.  A
 evaluation data, finite marked Belyi maps to the marked `P1 K` target, and the
 same vanishing/nonvanishing control against `markedSchemePointSet K`; over an
 infinite field it instantiates `FiniteMarkedBelyiExistence` and exposes the
-pointwise tuple-cover and Corollary 3.1-style finite-subcover conclusions
-directly.  The remaining missing input is to construct this package from actual
+Corollary 1.2-style Belyi-open containment wrappers, pointwise tuple-cover
+wrappers, and Corollary 3.1-style finite-subcover conclusions directly.  The
+remaining missing input is to construct this package from actual
 curve divisors, line-bundle sections, and finite morphisms.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value

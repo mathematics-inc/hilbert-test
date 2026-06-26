@@ -217,8 +217,9 @@ Minimal theorem package needed:
   instantiates `NoncriticalBelyiExistence`.  The
   `SchemeCurveBelyiConstruction` layer specializes this to finite marked scheme
   Belyi maps, instantiates `FiniteMarkedBelyiExistence`, and exposes the
-  pointwise tuple-cover and finite-subcover consequences directly.  The more
-  specialized inclusion-exclusion estimates remain separate.
+  Corollary 1.2-style Belyi-open containment wrappers, pointwise tuple-cover
+  wrappers, and finite-subcover consequences directly.  The more specialized
+  inclusion-exclusion estimates remain separate.
 
 ### 3. Scheme morphism layer
 

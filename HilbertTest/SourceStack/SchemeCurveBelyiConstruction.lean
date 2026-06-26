@@ -120,6 +120,68 @@ theorem toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
   exact FiniteMarkedBelyiExistence.toMarkedCoverData_branch K V
     D.toFiniteMarkedBelyiExistence
 
+/-- Direct Corollary 1.2-style one-point Belyi-open consequence for
+section-controlled finite marked Belyi data. -/
+theorem exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Aᶜ := by
+  exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_complement
+    K V D.toFiniteMarkedBelyiExistence hA hxA
+
+/-- Direct finite-set Belyi-open consequence for section-controlled finite
+marked Belyi data. -/
+theorem exists_belyiOpen_containing_finite_inside_complement
+    [Infinite K] [T1Space (P1 K)]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ Sᶜ := by
+  exact FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_complement
+    K V D.toFiniteMarkedBelyiExistence hS hT hdis
+
+/-- Direct open-with-finite-complement one-point Belyi-open consequence for
+section-controlled finite marked Belyi data. -/
+theorem exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_finite_complement
+    K V D.toFiniteMarkedBelyiExistence hU hUcompl hxU
+
+/-- Direct open-with-finite-complement finite-set Belyi-open consequence for
+section-controlled finite marked Belyi data. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+      K V D.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub
+
 /-- Direct pointwise tuple-cover consequence for section-controlled finite
 marked Belyi data. -/
 theorem pointwise_cover_complement

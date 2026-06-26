@@ -48,8 +48,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.SchemeCurveBelyiConstruction`: scheme-level version
   of that bridge for finite marked Belyi maps to the marked `P1 K` target,
   instantiating the paper-facing `FiniteMarkedBelyiExistence` interface from
-  section-controlled finite marked Belyi data and exposing the pointwise
-  tuple-cover and finite-subcover consequences directly.
+  section-controlled finite marked Belyi data and exposing the Corollary
+  1.2-style Belyi-open containment wrappers, pointwise tuple-cover wrappers, and
+  finite-subcover consequences directly.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also
