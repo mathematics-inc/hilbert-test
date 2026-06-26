@@ -38,6 +38,12 @@ structure BelyiMap {P : Scheme.{u}} (T : BelyiTarget P) (X : Scheme.{u}) where
   dominant : IsDominant hom
   etale_on_branchOpen : IsEtale (hom ∣_ T.branchOpen)
 
+/-- Finite scheme-level Belyi map: the abstract Definition 1.1 data together
+with the finiteness condition on the morphism. -/
+structure FiniteBelyiMap {P : Scheme.{u}} (T : BelyiTarget P) (X : Scheme.{u})
+    extends BelyiMap T X where
+  finite_hom : IsFinite hom
+
 namespace BelyiMap
 
 variable {X P : Scheme.{u}} {T : BelyiTarget P} (φ : BelyiMap T X)
@@ -73,6 +79,72 @@ theorem morphismRestrict_to_branchOpen_ι :
   exact morphismRestrict_ι φ.hom T.branchOpen
 
 end BelyiMap
+
+namespace FiniteBelyiMap
+
+variable {X P : Scheme.{u}} {T : BelyiTarget P} (φ : FiniteBelyiMap T X)
+
+theorem toBelyiMap_hom :
+    φ.toBelyiMap.hom = φ.hom := rfl
+
+/-- The underlying morphism is finite. -/
+theorem isFinite_hom :
+    IsFinite φ.hom :=
+  φ.finite_hom
+
+/-- The underlying morphism is dominant. -/
+theorem isDominant_hom :
+    IsDominant φ.hom :=
+  φ.dominant
+
+/-- The underlying continuous map has dense range. -/
+theorem denseRange_hom :
+    DenseRange φ.hom.base := by
+  exact φ.toBelyiMap.denseRange_hom
+
+/-- The restriction over the branch-complement open is etale. -/
+theorem isEtale_restrict_branchOpen :
+    IsEtale (φ.hom ∣_ T.branchOpen) :=
+  φ.etale_on_branchOpen
+
+/-- Restricting a finite Belyi map over the branch-complement open is still
+finite. -/
+theorem isFinite_restrict_branchOpen :
+    IsFinite (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_restrict φ.hom T.branchOpen
+
+/-- A finite Belyi map is affine as a morphism. -/
+theorem isAffineHom_hom :
+    IsAffineHom φ.hom := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_isAffineHom φ.hom
+
+/-- A finite Belyi map is separated as a morphism. -/
+theorem isSeparated_hom :
+    IsSeparated φ.hom := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_isSeparated φ.hom
+
+/-- A finite Belyi map is quasi-compact as a morphism. -/
+theorem quasiCompact_hom :
+    QuasiCompact φ.hom := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_quasiCompact φ.hom
+
+/-- The Belyi open includes into the source by an open immersion. -/
+theorem belyiOpen_ι_isOpenImmersion :
+    IsOpenImmersion φ.toBelyiMap.belyiOpen.ι :=
+  φ.toBelyiMap.belyiOpen_ι_isOpenImmersion
+
+/-- The restricted morphism composes with the target open immersion as the
+source Belyi open immersion followed by the original map. -/
+theorem morphismRestrict_to_branchOpen_ι :
+    (φ.hom ∣_ T.branchOpen) ≫ T.branchOpen.ι =
+      φ.toBelyiMap.belyiOpen.ι ≫ φ.hom := by
+  exact φ.toBelyiMap.morphismRestrict_to_branchOpen_ι
+
+end FiniteBelyiMap
 
 section MarkedProjectiveLineTarget
 

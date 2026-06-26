@@ -262,7 +262,10 @@ a dominant morphism etale over that open, the source Belyi open as the preimage,
 and the open-immersion/restriction identity for that preimage.  It also defines
 the marked `P1 K` branch-complement open and marked Belyi target, with membership
 in the resulting source Belyi open identified as avoidance of the checked marked
-triple.
+triple.  It now includes a finite refinement of scheme-level Belyi maps, exposing
+the finite underlying morphism, finiteness after restriction to the
+branch-complement open, and the affine/separated/quasi-compact consequences of
+finiteness.
 
 `HilbertTest/SourceStack/Schemes.lean` now also checks open-immersion wrappers
 needed for Belyi open restrictions: composition, monomorphism, locally finite

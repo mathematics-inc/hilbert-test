@@ -659,6 +659,53 @@ theorem hilbert_schemeBelyi_morphismRestrict_to_branchOpen_ι :
       φ.belyiOpen.ι ≫ φ.hom := by
   exact SourceStack.SchemeBelyi.BelyiMap.morphismRestrict_to_branchOpen_ι φ
 
+variable (ψ : SourceStack.SchemeBelyi.FiniteBelyiMap T X)
+
+theorem hilbert_schemeBelyi_finite_toBelyiMap_hom :
+    ψ.toBelyiMap.hom = ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.toBelyiMap_hom ψ
+
+theorem hilbert_schemeBelyi_finite_isFinite_hom :
+    IsFinite ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isFinite_hom ψ
+
+theorem hilbert_schemeBelyi_finite_isDominant_hom :
+    IsDominant ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isDominant_hom ψ
+
+theorem hilbert_schemeBelyi_finite_denseRange_hom :
+    DenseRange ψ.hom.base := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.denseRange_hom ψ
+
+theorem hilbert_schemeBelyi_finite_isEtale_restrict_branchOpen :
+    IsEtale (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_isFinite_restrict_branchOpen :
+    IsFinite (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_isAffineHom_hom :
+    IsAffineHom ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isAffineHom_hom ψ
+
+theorem hilbert_schemeBelyi_finite_isSeparated_hom :
+    IsSeparated ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isSeparated_hom ψ
+
+theorem hilbert_schemeBelyi_finite_quasiCompact_hom :
+    QuasiCompact ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.quasiCompact_hom ψ
+
+theorem hilbert_schemeBelyi_finite_belyiOpen_ι_isOpenImmersion :
+    IsOpenImmersion ψ.toBelyiMap.belyiOpen.ι := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.belyiOpen_ι_isOpenImmersion ψ
+
+theorem hilbert_schemeBelyi_finite_morphismRestrict_to_branchOpen_ι :
+    (ψ.hom ∣_ T.branchOpen) ≫ T.branchOpen.ι =
+      ψ.toBelyiMap.belyiOpen.ι ≫ ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.morphismRestrict_to_branchOpen_ι ψ
+
 section MarkedProjectiveLineTarget
 
 open SourceStack.SchemeProjectiveLine
