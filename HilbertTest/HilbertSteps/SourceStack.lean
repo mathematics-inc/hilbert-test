@@ -2,6 +2,7 @@ import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
+import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -308,6 +309,52 @@ theorem hilbert_sectionControlled_exists_for_finite_disjoint
     D hS hT hdis
 
 end CurveBelyiConstruction
+
+namespace SchemeCurveBelyiConstruction
+
+open SourceStack.SchemeCurveBelyiConstruction
+open SourceStack.SchemeProjectiveLine
+open SourceStack.SchemeMarkedBelyi
+
+universe u w
+
+variable {K : Type u} [Field K]
+variable {C : Scheme.{u}}
+variable {V : Type w} [AddCommGroup V] [Module K V]
+variable (D : SectionControlledFiniteMarkedBelyiData K C V)
+
+theorem hilbert_schemeSectionControlled_toSectionControlledBelyiData_branch :
+    D.toSectionControlledBelyiData.branch = markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toSectionControlledBelyiData_branch
+    D
+
+theorem hilbert_schemeSectionControlled_toSectionControlledBelyiData_map_apply
+    (s : V) (x : C) :
+    D.toSectionControlledBelyiData.map s x = (D.map s).hom.base x := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toSectionControlledBelyiData_map_apply
+    D s x
+
+theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence_hmarkedOpen
+    D
+
+theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.map s := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence_map_apply
+    D s
+
+theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint
+    D hS hT hdis
+
+end SchemeCurveBelyiConstruction
 
 section ComplexSeparation
 

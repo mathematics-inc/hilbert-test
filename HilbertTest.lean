@@ -5,6 +5,7 @@ import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.CurveBelyiConstruction
+import HilbertTest.SourceStack.SchemeCurveBelyiConstruction
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine

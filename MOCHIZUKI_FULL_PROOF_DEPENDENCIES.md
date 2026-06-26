@@ -45,6 +45,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   interface, proving that Riemann-Roch finite-evaluation control plus
   vanishing/nonvanishing-to-branch behavior gives the finite disjoint-set
   conclusion used by Theorem 2.5.
+- `HilbertTest.SourceStack.SchemeCurveBelyiConstruction`: scheme-level version
+  of that bridge for finite marked Belyi maps to the marked `P1 K` target,
+  instantiating the paper-facing `FiniteMarkedBelyiExistence` interface from
+  section-controlled finite marked Belyi data.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also
@@ -367,7 +371,10 @@ Lean-facing declarations needed:
   version.  `SourceStack.CurveBelyiConstruction` now supplies the downstream
   abstract bridge: once that projective construction provides maps whose
   vanishing/nonvanishing behavior controls the marked branch set, the
-  noncritical Belyi existence interface follows.
+  noncritical Belyi existence interface follows.  The scheme-level
+  `SourceStack.SchemeCurveBelyiConstruction` bridge further shows that if those
+  maps are finite marked Belyi maps to the marked `P1 K` target, then the
+  paper-facing `FiniteMarkedBelyiExistence` interface follows.
 - if the induced rational function is nonconstant on a proper curve, the morphism
   is finite.
 - pullback of `O(1)` is the chosen line bundle.

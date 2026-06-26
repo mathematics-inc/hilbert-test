@@ -104,6 +104,15 @@ by Theorem 2.5.  The remaining missing input is the actual projective
 line-bundle construction that turns two global sections on a smooth proper
 curve into such controlled finite maps to `P1`.
 
+`HilbertTest/SourceStack/SchemeCurveBelyiConstruction.lean` now specializes this
+bridge to scheme-level finite marked Belyi maps.  A
+`SectionControlledFiniteMarkedBelyiData` package consists of Riemann-Roch
+evaluation data, finite marked Belyi maps to the marked `P1 K` target, and the
+same vanishing/nonvanishing control against `markedSchemePointSet K`; over an
+infinite field it instantiates `FiniteMarkedBelyiExistence`.  The remaining
+missing input is to construct this package from actual curve divisors,
+line-bundle sections, and finite morphisms.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of
