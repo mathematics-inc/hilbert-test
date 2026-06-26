@@ -130,9 +130,13 @@ basepoint.  It also checks the scheme-gluing bridge for the projective-line map:
 compatible local chart morphisms on an open cover glue to an honest global
 morphism `C ⟶ P1 K`, the local zero-section criteria descend to the global map,
 and the result feeds the existing `ProjectiveLineSectionPair` interface.  The
-remaining missing input is now narrower: construct those compatible local chart
-morphisms from actual line-bundle trivializations of the two selected sections,
-then prove the finite marked family/branch-control facts for the resulting map.
+local chart package is now tied to the actual two standard affine charts of
+`P1`: local maps land in `Spec (K[X0,X1]_{X0})_0` or
+`Spec (K[X0,X1]_{X1})_0`, then compose with Mathlib's `Proj.awayι` open
+immersions before gluing.  The remaining missing input is now narrower:
+construct those standard-chart local maps from actual line-bundle
+trivializations of the two selected sections, then prove the finite marked
+family/branch-control facts for the resulting map.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section

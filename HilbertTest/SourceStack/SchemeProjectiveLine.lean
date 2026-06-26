@@ -104,6 +104,51 @@ theorem x1_basicOpen_isAffineOpen :
   exact ProjectiveSpectrum.isAffineOpen_basicOpen
     (grading K) (X1 K) (x1_mem_degree_one K) Nat.zero_lt_one
 
+/-- The two standard affine charts of the scheme-theoretic projective line. -/
+inductive StandardAffineChart where
+  | x0
+  | x1
+  deriving DecidableEq, Inhabited
+
+/-- The affine scheme underlying a standard chart of `P1`. -/
+def standardChartScheme : StandardAffineChart → Scheme.{u}
+  | StandardAffineChart.x0 =>
+      Spec (CommRingCat.of (Away (grading K) (X0 K)))
+  | StandardAffineChart.x1 =>
+      Spec (CommRingCat.of (Away (grading K) (X1 K)))
+
+/-- The standard chart open in `P1`. -/
+def standardChartOpen : StandardAffineChart → (P1 K).Opens
+  | StandardAffineChart.x0 => Proj.basicOpen (grading K) (X0 K)
+  | StandardAffineChart.x1 => Proj.basicOpen (grading K) (X1 K)
+
+/-- The open immersion from a standard affine chart into `P1`. -/
+def standardChartMap (c : StandardAffineChart) :
+    standardChartScheme K c ⟶ P1 K :=
+  match c with
+  | StandardAffineChart.x0 =>
+      Proj.awayι (grading K) (X0 K) (x0_mem_degree_one K) Nat.zero_lt_one
+  | StandardAffineChart.x1 =>
+      Proj.awayι (grading K) (X1 K) (x1_mem_degree_one K) Nat.zero_lt_one
+
+instance standardChartMap_isOpenImmersion (c : StandardAffineChart) :
+    IsOpenImmersion (standardChartMap K c) := by
+  cases c
+  · exact x0_chart_isOpenImmersion K
+  · exact x1_chart_isOpenImmersion K
+
+theorem standardChartMap_opensRange (c : StandardAffineChart) :
+    (standardChartMap K c).opensRange = standardChartOpen K c := by
+  cases c
+  · exact x0_chart_range K
+  · exact x1_chart_range K
+
+theorem standardChartOpen_isAffineOpen (c : StandardAffineChart) :
+    IsAffineOpen (standardChartOpen K c) := by
+  cases c
+  · exact x0_basicOpen_isAffineOpen K
+  · exact x1_basicOpen_isAffineOpen K
+
 theorem basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =
       Proj.basicOpen (grading K) (X0 K) ⊓ Proj.basicOpen (grading K) (X1 K) := by

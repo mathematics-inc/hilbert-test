@@ -212,6 +212,111 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end GluedProjectiveLineSectionData
 
+/-- A more concrete local chart package for the two-section construction:
+local maps land in one of the two standard affine charts of `P1` before being
+composed with the corresponding open immersion into `P1` and glued.  This
+matches the usual proof from line-bundle trivializations: on each trivializing
+open, the section ratio is an affine coordinate in either the `X₀ ≠ 0` or
+`X₁ ≠ 0` chart. -/
+structure StandardChartProjectiveLineSectionData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  chart : cover.J → StandardAffineChart
+  localChartHom :
+    ∀ i : cover.J, cover.obj i ⟶ standardChartScheme K (chart i)
+  local_compat :
+    ∀ i j : cover.J,
+      (pullback.fst (cover.map i) (cover.map j) ≫ localChartHom i) ≫
+          standardChartMap K (chart i) =
+        (pullback.snd (cover.map i) (cover.map j) ≫ localChartHom j) ≫
+          standardChartMap K (chart j)
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (localChartHom i ≫ standardChartMap K (chart i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (localChartHom i ≫ standardChartMap K (chart i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace StandardChartProjectiveLineSectionData
+
+variable {C : Scheme.{u}}
+variable (D : StandardChartProjectiveLineSectionData K C V)
+
+/-- The local map to `P1` obtained from a local affine-chart map. -/
+def localHom (i : D.cover.J) : D.cover.obj i ⟶ P1 K :=
+  D.localChartHom i ≫ standardChartMap K (D.chart i)
+
+@[reassoc]
+theorem localHom_eq (i : D.cover.J) :
+    D.localHom i = D.localChartHom i ≫ standardChartMap K (D.chart i) := rfl
+
+/-- Forget concrete standard-chart targets to the general glued local-map
+package. -/
+def toGluedProjectiveLineSectionData :
+    GluedProjectiveLineSectionData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  localHom := D.localHom
+  local_compat := by
+    intro i j
+    simpa [localHom, Category.assoc] using D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    simpa [localHom] using D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    exact D.local_section0_vanishes_of_zero i x (by simpa [localHom] using hx)
+
+/-- The global morphism obtained by composing local standard-chart maps with
+their chart open immersions and gluing. -/
+def globalHom : C ⟶ P1 K :=
+  D.toGluedProjectiveLineSectionData.globalHom
+
+@[reassoc]
+theorem cover_map_globalHom (i : D.cover.J) :
+    D.cover.map i ≫ D.globalHom = D.localHom i := by
+  exact D.toGluedProjectiveLineSectionData.cover_map_globalHom i
+
+theorem globalHom_base_of_cover (i : D.cover.J) (x : D.cover.obj i) :
+    D.globalHom.base ((D.cover.map i).base x) = (D.localHom i).base x := by
+  exact D.toGluedProjectiveLineSectionData.globalHom_base_of_cover i x
+
+theorem global_zero_of_section0_vanishes
+    (x : C) (hx : D.evalData.eval x D.section0 = 0) :
+    D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toGluedProjectiveLineSectionData.global_zero_of_section0_vanishes x hx
+
+theorem section0_vanishes_of_global_zero
+    (x : C)
+    (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    D.evalData.eval x D.section0 = 0 := by
+  exact D.toGluedProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toGluedProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end StandardChartProjectiveLineSectionData
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch

@@ -673,6 +673,50 @@ theorem hilbert_gluedProjectiveLineSectionData_toProjectiveLineSectionPair_maps_
   exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     G hx
 
+variable (SC : StandardChartProjectiveLineSectionData K C V)
+
+theorem hilbert_standardChartProjectiveLineSectionData_localHom_eq
+    (i : SC.cover.J) :
+    SC.localHom i = SC.localChartHom i ≫ standardChartMap K (SC.chart i) := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.localHom_eq
+    SC i
+
+theorem hilbert_standardChartProjectiveLineSectionData_cover_map_globalHom
+    (i : SC.cover.J) :
+    SC.cover.map i ≫ SC.globalHom = SC.localHom i := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.cover_map_globalHom
+    SC i
+
+theorem hilbert_standardChartProjectiveLineSectionData_globalHom_base_of_cover
+    (i : SC.cover.J) (x : SC.cover.obj i) :
+    SC.globalHom.base ((SC.cover.map i).base x) = (SC.localHom i).base x := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.globalHom_base_of_cover
+    SC i x
+
+theorem hilbert_standardChartProjectiveLineSectionData_global_zero_of_section0_vanishes
+    (x : C) (hx : SC.evalData.eval x SC.section0 = 0) :
+    SC.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.global_zero_of_section0_vanishes
+    SC x hx
+
+theorem hilbert_standardChartProjectiveLineSectionData_section0_vanishes_of_global_zero
+    (x : C)
+    (hx : SC.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    SC.evalData.eval x SC.section0 = 0 := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.section0_vanishes_of_global_zero
+    SC x hx
+
+theorem hilbert_standardChartProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
+    SC.toProjectiveLineSectionPair.hom = SC.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.toProjectiveLineSectionPair_hom
+    SC
+
+theorem hilbert_standardChartProjectiveLineSectionData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : SC.evalData.eval x SC.section0 = 0) :
+    SC.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    SC hx
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
@@ -2032,6 +2076,21 @@ theorem hilbert_x0_basicOpen_isAffineOpen :
 theorem hilbert_x1_basicOpen_isAffineOpen :
     IsAffineOpen (Proj.basicOpen (grading K) (X1 K)) := by
   exact SourceStack.SchemeProjectiveLine.x1_basicOpen_isAffineOpen K
+
+theorem hilbert_standardChartMap_isOpenImmersion
+    (c : StandardAffineChart) :
+    IsOpenImmersion (standardChartMap K c) := by
+  exact SourceStack.SchemeProjectiveLine.standardChartMap_isOpenImmersion K c
+
+theorem hilbert_standardChartMap_opensRange
+    (c : StandardAffineChart) :
+    (standardChartMap K c).opensRange = standardChartOpen K c := by
+  exact SourceStack.SchemeProjectiveLine.standardChartMap_opensRange K c
+
+theorem hilbert_standardChartOpen_isAffineOpen
+    (c : StandardAffineChart) :
+    IsAffineOpen (standardChartOpen K c) := by
+  exact SourceStack.SchemeProjectiveLine.standardChartOpen_isAffineOpen K c
 
 theorem hilbert_basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =
