@@ -92,6 +92,14 @@ theorem toScheme_not_mem_markedSchemePointSet_of_not_mem_branchSet
   intro hmarked
   exact hp (B.mem_branchSet_of_toScheme_mem_markedSchemePointSet hmarked)
 
+/-- Avoiding the scheme marked triple after applying the bridge is equivalent
+to avoiding the linear branch triple before applying it. -/
+theorem toScheme_not_mem_markedSchemePointSet_iff
+    (p : ProjectiveLine.P1 K) :
+    B.toScheme p ∉ SchemeProjectiveLine.markedSchemePointSet K ↔
+      p ∉ ProjectiveLine.branchSet K := by
+  exact not_congr (B.toScheme_mem_markedSchemePointSet_iff p)
+
 theorem toScheme_eq_iff
     {p q : ProjectiveLine.P1 K} :
     B.toScheme p = B.toScheme q ↔ p = q := by
@@ -114,6 +122,24 @@ def schemeTargetPoint : SchemeProjectiveLine.P1 K :=
 point map. -/
 def schemePointMap (x : K) : SchemeProjectiveLine.P1 K :=
   B.toScheme (P.pointMap x)
+
+/-- Equality of bridged affine polynomial points is equality of the underlying
+linear projective-line points. -/
+theorem schemePointMap_eq_target_iff
+    (x : K) :
+    B.schemePointMap F P x = B.schemeTargetPoint F P ↔
+      P.pointMap x = P.targetPoint := by
+  change B.toScheme (P.pointMap x) = B.toScheme P.targetPoint ↔
+    P.pointMap x = P.targetPoint
+  exact B.toScheme_eq_iff
+
+/-- Separation from the bridged target is equivalent to separation from the
+underlying linear target. -/
+theorem schemePointMap_ne_target_iff
+    (x : K) :
+    B.schemePointMap F P x ≠ B.schemeTargetPoint F P ↔
+      P.pointMap x ≠ P.targetPoint := by
+  exact not_congr (B.schemePointMap_eq_target_iff F P x)
 
 theorem schemeTargetPoint_not_mem_markedSchemePointSet :
     B.schemeTargetPoint F P ∉ SchemeProjectiveLine.markedSchemePointSet K := by

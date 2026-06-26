@@ -6066,6 +6066,13 @@ theorem hilbert_p1SchemePointBridge_toScheme_not_mem_markedSchemePointSet_of_not
   exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_not_mem_markedSchemePointSet_of_not_mem_branchSet
     B hp
 
+theorem hilbert_p1SchemePointBridge_toScheme_not_mem_markedSchemePointSet_iff
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    B.toScheme p ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      p ∉ SourceStack.ProjectiveLine.branchSet K := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.toScheme_not_mem_markedSchemePointSet_iff
+    B p
+
 theorem hilbert_p1SchemePointBridge_toScheme_eq_iff
     {p q : SourceStack.ProjectiveLine.P1 K} :
     B.toScheme p = B.toScheme q ↔ p = q := by
@@ -6075,6 +6082,20 @@ theorem hilbert_p1SchemePointBridge_toScheme_eq_iff
 variable (F : Type v) [Field F] [Algebra F K]
 variable {S : Set K} {β : K}
 variable (P : P1PolynomialSeparationStep F K S β)
+
+theorem hilbert_p1SchemePointBridge_schemePointMap_eq_target_iff
+    (x : K) :
+    B.schemePointMap F P x = B.schemeTargetPoint F P ↔
+      P.pointMap x = P.targetPoint := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.schemePointMap_eq_target_iff
+    B F P x
+
+theorem hilbert_p1SchemePointBridge_schemePointMap_ne_target_iff
+    (x : K) :
+    B.schemePointMap F P x ≠ B.schemeTargetPoint F P ↔
+      P.pointMap x ≠ P.targetPoint := by
+  exact SourceStack.P1SchemePointBridge.LinearSchemePointBridge.schemePointMap_ne_target_iff
+    B F P x
 
 theorem hilbert_p1SchemePointBridge_schemeTargetPoint_not_mem_markedSchemePointSet :
     B.schemeTargetPoint F P ∉
