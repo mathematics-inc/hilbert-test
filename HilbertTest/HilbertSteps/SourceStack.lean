@@ -1145,6 +1145,30 @@ theorem hilbert_localSectionRatioChart_toStandardAffineChart_section1 :
       StandardAffineChart.x1 := by
   exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.toStandardAffineChart_section1
 
+theorem hilbert_localSectionRatioChart_numerator_section0
+    {R : Type*} (s0 s1 : R) :
+    LocalSectionRatioChart.numerator LocalSectionRatioChart.section0 s0 s1 = s1 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.numerator_section0
+    s0 s1
+
+theorem hilbert_localSectionRatioChart_numerator_section1
+    {R : Type*} (s0 s1 : R) :
+    LocalSectionRatioChart.numerator LocalSectionRatioChart.section1 s0 s1 = s0 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.numerator_section1
+    s0 s1
+
+theorem hilbert_localSectionRatioChart_denominator_section0
+    {R : Type*} (s0 s1 : R) :
+    LocalSectionRatioChart.denominator LocalSectionRatioChart.section0 s0 s1 = s0 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.denominator_section0
+    s0 s1
+
+theorem hilbert_localSectionRatioChart_denominator_section1
+    {R : Type*} (s0 s1 : R) :
+    LocalSectionRatioChart.denominator LocalSectionRatioChart.section1 s0 s1 = s1 := by
+  exact SourceStack.ProjectiveSectionMaps.LocalSectionRatioChart.denominator_section1
+    s0 s1
+
 theorem hilbert_localSectionRatioChart_ratioEquation_section0
     {R : Type*} [Mul R] (s0 s1 ratio : R) :
     LocalSectionRatioChart.ratioEquation
@@ -1269,6 +1293,11 @@ theorem hilbert_trivializedUnitSectionRatioData_localChartCoordinate_eq_ratio
       UD.localSectionRatio i := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.localChartCoordinate_eq_ratio
     UD i
+
+theorem hilbert_trivializedUnitSectionRatioData_toTrivializedSectionRatioData_globalHom :
+    UD.toTrivializedSectionRatioData.globalHom = UD.globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.toTrivializedSectionRatioData_globalHom
+    UD
 
 theorem hilbert_trivializedUnitSectionRatioData_toProjectiveLineSectionPair_hom :
     UD.toProjectiveLineSectionPair.hom = UD.globalHom := by
