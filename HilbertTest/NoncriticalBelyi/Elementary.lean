@@ -364,6 +364,45 @@ theorem two_mul_le_div_two_offset_of_offset_le_quarter
   have hmul := mul_le_mul_of_nonneg_right hfour_t hA_nonneg
   nlinarith
 
+theorem belyi_aux_shifted_ratio_ge_scale_of_value_le_offset
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C)
+    {f0 : Real}
+    (hf0_pos : 0 < f0)
+    (hf0_le_quarter : f0 <= 1 / 4)
+    (hvalue_le_f0 : belyiAux m n alpha <= f0) :
+    C <= (belyiAux m n beta + f0) / (belyiAux m n alpha + f0) := by
+  have halpha_pos : 0 < alpha := by nlinarith
+  have hscale_le : C <= beta / alpha := by simpa [ge_iff_le] using hscale
+  have hbeta_ge_mul : C * alpha <= beta := by
+    have h := mul_le_mul_of_nonneg_right hscale_le halpha_pos.le
+    rwa [div_mul_cancel₀ beta (ne_of_gt halpha_pos)] at h
+  have hC_le_beta : C <= beta := by nlinarith
+  have hbeta_ge_two : 2 <= beta := le_trans hC hC_le_beta
+  have hbeta_gt_alpha : alpha < beta :=
+    beta_gt_alpha_of_scale (alpha := alpha) (beta := beta) (C := C)
+      hC halpha_pos hscale
+  have hbeta_gt_one : 1 < beta := by nlinarith
+  have hA_nonneg : 0 <= belyiAux m n beta :=
+    (belyi_aux_pos_of_gt_one (m := m) (n := n) hbeta_gt_one).le
+  have hB_nonneg : 0 <= belyiAux m n alpha :=
+    (belyi_aux_pos_of_gt_one (m := m) (n := n) halpha).le
+  have hshift :=
+    offset_ratio_ge_div_two_offset
+      (A := belyiAux m n beta) (B := belyiAux m n alpha) (t := f0)
+      hA_nonneg hB_nonneg hf0_pos hvalue_le_f0
+  have htwo_le :=
+    two_mul_le_div_two_offset_of_offset_le_quarter
+      (A := belyiAux m n beta) (t := f0)
+      hA_nonneg hf0_pos hf0_le_quarter
+  have hbeta_le_two :=
+    beta_le_two_mul_belyi_aux_of_beta_ge_two (m := m) (n := n)
+      hm hn hbeta_ge_two
+  exact le_trans hC_le_beta (le_trans hbeta_le_two (le_trans htwo_le hshift))
+
 theorem abs_belyi_aux_le_one_on_unit_interval
     (_hm : 1 <= m)
     (_hn : 1 <= n)
