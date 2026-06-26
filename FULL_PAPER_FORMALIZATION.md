@@ -93,6 +93,17 @@ interfaces.  The remaining missing input is still the actual
 divisor/Riemann-Roch theorem that instantiates this package for smooth proper
 curves.
 
+`HilbertTest/SourceStack/CurveBelyiConstruction.lean` now connects this
+Riemann-Roch section interface to the abstract Belyi-cover layer.  A
+`SectionControlledBelyiData` package consists of section evaluations, a finite
+branch set, continuous maps attached to sections, and proofs that section
+vanishing sends points into the branch set while section nonvanishing avoids it.
+Over an infinite field, this package produces a checked
+`NoncriticalBelyiExistence` instance and the finite disjoint-set conclusion used
+by Theorem 2.5.  The remaining missing input is the actual projective
+line-bundle construction that turns two global sections on a smooth proper
+curve into such controlled finite maps to `P1`.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

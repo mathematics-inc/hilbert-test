@@ -40,6 +40,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   evaluation, and the abstract finite-evaluation package that yields a section
   vanishing on one finite set and nonzero on a disjoint finite set over an
   infinite field, with both `Finset` and finite-`Set` theorem forms.
+- `HilbertTest.SourceStack.CurveBelyiConstruction`: bridge from
+  section-controlled map data to the abstract `NoncriticalBelyiExistence`
+  interface, proving that Riemann-Roch finite-evaluation control plus
+  vanishing/nonvanishing-to-branch behavior gives the finite disjoint-set
+  conclusion used by Theorem 2.5.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
   four-distinguished-points-to-three-images cardinality-drop package; it also
@@ -359,7 +364,10 @@ Lean-facing declarations needed:
   `P^1`.  The affine analogue, where global coordinate sections define
   morphisms to affine space and determine them extensionally, is now checked in
   `SourceStack.AffineSpace`; the missing part is the projective/line-bundle
-  version.
+  version.  `SourceStack.CurveBelyiConstruction` now supplies the downstream
+  abstract bridge: once that projective construction provides maps whose
+  vanishing/nonvanishing behavior controls the marked branch set, the
+  noncritical Belyi existence interface follows.
 - if the induced rational function is nonconstant on a proper curve, the morphism
   is finite.
 - pullback of `O(1)` is the chosen line bundle.

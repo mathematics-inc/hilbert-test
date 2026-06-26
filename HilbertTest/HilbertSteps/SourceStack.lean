@@ -1,6 +1,7 @@
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
 import HilbertTest.SourceStack.CurveRiemannRoch
+import HilbertTest.SourceStack.CurveBelyiConstruction
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -252,6 +253,61 @@ theorem hilbert_rr_package_exists_section_for_disjoint_finite_sets
     P hS hT hdis
 
 end CurveRiemannRoch
+
+namespace CurveBelyiConstruction
+
+open SourceStack.CurveBelyiConstruction
+
+variable {K X P V : Type*} [Field K]
+variable [TopologicalSpace X] [TopologicalSpace P]
+variable [AddCommGroup V] [Module K V]
+variable (D : SectionControlledBelyiData K X P V)
+
+theorem hilbert_sectionControlled_toBelyiCoverData_branch :
+    D.toBelyiCoverData.branch = D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toBelyiCoverData_branch D
+
+theorem hilbert_sectionControlled_toBelyiCoverData_map_apply
+    (s : V) (x : X) :
+    D.toBelyiCoverData.map s x = D.map s x := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toBelyiCoverData_map_apply
+    D s x
+
+theorem hilbert_sectionControlled_sendsSetToBranch_of_vanishesOnSet
+    {S : Set X} {s : V}
+    (hs : D.evalPackage.toEvaluationData.vanishesOnSet S s) :
+    D.toBelyiCoverData.sendsSetToBranch S s := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.sendsSetToBranch_of_vanishesOnSet
+    D hs
+
+theorem hilbert_sectionControlled_avoidsBranch_of_nonzeroOnSet
+    {T : Set X} {s : V}
+    (hs : D.evalPackage.toEvaluationData.nonzeroOnSet T s) :
+    ∀ x ∈ T, D.map s x ∉ D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.avoidsBranch_of_nonzeroOnSet
+    D hs
+
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_branch
+    [Infinite K] :
+    D.toNoncriticalBelyiExistence.branch = D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_branch
+    D
+
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_toCoverData_branch
+    [Infinite K] :
+    D.toNoncriticalBelyiExistence.toBelyiCoverData.branch = D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_toCoverData_branch
+    D
+
+theorem hilbert_sectionControlled_exists_for_finite_disjoint
+    [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, D.toBelyiCoverData.sendsSetToBranch S s ∧
+      ∀ x ∈ T, D.map s x ∉ D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.exists_for_finite_disjoint
+    D hS hT hdis
+
+end CurveBelyiConstruction
 
 section ComplexSeparation
 

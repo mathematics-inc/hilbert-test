@@ -211,7 +211,10 @@ Minimal theorem package needed:
   restricted evaluations after imposing finite-set vanishing, the checked
   linear algebra gives a section vanishing on one finite set and nonzero on a
   disjoint finite set, with both `Finset` and finite-`Set` statement forms.  The
-  more specialized inclusion-exclusion estimates remain separate.
+  `CurveBelyiConstruction` layer then shows that any section-controlled map
+  family whose vanishing/nonvanishing behavior controls a finite branch set
+  instantiates `NoncriticalBelyiExistence`.  The more specialized
+  inclusion-exclusion estimates remain separate.
 
 ### 3. Scheme morphism layer
 
@@ -388,7 +391,7 @@ follows.
 | Formalization gap | Best source to recurse to | Lean-facing target |
 | --- | --- | --- |
 | Smooth proper connected curves | Stacks Project, Algebraic Curves; Liu, Chapters 3-4 and 7 | A bundled curve structure over a field, eventually as a one-dimensional smooth proper connected scheme |
-| Maps from sections | Mathlib `AlgebraicGeometry.AffineSpace`; Stacks/Vakil maps to affine/projective space from sections | Checked affine-space `homOfVector`, coordinate pullback, over-morphism equivalence, affine-base spectrum identification, and functoriality in `SourceStack.AffineSpace`; still needs the projective line-bundle version |
+| Maps from sections | Mathlib `AlgebraicGeometry.AffineSpace`; Stacks/Vakil maps to affine/projective space from sections | Checked affine-space `homOfVector`, coordinate pullback, over-morphism equivalence, affine-base spectrum identification, and functoriality in `SourceStack.AffineSpace`; checked the abstract `SectionControlledBelyiData` bridge in `SourceStack.CurveBelyiConstruction`, which turns section vanishing/nonvanishing control into `NoncriticalBelyiExistence`; still needs the actual projective line-bundle construction |
 | `P^1` and rational functions | Stacks Project, Varieties/Morphisms; Hartshorne II.7; Vakil on maps to projective space | `P1 k`, points `0,1,infinity`, rational functions as morphisms where defined |
 | Rational maps/function fields | Mathlib `AlgebraicGeometry.RationalMap`; Mathlib `AlgebraicGeometry.FunctionField`; Stacks Project rational maps and function fields | Checked dense-domain, representative, equivalence, and function-field reconstruction wrappers in `SourceStack.RationalMaps`, including direct variants for rational maps targeting scheme-theoretic `P1 K`, domain/restriction/local-stalk wrappers, and the named continuous dense-domain map for partial maps to `P1 K`; checked germ injectivity, generic-point membership, affine and affine-open fraction-field identifications, affine-chart generic-point identification, stalk/function-field fraction-field facts, and section/stalk/function-field scalar towers in `SourceStack.FunctionFields`; still needs curve-specific divisors/Riemann-Roch |
 | Scheme points and residue fields | Mathlib `AlgebraicGeometry.ResidueField` and `Stalk`; Stacks Project points/stalks/residue fields | Checked evaluation, empty-basic-open criterion by residue-field evaluation, evaluation naturality, residue-field functoriality and congruence, `Spec O_{X,x}` and `Spec kappa(x)` maps, ranges, sheaf/global-section formulas for `Spec O_{X,x}`, specialization and open-subscheme compatibility, closed-point stalk isomorphisms for local rings, descent from local stalk maps, reconstruction of local-ring-valued and field-valued points from closed-point stalk/residue-field maps, `Spec kappa(x)`/`Spec O_{X,x}` compatibility, and field/local-ring-valued point equality criteria in `SourceStack.ResidueFields`; still needs algebraic-point specialization for curves and `P^1` |
