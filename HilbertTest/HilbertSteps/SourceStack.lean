@@ -3885,6 +3885,20 @@ theorem hilbert_markedNoncritical_finite_subcover_on_complement
   exact SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement
     K X Φ map continuous_map exists_for_finite_disjoint κ hS
 
+theorem hilbert_markedNoncritical_finite_subcover_on_complement_forall
+    (κ : Type*) [Finite κ] [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ := by
+  exact SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement_forall
+    K X Φ map continuous_map exists_for_finite_disjoint κ hS
+
 section SchemeCarrierTarget
 
 variable (schemeMap : Φ → X → P1 K)
@@ -4022,6 +4036,20 @@ theorem hilbert_markedSchemeNoncritical_finite_subcover_on_complement
               (κ := κ) φ) =
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_subcover_on_complement
+    K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint κ hS
+
+theorem hilbert_markedSchemeNoncritical_finite_subcover_on_complement_forall
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ := by
+  exact SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_subcover_on_complement_forall
     K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint κ hS
 
 end SchemeCarrierTarget
@@ -4283,6 +4311,20 @@ theorem hilbert_morphismMarkedNoncritical_finite_subcover_on_complement
   exact SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_subcover_on_complement
     K Φ C morphism exists_morphism_for_finite_disjoint κ hS
 
+theorem hilbert_morphismMarkedNoncritical_finite_subcover_on_complement_forall
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+              (κ := κ) φ := by
+  exact SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_subcover_on_complement_forall
+    K Φ C morphism exists_morphism_for_finite_disjoint κ hS
+
 end MorphismFamily
 
 section SchemeBelyiMapBridge
@@ -4483,6 +4525,18 @@ theorem hilbert_finiteMarkedBelyiExistence_finite_subcover_on_complement
               (κ := κ) φ) =
         (Set.univ : Set (κ → {x : C // x ∉ S})) := by
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_subcover_on_complement
+    K Φ F κ hS
+
+theorem hilbert_finiteMarkedBelyiExistence_finite_subcover_on_complement_forall
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).complementCoverData S).tupleAvoidSet
+            (κ := κ) φ := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
     K Φ F κ hS
 
 end FiniteMarkedBelyiFamily
