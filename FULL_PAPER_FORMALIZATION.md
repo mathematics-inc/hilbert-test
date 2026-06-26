@@ -161,7 +161,9 @@ invertible-sheaf trivialization on those opens, then prove the finite marked
 family/branch-control facts for the resulting map.
 The scheme-local cover input below this is now checked: whenever local
 representatives span the unit ideal, their basic opens cover the trivializing
-open, and a range-indexed spanning family gives an explicit `OpenCover`.
+open, a range-indexed spanning family gives an explicit `OpenCover`, and a
+Bezout equation for two representatives gives the corresponding two-basic-open
+cover.
 
 `HilbertTest/SourceStack/CurveDivisorSections.lean` now covers the preceding
 finite linear-avoidance step in that proof passage.  Given a divisor zero-section
@@ -465,8 +467,8 @@ for sections on basic opens, the localization statement for sections on
 `D(f)`, the explicit unit obtained by restricting a section to its own basic
 open, transport of such units across the open-subscheme top-section isomorphism,
 the basic-open cover from sections spanning the unit ideal, nilpotent iff empty
-basic open on compact opens, and the compact-open zero-locus/nilradical
-criterion.
+basic open on compact opens, the two-section Bezout cover specialization, and
+the compact-open zero-locus/nilradical criterion.
 
 `HilbertTest/SourceStack/UnramifiedEtale.lean` checks algebraic
 formal-unramified and formal-etale source facts, including the

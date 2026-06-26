@@ -6969,6 +6969,30 @@ theorem hilbert_basicOpenCoverOfSpanEqTop_iSup_opensRange
   exact Scheme.OpenCover.iSup_opensRange
     (SourceStack.Schemes.basicOpenCoverOfSpanEqTop X f hs)
 
+theorem hilbert_twoElementFamily_zero {R : Type*} (x y : R) :
+    SourceStack.Schemes.twoElementFamily x y 0 = x := by
+  exact SourceStack.Schemes.twoElementFamily_zero x y
+
+theorem hilbert_twoElementFamily_one {R : Type*} (x y : R) :
+    SourceStack.Schemes.twoElementFamily x y 1 = y := by
+  exact SourceStack.Schemes.twoElementFamily_one x y
+
+theorem hilbert_ideal_span_range_twoElementFamily_eq_top_of_linear_combination
+    {R : Type*} [CommSemiring R] (x y a b : R)
+    (h : a * x + b * y = 1) :
+    Ideal.span (Set.range (SourceStack.Schemes.twoElementFamily x y)) = ⊤ := by
+  exact SourceStack.Schemes.ideal_span_range_twoElementFamily_eq_top_of_linear_combination
+    x y a b h
+
+theorem hilbert_twoSectionBasicOpenCoverOfLinearCombination_iSup_opensRange
+    (X : Scheme.{u}) (s0 s1 a b : Γ(X, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    (⨆ i, ((SourceStack.Schemes.twoSectionBasicOpenCoverOfLinearCombination
+      X s0 s1 a b h).map i).opensRange) = ⊤ := by
+  exact Scheme.OpenCover.iSup_opensRange
+    (SourceStack.Schemes.twoSectionBasicOpenCoverOfLinearCombination
+      X s0 s1 a b h)
+
 theorem hilbert_exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isCompact
     (X : Scheme.{u}) {U : X.Opens} (hU : IsCompact U.1)
     (x f : Γ(X, U)) (H : x |_ᵣ (X.basicOpen f) = 0) :
