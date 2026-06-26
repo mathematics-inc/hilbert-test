@@ -122,6 +122,19 @@ theorem markedNoncritical_exists_belyiOpen_inside_open_of_finite_complement
   exact (markedNoncriticalExistence K X Φ map continuous_map
     exists_for_finite_disjoint).exists_belyiOpen_inside_open_of_finite_complement hV hVcompl hxV
 
+theorem markedNoncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (_root_.ProjectiveSpectrum (grading K))] [NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedNoncriticalExistence K X Φ map continuous_map
+    exists_for_finite_disjoint).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement hV hxV
+
 theorem markedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (_root_.ProjectiveSpectrum (grading K))]
     {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
@@ -261,6 +274,20 @@ theorem markedSchemeNoncritical_exists_belyiOpen_inside_open_of_finite_complemen
   exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
     exists_scheme_for_finite_disjoint).exists_belyiOpen_inside_open_of_finite_complement
       hV hVcompl hxV
+
+theorem markedSchemeNoncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+    exists_scheme_for_finite_disjoint).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      hV hxV
 
 theorem markedSchemeNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
@@ -538,6 +565,20 @@ theorem morphismMarkedNoncritical_exists_belyiOpen_inside_open_of_finite_complem
   exact (morphismMarkedNoncriticalExistence K Φ C morphism
     exists_morphism_for_finite_disjoint).exists_belyiOpen_inside_open_of_finite_complement
       hV hVcompl hxV
+
+theorem morphismMarkedNoncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {V : Set C} (hV : IsOpen V) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+        x ∈ ((morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ∧
+          ((morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ) ⊆ V := by
+  exact (morphismMarkedNoncriticalExistence K Φ C morphism
+    exists_morphism_for_finite_disjoint).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      hV hxV
 
 theorem morphismMarkedNoncritical_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
