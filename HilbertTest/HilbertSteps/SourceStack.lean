@@ -29,6 +29,7 @@ import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.SchemeAffineLinePoints
 import HilbertTest.SourceStack.PolynomialSchemeSeparation
+import HilbertTest.SourceStack.ConcretePolynomialSchemeSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -4682,6 +4683,50 @@ theorem hilbert_polynomialSchemeSeparation_exists_scheme_separation_package
     F K B hS p hpder
 
 end PolynomialSchemeSeparation
+
+namespace ConcretePolynomialSchemeSeparation
+
+open SourceStack.ConcretePolynomialSchemeSeparation
+open SourceStack.P1PolynomialSeparation
+open SourceStack.SchemeAffineLinePoints
+
+universe u v
+
+variable (F : Type u) (K : Type v)
+variable [Field F] [Field K] [Algebra F K]
+variable {S : Set K} {β : K}
+variable (P : P1PolynomialSeparationStep F K S β)
+
+theorem hilbert_concretePolynomialSchemeSeparation_pointMap_eq_bridge
+    (x : K) :
+    (concreteLinearSchemePointBridge K).schemePointMap F P x =
+      concreteSchemePolynomialPointMap F K P.polynomial x := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialPointMap_eq_bridge
+    F K P x
+
+theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_eq_bridge :
+    (concreteLinearSchemePointBridge K).schemeTargetPoint F P =
+      concreteSchemePolynomialTargetPoint F K P.polynomial β := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_eq_bridge
+    F K P
+
+theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_package
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = p ∧
+        concreteSchemePolynomialTargetPoint F K P.polynomial β ∉
+          SourceStack.SchemeProjectiveLine.markedSchemePointSet K ∧
+          (∀ x ∈ S, concreteSchemePolynomialPointMap F K P.polynomial x ≠
+            concreteSchemePolynomialTargetPoint F K P.polynomial β) ∧
+            ∀ x : K, concreteSchemePolynomialPointMap F K P.polynomial x =
+              concreteSchemePolynomialTargetPoint F K P.polynomial β →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_package
+    F K hS p hpder
+
+end ConcretePolynomialSchemeSeparation
 
 namespace UnramifiedEtale
 

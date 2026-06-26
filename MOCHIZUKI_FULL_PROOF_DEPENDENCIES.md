@@ -219,6 +219,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   data and nonzero derivative over an algebraically closed target field, it
   produces a selected `beta` and a scheme-carrier marked-avoidance/separation/
   noncriticality package.
+- `HilbertTest.SourceStack.ConcretePolynomialSchemeSeparation`: the same
+  scheme-carrier package after instantiating the bridge with the concrete
+  `Proj` affine-point construction, identifying the point map with
+  `x |-> [p(x):1]` and the selected target with `[p(beta):1]`.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
@@ -537,8 +541,10 @@ Lean-facing declarations needed:
   transports that package to the affine chart of the linear projective line;
   `SourceStack.P1SchemePointBridge` transports it further to the scheme carrier
   and `SourceStack.SchemeAffineLinePoints` supplies the concrete injective
-  marked-label bridge for `Proj K[X0,X1]`.  What remains is the rational-map
-  and morphism packaging needed to apply those field facts to Belyi maps.
+  marked-label bridge for `Proj K[X0,X1]`; `SourceStack.ConcretePolynomialSchemeSeparation`
+  packages the resulting concrete scheme affine map `x |-> [p(x):1]`.  What
+  remains is the rational-map and morphism packaging needed to apply those
+  field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 

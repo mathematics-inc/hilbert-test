@@ -217,6 +217,12 @@ nonzero derivative over an algebraically closed target field, it chooses
 `beta` and produces the scheme-carrier marked-avoidance, finite-set separation,
 and noncritical-preimage package needed before the Belyi-map reduction.
 
+`HilbertTest/SourceStack/ConcretePolynomialSchemeSeparation.lean` instantiates
+that package with the constructed `Proj` bridge.  It identifies the bridged
+scheme point map with the concrete affine scheme point map `x |-> [p(x):1]`
+and gives the same marked-avoidance/separation/noncriticality conclusion with
+no abstract bridge parameter.
+
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
 source layer available in Mathlib: dense-domain and partial-map representative
