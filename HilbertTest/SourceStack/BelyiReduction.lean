@@ -450,6 +450,22 @@ theorem finite_subcover_on_complement
   exact FiniteMarkedBelyiExistence.finite_subcover_on_complement
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS
 
+/-- Membership form of the finite tuple-subcover consequence directly from a
+reduction family. -/
+theorem finite_subcover_on_complement_forall
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
+    K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS
+
 end P1ReductionExistence
 
 end BelyiReduction

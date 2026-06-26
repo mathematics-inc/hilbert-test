@@ -482,6 +482,20 @@ theorem hilbert_schemeSectionControlled_finite_subcover_on_complement
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement
     D κ hS
 
+theorem hilbert_schemeSectionControlled_finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement_forall
+    D κ hS
+
 end SchemeCurveBelyiConstruction
 
 namespace BelyiReduction
@@ -777,6 +791,20 @@ theorem hilbert_p1ReductionExistence_finite_subcover_on_complement
               (κ := κ) i) =
         (Set.univ : Set (κ → {x : C // x ∉ S})) := by
   exact SourceStack.BelyiReduction.P1ReductionExistence.finite_subcover_on_complement
+    E κ hS
+
+theorem hilbert_p1ReductionExistence_finite_subcover_on_complement_forall
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.finite_subcover_on_complement_forall
     E κ hS
 
 end BelyiReduction

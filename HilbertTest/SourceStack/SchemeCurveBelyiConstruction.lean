@@ -253,6 +253,22 @@ theorem finite_subcover_on_complement
   exact FiniteMarkedBelyiExistence.finite_subcover_on_complement
     K V D.toFiniteMarkedBelyiExistence κ hS
 
+/-- Membership form of the direct Corollary 3.1-style finite-subcover
+consequence for section-controlled finite marked Belyi data. -/
+theorem finite_subcover_on_complement_forall
+    [Infinite K] (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K V
+            D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) s := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
+    K V D.toFiniteMarkedBelyiExistence κ hS
+
 end SectionControlledFiniteMarkedBelyiData
 
 end SchemeCurveBelyiConstruction
