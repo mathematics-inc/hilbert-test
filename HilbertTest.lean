@@ -26,6 +26,7 @@ import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.P1PolynomialSeparation
 import HilbertTest.SourceStack.PolynomialTargetAvoidance
+import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification

@@ -197,6 +197,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   bookkeeping for Lemma 2.4.  It proves `replacementSet ∪ {0,1}` is finite,
   extracts a target outside it over an infinite field, and converts an avoiding
   selected value `p(beta)` into a `P1PolynomialSeparationStep`.
+- `HilbertTest.SourceStack.PolynomialValueSurjectivity`: algebraically closed
+  target-field realization for the selected value.  A positive-degree
+  coefficient-mapped polynomial realizes every target value, hence realizes one
+  outside the finite forbidden set; with nonzero derivative this produces an
+  actual `P1PolynomialSeparationStep`.
 - `HilbertTest.SourceStack.P1SchemePointBridge`: the abstract point-model
   bridge from the linear `P1` to the scheme carrier `P1 K`.  Assuming an
   injective bridge agreeing with the marked labels, it checks equivalence
@@ -515,8 +520,10 @@ Lean-facing declarations needed:
   selected-value separation and noncritical-preimage conclusion used by the
   induction step; `SourceStack.PolynomialTargetAvoidance` checks the finite
   forbidden target set `replacementSet ∪ {0,1}` and the conversion to a selected
-  `P1` separation step; `SourceStack.P1PolynomialSeparation` transports that
-  package to the affine chart of the linear projective line;
+  `P1` separation step; `SourceStack.PolynomialValueSurjectivity` checks that
+  over an algebraically closed target field a positive-degree polynomial realizes
+  such an outside value as `p(beta)`; `SourceStack.P1PolynomialSeparation`
+  transports that package to the affine chart of the linear projective line;
   `SourceStack.P1SchemePointBridge` transports it further to the scheme carrier
   once an injective marked-label bridge is supplied.  What remains is the
   concrete scheme `P^1(Qbar)` point/model construction and rational-map

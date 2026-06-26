@@ -25,6 +25,7 @@ import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.P1PolynomialSeparation
 import HilbertTest.SourceStack.PolynomialTargetAvoidance
+import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
@@ -4416,6 +4417,42 @@ theorem hilbert_polynomialTargetAvoidance_toP1PolynomialSeparationStep_target_ne
     F E p hpder hβ
 
 end PolynomialTargetAvoidance
+
+namespace PolynomialValueSurjectivity
+
+open SourceStack.PolynomialTargetAvoidance
+open SourceStack.PolynomialValueSurjectivity
+
+universe u v
+
+variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
+
+theorem hilbert_polynomialValueSurjectivity_exists_aeval_eq_of_map_natDegree_pos
+    [IsAlgClosed E]
+    (p : F[X]) (hp : 0 < (p.map (algebraMap F E)).natDegree) (y : E) :
+    ∃ β : E, Polynomial.aeval β p = y := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_aeval_eq_of_map_natDegree_pos
+    F E p hp y
+
+theorem hilbert_polynomialValueSurjectivity_exists_beta_not_mem_forbiddenTargetSet
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hp : 0 < (p.map (algebraMap F E)).natDegree) :
+    ∃ β : E, Polynomial.aeval β p ∉ forbiddenTargetSet F E S p := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_beta_not_mem_forbiddenTargetSet
+    F E hS p hp
+
+theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep
+    [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (p : F[X]) (hp : 0 < (p.map (algebraMap F E)).natDegree)
+    (hpder : p.derivative ≠ 0) :
+    ∃ β : E, ∃ P : SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep F E S β,
+      P.polynomial = p := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_p1PolynomialSeparationStep
+    F E hS p hp hpder
+
+end PolynomialValueSurjectivity
 
 namespace P1SchemePointBridge
 
