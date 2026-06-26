@@ -22,6 +22,7 @@ import HilbertTest.SourceStack.PullbackCarrier
 import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
+import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -4194,6 +4195,53 @@ theorem hilbert_derivative_aeval_comp_ne_zero
   exact SourceStack.PolynomialMaps.derivative_aeval_comp_ne_zero F E p q hq hp
 
 end PolynomialMaps
+
+namespace PolynomialSeparation
+
+open SourceStack.PolynomialMaps
+open SourceStack.PolynomialSeparation
+
+universe u v
+
+variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
+variable {S : Set E} {β : E}
+variable (P : PolynomialSeparationStep F E S β)
+
+theorem hilbert_polynomialSeparation_replacementSet_finite
+    (hS : S.Finite) :
+    (replacementSet F E S P.polynomial).Finite := by
+  exact SourceStack.PolynomialSeparation.PolynomialSeparationStep.replacementSet_finite
+    P hS
+
+theorem hilbert_polynomialSeparation_aeval_ne_target_of_mem
+    {x : E} (hx : x ∈ S) :
+    Polynomial.aeval x P.polynomial ≠ Polynomial.aeval β P.polynomial := by
+  exact SourceStack.PolynomialSeparation.PolynomialSeparationStep.aeval_ne_target_of_mem
+    P hx
+
+theorem hilbert_polynomialSeparation_target_not_mem_criticalValueSet :
+    Polynomial.aeval β P.polynomial ∉
+      criticalValueSet F E P.polynomial := by
+  exact SourceStack.PolynomialSeparation.PolynomialSeparationStep.target_not_mem_criticalValueSet
+    P
+
+theorem hilbert_polynomialSeparation_derivative_ne_zero_at_preimage
+    {x : E} (hx : Polynomial.aeval x P.polynomial =
+      Polynomial.aeval β P.polynomial) :
+    Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.PolynomialSeparation.PolynomialSeparationStep.derivative_ne_zero_at_preimage
+    P hx
+
+theorem hilbert_polynomialSeparation_separates_and_noncritical :
+    (∀ x ∈ S, Polynomial.aeval x P.polynomial ≠
+        Polynomial.aeval β P.polynomial) ∧
+      ∀ x : E, Polynomial.aeval x P.polynomial =
+        Polynomial.aeval β P.polynomial →
+          Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.PolynomialSeparation.PolynomialSeparationStep.separates_and_noncritical
+    P
+
+end PolynomialSeparation
 
 namespace UnramifiedEtale
 

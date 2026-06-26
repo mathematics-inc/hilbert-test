@@ -185,6 +185,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   inclusion, membership, monotonicity, nonmembership, separation-from-`p(S)`, and noncritical-value
   derivative-nonvanishing wrappers; also composition evaluation and chain-rule
   derivative-nonvanishing wrappers.
+- `HilbertTest.SourceStack.PolynomialSeparation`: the packaged Lemma 2.4
+  polynomial handoff: selected values outside the replacement set are separated
+  from `S`, and every preimage of the selected value has nonzero derivative.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
@@ -493,8 +496,10 @@ Lean-facing declarations needed:
   named replacement-set API for `p(S) ∪ p(rootSet p')` are checked in
   `SourceStack.PolynomialMaps`, including the derivative-nonvanishing
   consequence away from the replacement set and the chain-rule nonvanishing
-  wrapper for compositions; what remains is the `P^1(Qbar)` point/model layer
-  and rational-map packaging needed to apply those field facts to Belyi maps.
+  wrapper for compositions; `SourceStack.PolynomialSeparation` now packages the
+  selected-value separation and noncritical-preimage conclusion used by the
+  induction step.  What remains is the `P^1(Qbar)` point/model layer and
+  rational-map packaging needed to apply those field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 

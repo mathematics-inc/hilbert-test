@@ -169,6 +169,12 @@ derivative-nonvanishing consequences.  It also checks polynomial-composition
 evaluation, the derivative chain rule, and the corresponding derivative
 nonvanishing condition for compositions.
 
+`HilbertTest/SourceStack/PolynomialSeparation.lean` packages those replacement
+set facts into the Lemma 2.4 handoff used by the paper: if the selected value
+`p(beta)` lies outside `p(S) ∪ p(rootSet p')`, then no point of `S` maps to
+`p(beta)`, and every preimage of `p(beta)` is noncritical for `p`.  The
+Hilbert-facing wrappers and dataset rows for this package are now checked.
+
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
 source layer available in Mathlib: dense-domain and partial-map representative

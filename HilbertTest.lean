@@ -23,6 +23,7 @@ import HilbertTest.SourceStack.PullbackCarrier
 import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
+import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
