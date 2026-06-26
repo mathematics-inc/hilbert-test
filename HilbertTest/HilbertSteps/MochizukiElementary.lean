@@ -132,6 +132,19 @@ theorem hilbert_belyi_aux_half_ratio_ge_scale
   exact NoncriticalBelyi.belyi_aux_half_ratio_ge_scale
     hm hn hC halpha hscale
 
+theorem hilbert_belyi_aux_ratio_ge_scale_of_gt_one
+    {m n : Nat} {alpha beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    C <=
+      NoncriticalBelyi.belyiAux m n beta /
+        NoncriticalBelyi.belyiAux m n alpha := by
+  exact NoncriticalBelyi.belyi_aux_ratio_ge_scale_of_gt_one
+    hm hn hC halpha hscale
+
 theorem hilbert_belyi_aux_shifted_ratio_ge_scale_of_offset_le_value
     {m n : Nat} {alpha beta C f0 : Real}
     (hm : 1 <= m)
@@ -189,6 +202,29 @@ theorem hilbert_value_le_shifted_div_offset_of_offset_le_one
     A <= (A + t) / t := by
   exact NoncriticalBelyi.value_le_shifted_div_offset_of_offset_le_one
     hA_nonneg ht_pos ht_le_one
+
+theorem hilbert_value_le_div_of_pos_le_one
+    {A B : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_pos : 0 < B)
+    (hB_le_one : B <= 1) :
+    A <= A / B := by
+  exact NoncriticalBelyi.value_le_div_of_pos_le_one
+    hA_nonneg hB_pos hB_le_one
+
+theorem hilbert_belyi_aux_ratio_ge_scale_of_value_le_one
+    {m n : Nat} {alpha beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (hC_le_beta : C <= beta)
+    (hvalue_pos : 0 < NoncriticalBelyi.belyiAux m n alpha)
+    (hvalue_le_one : NoncriticalBelyi.belyiAux m n alpha <= 1) :
+    C <=
+      NoncriticalBelyi.belyiAux m n beta /
+        NoncriticalBelyi.belyiAux m n alpha := by
+  exact NoncriticalBelyi.belyi_aux_ratio_ge_scale_of_value_le_one
+    hm hn hC hC_le_beta hvalue_pos hvalue_le_one
 
 theorem hilbert_belyi_aux_shifted_zero_ratio_ge_scale
     {m n : Nat} {beta C f0 : Real}
@@ -286,6 +322,25 @@ theorem hilbert_belyi_aux_finite_shifted_ratio_ge_scale
           (NoncriticalBelyi.belyiAux m n x + f0) := by
   exact NoncriticalBelyi.belyi_aux_finite_shifted_ratio_ge_scale
     hm hn hC h_one_mem hscale hf0_pos hf0_le_quarter hcases
+
+theorem hilbert_belyi_aux_finite_ratio_ge_scale
+    {m n : Nat} {beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hcases : ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x ≠ 0 →
+      1 < x ∨
+        (0 < NoncriticalBelyi.belyiAux m n x ∧
+          NoncriticalBelyi.belyiAux m n x <= 1)) :
+    ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x ≠ 0 →
+      C <=
+        NoncriticalBelyi.belyiAux m n beta /
+          NoncriticalBelyi.belyiAux m n x := by
+  exact NoncriticalBelyi.belyi_aux_finite_ratio_ge_scale
+    hm hn hC h_one_mem hscale hcases
 
 theorem hilbert_paperPolynomial_eval_zero
     {m n : Nat} (hm : 0 < m) :

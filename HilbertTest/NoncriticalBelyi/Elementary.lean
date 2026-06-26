@@ -286,6 +286,37 @@ theorem belyi_aux_half_ratio_ge_scale
   have hmul := mul_le_mul_of_nonneg_right hhalf_prod hden_pos.le
   nlinarith
 
+theorem belyi_aux_ratio_ge_scale_of_gt_one
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (halpha : 1 < alpha)
+    (hscale : beta / alpha >= C) :
+    C <= belyiAux m n beta / belyiAux m n alpha := by
+  have hbeta_ge_alpha : alpha <= beta := by
+    have halpha_pos : 0 < alpha := by nlinarith
+    have hratio_one : 1 <= beta / alpha := by nlinarith
+    rw [le_div_iff₀ halpha_pos] at hratio_one
+    simpa using hratio_one
+  have hratio_lower := belyi_aux_ratio_lower_bound (m := m) (n := n)
+    hm hn halpha hbeta_ge_alpha
+  have hC_le_prod :
+      C <= (beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n :=
+    le_trans (by simpa [ge_iff_le] using hscale) hratio_lower
+  have hpos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  have heq : belyiAux m n beta =
+      belyiAux m n alpha *
+        ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) := by
+    unfold belyiAux
+    have ha0 : alpha ≠ 0 := by nlinarith
+    have ha1 : alpha - 1 ≠ 0 := by nlinarith
+    field_simp [ha0, ha1]
+  rw [le_div_iff₀ hpos]
+  rw [heq]
+  have hmul := mul_le_mul_of_nonneg_right hC_le_prod hpos.le
+  nlinarith
+
 theorem half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
@@ -374,6 +405,37 @@ theorem value_le_shifted_div_offset_of_offset_le_one
   have hAt_le_A : A * t <= A := by
     simpa using mul_le_mul_of_nonneg_left ht_le_one hA_nonneg
   nlinarith
+
+theorem value_le_div_of_pos_le_one
+    {A B : Real}
+    (hA_nonneg : 0 <= A)
+    (hB_pos : 0 < B)
+    (hB_le_one : B <= 1) :
+    A <= A / B := by
+  rw [le_div_iff₀ hB_pos]
+  have hAB_le_A : A * B <= A := by
+    simpa using mul_le_mul_of_nonneg_left hB_le_one hA_nonneg
+  exact hAB_le_A
+
+theorem belyi_aux_ratio_ge_scale_of_value_le_one
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    (hC_le_beta : C <= beta)
+    {alpha : Real}
+    (hvalue_pos : 0 < belyiAux m n alpha)
+    (hvalue_le_one : belyiAux m n alpha <= 1) :
+    C <= belyiAux m n beta / belyiAux m n alpha := by
+  have hbeta_ge_two : 2 <= beta := le_trans hC hC_le_beta
+  have hbeta_le_value :=
+    beta_le_belyi_aux_of_beta_ge_two (m := m) (n := n)
+      hm hn hbeta_ge_two
+  have hvalue_nonneg : 0 <= belyiAux m n beta := by nlinarith
+  have hvalue_div :=
+    value_le_div_of_pos_le_one
+      (A := belyiAux m n beta) (B := belyiAux m n alpha)
+      hvalue_nonneg hvalue_pos hvalue_le_one
+  exact le_trans hC_le_beta (le_trans hbeta_le_value hvalue_div)
 
 theorem belyi_aux_shifted_zero_ratio_ge_scale
     (hm : 1 <= m)
@@ -547,6 +609,29 @@ theorem belyi_aux_finite_shifted_ratio_ge_scale
         hm hn hC hvalue_le.1
         (hscale x hxS (by nlinarith [hvalue_le.1]))
         hf0_pos hf0_le_quarter hvalue_le.2
+
+theorem belyi_aux_finite_ratio_ge_scale
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hcases : ∀ x ∈ S, belyiAux m n x ≠ 0 →
+      1 < x ∨ (0 < belyiAux m n x ∧ belyiAux m n x <= 1)) :
+    ∀ x ∈ S, belyiAux m n x ≠ 0 →
+      C <= belyiAux m n beta / belyiAux m n x := by
+  have hC_le_beta : C <= beta := by
+    have h := hscale 1 h_one_mem (by norm_num)
+    simpa [ge_iff_le] using h
+  intro x hxS hx_ne_zero_value
+  rcases hcases x hxS hx_ne_zero_value with hgt_one | hunit_value
+  · exact belyi_aux_ratio_ge_scale_of_gt_one (m := m) (n := n)
+      (alpha := x) (beta := beta) (C := C)
+      hm hn hC hgt_one (hscale x hxS (by nlinarith [hgt_one]))
+  · exact belyi_aux_ratio_ge_scale_of_value_le_one (m := m) (n := n)
+      (beta := beta) (C := C) (alpha := x)
+      hm hn hC hC_le_beta hunit_value.1 hunit_value.2
 
 end Lemma21Arithmetic
 
