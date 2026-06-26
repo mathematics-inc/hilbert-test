@@ -60,6 +60,68 @@ theorem eval_nonzero_on_support :
 
 end EvaluationSurjectivityData
 
+/-- Finite-family evaluation surjectivity after imposing vanishing on another
+finite family.  This abstracts the cohomological consequence usually proved
+from the exact sequence
+`0 -> L(-S-x) -> L(-S) -> L(-S)|_x -> 0`. -/
+structure RestrictedEvaluationSurjectivityData
+    (K : Type u) [Field K] (X : Type v)
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K X V
+  restricted_eval_surjective :
+    ∀ {S T : Finset X}, Disjoint S T →
+      ∀ x ∈ T,
+        Function.Surjective
+          ((evalData.eval x).comp
+            (commonKernel (K := K) (V := V) S evalData.eval).subtype)
+
+namespace RestrictedEvaluationSurjectivityData
+
+variable (E : RestrictedEvaluationSurjectivityData K X V)
+
+/-- Surjectivity of restricted evaluations implies the nonzero restricted
+evaluation hypothesis used by the Riemann-Roch finite-evaluation package. -/
+theorem restricted_eval_nonzero :
+    ∀ {S T : Finset X}, Disjoint S T →
+      ∀ x ∈ T,
+        (E.evalData.eval x).comp
+            (commonKernel (K := K) (V := V) S E.evalData.eval).subtype ≠ 0 := by
+  intro S T hdis x hx
+  exact linearMap_ne_zero_of_surjective
+    ((E.evalData.eval x).comp
+      (commonKernel (K := K) (V := V) S E.evalData.eval).subtype)
+    (E.restricted_eval_surjective hdis x hx)
+
+/-- Forget cohomological restricted surjectivity to the Riemann-Roch
+finite-evaluation package used by the downstream linear-algebra layer. -/
+def toRiemannRochFiniteEvaluationPackage :
+    RiemannRochFiniteEvaluationPackage K X V where
+  eval := E.evalData.eval
+  restricted_eval_nonzero := by
+    intro S T hdis x hx
+    exact E.restricted_eval_nonzero hdis x hx
+
+theorem toRiemannRochFiniteEvaluationPackage_eval
+    (x : X) :
+    E.toRiemannRochFiniteEvaluationPackage.eval x = E.evalData.eval x := rfl
+
+/-- The cohomological restricted-surjectivity package gives a section vanishing
+on one finite set and nonzero on a disjoint finite set. -/
+theorem exists_section_for_disjoint_finsets
+    [Infinite K] {S T : Finset X} (hdis : Disjoint S T) :
+    ∃ s : V, E.evalData.vanishesOn S s ∧ E.evalData.nonzeroOn T s := by
+  exact E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finsets hdis
+
+/-- Set-level version of the cohomological restricted-surjectivity handoff. -/
+theorem exists_section_for_disjoint_finite_sets
+    [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, E.evalData.vanishesOnSet S s ∧ E.evalData.nonzeroOnSet T s := by
+  exact E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
+    hS hT hdis
+
+end RestrictedEvaluationSurjectivityData
+
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
 zero-section of the divisor line bundle. -/
 structure CohomologicalDivisorSectionData

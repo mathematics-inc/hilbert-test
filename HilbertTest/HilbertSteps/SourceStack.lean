@@ -1618,6 +1618,39 @@ theorem hilbert_evaluationSurjectivity_eval_nonzero_on_support :
   exact SourceStack.CurveCohomologySections.EvaluationSurjectivityData.eval_nonzero_on_support
     E
 
+variable (RE : RestrictedEvaluationSurjectivityData K X V)
+
+theorem hilbert_restrictedEvaluationSurjectivity_restricted_eval_nonzero :
+    ∀ {S T : Finset X}, Disjoint S T →
+      ∀ x ∈ T,
+        (RE.evalData.eval x).comp
+            (SourceStack.commonKernel (K := K) (V := V) S RE.evalData.eval).subtype ≠ 0 := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.restricted_eval_nonzero
+      RE
+
+theorem hilbert_restrictedEvaluationSurjectivity_toRiemannRochFiniteEvaluationPackage_eval
+    (x : X) :
+    RE.toRiemannRochFiniteEvaluationPackage.eval x = RE.evalData.eval x := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.toRiemannRochFiniteEvaluationPackage_eval
+      RE x
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_finsets
+    [Infinite K] {S T : Finset X} (hdis : Disjoint S T) :
+    ∃ s : V, RE.evalData.vanishesOn S s ∧ RE.evalData.nonzeroOn T s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finsets
+      RE hdis
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_finite_sets
+    [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, RE.evalData.vanishesOnSet S s ∧ RE.evalData.nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finite_sets
+      RE hS hT hdis
+
 variable (D : CohomologicalDivisorSectionData K X V)
 
 theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
