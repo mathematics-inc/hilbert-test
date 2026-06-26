@@ -82,6 +82,15 @@ kernel.  It also checks the finite-field counting handoff: if the sum of the
 cardinalities of finitely many subspaces is smaller than the ambient finite
 vector space, one can choose a vector outside all of them.
 
+`HilbertTest/SourceStack/CurveRiemannRoch.lean` now wraps that linear algebra in
+a curve-facing Riemann-Roch section-evaluation interface: finite-set vanishing
+is identified with a common kernel of evaluation forms, finite nonvanishing is
+the pointwise nonzero evaluation condition, and a
+`RiemannRochFiniteEvaluationPackage` over an infinite field yields a section
+vanishing on one finite set and nonzero on a disjoint finite set.  The remaining
+missing input is still the actual divisor/Riemann-Roch theorem that instantiates
+this package for smooth proper curves.
+
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound
 `(m/(m+n))^m * (n/(m+n))^n <= 1/4` used in Mochizuki's odd-`n` case of

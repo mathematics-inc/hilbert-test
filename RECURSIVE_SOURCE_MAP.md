@@ -205,8 +205,13 @@ Minimal theorem package needed:
   inequality bridge from Riemann-Roch dimensions to proper subspaces, plus the
   generic bridge from nonzero linear evaluations to proper kernels and the
   common-kernel constrained vanishing/nonvanishing package.  The finite-field
-  cardinality-sum avoidance handoff used by Scherr-Zieve is also checked; the
-  more specialized inclusion-exclusion estimates remain separate.
+  cardinality-sum avoidance handoff used by Scherr-Zieve is also checked.  The
+  `CurveRiemannRoch` source layer now packages the infinite-field
+  section-evaluation interface: if the curve/divisor theorem supplies nonzero
+  restricted evaluations after imposing finite-set vanishing, the checked
+  linear algebra gives a section vanishing on one finite set and nonzero on a
+  disjoint finite set.  The more specialized inclusion-exclusion estimates
+  remain separate.
 
 ### 3. Scheme morphism layer
 
@@ -400,7 +405,7 @@ follows.
 | Branch locus and noncriticality | Stacks Project unramified/etale morphisms; SGA 1 for covers | Checked algebraic formal-unramified/formal-etale and separability source facts in `SourceStack.UnramifiedEtale`, plus ring-level unramified localization/composition/base-change wrappers and formal-etale/etale equivalence/localization/separable-field wrappers; checked open-immersion etale/smooth/separated/finite-type wrappers and target-open restriction stability in `SourceStack.Schemes`; still needs scheme-level unramified morphisms, branch locus, and finite-cover specialization |
 | Divisors from finite point sets | Stacks Project Divisors; Liu Chapter 7; Hartshorne II.6 | Effective Cartier divisors on smooth curves and `O(D)` |
 | Degree and canonical bundle | Stacks Project Algebraic Curves 53.4-53.5; Liu 7.3; Hartshorne IV | Degree of line bundles and `deg omega = 2g - 2` |
-| Riemann-Roch spaces | Scherr-Zieve Lemma 2.2; Stacks Algebraic Curves 53.5; Liu 7.3 | `dim L(D)` and enough rational functions with prescribed poles |
+| Riemann-Roch spaces | Scherr-Zieve Lemma 2.2; Stacks Algebraic Curves 53.5; Liu 7.3 | Checked the abstract section-evaluation handoff in `SourceStack.CurveRiemannRoch`: finite-set vanishing as common-kernel membership, finite nonvanishing as pointwise nonzero evaluation, and a `RiemannRochFiniteEvaluationPackage` implying existence of a section vanishing on one finite set and nonzero on a disjoint finite set over an infinite field; still needs the actual curve/divisor Riemann-Roch theorem instantiating that package |
 | Basepoint-free/very ample line bundles | Vakil Class 44; Hartshorne IV.3; Stacks Algebraic Curves 53.7 | `deg L >= 2g` gives global generation; `deg L >= 2g+1` gives closed immersion |
 | Finite union of proper subspaces | Linear algebra over finite/infinite fields; Scherr-Zieve Lemma 2.2 | Checked infinite-field finite-subspace avoidance, `finrank` inequality-to-proper-subspace bridge, nonzero-linear-form avoidance, common finite vanishing kernels, constrained vanish/nonvanish selection, and finite-field cardinality-sum avoidance in `SourceStack.LinearAlgebra`; still needs Scherr-Zieve's specialized finite-field inclusion-exclusion estimates if positive-characteristic finite fields are targeted |
 | Descent and field of definition | Weil; Dèbes-Emsalem; Dèbes-Douai; Sijsling-Voight | Galois-stable marked maps descend to the intended field |

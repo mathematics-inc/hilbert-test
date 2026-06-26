@@ -3,6 +3,7 @@ import HilbertTest.NoncriticalBelyi.Polynomial
 import HilbertTest.Belyi1980.Polynomial
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine

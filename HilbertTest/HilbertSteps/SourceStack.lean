@@ -1,5 +1,6 @@
 import HilbertTest.SourceStack.FiniteSet
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.CurveRiemannRoch
 import HilbertTest.SourceStack.ComplexSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
@@ -179,6 +180,58 @@ theorem hilbert_exists_vector_vanishing_and_nonzero_on_finite_linear_forms
     S T vanish avoid havoid
 
 end LinearAlgebra
+
+namespace CurveRiemannRoch
+
+open SourceStack.CurveRiemannRoch
+
+variable {K X V : Type*} [Field K] [AddCommGroup V] [Module K V]
+variable (D : RRSectionEvaluationData K X V)
+
+theorem hilbert_rr_vanishesOn_iff_mem_commonKernel
+    (S : Finset X) (s : V) :
+    D.vanishesOn S s ↔
+      s ∈ SourceStack.commonKernel (K := K) (V := V) S D.eval := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.vanishesOn_iff_mem_commonKernel
+    D S s
+
+theorem hilbert_rr_nonzeroOn_iff
+    (T : Finset X) (s : V) :
+    D.nonzeroOn T s ↔ ∀ x ∈ T, D.eval x s ≠ 0 := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.nonzeroOn_iff
+    D T s
+
+theorem hilbert_rr_exists_section_nonzero_on_finite
+    [Infinite K] (T : Finset X)
+    (hT : ∀ x ∈ T, D.eval x ≠ 0) :
+    ∃ s : V, D.nonzeroOn T s := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.exists_section_nonzero_on_finite
+    D T hT
+
+theorem hilbert_rr_exists_section_vanishing_on_and_nonzero_on
+    [Infinite K] (S T : Finset X)
+    (havoid : ∀ x ∈ T,
+      (D.eval x).comp (SourceStack.commonKernel (K := K) (V := V) S D.eval).subtype ≠ 0) :
+    ∃ s : V, D.vanishesOn S s ∧ D.nonzeroOn T s := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.exists_section_vanishing_on_and_nonzero_on
+    D S T havoid
+
+variable (P : RiemannRochFiniteEvaluationPackage K X V)
+
+theorem hilbert_rr_package_toEvaluationData_eval
+    (x : X) :
+    (P.toEvaluationData).eval x = P.eval x := by
+  exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.toEvaluationData_eval
+    P x
+
+theorem hilbert_rr_package_exists_section_for_disjoint_finsets
+    [Infinite K] {S T : Finset X} (hdis : Disjoint S T) :
+    ∃ s : V, (P.toEvaluationData).vanishesOn S s ∧
+      (P.toEvaluationData).nonzeroOn T s := by
+  exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finsets
+    P hdis
+
+end CurveRiemannRoch
 
 section ComplexSeparation
 
