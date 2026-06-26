@@ -169,11 +169,15 @@ step in Theorem 2.5.  A `P1ReductionStep` records an auxiliary morphism
 `X -> P1`, a finite bad set on `P1`, a marked finite Belyi map on `P1`, and the
 composed finite Belyi map on `X`; it proves that if `S` maps into the bad set
 and `T` maps to a point whose image avoids the marked triple, then the composed
-map has the required marked-image and marked-avoidance behavior.  A family of
-such steps for all finite disjoint `S,T` instantiates
+map has the required marked-image and marked-avoidance behavior.  The
+scheme-level Belyi layer now constructs that composed finite Belyi map from a
+finite dominant auxiliary morphism `aux` and a finite Belyi map on `P1`,
+provided the composite is étale over the marked branch-complement open.  A
+family of such steps for all finite disjoint `S,T` instantiates
 `FiniteMarkedBelyiExistence`.  The same file now constructs the standard finite
 bad set `aux(S) ∪ badValues`, proves its finiteness and containment facts, and
-provides a `P1ReductionStep.ofBadValues` constructor using that standard set.
+provides `P1ReductionStep.ofBadValues` and `.ofBadValuesComposed` constructors
+using that standard set.
 
 `HilbertTest/Belyi1980/Polynomial.lean` also checks the unscaled middle-value
 identity for `auxPolynomial`, its positivity, and the AM-GM bound

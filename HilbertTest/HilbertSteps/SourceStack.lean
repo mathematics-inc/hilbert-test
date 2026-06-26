@@ -552,6 +552,55 @@ theorem hilbert_p1ReductionStep_ofBadValues_bad_finite
     p1Map_maps_bad_to_marked targetPoint maps_T_to_target
     p1Map_target_avoids_marked
 
+theorem hilbert_p1ReductionStep_ofBadValuesComposed_composed_hom
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hcomposedEtale :
+      IsEtale ((aux ≫ p1Map.hom) ∣_ (markedBranchOpen K hmarkedOpen)))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K) :
+    (P1ReductionStep.ofBadValuesComposed
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map hcomposedEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom =
+        aux ≫ p1Map.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValuesComposed_composed_hom
+    hS badValues hbad aux p1Map hcomposedEtale p1Map_maps_bad_to_marked
+    targetPoint maps_T_to_target p1Map_target_avoids_marked
+
+theorem hilbert_p1ReductionStep_ofBadValuesComposed_composed_base_eq
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (hcomposedEtale :
+      IsEtale ((aux ≫ p1Map.hom) ∣_ (markedBranchOpen K hmarkedOpen)))
+    (p1Map_maps_bad_to_marked :
+      ∀ y ∈ reductionBadSet aux S badValues,
+        p1Map.hom.base y ∈ markedSchemePointSet K)
+    (targetPoint : P1 K)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (p1Map_target_avoids_marked :
+      p1Map.hom.base targetPoint ∉ markedSchemePointSet K)
+    (x : C) :
+    (P1ReductionStep.ofBadValuesComposed
+      (K := K) (C := C) (hmarkedOpen := hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux p1Map hcomposedEtale
+      p1Map_maps_bad_to_marked targetPoint maps_T_to_target
+      p1Map_target_avoids_marked).composed.hom.base x =
+        p1Map.hom.base (aux.base x) := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.ofBadValuesComposed_composed_base_eq
+    hS badValues hbad aux p1Map hcomposedEtale p1Map_maps_bad_to_marked
+    targetPoint maps_T_to_target p1Map_target_avoids_marked x
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
@@ -1544,6 +1593,30 @@ theorem hilbert_schemeBelyi_finite_morphismRestrict_to_branchOpen_ι :
     (ψ.hom ∣_ T.branchOpen) ≫ T.branchOpen.ι =
       ψ.toBelyiMap.belyiOpen.ι ≫ ψ.hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.morphismRestrict_to_branchOpen_ι ψ
+
+theorem hilbert_schemeBelyi_finite_compAux_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
+    (ψ.compAux aux hEtale).hom = aux ≫ ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_hom ψ aux hEtale
+
+theorem hilbert_schemeBelyi_finite_compAux_base
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) (x : Y) :
+    (ψ.compAux aux hEtale).hom.base x = ψ.hom.base (aux.base x) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_base ψ aux hEtale x
+
+theorem hilbert_schemeBelyi_finite_compAux_isFinite_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
+    IsFinite (ψ.compAux aux hEtale).hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_isFinite_hom ψ aux hEtale
+
+theorem hilbert_schemeBelyi_finite_compAux_isDominant_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
+    IsDominant (ψ.compAux aux hEtale).hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_isDominant_hom ψ aux hEtale
 
 section MarkedProjectiveLineTarget
 

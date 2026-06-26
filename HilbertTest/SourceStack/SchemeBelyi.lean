@@ -144,6 +144,44 @@ theorem morphismRestrict_to_branchOpen_ι :
       φ.toBelyiMap.belyiOpen.ι ≫ φ.hom := by
   exact φ.toBelyiMap.morphismRestrict_to_branchOpen_ι
 
+/-- Compose a finite Belyi map with a finite dominant auxiliary morphism.  The
+remaining geometric input is exactly the branch-control statement that the
+composite is étale over the target branch-complement open. -/
+def compAux {Y : Scheme.{u}} {T : BelyiTarget P} (φ : FiniteBelyiMap T Y)
+    (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    FiniteBelyiMap T X where
+  hom := aux ≫ φ.hom
+  dominant := by
+    letI : IsDominant φ.hom := φ.dominant
+    exact (IsDominant.comp_iff (f := aux) (g := φ.hom)).2 inferInstance
+  etale_on_branchOpen := hEtale
+  finite_hom := by
+    letI : IsFinite φ.hom := φ.finite_hom
+    exact _root_.HilbertTest.SourceStack.Schemes.finite_comp aux φ.hom
+
+theorem compAux_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    (φ.compAux aux hEtale).hom = aux ≫ φ.hom := rfl
+
+theorem compAux_base {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) (x : X) :
+    (φ.compAux aux hEtale).hom.base x = φ.hom.base (aux.base x) := rfl
+
+theorem compAux_isFinite_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsFinite (φ.compAux aux hEtale).hom :=
+  (φ.compAux aux hEtale).finite_hom
+
+theorem compAux_isDominant_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsDominant (φ.compAux aux hEtale).hom :=
+  (φ.compAux aux hEtale).dominant
+
 end FiniteBelyiMap
 
 section MarkedProjectiveLineTarget
