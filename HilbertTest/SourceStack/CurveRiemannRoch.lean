@@ -88,6 +88,36 @@ theorem nonzeroOn_toFinset_iff
   · intro hs x hx
     exact hs x ((Set.Finite.mem_toFinset hT).1 hx)
 
+/-- Restrict section-evaluation data to an arbitrary subtype of the source. -/
+def restrictSubtype (U : Set X) : RRSectionEvaluationData K U V where
+  eval x := D.eval x.1
+
+theorem restrictSubtype_eval
+    (U : Set X) (x : U) :
+    (D.restrictSubtype U).eval x = D.eval x.1 := rfl
+
+theorem restrictSubtype_vanishesOnSet_iff_image
+    (U : Set X) (S : Set U) (s : V) :
+    (D.restrictSubtype U).vanishesOnSet S s ↔
+      D.vanishesOnSet ((Subtype.val : U → X) '' S) s := by
+  constructor
+  · intro hs x hx
+    rcases hx with ⟨y, hy, rfl⟩
+    exact hs y hy
+  · intro hs x hx
+    exact hs x.1 ⟨x, hx, rfl⟩
+
+theorem restrictSubtype_nonzeroOnSet_iff_image
+    (U : Set X) (T : Set U) (s : V) :
+    (D.restrictSubtype U).nonzeroOnSet T s ↔
+      D.nonzeroOnSet ((Subtype.val : U → X) '' T) s := by
+  constructor
+  · intro hs x hx
+    rcases hx with ⟨y, hy, rfl⟩
+    exact hs y hy
+  · intro hs x hx
+    exact hs x.1 ⟨x, hx, rfl⟩
+
 /-- If all evaluations in a finite family are nonzero linear forms, then some
 section is nonzero at every point in the family. -/
 theorem exists_section_nonzero_on_finite
@@ -167,6 +197,34 @@ theorem exists_section_for_disjoint_finite_sets
     ⟨s,
       ((D.toEvaluationData).vanishesOn_toFinset_iff hS s).1 hsS,
       ((D.toEvaluationData).nonzeroOn_toFinset_iff hT s).1 hsT⟩
+
+/-- Set-level finite Riemann-Roch handoff after restricting the point set to an
+arbitrary subtype.  This avoids a separate common-kernel identification by
+pushing finite subtype sets forward to the original source, applying the
+original package, and pulling the resulting section conditions back. -/
+theorem exists_section_for_disjoint_finite_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, ((D.toEvaluationData).restrictSubtype U).vanishesOnSet S s ∧
+      ((D.toEvaluationData).restrictSubtype U).nonzeroOnSet T s := by
+  let S' : Set X := (Subtype.val : U → X) '' S
+  let T' : Set X := (Subtype.val : U → X) '' T
+  have hS' : S'.Finite := hS.image (Subtype.val : U → X)
+  have hT' : T'.Finite := hT.image (Subtype.val : U → X)
+  have hdis' : Disjoint S' T' := by
+    rw [Set.disjoint_left]
+    intro y hyS hyT
+    rcases hyS with ⟨s, hsS, rfl⟩
+    rcases hyT with ⟨t, htT, ht⟩
+    have hst : s = t := Subtype.ext ht.symm
+    have hs_not_mem_T : s ∉ T := (Set.disjoint_left.mp hdis) hsS
+    exact hs_not_mem_T (by simpa [hst] using htT)
+  rcases D.exists_section_for_disjoint_finite_sets hS' hT' hdis' with
+    ⟨s, hsS, hsT⟩
+  exact
+    ⟨s,
+      ((D.toEvaluationData).restrictSubtype_vanishesOnSet_iff_image U S s).2 hsS,
+      ((D.toEvaluationData).restrictSubtype_nonzeroOnSet_iff_image U T s).2 hsT⟩
 
 /-- Singleton-target form: for a finite set `S` and a point outside it, there
 is a section vanishing on `S` and nonzero at that point. -/

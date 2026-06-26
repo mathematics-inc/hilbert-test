@@ -228,6 +228,28 @@ theorem hilbert_rr_nonzeroOn_toFinset_iff
   exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.nonzeroOn_toFinset_iff
     D hT s
 
+theorem hilbert_rr_restrictSubtype_eval
+    (U : Set X) (x : U) :
+    (D.restrictSubtype U).eval x = D.eval x.1 := by
+  exact SourceStack.CurveRiemannRoch.RRSectionEvaluationData.restrictSubtype_eval
+    D U x
+
+theorem hilbert_rr_restrictSubtype_vanishesOnSet_iff_image
+    (U : Set X) (S : Set U) (s : V) :
+    (D.restrictSubtype U).vanishesOnSet S s ↔
+      D.vanishesOnSet ((Subtype.val : U → X) '' S) s := by
+  exact
+    SourceStack.CurveRiemannRoch.RRSectionEvaluationData.restrictSubtype_vanishesOnSet_iff_image
+      D U S s
+
+theorem hilbert_rr_restrictSubtype_nonzeroOnSet_iff_image
+    (U : Set X) (T : Set U) (s : V) :
+    (D.restrictSubtype U).nonzeroOnSet T s ↔
+      D.nonzeroOnSet ((Subtype.val : U → X) '' T) s := by
+  exact
+    SourceStack.CurveRiemannRoch.RRSectionEvaluationData.restrictSubtype_nonzeroOnSet_iff_image
+      D U T s
+
 theorem hilbert_rr_exists_section_nonzero_on_finite
     [Infinite K] (T : Finset X)
     (hT : ∀ x ∈ T, D.eval x ≠ 0) :
@@ -265,6 +287,15 @@ theorem hilbert_rr_package_exists_section_for_disjoint_finite_sets
       (P.toEvaluationData).nonzeroOnSet T s := by
   exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
     P hS hT hdis
+
+theorem hilbert_rr_package_exists_section_for_disjoint_finite_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U}
+    (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ s : V, ((P.toEvaluationData).restrictSubtype U).vanishesOnSet S s ∧
+      ((P.toEvaluationData).restrictSubtype U).nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_subtype_sets
+      P U hS hT hdis
 
 theorem hilbert_rr_package_exists_section_vanishing_on_finite_nonzero_at
     [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
