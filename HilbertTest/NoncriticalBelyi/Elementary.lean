@@ -512,6 +512,42 @@ theorem belyi_aux_beta_not_mem_image_of_finite_real_set
       hm hn hgt_one hbeta_gt_alpha
     nlinarith
 
+theorem belyi_aux_finite_shifted_ratio_ge_scale
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    {f0 : Real}
+    (hf0_pos : 0 < f0)
+    (hf0_le_quarter : f0 <= 1 / 4)
+    (hcases : ∀ x ∈ S, belyiAux m n x + f0 ≠ 0 →
+      belyiAux m n x = 0 ∨
+        (1 < x ∧ f0 <= belyiAux m n x) ∨
+        (1 < x ∧ belyiAux m n x <= f0)) :
+    ∀ x ∈ S, belyiAux m n x + f0 ≠ 0 →
+      C <= (belyiAux m n beta + f0) / (belyiAux m n x + f0) := by
+  have hC_le_beta : C <= beta := by
+    have h := hscale 1 h_one_mem (by norm_num)
+    simpa [ge_iff_le] using h
+  intro x hxS hden
+  rcases hcases x hxS hden with hzero | hpositive
+  · have hratio := belyi_aux_shifted_zero_ratio_ge_scale (m := m) (n := n)
+      hm hn hC hC_le_beta hf0_pos hf0_le_quarter
+    simpa [hzero] using hratio
+  · rcases hpositive with hle_value | hvalue_le
+    · exact belyi_aux_shifted_ratio_ge_scale_of_offset_le_value
+        (m := m) (n := n) (alpha := x) (beta := beta) (C := C)
+        hm hn hC hle_value.1
+        (hscale x hxS (by nlinarith [hle_value.1]))
+        hf0_pos.le hle_value.2
+    · exact belyi_aux_shifted_ratio_ge_scale_of_value_le_offset
+        (m := m) (n := n) (alpha := x) (beta := beta) (C := C)
+        hm hn hC hvalue_le.1
+        (hscale x hxS (by nlinarith [hvalue_le.1]))
+        hf0_pos hf0_le_quarter hvalue_le.2
+
 end Lemma21Arithmetic
 
 end NoncriticalBelyi

@@ -265,6 +265,28 @@ theorem hilbert_belyi_aux_beta_not_mem_image_of_finite_real_set
   exact NoncriticalBelyi.belyi_aux_beta_not_mem_image_of_finite_real_set
     hm hn hC h_one_mem hS_shape hscale
 
+theorem hilbert_belyi_aux_finite_shifted_ratio_ge_scale
+    {m n : Nat} {beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    {f0 : Real}
+    (hf0_pos : 0 < f0)
+    (hf0_le_quarter : f0 <= 1 / 4)
+    (hcases : ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x + f0 ≠ 0 →
+      NoncriticalBelyi.belyiAux m n x = 0 ∨
+        (1 < x ∧ f0 <= NoncriticalBelyi.belyiAux m n x) ∨
+        (1 < x ∧ NoncriticalBelyi.belyiAux m n x <= f0)) :
+    ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x + f0 ≠ 0 →
+      C <=
+        (NoncriticalBelyi.belyiAux m n beta + f0) /
+          (NoncriticalBelyi.belyiAux m n x + f0) := by
+  exact NoncriticalBelyi.belyi_aux_finite_shifted_ratio_ge_scale
+    hm hn hC h_one_mem hscale hf0_pos hf0_le_quarter hcases
+
 theorem hilbert_paperPolynomial_eval_zero
     {m n : Nat} (hm : 0 < m) :
     (NoncriticalBelyi.paperPolynomial m n).eval 0 = 0 := by
