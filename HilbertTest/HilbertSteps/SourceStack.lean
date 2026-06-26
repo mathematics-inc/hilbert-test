@@ -24,6 +24,7 @@ import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
 import HilbertTest.SourceStack.P1PolynomialSeparation
+import HilbertTest.SourceStack.PolynomialTargetAvoidance
 import HilbertTest.SourceStack.P1SchemePointBridge
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
@@ -4317,6 +4318,104 @@ theorem hilbert_p1PolynomialSeparation_separates_avoids_branch_and_noncritical :
     P
 
 end P1PolynomialSeparation
+
+namespace PolynomialTargetAvoidance
+
+open SourceStack.PolynomialMaps
+open SourceStack.PolynomialTargetAvoidance
+
+universe u v
+
+variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
+
+theorem hilbert_polynomialTargetAvoidance_mem_affineBranchValueSet_iff
+    (y : E) :
+    y ∈ affineBranchValueSet E ↔ y = 0 ∨ y = 1 := by
+  exact SourceStack.PolynomialTargetAvoidance.mem_affineBranchValueSet_iff E y
+
+theorem hilbert_polynomialTargetAvoidance_affineBranchValueSet_finite :
+    (affineBranchValueSet E).Finite := by
+  exact SourceStack.PolynomialTargetAvoidance.affineBranchValueSet_finite E
+
+theorem hilbert_polynomialTargetAvoidance_forbiddenTargetSet_finite
+    {S : Set E} (hS : S.Finite) (p : F[X]) :
+    (forbiddenTargetSet F E S p).Finite := by
+  exact SourceStack.PolynomialTargetAvoidance.forbiddenTargetSet_finite F E hS p
+
+theorem hilbert_polynomialTargetAvoidance_mem_forbiddenTargetSet_iff
+    {S : Set E} (p : F[X]) (y : E) :
+    y ∈ forbiddenTargetSet F E S p ↔
+      y ∈ replacementSet F E S p ∨ y = 0 ∨ y = 1 := by
+  exact SourceStack.PolynomialTargetAvoidance.mem_forbiddenTargetSet_iff
+    F E p y
+
+theorem hilbert_polynomialTargetAvoidance_not_mem_forbiddenTargetSet_iff
+    {S : Set E} (p : F[X]) (y : E) :
+    y ∉ forbiddenTargetSet F E S p ↔
+      y ∉ replacementSet F E S p ∧ y ≠ 0 ∧ y ≠ 1 := by
+  exact SourceStack.PolynomialTargetAvoidance.not_mem_forbiddenTargetSet_iff
+    F E p y
+
+theorem hilbert_polynomialTargetAvoidance_exists_target_not_mem_forbiddenTargetSet
+    [Infinite E] {S : Set E} (hS : S.Finite) (p : F[X]) :
+    ∃ y : E, y ∉ forbiddenTargetSet F E S p := by
+  exact SourceStack.PolynomialTargetAvoidance.exists_target_not_mem_forbiddenTargetSet
+    F E hS p
+
+theorem hilbert_polynomialTargetAvoidance_target_not_mem_replacement_of_not_mem_forbiddenTargetSet
+    {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∉ forbiddenTargetSet F E S p) :
+    y ∉ replacementSet F E S p := by
+  exact SourceStack.PolynomialTargetAvoidance.target_not_mem_replacement_of_not_mem_forbiddenTargetSet
+    F E hy
+
+theorem hilbert_polynomialTargetAvoidance_target_ne_zero_of_not_mem_forbiddenTargetSet
+    {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∉ forbiddenTargetSet F E S p) :
+    y ≠ 0 := by
+  exact SourceStack.PolynomialTargetAvoidance.target_ne_zero_of_not_mem_forbiddenTargetSet
+    F E hy
+
+theorem hilbert_polynomialTargetAvoidance_target_ne_one_of_not_mem_forbiddenTargetSet
+    {S : Set E} {p : F[X]} {y : E}
+    (hy : y ∉ forbiddenTargetSet F E S p) :
+    y ≠ 1 := by
+  exact SourceStack.PolynomialTargetAvoidance.target_ne_one_of_not_mem_forbiddenTargetSet
+    F E hy
+
+theorem hilbert_polynomialTargetAvoidance_toP1PolynomialSeparationStep_polynomial
+    {S : Set E} {β : E}
+    (p : F[X]) (hpder : p.derivative ≠ 0)
+    (hβ : Polynomial.aeval β p ∉ forbiddenTargetSet F E S p) :
+    (toP1PolynomialSeparationStep F E p hpder hβ).polynomial = p := by
+  exact SourceStack.PolynomialTargetAvoidance.toP1PolynomialSeparationStep_polynomial
+    F E p hpder hβ
+
+theorem hilbert_polynomialTargetAvoidance_toP1PolynomialSeparationStep_target_not_mem_replacement
+    {S : Set E} {β : E}
+    (p : F[X]) (hpder : p.derivative ≠ 0)
+    (hβ : Polynomial.aeval β p ∉ forbiddenTargetSet F E S p) :
+    Polynomial.aeval β p ∉ replacementSet F E S p := by
+  exact SourceStack.PolynomialTargetAvoidance.toP1PolynomialSeparationStep_target_not_mem_replacement
+    F E p hpder hβ
+
+theorem hilbert_polynomialTargetAvoidance_toP1PolynomialSeparationStep_target_ne_zero
+    {S : Set E} {β : E}
+    (p : F[X]) (hpder : p.derivative ≠ 0)
+    (hβ : Polynomial.aeval β p ∉ forbiddenTargetSet F E S p) :
+    Polynomial.aeval β p ≠ 0 := by
+  exact SourceStack.PolynomialTargetAvoidance.toP1PolynomialSeparationStep_target_ne_zero
+    F E p hpder hβ
+
+theorem hilbert_polynomialTargetAvoidance_toP1PolynomialSeparationStep_target_ne_one
+    {S : Set E} {β : E}
+    (p : F[X]) (hpder : p.derivative ≠ 0)
+    (hβ : Polynomial.aeval β p ∉ forbiddenTargetSet F E S p) :
+    Polynomial.aeval β p ≠ 1 := by
+  exact SourceStack.PolynomialTargetAvoidance.toP1PolynomialSeparationStep_target_ne_one
+    F E p hpder hβ
+
+end PolynomialTargetAvoidance
 
 namespace P1SchemePointBridge
 

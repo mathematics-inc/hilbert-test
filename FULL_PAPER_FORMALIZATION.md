@@ -182,6 +182,13 @@ values, records that a selected affine target with value neither `0` nor `1`
 avoids `{0,1,infinity}`, and packages the resulting `P1` separation and
 noncritical-preimage statement.
 
+`HilbertTest/SourceStack/PolynomialTargetAvoidance.lean` now checks the finite
+target-choice bookkeeping behind that assumption.  It defines the forbidden
+target set `replacementSet ∪ {0,1}`, proves it is finite when the original set
+is finite, extracts an outside value over an infinite field, and converts a
+proof that `p(beta)` avoids this forbidden set into a
+`P1PolynomialSeparationStep`.
+
 `HilbertTest/SourceStack/P1SchemePointBridge.lean` now isolates the remaining
 linear-to-scheme point-model interface for `P1`: an injective bridge from the
 linear projective line to the scheme carrier that agrees on the marked labels.

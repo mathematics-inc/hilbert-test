@@ -193,6 +193,10 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   affine chart, branch-triple avoidance for selected targets with value neither
   `0` nor `1`, separation from the original finite set, and noncriticality over
   the selected `P1` target.
+- `HilbertTest.SourceStack.PolynomialTargetAvoidance`: finite target-choice
+  bookkeeping for Lemma 2.4.  It proves `replacementSet ∪ {0,1}` is finite,
+  extracts a target outside it over an infinite field, and converts an avoiding
+  selected value `p(beta)` into a `P1PolynomialSeparationStep`.
 - `HilbertTest.SourceStack.P1SchemePointBridge`: the abstract point-model
   bridge from the linear `P1` to the scheme carrier `P1 K`.  Assuming an
   injective bridge agreeing with the marked labels, it checks equivalence
@@ -509,12 +513,14 @@ Lean-facing declarations needed:
   consequence away from the replacement set and the chain-rule nonvanishing
   wrapper for compositions; `SourceStack.PolynomialSeparation` now packages the
   selected-value separation and noncritical-preimage conclusion used by the
-  induction step; `SourceStack.P1PolynomialSeparation` transports that package
-  to the affine chart of the linear projective line; `SourceStack.P1SchemePointBridge`
-  transports it further to the scheme carrier once an injective marked-label
-  bridge is supplied.  What remains is the concrete scheme `P^1(Qbar)`
-  point/model construction and rational-map packaging needed to apply those
-  field facts to Belyi maps.
+  induction step; `SourceStack.PolynomialTargetAvoidance` checks the finite
+  forbidden target set `replacementSet ∪ {0,1}` and the conversion to a selected
+  `P1` separation step; `SourceStack.P1PolynomialSeparation` transports that
+  package to the affine chart of the linear projective line;
+  `SourceStack.P1SchemePointBridge` transports it further to the scheme carrier
+  once an injective marked-label bridge is supplied.  What remains is the
+  concrete scheme `P^1(Qbar)` point/model construction and rational-map
+  packaging needed to apply those field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 
