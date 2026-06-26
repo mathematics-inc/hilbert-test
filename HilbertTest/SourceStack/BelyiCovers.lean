@@ -99,6 +99,20 @@ theorem complement_tupleAvoidSet_eq
       {x : κ → {x : X // x ∉ S} | ∀ i, D.map φ.1 (x i).1 ∉ D.branch} := by
   rfl
 
+/-- Restrict the source of a Belyi cover datum to an arbitrary subtype. -/
+def restrictSubtype (U : Set X) : BelyiCoverData U P Φ where
+  branch := D.branch
+  branch_finite := D.branch_finite
+  map φ x := D.map φ x.1
+  continuous_map φ := (D.continuous_map φ).comp continuous_subtype_val
+
+theorem restrictSubtype_branch (U : Set X) :
+    (D.restrictSubtype U).branch = D.branch := rfl
+
+theorem restrictSubtype_map_apply
+    (U : Set X) (φ : Φ) (x : U) :
+    (D.restrictSubtype U).map φ x = D.map φ x.1 := rfl
+
 /-- If the noncritical Belyi existence theorem supplies, for every tuple in
 `X \\ S`, a map sending `S` to the branch set and avoiding the branch set on the
 tuple, then compactness extracts finitely many such maps. -/
@@ -152,6 +166,11 @@ theorem mem_belyiOpen_iff (φ : Φ) (x : X) :
     x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch :=
   Iff.rfl
 
+theorem restrictSubtype_belyiOpen_eq_preimage
+    (U : Set X) (φ : Φ) :
+    (D.restrictSubtype U).belyiOpen φ =
+      (Subtype.val : U → X) ⁻¹' D.belyiOpen φ := rfl
+
 /-- Abstract form of the formal step behind Corollary 1.2: if the existence
 theorem supplies a map sending `A` to the branch set while a point avoids the
 branch set, then there is a Belyi open containing the point and contained in
@@ -183,6 +202,48 @@ namespace NoncriticalBelyiExistence
 
 variable {X P Φ κ : Type*} [TopologicalSpace X] [TopologicalSpace P]
 variable (D : NoncriticalBelyiExistence X P Φ)
+
+/-- Restrict a noncritical Belyi existence package to an arbitrary subtype of
+the source.  Finite disjoint sets are pushed forward along the subtype
+embedding, the original existence theorem is applied, and the same map is
+restricted back. -/
+def restrictSubtype (U : Set X) : NoncriticalBelyiExistence U P Φ where
+  branch := D.branch
+  branch_finite := D.branch_finite
+  map φ x := D.map φ x.1
+  continuous_map φ := (D.continuous_map φ).comp continuous_subtype_val
+  exists_for_finite_disjoint := by
+    intro S T hS hT hdis
+    let S' : Set X := (Subtype.val : U → X) '' S
+    let T' : Set X := (Subtype.val : U → X) '' T
+    have hS' : S'.Finite := hS.image (Subtype.val : U → X)
+    have hT' : T'.Finite := hT.image (Subtype.val : U → X)
+    have hdis' : Disjoint S' T' := by
+      rw [Set.disjoint_left]
+      intro y hyS hyT
+      rcases hyS with ⟨s, hsS, rfl⟩
+      rcases hyT with ⟨t, htT, ht⟩
+      have hst : s = t := Subtype.ext ht.symm
+      have hs_not_mem_T : s ∉ T := (Set.disjoint_left.mp hdis) hsS
+      exact hs_not_mem_T (by simpa [hst] using htT)
+    rcases D.exists_for_finite_disjoint hS' hT' hdis' with
+      ⟨φ, hφS, hφT⟩
+    exact
+      ⟨φ,
+        (by
+          intro x hx
+          exact hφS x.1 ⟨x, hx, rfl⟩),
+        (by
+          intro x hx
+          exact hφT x.1 ⟨x, hx, rfl⟩)⟩
+
+theorem restrictSubtype_toBelyiCoverData (U : Set X) :
+    (D.restrictSubtype U).toBelyiCoverData =
+      D.toBelyiCoverData.restrictSubtype U := rfl
+
+theorem restrictSubtype_map_apply
+    (U : Set X) (φ : Φ) (x : U) :
+    (D.restrictSubtype U).map φ x = D.map φ x.1 := rfl
 
 /-- Theorem 2.5-style finite-set existence gives the pointwise tuple-cover
 hypothesis over the complement of a fixed finite set. -/

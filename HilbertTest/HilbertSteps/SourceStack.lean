@@ -2606,6 +2606,17 @@ theorem hilbert_mem_belyiOpen_iff
     x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch := by
   exact SourceStack.BelyiCoverData.mem_belyiOpen_iff D φ x
 
+theorem hilbert_belyiCoverData_restrictSubtype_map_apply
+    (U : Set X) (φ : Φ) (x : U) :
+    (D.restrictSubtype U).map φ x = D.map φ x.1 := by
+  exact SourceStack.BelyiCoverData.restrictSubtype_map_apply D U φ x
+
+theorem hilbert_belyiCoverData_restrictSubtype_belyiOpen_eq_preimage
+    (U : Set X) (φ : Φ) :
+    (D.restrictSubtype U).belyiOpen φ =
+      (Subtype.val : U → X) ⁻¹' D.belyiOpen φ := by
+  exact SourceStack.BelyiCoverData.restrictSubtype_belyiOpen_eq_preimage D U φ
+
 theorem hilbert_exists_belyiOpen_inside_of_point_avoidance
     [T1Space P] {A : Set X} {x : X}
     (h : ∃ φ : Φ, D.sendsSetToBranch A φ ∧ D.map φ x ∉ D.branch) :
@@ -2613,6 +2624,17 @@ theorem hilbert_exists_belyiOpen_inside_of_point_avoidance
   exact SourceStack.BelyiCoverData.exists_belyiOpen_inside_of_point_avoidance D h
 
 variable (E : NoncriticalBelyiExistence X P Φ)
+
+theorem hilbert_noncritical_restrictSubtype_toBelyiCoverData
+    (U : Set X) :
+    (E.restrictSubtype U).toBelyiCoverData =
+      E.toBelyiCoverData.restrictSubtype U := by
+  exact SourceStack.NoncriticalBelyiExistence.restrictSubtype_toBelyiCoverData E U
+
+theorem hilbert_noncritical_restrictSubtype_map_apply
+    (U : Set X) (φ : Φ) (x : U) :
+    (E.restrictSubtype U).map φ x = E.map φ x.1 := by
+  exact SourceStack.NoncriticalBelyiExistence.restrictSubtype_map_apply E U φ x
 
 theorem hilbert_noncritical_pointwise_cover_complement
     [Finite κ] {S : Set X} (hS : S.Finite)
