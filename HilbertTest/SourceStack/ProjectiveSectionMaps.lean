@@ -1082,6 +1082,135 @@ theorem twoSectionLocal_denominator_isUnit
     simpa [Schemes.basicOpenTopRestrict] using
       Schemes.isUnit_basicOpenTopRestrict_self C s1
 
+/-- Canonical two-basic-open version of the denominator-is-unit
+projective-section package.  It fixes the cover, chart choices, and local
+section representatives from a Bezout pair of global functions; the remaining
+fields are the chart coordinate ring maps, their overlap compatibility, and
+the pointwise zero criteria needed for the final `P1` morphism. -/
+structure TwoSectionBezoutTrivializedIsUnitData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  globalSection0 : Γ(C, ⊤)
+  globalSection1 : Γ(C, ⊤)
+  bezoutCoeff0 : Γ(C, ⊤)
+  bezoutCoeff1 : Γ(C, ⊤)
+  bezout :
+    bezoutCoeff0 * globalSection0 + bezoutCoeff1 * globalSection1 = 1
+  localChartRingHom :
+    ∀ i : Fin 2,
+      CommRingCat.of
+        (standardChartRing K
+          (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart i))) ⟶
+          Γ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).obj i, ⊤)
+  localChartCoordinate_eq_unitRatio :
+    ∀ i : Fin 2,
+      standardChartCoordinateSection K (localChartRingHom i) =
+        LocalSectionRatioChart.unitRatio (twoSectionRatioChart i)
+          (twoSectionLocalSection0 C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout i)
+          (twoSectionLocalSection1 C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout i)
+          ((twoSectionLocal_denominator_isUnit C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout i).unit)
+  local_compat :
+    ∀ i j : Fin 2,
+      (pullback.fst
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map i)
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom i)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart i)) =
+        (pullback.snd
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map i)
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map j) ≫
+          standardChartHomOfRingHom K (localChartRingHom j)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart j))
+  local_zero_of_section0_vanishes :
+    ∀ i (x : (twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).obj i),
+      evalData.eval (((twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : (twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).obj i),
+      (standardChartToP1HomOfRingHom K (localChartRingHom i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval (((twoSectionBezoutCover C globalSection0 globalSection1
+          bezoutCoeff0 bezoutCoeff1 bezout).map i).base x) section0 = 0
+
+namespace TwoSectionBezoutTrivializedIsUnitData
+
+variable {C : Scheme.{u}}
+variable (D : TwoSectionBezoutTrivializedIsUnitData K C V)
+
+/-- The canonical two-basic-open cover of the two chosen global functions. -/
+def cover : C.OpenCover :=
+  twoSectionBezoutCover C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout
+
+/-- The chart selected on each member of the two-basic-open cover. -/
+def ratioChart : D.cover.J → LocalSectionRatioChart :=
+  twoSectionRatioChart
+
+/-- The first local section representative on each canonical basic open. -/
+def localSection0 (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalSection0 C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The second local section representative on each canonical basic open. -/
+def localSection1 (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalSection1 C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The selected denominator is a unit on each canonical basic open. -/
+theorem denominator_isUnit (i : D.cover.J) :
+    IsUnit (LocalSectionRatioChart.denominator (D.ratioChart i)
+      (D.localSection0 i) (D.localSection1 i)) := by
+  exact twoSectionLocal_denominator_isUnit C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- Assemble the canonical two-open data into the denominator-is-unit
+trivialized section-ratio package. -/
+def toTrivializedIsUnitSectionRatioData :
+    TrivializedIsUnitSectionRatioData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  ratioChart := D.ratioChart
+  localSection0 := D.localSection0
+  localSection1 := D.localSection1
+  denominator_isUnit := D.denominator_isUnit
+  localChartRingHom := D.localChartRingHom
+  localChartCoordinate_eq_unitRatio := by
+    intro i
+    simpa [cover, ratioChart, localSection0, localSection1,
+      denominator_isUnit] using D.localChartCoordinate_eq_unitRatio i
+  local_compat := by
+    intro i j
+    simpa [cover, ratioChart] using D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    simpa [cover] using D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    exact D.local_section0_vanishes_of_zero i x (by simpa [cover] using hx)
+
+end TwoSectionBezoutTrivializedIsUnitData
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch

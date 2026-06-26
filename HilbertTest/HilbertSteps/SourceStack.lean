@@ -1118,6 +1118,59 @@ theorem hilbert_twoSectionLocal_denominator_isUnit
   exact SourceStack.ProjectiveSectionMaps.twoSectionLocal_denominator_isUnit
     C s0 s1 a b h i
 
+variable (TSD : TwoSectionBezoutTrivializedIsUnitData K C V)
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_cover :
+    TwoSectionBezoutTrivializedIsUnitData.cover TSD =
+      twoSectionBezoutCover C TSD.globalSection0 TSD.globalSection1
+        TSD.bezoutCoeff0 TSD.bezoutCoeff1 TSD.bezout := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_ratioChart :
+    TwoSectionBezoutTrivializedIsUnitData.ratioChart TSD =
+      twoSectionRatioChart := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_localSection0
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    TwoSectionBezoutTrivializedIsUnitData.localSection0 TSD i =
+      twoSectionLocalSection0 C TSD.globalSection0 TSD.globalSection1
+        TSD.bezoutCoeff0 TSD.bezoutCoeff1 TSD.bezout i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_localSection1
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    TwoSectionBezoutTrivializedIsUnitData.localSection1 TSD i =
+      twoSectionLocalSection1 C TSD.globalSection0 TSD.globalSection1
+        TSD.bezoutCoeff0 TSD.bezoutCoeff1 TSD.bezout i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_denominator_isUnit
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    IsUnit (LocalSectionRatioChart.denominator
+      (TwoSectionBezoutTrivializedIsUnitData.ratioChart TSD i)
+      (TwoSectionBezoutTrivializedIsUnitData.localSection0 TSD i)
+      (TwoSectionBezoutTrivializedIsUnitData.localSection1 TSD i)) := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.denominator_isUnit
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_cover :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).cover =
+      TwoSectionBezoutTrivializedIsUnitData.cover TSD := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_ratioChart
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).ratioChart i =
+      TwoSectionBezoutTrivializedIsUnitData.ratioChart TSD i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_denominator_isUnit
+    (i : (TwoSectionBezoutTrivializedIsUnitData.cover TSD).J) :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).denominator_isUnit i =
+      TwoSectionBezoutTrivializedIsUnitData.denominator_isUnit TSD i := by
+  rfl
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
