@@ -807,6 +807,20 @@ theorem hilbert_projectiveLineSectionPair_avoids_zeroPoint_of_section0_nonzero
   exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.avoids_zeroPoint_of_section0_nonzero
     P hx
 
+theorem hilbert_projectiveLineSectionPair_section0_vanishes_iff_hom_eq_zero
+    (x : C) :
+    P.evalData.eval x P.section0 = 0 ↔
+      P.hom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.section0_vanishes_iff_hom_eq_zero
+    P x
+
+theorem hilbert_projectiveLineSectionPair_section0_nonzero_iff_hom_ne_zero
+    (x : C) :
+    P.evalData.eval x P.section0 ≠ 0 ↔
+      P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair.section0_nonzero_iff_hom_ne_zero
+    P x
+
 variable (G : GluedProjectiveLineSectionData K C V)
 
 theorem hilbert_gluedProjectiveLineSectionData_cover_map_globalHom
@@ -833,6 +847,20 @@ theorem hilbert_gluedProjectiveLineSectionData_section0_vanishes_of_global_zero
     G.evalData.eval x G.section0 = 0 := by
   exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.section0_vanishes_of_global_zero
     G x hx
+
+theorem hilbert_gluedProjectiveLineSectionData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    G.evalData.eval x G.section0 = 0 ↔
+      G.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.section0_vanishes_iff_globalHom_eq_zero
+    G x
+
+theorem hilbert_gluedProjectiveLineSectionData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    G.evalData.eval x G.section0 ≠ 0 ↔
+      G.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.GluedProjectiveLineSectionData.section0_nonzero_iff_globalHom_ne_zero
+    G x
 
 theorem hilbert_gluedProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
     G.toProjectiveLineSectionPair.hom = G.globalHom := by
@@ -878,6 +906,20 @@ theorem hilbert_standardChartProjectiveLineSectionData_section0_vanishes_of_glob
   exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.section0_vanishes_of_global_zero
     SC x hx
 
+theorem hilbert_standardChartProjectiveLineSectionData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    SC.evalData.eval x SC.section0 = 0 ↔
+      SC.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.section0_vanishes_iff_globalHom_eq_zero
+    SC x
+
+theorem hilbert_standardChartProjectiveLineSectionData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    SC.evalData.eval x SC.section0 ≠ 0 ↔
+      SC.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.section0_nonzero_iff_globalHom_ne_zero
+    SC x
+
 theorem hilbert_standardChartProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
     SC.toProjectiveLineSectionPair.hom = SC.globalHom := by
   exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionData.toProjectiveLineSectionPair_hom
@@ -921,6 +963,20 @@ theorem hilbert_standardChartProjectiveLineSectionRingData_section0_vanishes_of_
     RD.evalData.eval x RD.section0 = 0 := by
   exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.section0_vanishes_of_global_zero
     RD x hx
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    RD.evalData.eval x RD.section0 = 0 ↔
+      RD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.section0_vanishes_iff_globalHom_eq_zero
+    RD x
+
+theorem hilbert_standardChartProjectiveLineSectionRingData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    RD.evalData.eval x RD.section0 ≠ 0 ↔
+      RD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.StandardChartProjectiveLineSectionRingData.section0_nonzero_iff_globalHom_ne_zero
+    RD x
 
 theorem hilbert_standardChartProjectiveLineSectionRingData_toProjectiveLineSectionPair_hom :
     RD.toProjectiveLineSectionPair.hom = RD.globalHom := by
@@ -978,6 +1034,20 @@ theorem hilbert_sectionRatioProjectiveLineSectionData_section0_vanishes_of_globa
     SRD.evalData.eval x SRD.section0 = 0 := by
   exact SourceStack.ProjectiveSectionMaps.SectionRatioProjectiveLineSectionData.section0_vanishes_of_global_zero
     SRD x hx
+
+theorem hilbert_sectionRatioProjectiveLineSectionData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    SRD.evalData.eval x SRD.section0 = 0 ↔
+      SRD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.SectionRatioProjectiveLineSectionData.section0_vanishes_iff_globalHom_eq_zero
+    SRD x
+
+theorem hilbert_sectionRatioProjectiveLineSectionData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    SRD.evalData.eval x SRD.section0 ≠ 0 ↔
+      SRD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.SectionRatioProjectiveLineSectionData.section0_nonzero_iff_globalHom_ne_zero
+    SRD x
 
 theorem hilbert_sectionRatioProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
     SRD.toProjectiveLineSectionPair.hom = SRD.globalHom := by
@@ -1072,6 +1142,20 @@ theorem hilbert_trivializedSectionRatioData_section0_vanishes_of_global_zero
     TD.evalData.eval x TD.section0 = 0 := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.section0_vanishes_of_global_zero
     TD x hx
+
+theorem hilbert_trivializedSectionRatioData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    TD.evalData.eval x TD.section0 = 0 ↔
+      TD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.section0_vanishes_iff_globalHom_eq_zero
+    TD x
+
+theorem hilbert_trivializedSectionRatioData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    TD.evalData.eval x TD.section0 ≠ 0 ↔
+      TD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedSectionRatioData.section0_nonzero_iff_globalHom_ne_zero
+    TD x
 
 theorem hilbert_trivializedSectionRatioData_toProjectiveLineSectionPair_hom :
     TD.toProjectiveLineSectionPair.hom = TD.globalHom := by

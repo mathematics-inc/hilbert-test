@@ -107,6 +107,25 @@ theorem avoids_zeroPoint_of_section0_nonzero
   intro hzero
   exact hx (P.section0_vanishes_of_zero x hzero)
 
+/-- The first section vanishes at a point exactly when the associated
+projective-line morphism hits the checked zero point there. -/
+theorem section0_vanishes_iff_hom_eq_zero (x : C) :
+    P.evalData.eval x P.section0 = 0 ↔
+      P.hom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact P.zero_of_section0_vanishes x
+  · exact P.section0_vanishes_of_zero x
+
+/-- The first section is nonzero at a point exactly when the associated
+projective-line morphism avoids the checked zero point there. -/
+theorem section0_nonzero_iff_hom_ne_zero (x : C) :
+    P.evalData.eval x P.section0 ≠ 0 ↔
+      P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact P.avoids_zeroPoint_of_section0_nonzero
+  · intro hzero hvanish
+    exact hzero (P.zero_of_section0_vanishes x hvanish)
+
 end ProjectiveLineSectionPair
 
 /-- Local chart data for constructing the projective-line morphism attached to
@@ -190,6 +209,26 @@ theorem section0_vanishes_of_global_zero
   have hv :=
     D.local_section0_vanishes_of_zero (D.cover.f x) y hlocal
   simpa [hy] using hv
+
+/-- The first section vanishes exactly on the zero fiber of the glued
+projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact D.global_zero_of_section0_vanishes x
+  · exact D.section0_vanishes_of_global_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the glued
+projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · intro hsection hzero
+    exact hsection (D.section0_vanishes_of_global_zero x hzero)
+  · intro hzero hsection
+    exact hzero (D.global_zero_of_section0_vanishes x hsection)
 
 /-- The glued local chart data supplies the narrower projective-section pair
 interface used by the existing finite marked Belyi bridge. -/
@@ -304,6 +343,26 @@ theorem section0_vanishes_of_global_zero
     D.evalData.eval x D.section0 = 0 := by
   exact D.toGluedProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
 
+/-- The first section vanishes exactly on the zero fiber of the glued
+standard-chart projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact D.global_zero_of_section0_vanishes x
+  · exact D.section0_vanishes_of_global_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the glued
+standard-chart projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · intro hsection hzero
+    exact hsection (D.section0_vanishes_of_global_zero x hzero)
+  · intro hzero hsection
+    exact hzero (D.global_zero_of_section0_vanishes x hsection)
+
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toGluedProjectiveLineSectionData.toProjectiveLineSectionPair
 
@@ -416,6 +475,26 @@ theorem section0_vanishes_of_global_zero
     (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
     D.evalData.eval x D.section0 = 0 := by
   exact D.toStandardChartProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+/-- The first section vanishes exactly on the zero fiber of the glued
+ring-hom chart projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact D.global_zero_of_section0_vanishes x
+  · exact D.section0_vanishes_of_global_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the glued
+ring-hom chart projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · intro hsection hzero
+    exact hsection (D.section0_vanishes_of_global_zero x hzero)
+  · intro hzero hsection
+    exact hzero (D.global_zero_of_section0_vanishes x hsection)
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toStandardChartProjectiveLineSectionData.toProjectiveLineSectionPair
@@ -545,6 +624,26 @@ theorem section0_vanishes_of_global_zero
     (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
     D.evalData.eval x D.section0 = 0 := by
   exact D.toStandardChartProjectiveLineSectionRingData.section0_vanishes_of_global_zero x hx
+
+/-- The first section vanishes exactly on the zero fiber of the
+section-ratio projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact D.global_zero_of_section0_vanishes x
+  · exact D.section0_vanishes_of_global_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+section-ratio projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · intro hsection hzero
+    exact hsection (D.section0_vanishes_of_global_zero x hzero)
+  · intro hzero hsection
+    exact hzero (D.global_zero_of_section0_vanishes x hsection)
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toStandardChartProjectiveLineSectionRingData.toProjectiveLineSectionPair
@@ -772,6 +871,26 @@ theorem section0_vanishes_of_global_zero
     (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
     D.evalData.eval x D.section0 = 0 := by
   exact D.toSectionRatioProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+/-- The first section vanishes exactly on the zero fiber of the trivialized
+section-ratio projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · exact D.global_zero_of_section0_vanishes x
+  · exact D.section0_vanishes_of_global_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+trivialized section-ratio projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  constructor
+  · intro hsection hzero
+    exact hsection (D.section0_vanishes_of_global_zero x hzero)
+  · intro hzero hsection
+    exact hzero (D.global_zero_of_section0_vanishes x hsection)
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair
