@@ -244,6 +244,24 @@ theorem compactExhaustion_iUnion_interior_eq
   rcases Set.mem_iUnion.mp hx with ⟨n, hxn⟩
   exact Set.mem_iUnion.mpr ⟨n + 1, K.subset_interior_succ n hxn⟩
 
+/-- Every point of a space lies in the interior of some member of any compact
+exhaustion. -/
+theorem compactExhaustion_exists_mem_interior
+    (K : CompactExhaustion X) (x : X) :
+    ∃ n, x ∈ interior (K n) := by
+  have hx : x ∈ ⋃ n, interior (K n) := by
+    rw [compactExhaustion_iUnion_interior_eq K]
+    trivial
+  exact Set.mem_iUnion.mp hx
+
+/-- Every compact subset is eventually contained in the interior of a member of
+any compact exhaustion. -/
+theorem compactExhaustion_exists_subset_interior_of_isCompact
+    (K : CompactExhaustion X) {s : Set X} (hs : IsCompact s) :
+    ∃ n, s ⊆ interior (K n) := by
+  rcases K.exists_superset_of_isCompact hs with ⟨n, hn⟩
+  exact ⟨n + 1, fun x hx => K.subset_interior_succ n (hn hx)⟩
+
 /-- Each interior in a compact exhaustion is open. -/
 theorem compactExhaustion_interior_isOpen
     (K : CompactExhaustion X) (n : ℕ) :

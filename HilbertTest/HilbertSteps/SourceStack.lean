@@ -2069,6 +2069,16 @@ theorem hilbert_compactExhaustion_iUnion_interior_eq
     (⋃ n, interior (K n)) = Set.univ := by
   exact SourceStack.compactExhaustion_iUnion_interior_eq K
 
+theorem hilbert_compactExhaustion_exists_mem_interior
+    (K : CompactExhaustion X) (x : X) :
+    ∃ n, x ∈ interior (K n) := by
+  exact SourceStack.compactExhaustion_exists_mem_interior K x
+
+theorem hilbert_compactExhaustion_exists_subset_interior_of_isCompact
+    (K : CompactExhaustion X) {t : Set X} (ht : IsCompact t) :
+    ∃ n, t ⊆ interior (K n) := by
+  exact SourceStack.compactExhaustion_exists_subset_interior_of_isCompact K ht
+
 theorem hilbert_compactExhaustion_interior_isOpen
     (K : CompactExhaustion X) (n : ℕ) :
     IsOpen (interior (K n)) := by
