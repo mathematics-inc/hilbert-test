@@ -108,6 +108,17 @@ theorem hilbert_belyi_aux_beta_gt_of_scale
   exact NoncriticalBelyi.belyi_aux_beta_gt_of_scale
     hm hn hC halpha hscale
 
+theorem hilbert_belyi_aux_strict_mono_on_gt_one
+    {m n : Nat} {alpha beta : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (halpha : 1 < alpha)
+    (hbeta : alpha < beta) :
+    NoncriticalBelyi.belyiAux m n alpha <
+      NoncriticalBelyi.belyiAux m n beta := by
+  exact NoncriticalBelyi.belyi_aux_strict_mono_on_gt_one
+    hm hn halpha hbeta
+
 theorem hilbert_half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by

@@ -216,6 +216,37 @@ theorem belyi_aux_beta_gt_of_scale
     belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
   nlinarith
 
+theorem belyi_aux_strict_mono_on_gt_one
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (halpha : 1 < alpha)
+    (hbeta : alpha < beta) :
+    belyiAux m n alpha < belyiAux m n beta := by
+  have hratio_lower := belyi_aux_ratio_lower_bound (m := m) (n := n)
+    hm hn halpha hbeta.le
+  have halpha_pos : 0 < alpha := by nlinarith
+  have hratio_gt_one : 1 < beta / alpha := by
+    rw [lt_div_iff₀ halpha_pos]
+    nlinarith
+  have hratio_product_gt_one :
+      1 < (beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n :=
+    lt_of_lt_of_le hratio_gt_one hratio_lower
+  have hpos : 0 < belyiAux m n alpha :=
+    belyi_aux_pos_of_gt_one (m := m) (n := n) halpha
+  have hmul :
+      belyiAux m n alpha * 1 <
+        belyiAux m n alpha *
+          ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) :=
+    mul_lt_mul_of_pos_left hratio_product_gt_one hpos
+  have heq : belyiAux m n beta =
+      belyiAux m n alpha *
+        ((beta / alpha) ^ m * ((beta - 1) / (alpha - 1)) ^ n) := by
+    unfold belyiAux
+    have ha0 : alpha ≠ 0 := by nlinarith
+    have ha1 : alpha - 1 ≠ 0 := by nlinarith
+    field_simp [ha0, ha1]
+  nlinarith
+
 theorem half_square_ge_self_of_ge_two
     {y : Real} (hy : 2 <= y) :
     y <= (1 / 2) * y ^ 2 := by
