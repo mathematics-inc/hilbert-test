@@ -175,6 +175,13 @@ set facts into the Lemma 2.4 handoff used by the paper: if the selected value
 `p(beta)`, and every preimage of `p(beta)` is noncritical for `p`.  The
 Hilbert-facing wrappers and dataset rows for this package are now checked.
 
+`HilbertTest/SourceStack/P1PolynomialSeparation.lean` now carries the same
+handoff through the affine chart of the linear projective line via
+`x |-> [p(x):1]`.  It proves affine-chart equality is equality of polynomial
+values, records that a selected affine target with value neither `0` nor `1`
+avoids `{0,1,infinity}`, and packages the resulting `P1` separation and
+noncritical-preimage statement.
+
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
 source layer available in Mathlib: dense-domain and partial-map representative

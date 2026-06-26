@@ -188,6 +188,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.PolynomialSeparation`: the packaged Lemma 2.4
   polynomial handoff: selected values outside the replacement set are separated
   from `S`, and every preimage of the selected value has nonzero derivative.
+- `HilbertTest.SourceStack.P1PolynomialSeparation`: the affine-chart
+  projective-line handoff for `x |-> [p(x):1]`, including equality on the
+  affine chart, branch-triple avoidance for selected targets with value neither
+  `0` nor `1`, separation from the original finite set, and noncriticality over
+  the selected `P1` target.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
@@ -498,8 +503,10 @@ Lean-facing declarations needed:
   consequence away from the replacement set and the chain-rule nonvanishing
   wrapper for compositions; `SourceStack.PolynomialSeparation` now packages the
   selected-value separation and noncritical-preimage conclusion used by the
-  induction step.  What remains is the `P^1(Qbar)` point/model layer and
-  rational-map packaging needed to apply those field facts to Belyi maps.
+  induction step; `SourceStack.P1PolynomialSeparation` transports that package
+  to the affine chart of the linear projective line.  What remains is the
+  scheme `P^1(Qbar)` point/model layer and rational-map packaging needed to
+  apply those field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 

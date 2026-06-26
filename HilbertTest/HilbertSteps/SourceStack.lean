@@ -23,6 +23,7 @@ import HilbertTest.SourceStack.SurjectiveOnStalks
 import HilbertTest.SourceStack.FieldTheory
 import HilbertTest.SourceStack.PolynomialMaps
 import HilbertTest.SourceStack.PolynomialSeparation
+import HilbertTest.SourceStack.P1PolynomialSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -4242,6 +4243,79 @@ theorem hilbert_polynomialSeparation_separates_and_noncritical :
     P
 
 end PolynomialSeparation
+
+namespace P1PolynomialSeparation
+
+open SourceStack.PolynomialMaps
+open SourceStack.P1PolynomialSeparation
+
+universe u v
+
+variable (F : Type u) (E : Type v) [Field F] [Field E] [Algebra F E]
+
+theorem hilbert_p1PolynomialSeparation_affinePolynomialPointMap_eq_iff
+    (p : F[X]) (x y : E) :
+    affinePolynomialPointMap F E p x = affinePolynomialPointMap F E p y ↔
+      Polynomial.aeval x p = Polynomial.aeval y p := by
+  exact SourceStack.P1PolynomialSeparation.affinePolynomialPointMap_eq_iff
+    F E p x y
+
+theorem hilbert_p1PolynomialSeparation_affinePolynomialPointMap_ne_target_of_aeval_ne
+    {p : F[X]} {x β : E}
+    (h : Polynomial.aeval x p ≠ Polynomial.aeval β p) :
+    affinePolynomialPointMap F E p x ≠
+      SourceStack.ProjectiveLine.affinePoint E (Polynomial.aeval β p) := by
+  exact SourceStack.P1PolynomialSeparation.affinePolynomialPointMap_ne_target_of_aeval_ne
+    F E h
+
+theorem hilbert_p1PolynomialSeparation_derivative_ne_zero_of_affinePolynomialPointMap_eq_target
+    {S : Set E} {p : F[X]} (hpder : p.derivative ≠ 0) {x β : E}
+    (hβ : Polynomial.aeval β p ∉ replacementSet F E S p)
+    (hmap : affinePolynomialPointMap F E p x =
+      SourceStack.ProjectiveLine.affinePoint E (Polynomial.aeval β p)) :
+    Polynomial.aeval x p.derivative ≠ 0 := by
+  exact SourceStack.P1PolynomialSeparation.derivative_ne_zero_of_affinePolynomialPointMap_eq_target
+    F E hpder hβ hmap
+
+variable {S : Set E} {β : E}
+variable (P : P1PolynomialSeparationStep F E S β)
+
+theorem hilbert_p1PolynomialSeparation_targetPoint_ne_infinity :
+    P.targetPoint ≠ SourceStack.ProjectiveLine.infinity E := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.targetPoint_ne_infinity
+    P
+
+theorem hilbert_p1PolynomialSeparation_targetPoint_not_mem_branchFinset :
+    P.targetPoint ∉ SourceStack.ProjectiveLine.branchFinset E := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.targetPoint_not_mem_branchFinset
+    P
+
+theorem hilbert_p1PolynomialSeparation_targetPoint_not_mem_branchSet :
+    P.targetPoint ∉ SourceStack.ProjectiveLine.branchSet E := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.targetPoint_not_mem_branchSet
+    P
+
+theorem hilbert_p1PolynomialSeparation_pointMap_ne_target_of_mem
+    {x : E} (hx : x ∈ S) :
+    P.pointMap x ≠ P.targetPoint := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.pointMap_ne_target_of_mem
+    P hx
+
+theorem hilbert_p1PolynomialSeparation_derivative_ne_zero_at_pointMap_preimage
+    {x : E} (hx : P.pointMap x = P.targetPoint) :
+    Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.derivative_ne_zero_at_pointMap_preimage
+    P hx
+
+theorem hilbert_p1PolynomialSeparation_separates_avoids_branch_and_noncritical :
+    P.targetPoint ∉ SourceStack.ProjectiveLine.branchSet E ∧
+      (∀ x ∈ S, P.pointMap x ≠ P.targetPoint) ∧
+        ∀ x : E, P.pointMap x = P.targetPoint →
+          Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep.separates_avoids_branch_and_noncritical
+    P
+
+end P1PolynomialSeparation
 
 namespace UnramifiedEtale
 
