@@ -7533,6 +7533,24 @@ theorem hilbert_map_comp
       FractionalIdeal.map g' (FractionalIdeal.map g I) := by
   exact SourceStack.FractionalIdeals.map_comp I g g'
 
+theorem hilbert_map_zero
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (0 : FractionalIdeal S P) = 0 := by
+  exact SourceStack.FractionalIdeals.map_zero g
+
+theorem hilbert_map_one
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P]
+    {P' : Type w} [CommRing P'] [Algebra R P']
+    (g : P →ₐ[R] P') :
+    FractionalIdeal.map g (1 : FractionalIdeal S P) = 1 := by
+  exact SourceStack.FractionalIdeals.map_one g
+
 theorem hilbert_map_add
     {R : Type u} [CommRing R]
     {S : Submonoid R}
@@ -7569,6 +7587,21 @@ theorem hilbert_mem_spanSingleton
     {x y : P} :
     x ∈ FractionalIdeal.spanSingleton S y ↔ ∃ z : R, z • y = x := by
   exact SourceStack.FractionalIdeals.mem_spanSingleton
+
+theorem hilbert_spanSingleton_eq_zero_iff
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P]
+    {y : P} :
+    FractionalIdeal.spanSingleton S y = 0 ↔ y = 0 := by
+  exact SourceStack.FractionalIdeals.spanSingleton_eq_zero_iff
+
+theorem hilbert_spanSingleton_one
+    {R : Type u} [CommRing R]
+    {S : Submonoid R}
+    {P : Type v} [CommRing P] [Algebra R P] [IsLocalization S P] :
+    FractionalIdeal.spanSingleton S (1 : P) = 1 := by
+  exact SourceStack.FractionalIdeals.spanSingleton_one
 
 theorem hilbert_spanSingleton_mul_spanSingleton
     {R : Type u} [CommRing R]
@@ -7623,6 +7656,26 @@ theorem hilbert_div_spanSingleton
       FractionalIdeal.spanSingleton R⁰ d⁻¹ * J := by
   exact SourceStack.FractionalIdeals.div_spanSingleton J d
 
+theorem hilbert_extended_zero
+    {A : Type u} [CommRing A]
+    {B : Type v} [CommRing B]
+    {f : A →+* B}
+    {K : Type w} {M : Submonoid A} [CommRing K] [Algebra A K] [IsLocalization M K]
+    (L : Type x) {N : Submonoid B} [CommRing L] [Algebra B L] [IsLocalization N L]
+    (hf : M ≤ Submonoid.comap f N) :
+    FractionalIdeal.extended L hf (0 : FractionalIdeal M K) = 0 := by
+  exact SourceStack.FractionalIdeals.extended_zero L hf
+
+theorem hilbert_extended_one
+    {A : Type u} [CommRing A]
+    {B : Type v} [CommRing B]
+    {f : A →+* B}
+    {K : Type w} {M : Submonoid A} [CommRing K] [Algebra A K] [IsLocalization M K]
+    (L : Type x) {N : Submonoid B} [CommRing L] [Algebra B L] [IsLocalization N L]
+    (hf : M ≤ Submonoid.comap f N) :
+    FractionalIdeal.extended L hf (1 : FractionalIdeal M K) = 1 := by
+  exact SourceStack.FractionalIdeals.extended_one L hf
+
 theorem hilbert_extended_add
     {A : Type u} [CommRing A]
     {B : Type v} [CommRing B]
@@ -7646,6 +7699,13 @@ theorem hilbert_extended_mul
     FractionalIdeal.extended L hf (I * J) =
       FractionalIdeal.extended L hf I * FractionalIdeal.extended L hf J := by
   exact SourceStack.FractionalIdeals.extended_mul L hf I J
+
+theorem hilbert_absNorm_one
+    {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
+    [Module.Finite ℤ R]
+    {K : Type v} [CommRing K] [Algebra R K] [IsFractionRing R K] :
+    FractionalIdeal.absNorm (1 : FractionalIdeal R⁰ K) = 1 := by
+  exact SourceStack.FractionalIdeals.absNorm_one
 
 theorem hilbert_absNorm_eq_zero_iff
     {R : Type u} [CommRing R] [IsDedekindDomain R] [Module.Free ℤ R]
@@ -7696,6 +7756,14 @@ theorem hilbert_isDomain
     IsDomain (FunctionField.ringOfIntegers Fq F) := by
   exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isDomain Fq F
 
+theorem hilbert_algebraMap_injective
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F] :
+    Function.Injective (algebraMap Fq[X] (FunctionField.ringOfIntegers Fq F)) := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.algebraMap_injective Fq F
+
 theorem hilbert_not_isField
     (Fq : Type u) [Field Fq]
     (F : Type v) [Field F]
@@ -7713,6 +7781,15 @@ theorem hilbert_isFractionRing
     IsFractionRing (FunctionField.ringOfIntegers Fq F) F := by
   exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isFractionRing Fq F
 
+theorem hilbert_isIntegrallyClosed
+    (Fq : Type u) [Field Fq]
+    (F : Type v) [Field F]
+    [Algebra Fq[X] F] [Algebra (RatFunc Fq) F]
+    [IsScalarTower Fq[X] (RatFunc Fq) F]
+    [FunctionField Fq F] :
+    IsIntegrallyClosed (FunctionField.ringOfIntegers Fq F) := by
+  exact SourceStack.ArithmeticFunctionFields.RingOfIntegers.isIntegrallyClosed Fq F
+
 theorem hilbert_isDedekindDomain
     (Fq : Type u) [Field Fq]
     (F : Type v) [Field F]
@@ -7725,6 +7802,16 @@ theorem hilbert_isDedekindDomain
 end RingOfIntegers
 
 namespace InftyValuation
+
+theorem hilbert_map_zero
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)] :
+    FunctionField.inftyValuationDef Fq 0 = 0 := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.map_zero Fq
+
+theorem hilbert_map_one
+    (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)] :
+    FunctionField.inftyValuationDef Fq 1 = 1 := by
+  exact SourceStack.ArithmeticFunctionFields.InftyValuation.map_one Fq
 
 theorem hilbert_map_mul
     (Fq : Type u) [Field Fq] [DecidableEq (RatFunc Fq)]
@@ -7825,6 +7912,23 @@ theorem hilbert_formallySmooth_exists_lift
     ∃ f : A →ₐ[R] B, (Ideal.Quotient.mkₐ R I).comp f = g := by
   exact SourceStack.SmoothKaehler.formallySmooth_exists_lift I hI g
 
+theorem hilbert_formallySmooth_comp_lift
+    {R : Type u} [CommSemiring R]
+    {A : Type u} [Semiring A] [Algebra R A]
+    {B : Type u} [CommRing B] [Algebra R B]
+    [Algebra.FormallySmooth R A]
+    (I : Ideal B) (hI : IsNilpotent I) (g : A →ₐ[R] B ⧸ I) :
+    (Ideal.Quotient.mkₐ R I).comp (Algebra.FormallySmooth.lift I hI g) = g := by
+  exact SourceStack.SmoothKaehler.formallySmooth_comp_lift I hI g
+
+theorem hilbert_formallySmooth_of_equiv
+    {R : Type u} [CommSemiring R]
+    {A : Type u} [Semiring A] [Algebra R A]
+    {A' : Type u} [Semiring A'] [Algebra R A']
+    [Algebra.FormallySmooth R A] (e : A ≃ₐ[R] A') :
+    Algebra.FormallySmooth R A' := by
+  exact SourceStack.SmoothKaehler.formallySmooth_of_equiv e
+
 theorem hilbert_formallySmooth_polynomial
     (R : Type u) [CommSemiring R] :
     Algebra.FormallySmooth R R[X] := by
@@ -7852,6 +7956,16 @@ theorem hilbert_formallySmooth_base_change
     Algebra.FormallySmooth B (B ⊗[R] A) := by
   exact SourceStack.SmoothKaehler.formallySmooth_base_change B
 
+theorem hilbert_formallySmooth_localization_base
+    {R Rₘ Sₘ : Type u}
+    [CommRing R] [CommRing Rₘ] [CommRing Sₘ]
+    (M : Submonoid R)
+    [Algebra R Sₘ] [Algebra R Rₘ] [Algebra Rₘ Sₘ]
+    [IsScalarTower R Rₘ Sₘ] [IsLocalization M Rₘ]
+    [Algebra.FormallySmooth R Sₘ] :
+    Algebra.FormallySmooth Rₘ Sₘ := by
+  exact SourceStack.SmoothKaehler.formallySmooth_localization_base M
+
 theorem hilbert_formallySmooth_localization_map
     {R S Rₘ Sₘ : Type u}
     [CommRing R] [CommRing S] [CommRing Rₘ] [CommRing Sₘ]
@@ -7872,6 +7986,14 @@ theorem hilbert_formallySmooth_pi_iff
     Algebra.FormallySmooth R ((i : I) → A i) ↔
       ∀ i, Algebra.FormallySmooth R (A i) := by
   exact SourceStack.SmoothKaehler.formallySmooth_pi_iff A
+
+theorem hilbert_smooth_of_equiv
+    {R A B : Type u} [CommRing R]
+    [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.Smooth R A] (e : A ≃ₐ[R] B) :
+    Algebra.Smooth R B := by
+  exact SourceStack.SmoothKaehler.smooth_of_equiv e
 
 theorem hilbert_smooth_of_isLocalization_Away
     {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
