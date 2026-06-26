@@ -1445,6 +1445,30 @@ theorem toSectionControlledFiniteMarkedBelyiData_map_apply
     (s : V) :
     F.toSectionControlledFiniteMarkedBelyiData.map s = F.map s := rfl
 
+/-- If a selected projective section evaluates to zero at a point, the
+corresponding finite Belyi map sends that point into the marked branch set. -/
+theorem eval_zero_to_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
+    (F.map s).hom.base x ∈ markedSchemePointSet K := by
+  rw [F.map_base_eq_pair s x]
+  exact (F.pair s).maps_section0_zero_to_marked
+    (by
+      rw [F.pair_section0_eval_eq_index s x]
+      exact hx)
+
+/-- If a selected projective section evaluates nontrivially at a point, the
+corresponding finite Belyi map avoids the marked branch set at that point. -/
+theorem eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s ≠ 0) :
+    (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact F.nonzero_avoids_marked (T := {x}) (s := s)
+    (by
+      intro y hy
+      rw [Set.mem_singleton_iff] at hy
+      subst y
+      exact hx)
+    x (by simp)
+
 /-- Finite disjoint-set conclusion after the projective-section construction
 has supplied finite marked Belyi maps and branch avoidance. -/
 theorem exists_for_finite_disjoint
@@ -1565,6 +1589,20 @@ theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
 
+/-- Pointwise zero-evaluation branch consequence for concrete trivialized-ratio
+finite marked families. -/
+theorem eval_zero_to_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
+    (F.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked s hx
+
+/-- Pointwise nonzero-evaluation branch-avoidance consequence for concrete
+trivialized-ratio finite marked families. -/
+theorem eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s ≠ 0) :
+    (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked s hx
+
 /-- Direct finite disjoint-set conclusion for the concrete trivialized-ratio
 finite marked family. -/
 theorem exists_for_finite_disjoint
@@ -1682,6 +1720,20 @@ def toProjectiveSectionFiniteMarkedFamily :
 theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Pointwise zero-evaluation branch consequence for denominator-is-unit
+trivialized finite marked families. -/
+theorem eval_zero_to_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
+    (F.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked s hx
+
+/-- Pointwise nonzero-evaluation branch-avoidance consequence for
+denominator-is-unit trivialized finite marked families. -/
+theorem eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s ≠ 0) :
+    (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked s hx
 
 /-- Direct finite disjoint-set conclusion for denominator-is-unit trivialized
 finite marked families. -/
@@ -1804,6 +1856,22 @@ def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
 theorem toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Pointwise zero-evaluation branch consequence for canonical two-section
+Bezout finite marked families. -/
+theorem eval_zero_to_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
+    (F.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked
+    F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily s hx
+
+/-- Pointwise nonzero-evaluation branch-avoidance consequence for canonical
+two-section Bezout finite marked families. -/
+theorem eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s ≠ 0) :
+    (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked
+    F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily s hx
 
 /-- Direct finite disjoint-set conclusion for canonical two-section Bezout
 finite marked families. -/

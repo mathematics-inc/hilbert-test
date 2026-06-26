@@ -1428,6 +1428,18 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_appl
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData_map_apply
     F s
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_eval_zero_to_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
+    (F.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked
+    F s hx
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : F.evalPackage.eval x s ≠ 0) :
+    (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked
+    F s hx
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
     [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
     (hdis : Disjoint S T) :
@@ -1502,6 +1514,18 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toProjectiveSecti
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
     TF s
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked
+    (s : V) {x : C} (hx : TF.evalPackage.eval x s = 0) :
+    (TF.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked
+    TF s hx
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : TF.evalPackage.eval x s ≠ 0) :
+    (TF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked
+    TF s hx
+
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
     [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
     (hdis : Disjoint S T) :
@@ -1575,6 +1599,18 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toProjectiv
     ITF.toProjectiveSectionFiniteMarkedFamily.map s = ITF.map s := by
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
     ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked
+    (s : V) {x : C} (hx : ITF.evalPackage.eval x s = 0) :
+    (ITF.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked
+    ITF s hx
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : ITF.evalPackage.eval x s ≠ 0) :
+    (ITF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked
+    ITF s hx
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
     [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
@@ -1657,6 +1693,18 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toIsUnit_map
     TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = TSF.map s := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked
+    (s : V) {x : C} (hx : TSF.evalPackage.eval x s = 0) :
+    (TSF.map s).hom.base x ∈ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.eval_zero_to_marked
+    TSF s hx
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_eval_nonzero_avoids_marked
+    (s : V) {x : C} (hx : TSF.evalPackage.eval x s ≠ 0) :
+    (TSF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.eval_nonzero_avoids_marked
+    TSF s hx
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
     [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
