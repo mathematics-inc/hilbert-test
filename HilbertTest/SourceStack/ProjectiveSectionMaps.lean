@@ -1023,6 +1023,20 @@ def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
 
+/-- The first section vanishes exactly on the zero fiber of the
+unit-denominator trivialized projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_vanishes_iff_hom_eq_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+unit-denominator trivialized projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_nonzero_iff_hom_ne_zero x
+
 theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
     {x : C} (hx : D.evalData.eval x D.section0 = 0) :
     D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
@@ -1140,6 +1154,20 @@ def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+/-- The first section vanishes exactly on the zero fiber of the
+denominator-is-unit trivialized projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_vanishes_iff_hom_eq_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+denominator-is-unit trivialized projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_nonzero_iff_hom_ne_zero x
 
 theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
     {x : C} (hx : D.evalData.eval x D.section0 = 0) :

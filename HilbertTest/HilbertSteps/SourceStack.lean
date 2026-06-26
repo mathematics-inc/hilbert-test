@@ -1200,6 +1200,20 @@ theorem hilbert_trivializedUnitSectionRatioData_toProjectiveLineSectionPair_hom 
   exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.toProjectiveLineSectionPair_hom
     UD
 
+theorem hilbert_trivializedUnitSectionRatioData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    UD.evalData.eval x UD.section0 = 0 ↔
+      UD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.section0_vanishes_iff_globalHom_eq_zero
+    UD x
+
+theorem hilbert_trivializedUnitSectionRatioData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    UD.evalData.eval x UD.section0 ≠ 0 ↔
+      UD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedUnitSectionRatioData.section0_nonzero_iff_globalHom_ne_zero
+    UD x
+
 theorem hilbert_trivializedUnitSectionRatioData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
     {x : C} (hx : UD.evalData.eval x UD.section0 = 0) :
     UD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
@@ -1237,6 +1251,20 @@ theorem hilbert_trivializedIsUnitSectionRatioData_toProjectiveLineSectionPair_ho
     IUD.toProjectiveLineSectionPair.hom = IUD.globalHom := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.toProjectiveLineSectionPair_hom
     IUD
+
+theorem hilbert_trivializedIsUnitSectionRatioData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    IUD.evalData.eval x IUD.section0 = 0 ↔
+      IUD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.section0_vanishes_iff_globalHom_eq_zero
+    IUD x
+
+theorem hilbert_trivializedIsUnitSectionRatioData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    IUD.evalData.eval x IUD.section0 ≠ 0 ↔
+      IUD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedIsUnitSectionRatioData.section0_nonzero_iff_globalHom_ne_zero
+    IUD x
 
 theorem hilbert_trivializedIsUnitSectionRatioData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
     {x : C} (hx : IUD.evalData.eval x IUD.section0 = 0) :
