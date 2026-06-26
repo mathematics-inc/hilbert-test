@@ -27,6 +27,7 @@ import HilbertTest.SourceStack.P1PolynomialSeparation
 import HilbertTest.SourceStack.PolynomialTargetAvoidance
 import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
+import HilbertTest.SourceStack.PolynomialSchemeSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
 import HilbertTest.SourceStack.DedekindDvr
@@ -4557,6 +4558,33 @@ theorem hilbert_p1SchemePointBridge_scheme_separates_avoids_marked_and_noncritic
     B F P
 
 end P1SchemePointBridge
+
+namespace PolynomialSchemeSeparation
+
+open SourceStack.P1PolynomialSeparation
+open SourceStack.P1SchemePointBridge
+open SourceStack.PolynomialSchemeSeparation
+
+universe u v
+
+variable (F : Type u) (K : Type v)
+variable [Field F] [Field K] [Algebra F K]
+variable (B : LinearSchemePointBridge K)
+
+theorem hilbert_polynomialSchemeSeparation_exists_scheme_separation_package
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = p ∧
+        B.schemeTargetPoint F P ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ∧
+          (∀ x ∈ S, B.schemePointMap F P x ≠ B.schemeTargetPoint F P) ∧
+            ∀ x : K, B.schemePointMap F P x = B.schemeTargetPoint F P →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.PolynomialSchemeSeparation.exists_scheme_separation_package
+    F K B hS p hpder
+
+end PolynomialSchemeSeparation
 
 namespace UnramifiedEtale
 

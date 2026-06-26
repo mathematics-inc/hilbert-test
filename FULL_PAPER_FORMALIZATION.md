@@ -205,6 +205,13 @@ avoidance transport, and the scheme-carrier version of the polynomial
 separation/noncriticality package.  The concrete construction of this bridge
 from the scheme `Proj` model is still an external source theorem to formalize.
 
+`HilbertTest/SourceStack/PolynomialSchemeSeparation.lean` composes value
+realization, forbidden-target avoidance, affine-chart transport, and the
+abstract scheme-point bridge.  Given a finite input set and a polynomial with
+nonzero derivative over an algebraically closed target field, it chooses
+`beta` and produces the scheme-carrier marked-avoidance, finite-set separation,
+and noncritical-preimage package needed before the Belyi-map reduction.
+
 `HilbertTest/SourceStack/RationalMaps.lean` and
 `HilbertTest/SourceStack/FunctionFields.lean` check the scheme function-field
 source layer available in Mathlib: dense-domain and partial-map representative

@@ -209,6 +209,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   between the linear branch triple and the scheme marked triple, then transports
   the polynomial-separation package to the scheme-carrier target used by Belyi
   cover interfaces.
+- `HilbertTest.SourceStack.PolynomialSchemeSeparation`: composition of the
+  previous polynomial layers with the scheme-point bridge.  From finite input
+  data and nonzero derivative over an algebraically closed target field, it
+  produces a selected `beta` and a scheme-carrier marked-avoidance/separation/
+  noncriticality package.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
