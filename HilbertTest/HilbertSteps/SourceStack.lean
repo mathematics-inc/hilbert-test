@@ -27,6 +27,7 @@ import HilbertTest.SourceStack.P1PolynomialSeparation
 import HilbertTest.SourceStack.PolynomialTargetAvoidance
 import HilbertTest.SourceStack.PolynomialValueSurjectivity
 import HilbertTest.SourceStack.P1SchemePointBridge
+import HilbertTest.SourceStack.SchemeAffineLinePoints
 import HilbertTest.SourceStack.PolynomialSchemeSeparation
 import HilbertTest.SourceStack.UnramifiedEtale
 import HilbertTest.SourceStack.Ramification
@@ -4558,6 +4559,102 @@ theorem hilbert_p1SchemePointBridge_scheme_separates_avoids_marked_and_noncritic
     B F P
 
 end P1SchemePointBridge
+
+namespace SchemeAffineLinePoints
+
+open SourceStack.MarkedProjectiveLine
+open SourceStack.P1SchemePointBridge
+open SourceStack.SchemeAffineLinePoints
+
+universe u
+
+variable (K : Type u) [Field K]
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_zero :
+    affinePoint K 0 = SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_zero K
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_one :
+    affinePoint K 1 = SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_one K
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_ne_infinity
+    (r : K) :
+    affinePoint K r ≠ SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_ne_infinity K r
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_injective :
+    Function.Injective (affinePoint K) := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_injective K
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_eq_iff
+    (r s : K) :
+    affinePoint K r = affinePoint K s ↔ r = s := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_eq_iff K r s
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_ne_zero
+    {r : K} (hr : r ≠ 0) :
+    affinePoint K r ≠ SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_ne_zero K hr
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_ne_one
+    {r : K} (hr : r ≠ 1) :
+    affinePoint K r ≠ SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_ne_one K hr
+
+theorem hilbert_schemeAffineLinePoints_affinePoint_mem_x1_basicOpen
+    (r : K) :
+    affinePoint K r ∈ AlgebraicGeometry.Proj.basicOpen
+      (SourceStack.SchemeProjectiveLine.grading K)
+      (SourceStack.SchemeProjectiveLine.X1 K) := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_x1_basicOpen K r
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_affinePoint
+    (r : K) :
+    linearToSchemePoint K (SourceStack.ProjectiveLine.affinePoint K r) =
+      affinePoint K r := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_affinePoint K r
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_infinity :
+    linearToSchemePoint K (SourceStack.ProjectiveLine.infinity K) =
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_infinity K
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_injective :
+    Function.Injective (linearToSchemePoint K) := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_injective K
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_zero :
+    linearToSchemePoint K (SourceStack.ProjectiveLine.zero K) =
+      SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_zero K
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_one :
+    linearToSchemePoint K (SourceStack.ProjectiveLine.one K) =
+      SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_one K
+
+theorem hilbert_schemeAffineLinePoints_linearToSchemePoint_linearPoint
+    (label : MarkedPointLabel) :
+    linearToSchemePoint K (linearPoint K label) =
+      schemeCarrierPoint K label := by
+  exact SourceStack.SchemeAffineLinePoints.linearToSchemePoint_linearPoint K label
+
+theorem hilbert_schemeAffineLinePoints_concreteBridge_toScheme :
+    (concreteLinearSchemePointBridge K).toScheme = linearToSchemePoint K := by
+  rfl
+
+theorem hilbert_schemeAffineLinePoints_concreteBridge_injective :
+    Function.Injective (concreteLinearSchemePointBridge K).toScheme := by
+  exact (concreteLinearSchemePointBridge K).injective
+
+theorem hilbert_schemeAffineLinePoints_concreteBridge_maps_label
+    (label : MarkedPointLabel) :
+    (concreteLinearSchemePointBridge K).toScheme (linearPoint K label) =
+      schemeCarrierPoint K label := by
+  exact (concreteLinearSchemePointBridge K).maps_label label
+
+end SchemeAffineLinePoints
 
 namespace PolynomialSchemeSeparation
 

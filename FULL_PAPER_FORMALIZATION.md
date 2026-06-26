@@ -202,8 +202,13 @@ linear-to-scheme point-model interface for `P1`: an injective bridge from the
 linear projective line to the scheme carrier that agrees on the marked labels.
 From that interface it proves marked-set membership equivalence, branch
 avoidance transport, and the scheme-carrier version of the polynomial
-separation/noncriticality package.  The concrete construction of this bridge
-from the scheme `Proj` model is still an external source theorem to formalize.
+separation/noncriticality package.
+
+`HilbertTest/SourceStack/SchemeAffineLinePoints.lean` constructs the concrete
+affine family `[r:1]` on scheme-theoretic `P^1_K = Proj K[X0,X1]` as the
+homogeneous ideal `(X0 - r X1)`, proves its chart behavior, injectivity,
+agreement with the marked zero/one points, disjointness from infinity, and
+instantiates the concrete `LinearSchemePointBridge`.
 
 `HilbertTest/SourceStack/PolynomialSchemeSeparation.lean` composes value
 realization, forbidden-target avoidance, affine-chart transport, and the

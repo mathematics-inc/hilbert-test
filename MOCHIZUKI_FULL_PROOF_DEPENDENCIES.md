@@ -209,6 +209,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   between the linear branch triple and the scheme marked triple, then transports
   the polynomial-separation package to the scheme-carrier target used by Belyi
   cover interfaces.
+- `HilbertTest.SourceStack.SchemeAffineLinePoints`: concrete construction of
+  the affine scheme points `[r:1]` on `Proj K[X0,X1]` via `(X0 - r X1)`,
+  including injectivity, agreement with zero/one, avoidance of infinity, and
+  the concrete `LinearSchemePointBridge` from the linear projective-line model
+  to the scheme carrier.
 - `HilbertTest.SourceStack.PolynomialSchemeSeparation`: composition of the
   previous polynomial layers with the scheme-point bridge.  From finite input
   data and nonzero derivative over an algebraically closed target field, it
@@ -531,9 +536,9 @@ Lean-facing declarations needed:
   realizes such an outside value as `p(beta)`; `SourceStack.P1PolynomialSeparation`
   transports that package to the affine chart of the linear projective line;
   `SourceStack.P1SchemePointBridge` transports it further to the scheme carrier
-  once an injective marked-label bridge is supplied.  What remains is the
-  concrete scheme `P^1(Qbar)` point/model construction and rational-map
-  packaging needed to apply those field facts to Belyi maps.
+  and `SourceStack.SchemeAffineLinePoints` supplies the concrete injective
+  marked-label bridge for `Proj K[X0,X1]`.  What remains is the rational-map
+  and morphism packaging needed to apply those field facts to Belyi maps.
 
 ### G. Field of definition and Galois conjugacy
 
