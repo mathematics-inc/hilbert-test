@@ -6377,6 +6377,22 @@ theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_mem_markedSchemeP
   exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
     F K p β
 
+theorem hilbert_concretePolynomialSchemeSeparation_pointMap_not_mem_markedSchemePointSet_iff
+    (p : F[X]) (x : K) :
+    concreteSchemePolynomialPointMap F K p x ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval x p ≠ 0 ∧ Polynomial.aeval x p ≠ 1 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialPointMap_not_mem_markedSchemePointSet_iff
+    F K p x
+
+theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_not_mem_markedSchemePointSet_iff
+    (p : F[X]) (β : K) :
+    concreteSchemePolynomialTargetPoint F K p β ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval β p ≠ 0 ∧ Polynomial.aeval β p ≠ 1 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialTargetPoint_not_mem_markedSchemePointSet_iff
+    F K p β
+
 theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_not_mem_markedSchemePointSet
     {p : F[X]} {β : K}
     (h0 : Polynomial.aeval β p ≠ 0)

@@ -78,6 +78,36 @@ theorem concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
     SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K
       (Polynomial.aeval β p)
 
+/-- Concrete point-map branch avoidance in scalar-value form. -/
+theorem concreteSchemePolynomialPointMap_not_mem_markedSchemePointSet_iff
+    (p : F[X]) (x : K) :
+    concreteSchemePolynomialPointMap F K p x ∉
+        SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval x p ≠ 0 ∧ Polynomial.aeval x p ≠ 1 := by
+  constructor
+  · intro h
+    exact not_or.mp
+      ((not_congr (concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
+        F K p x)).1 h)
+  · intro h
+    exact (not_congr (concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
+      F K p x)).2 (not_or.mpr h)
+
+/-- Concrete selected-target branch avoidance in scalar-value form. -/
+theorem concreteSchemePolynomialTargetPoint_not_mem_markedSchemePointSet_iff
+    (p : F[X]) (β : K) :
+    concreteSchemePolynomialTargetPoint F K p β ∉
+        SchemeProjectiveLine.markedSchemePointSet K ↔
+      Polynomial.aeval β p ≠ 0 ∧ Polynomial.aeval β p ≠ 1 := by
+  constructor
+  · intro h
+    exact not_or.mp
+      ((not_congr (concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
+        F K p β)).1 h)
+  · intro h
+    exact (not_congr (concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
+      F K p β)).2 (not_or.mpr h)
+
 theorem concreteSchemePolynomialTargetPoint_not_mem_markedSchemePointSet
     {p : F[X]} {β : K}
     (h0 : Polynomial.aeval β p ≠ 0)
