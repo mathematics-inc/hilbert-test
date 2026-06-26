@@ -18,6 +18,7 @@ namespace CurveCohomologySections
 open CurveDivisorSections
 open CurveRiemannRoch
 open ProjectiveSectionMaps
+open SchemeProjectiveLine
 
 universe u v w
 
@@ -100,6 +101,28 @@ theorem exists_second_section_no_common_zero
     ∃ s1 : V, HasNoCommonZero
       D.evalSurjectivity.evalData D.zeroSection s1 := by
   exact D.toDivisorZeroSectionData.exists_second_section_no_common_zero hsupport
+
+section SchemeSupport
+
+open AlgebraicGeometry
+
+variable {C : Scheme.{u}}
+
+/-- After the cohomological divisor package is upgraded to a projective-line
+section pair, the divisor support maps to the marked branch point `0`. -/
+theorem projectivePair_maps_support_to_marked
+    (D : CohomologicalDivisorSectionData K C V)
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalSurjectivity.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∈ D.evalSurjectivity.support, P.hom.base x ∈ markedSchemePointSet K := by
+  intro x hx
+  have hzero : P.evalData.eval x P.section0 = 0 := by
+    rw [heval, hsection0]
+    exact (D.zeroSection_hasZeroSet x).2 hx
+  exact P.maps_section0_zero_to_marked hzero
+
+end SchemeSupport
 
 end CohomologicalDivisorSectionData
 

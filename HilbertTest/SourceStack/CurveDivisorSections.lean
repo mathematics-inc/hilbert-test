@@ -18,6 +18,7 @@ namespace CurveDivisorSections
 
 open CurveRiemannRoch
 open ProjectiveSectionMaps
+open SchemeProjectiveLine
 
 universe u v w
 
@@ -77,6 +78,33 @@ theorem exists_second_section_no_common_zero
   exact ⟨s1, D.hasNoCommonZero_zeroSection_of_nonzero_on_support hs1⟩
 
 end DivisorZeroSectionData
+
+section SchemeSupport
+
+open AlgebraicGeometry
+
+variable {C : Scheme.{u}}
+
+namespace DivisorZeroSectionData
+
+variable (D : DivisorZeroSectionData K C V)
+
+/-- Once the basepoint-free pair has been upgraded to a projective-line
+morphism, the zero-section support maps to the marked branch point `0`. -/
+theorem projectivePair_maps_support_to_marked
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∈ D.support, P.hom.base x ∈ markedSchemePointSet K := by
+  intro x hx
+  have hzero : P.evalData.eval x P.section0 = 0 := by
+    rw [heval, hsection0]
+    exact (D.zeroSection_hasZeroSet x).2 hx
+  exact P.maps_section0_zero_to_marked hzero
+
+end DivisorZeroSectionData
+
+end SchemeSupport
 
 end CurveDivisorSections
 end SourceStack
