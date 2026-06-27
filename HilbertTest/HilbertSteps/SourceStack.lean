@@ -5726,6 +5726,16 @@ theorem hilbert_padic_compactExhaustion_exists
     Nonempty (CompactExhaustion ℚ_[p]) := by
   exact SourceStack.LocalFields.padic_compactExhaustion_exists p
 
+theorem hilbert_numberField_countable
+    (K : Type*) [Field K] [NumberField K] :
+    Countable K := by
+  exact SourceStack.LocalFields.numberField_countable K
+
+theorem hilbert_numberField_separableSpace
+    (K : Type*) [Field K] [NumberField K] [TopologicalSpace K] :
+    TopologicalSpace.SeparableSpace K := by
+  exact SourceStack.LocalFields.numberField_separableSpace K
+
 theorem hilbert_finitePlace_adicCompletion_normedField_exists
     {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
     Nonempty (NormedField (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)) := by
@@ -5735,6 +5745,27 @@ theorem hilbert_finitePlace_adicCompletion_completeSpace
     {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
     CompleteSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
   exact SourceStack.LocalFields.finitePlace_adicCompletion_completeSpace v
+
+theorem hilbert_finitePlace_adicCompletion_separableSpace
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    TopologicalSpace.SeparableSpace
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  exact SourceStack.LocalFields.finitePlace_adicCompletion_separableSpace v
+
+theorem hilbert_finitePlace_adicCompletion_secondCountableTopology
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  exact SourceStack.LocalFields.finitePlace_adicCompletion_secondCountableTopology v
+
+theorem hilbert_finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K))
+    [LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)] :
+    Nonempty (CompactExhaustion
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)) := by
+  exact
+    SourceStack.LocalFields.finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCompact
+      v
 
 theorem hilbert_finitePlace_embedding_norm_def
     {K : Type*} [Field K] [NumberField K]

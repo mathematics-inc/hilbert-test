@@ -1,6 +1,8 @@
 import Mathlib.NumberTheory.Padics.ProperSpace
 import Mathlib.NumberTheory.NumberField.Completion
 import Mathlib.NumberTheory.NumberField.FinitePlaces
+import Mathlib.Data.Rat.Encodable
+import Mathlib.LinearAlgebra.Dimension.Free
 import Mathlib.Topology.Compactness.SigmaCompact
 
 /-!
@@ -22,6 +24,25 @@ open scoped NumberField
 namespace HilbertTest
 namespace SourceStack
 namespace LocalFields
+
+/-- Number fields are countable, using a finite-dimensional `ℚ`-basis. -/
+theorem numberField_countable
+    (K : Type*) [Field K] [NumberField K] :
+    Countable K := by
+  classical
+  let b := Module.finBasis ℚ K
+  exact Countable.of_equiv (Fin (Module.finrank ℚ K) → ℚ)
+    b.equivFun.toEquiv.symm
+
+/-- Any topology on a number field is separable, since the underlying type is
+countable. -/
+theorem numberField_separableSpace
+    (K : Type*) [Field K] [NumberField K] [TopologicalSpace K] :
+    TopologicalSpace.SeparableSpace K := by
+  classical
+  haveI : Countable K := numberField_countable K
+  exact TopologicalSpace.SeparableSpace.of_denseRange (fun x : K => x)
+    (by simpa using (denseRange_id : DenseRange (id : K → K)))
 
 /-- The p-adic integers are compact. -/
 theorem padicInt_compactSpace
@@ -77,6 +98,41 @@ theorem finitePlace_adicCompletion_completeSpace
     {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
     CompleteSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) :=
   inferInstance
+
+/-- The finite-place completion of a number field is separable.  This is the
+completion of the countable field `K` for the `v`-adic uniformity. -/
+theorem finitePlace_adicCompletion_separableSpace
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    TopologicalSpace.SeparableSpace
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  letI : UniformSpace K := v.adicValued.toUniformSpace
+  haveI : TopologicalSpace.SeparableSpace K := numberField_separableSpace K
+  unfold IsDedekindDomain.HeightOneSpectrum.adicCompletion
+  infer_instance
+
+/-- The finite-place completion of a number field is second countable. -/
+theorem finitePlace_adicCompletion_secondCountableTopology
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  haveI : TopologicalSpace.SeparableSpace
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) :=
+    finitePlace_adicCompletion_separableSpace v
+  exact UniformSpace.secondCountable_of_separable _
+
+/-- Once local compactness is available, the finite-place completion of a
+number field admits a compact exhaustion; second countability is supplied by the
+preceding finite-place bridge. -/
+theorem finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K))
+    [LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)] :
+    Nonempty (CompactExhaustion
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)) := by
+  haveI : SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) :=
+    finitePlace_adicCompletion_secondCountableTopology v
+  exact ⟨CompactExhaustion.choice
+    (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)⟩
 
 /-- The canonical embedding of a number field into its finite-place completion
 has norm equal to the associated finite-place absolute value. -/
