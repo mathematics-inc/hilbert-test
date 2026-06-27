@@ -2,6 +2,7 @@ import Mathlib.RingTheory.DedekindDomain.Dvr
 import Mathlib.RingTheory.DedekindDomain.Ideal
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+import Mathlib.RingTheory.LocalRing.ResidueField.Ideal
 
 /-!
 Dedekind-domain and DVR source wrappers.
@@ -91,6 +92,57 @@ theorem localization_atPrime_isDedekindDomain
     IsDedekindDomain Aₘ :=
   IsLocalization.AtPrime.isDedekindDomain A P Aₘ
 
+/-- A localization at a prime ideal is nontrivial. -/
+theorem localization_atPrime_nontrivial
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] :
+    Nontrivial Aₘ :=
+  IsLocalization.AtPrime.Nontrivial Aₘ P
+
+/-- A localization at a prime ideal is local. -/
+theorem localization_atPrime_isLocalRing
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] :
+    IsLocalRing Aₘ :=
+  IsLocalization.AtPrime.isLocalRing Aₘ P
+
+/-- In a localization at a prime, an element maps into the maximal ideal
+exactly when it lies in the prime. -/
+theorem localization_atPrime_to_map_mem_maximal_iff
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] [IsLocalRing Aₘ] (x : A) :
+    algebraMap A Aₘ x ∈ IsLocalRing.maximalIdeal Aₘ ↔ x ∈ P :=
+  IsLocalization.AtPrime.to_map_mem_maximal_iff Aₘ P x (h := inferInstance)
+
+/-- In a localization at a prime, the comap of the maximal ideal is the prime. -/
+theorem localization_atPrime_comap_maximalIdeal
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] [IsLocalRing Aₘ] :
+    (IsLocalRing.maximalIdeal Aₘ).comap (algebraMap A Aₘ) = P :=
+  IsLocalization.AtPrime.comap_maximalIdeal Aₘ P (h := inferInstance)
+
+/-- Concrete localization-at-prime form of the maximal-ideal comap theorem. -/
+theorem localizationAtPrime_comap_maximalIdeal
+    (A : Type u) [CommRing A] {P : Ideal A} [P.IsPrime] :
+    Ideal.comap (algebraMap A (Localization.AtPrime P))
+      (IsLocalRing.maximalIdeal (Localization.AtPrime P)) = P :=
+  Localization.AtPrime.comap_maximalIdeal
+
+/-- Concrete localization-at-prime form of the maximal-ideal image theorem. -/
+theorem localizationAtPrime_map_eq_maximalIdeal
+    (A : Type u) [CommRing A] {P : Ideal A} [P.IsPrime] :
+    Ideal.map (algebraMap A (Localization.AtPrime P)) P =
+      IsLocalRing.maximalIdeal (Localization.AtPrime P) :=
+  Localization.AtPrime.map_eq_maximalIdeal
+
 /-- The localization at a nonzero prime of a domain is not a field. -/
 theorem localization_atPrime_not_isField
     (A : Type u) [CommRing A] [IsDomain A]
@@ -142,6 +194,36 @@ theorem localRing_exists_maximalIdeal_pow_eq_of_principal
     (I : Ideal R) (hI : I ≠ ⊥) :
     ∃ n : ℕ, I = IsLocalRing.maximalIdeal R ^ n :=
   exists_maximalIdeal_pow_eq_of_principal R h' I hI
+
+/-- The residue field at a prime kills exactly the prime. -/
+theorem ideal_algebraMap_residueField_eq_zero
+    (R : Type u) [CommRing R] {I : Ideal R} [I.IsPrime] {x : R} :
+    algebraMap R I.ResidueField x = 0 ↔ x ∈ I :=
+  Ideal.algebraMap_residueField_eq_zero
+
+/-- The kernel of the map to the residue field at a prime is the prime. -/
+theorem ideal_ker_algebraMap_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    RingHom.ker (algebraMap R I.ResidueField) = I :=
+  Ideal.ker_algebraMap_residueField I
+
+/-- The quotient by a prime embeds into its residue field. -/
+theorem ideal_injective_algebraMap_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    Function.Injective (algebraMap (R ⧸ I) I.ResidueField) :=
+  I.injective_algebraMap_quotient_residueField
+
+/-- The residue field at a prime is a fraction field of the quotient by that prime. -/
+theorem ideal_isFractionRing_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    IsFractionRing (R ⧸ I) I.ResidueField := by
+  infer_instance
+
+/-- If the prime is maximal, the quotient maps bijectively to its residue field. -/
+theorem ideal_bijective_algebraMap_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] [I.IsMaximal] :
+    Function.Bijective (algebraMap (R ⧸ I) I.ResidueField) :=
+  Ideal.bijective_algebraMap_quotient_residueField I
 
 /-- A height-one prime ideal in a Dedekind domain is prime in the ideal
 monoid. -/

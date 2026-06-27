@@ -11650,6 +11650,50 @@ theorem hilbert_localization_atPrime_isDedekindDomain
     IsDedekindDomain Aₘ := by
   exact SourceStack.DedekindDvr.localization_atPrime_isDedekindDomain A P Aₘ
 
+theorem hilbert_localization_atPrime_nontrivial
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] :
+    Nontrivial Aₘ := by
+  exact SourceStack.DedekindDvr.localization_atPrime_nontrivial A (P := P) Aₘ
+
+theorem hilbert_localization_atPrime_isLocalRing
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] :
+    IsLocalRing Aₘ := by
+  exact SourceStack.DedekindDvr.localization_atPrime_isLocalRing A (P := P) Aₘ
+
+theorem hilbert_localization_atPrime_to_map_mem_maximal_iff
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] [IsLocalRing Aₘ] (x : A) :
+    algebraMap A Aₘ x ∈ IsLocalRing.maximalIdeal Aₘ ↔ x ∈ P := by
+  exact SourceStack.DedekindDvr.localization_atPrime_to_map_mem_maximal_iff A (P := P) Aₘ x
+
+theorem hilbert_localization_atPrime_comap_maximalIdeal
+    (A : Type u) [CommRing A]
+    {P : Ideal A} [P.IsPrime]
+    (Aₘ : Type v) [CommRing Aₘ] [Algebra A Aₘ]
+    [IsLocalization.AtPrime Aₘ P] [IsLocalRing Aₘ] :
+    (IsLocalRing.maximalIdeal Aₘ).comap (algebraMap A Aₘ) = P := by
+  exact SourceStack.DedekindDvr.localization_atPrime_comap_maximalIdeal A (P := P) Aₘ
+
+theorem hilbert_localizationAtPrime_comap_maximalIdeal
+    (A : Type u) [CommRing A] {P : Ideal A} [P.IsPrime] :
+    Ideal.comap (algebraMap A (Localization.AtPrime P))
+      (IsLocalRing.maximalIdeal (Localization.AtPrime P)) = P := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_comap_maximalIdeal A
+
+theorem hilbert_localizationAtPrime_map_eq_maximalIdeal
+    (A : Type u) [CommRing A] {P : Ideal A} [P.IsPrime] :
+    Ideal.map (algebraMap A (Localization.AtPrime P)) P =
+      IsLocalRing.maximalIdeal (Localization.AtPrime P) := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_map_eq_maximalIdeal A
+
 theorem hilbert_localization_atPrime_not_isField
     (A : Type u) [CommRing A] [IsDomain A]
     {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime]
@@ -11693,6 +11737,31 @@ theorem hilbert_localRing_exists_maximalIdeal_pow_eq_of_principal
     (I : Ideal R) (hI : I ≠ ⊥) :
     ∃ n : ℕ, I = IsLocalRing.maximalIdeal R ^ n := by
   exact SourceStack.DedekindDvr.localRing_exists_maximalIdeal_pow_eq_of_principal R h' I hI
+
+theorem hilbert_ideal_algebraMap_residueField_eq_zero
+    (R : Type u) [CommRing R] {I : Ideal R} [I.IsPrime] {x : R} :
+    algebraMap R I.ResidueField x = 0 ↔ x ∈ I := by
+  exact SourceStack.DedekindDvr.ideal_algebraMap_residueField_eq_zero R
+
+theorem hilbert_ideal_ker_algebraMap_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    RingHom.ker (algebraMap R I.ResidueField) = I := by
+  exact SourceStack.DedekindDvr.ideal_ker_algebraMap_residueField R I
+
+theorem hilbert_ideal_injective_algebraMap_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    Function.Injective (algebraMap (R ⧸ I) I.ResidueField) := by
+  exact SourceStack.DedekindDvr.ideal_injective_algebraMap_quotient_residueField R I
+
+theorem hilbert_ideal_isFractionRing_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] :
+    IsFractionRing (R ⧸ I) I.ResidueField := by
+  exact SourceStack.DedekindDvr.ideal_isFractionRing_quotient_residueField R I
+
+theorem hilbert_ideal_bijective_algebraMap_quotient_residueField
+    (R : Type u) [CommRing R] (I : Ideal R) [I.IsPrime] [I.IsMaximal] :
+    Function.Bijective (algebraMap (R ⧸ I) I.ResidueField) := by
+  exact SourceStack.DedekindDvr.ideal_bijective_algebraMap_quotient_residueField R I
 
 theorem hilbert_heightOneSpectrum_prime
     {R : Type u} [CommRing R] [IsDedekindDomain R]
