@@ -899,6 +899,16 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
       hV hxV
 
+/-- The Belyi opens attached to a finite marked Belyi family. -/
+def belyiOpenSetFamily : Set (Set C) :=
+  (toMarkedNoncriticalExistence K Φ F).belyiOpenSetFamily
+
+/-- Corollary 1.2 in basis form for finite marked Belyi families. -/
+theorem belyiOpenSetFamily_isTopologicalBasis
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    TopologicalSpace.IsTopologicalBasis (belyiOpenSetFamily K Φ F) :=
+  (toMarkedNoncriticalExistence K Φ F).belyiOpenSetFamily_isTopologicalBasis
+
 theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)

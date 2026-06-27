@@ -607,6 +607,23 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     K (ReductionIndex C) D.toFiniteMarkedBelyiExistence hU hxU
 
+/-- The Belyi opens attached to the finite marked Belyi family chosen from the
+cohomological source package. -/
+def belyiOpenSetFamily
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    Set (Set C) :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily
+
+/-- Corollary 1.2 in basis form directly from the cohomological source package:
+the Belyi opens produced by the chosen family form a basis for the source
+topology. -/
+theorem belyiOpenSetFamily_isTopologicalBasis
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily_isTopologicalBasis
+
 /-- Finite-set Belyi-open consequence directly from the cohomological source
 package in the curve-style finite-complement topology form. -/
 theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement

@@ -363,6 +363,32 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact D.exists_belyiOpen_inside_open_of_finite_complement hV
     (finite_compl_of_isOpen_of_mem hV hxV) hxV
 
+/-- The Belyi opens attached to a noncritical Belyi existence package. -/
+def belyiOpenSetFamily : Set (Set X) :=
+  Set.range fun φ : Φ => D.toBelyiCoverData.belyiOpen φ
+
+theorem mem_belyiOpenSetFamily_iff (U : Set X) :
+    U ∈ D.belyiOpenSetFamily ↔
+      ∃ φ : Φ, U = D.toBelyiCoverData.belyiOpen φ := by
+  constructor
+  · rintro ⟨φ, hφ⟩
+    exact ⟨φ, hφ.symm⟩
+  · rintro ⟨φ, rfl⟩
+    exact ⟨φ, rfl⟩
+
+/-- Corollary 1.2 in basis form: if nonempty opens in the source have finite
+complement, the Belyi opens supplied by Theorem 2.5 form a topological basis. -/
+theorem belyiOpenSetFamily_isTopologicalBasis
+    [T1Space P] [NonemptyOpenFiniteComplement X] :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily := by
+  apply isTopologicalBasis_of_open_subset
+  · rintro U ⟨φ, rfl⟩
+    exact D.toBelyiCoverData.belyiOpen_isOpen φ
+  · intro V hV x hxV
+    rcases D.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement hV hxV with
+      ⟨φ, _hopen, hx, hsub⟩
+    exact ⟨D.toBelyiCoverData.belyiOpen φ, ⟨φ, rfl⟩, hx, hsub⟩
+
 /-- Recursive open-subspace form of Corollary 1.2: after restricting a
 noncritical Belyi existence package to an open subtype whose ambient source has
 finite complements for nonempty opens, every open neighborhood in the subtype

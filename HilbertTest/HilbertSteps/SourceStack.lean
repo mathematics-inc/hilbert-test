@@ -3008,6 +3008,16 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_open_
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
       D hU hxU
 
+theorem hilbert_cohomologicalP1ReductionSourceData_belyiOpenSetFamily_isTopologicalBasis
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.belyiOpenSetFamily_isTopologicalBasis
+      D
+
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
     [Infinite K] [T1Space (P1 K)]
     {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] {Φ : Type z}
@@ -3282,6 +3292,14 @@ theorem hilbert_finite_compl_of_isOpen_of_mem
     (hU : IsOpen U) {x : X} (hx : x ∈ U) :
     Uᶜ.Finite := by
   exact SourceStack.finite_compl_of_isOpen_of_mem hU hx
+
+theorem hilbert_isTopologicalBasis_of_open_subset
+    {B : Set (Set X)}
+    (hopen : ∀ U ∈ B, IsOpen U)
+    (hrefine : ∀ {V : Set X}, IsOpen V → ∀ x ∈ V,
+      ∃ U ∈ B, x ∈ U ∧ U ⊆ V) :
+    TopologicalSpace.IsTopologicalBasis B := by
+  exact SourceStack.isTopologicalBasis_of_open_subset hopen hrefine
 
 theorem hilbert_nonemptyOpenFiniteComplement_subtype_of_isOpen
     [SourceStack.NonemptyOpenFiniteComplement X] {U : Set X} (hU : IsOpen U) :
@@ -3626,6 +3644,17 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteCo
           E.toBelyiCoverData.belyiOpen φ ⊆ V := by
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     E hV hxV
+
+theorem hilbert_noncritical_belyiOpenSetFamily_isTopologicalBasis
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X] :
+    TopologicalSpace.IsTopologicalBasis E.belyiOpenSetFamily := by
+  exact SourceStack.NoncriticalBelyiExistence.belyiOpenSetFamily_isTopologicalBasis E
+
+theorem hilbert_noncritical_mem_belyiOpenSetFamily_iff
+    (U : Set X) :
+    U ∈ E.belyiOpenSetFamily ↔
+      ∃ φ : Φ, U = E.toBelyiCoverData.belyiOpen φ := by
+  exact SourceStack.NoncriticalBelyiExistence.mem_belyiOpenSetFamily_iff E U
 
 theorem hilbert_noncritical_restrictSubtype_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
@@ -5735,6 +5764,14 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_open_of_nonem
           ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ V := by
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     K Φ F hV hxV
+
+theorem hilbert_finiteMarkedBelyiExistence_belyiOpenSetFamily_isTopologicalBasis
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] :
+    TopologicalSpace.IsTopologicalBasis
+      (SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpenSetFamily
+        K Φ F) := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpenSetFamily_isTopologicalBasis
+    K Φ F
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]

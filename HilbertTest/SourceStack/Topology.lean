@@ -1,5 +1,6 @@
 import Mathlib.Topology.Compactness.Compact
 import Mathlib.Topology.Compactness.SigmaCompact
+import Mathlib.Topology.Bases
 import Mathlib.Topology.Constructions
 import Mathlib.Topology.Maps.Proper.Basic
 import Mathlib.Topology.Separation.Basic
@@ -37,6 +38,17 @@ theorem finite_compl_of_isOpen_of_mem
     (hU : IsOpen U) {x : X} (hx : x ∈ U) :
     Uᶜ.Finite :=
   finite_compl_of_isOpen_nonempty hU ⟨x, hx⟩
+
+/-- A family of open sets is a topological basis if every open neighborhood of
+every point contains a member of the family through that point. -/
+theorem isTopologicalBasis_of_open_subset
+    {B : Set (Set X)}
+    (hopen : ∀ U ∈ B, IsOpen U)
+    (hrefine : ∀ {V : Set X}, IsOpen V → ∀ x ∈ V,
+      ∃ U ∈ B, x ∈ U ∧ U ⊆ V) :
+    TopologicalSpace.IsTopologicalBasis B :=
+  TopologicalSpace.isTopologicalBasis_of_isOpen_of_nhds hopen
+    (fun x _ hxV hV => hrefine hV x hxV)
 
 /-- The finite-complement-open property is inherited by open subspaces.  This
 is the topological bridge used when the Belyi construction repeatedly restricts
