@@ -53,6 +53,12 @@ theorem markedCoverData_mem_belyiOpen_iff
       map φ x ∉ markedPointSet K := by
   rfl
 
+theorem markedCoverData_belyiOpen_carrier
+    (φ : Φ) :
+    (markedCoverData K X Φ map continuous_map).belyiOpen φ =
+      {x : X | map φ x ∉ markedPointSet K} := by
+  rfl
+
 theorem markedCoverData_branch_finite :
     (markedCoverData K X Φ map continuous_map).branch.Finite := by
   exact markedPointSet_finite K
@@ -82,6 +88,36 @@ theorem markedNoncriticalExistence_branch :
 theorem markedNoncriticalExistence_toCoverData_branch :
     (markedNoncriticalExistence K X Φ map continuous_map
       exists_for_finite_disjoint).toBelyiCoverData.branch = markedPointSet K := rfl
+
+theorem markedNoncriticalExistence_map_apply
+    (φ : Φ) (x : X) :
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).map φ x = map φ x := by
+  rfl
+
+theorem markedNoncriticalExistence_toCoverData_map_apply
+    (φ : Φ) (x : X) :
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).toBelyiCoverData.map φ x = map φ x := by
+  rfl
+
+theorem markedNoncriticalExistence_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ ↔
+      map φ x ∉ markedPointSet K := by
+  exact
+    NoncriticalBelyiExistence.mem_belyiOpen_iff
+      (markedNoncriticalExistence K X Φ map continuous_map exists_for_finite_disjoint) φ x
+
+theorem markedNoncriticalExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ =
+      {x : X | map φ x ∉ markedPointSet K} := by
+  exact
+    NoncriticalBelyiExistence.belyiOpen_carrier
+      (markedNoncriticalExistence K X Φ map continuous_map exists_for_finite_disjoint) φ
 
 theorem markedNoncritical_exists_belyiOpen_inside_complement
     [T1Space (_root_.ProjectiveSpectrum (grading K))]
@@ -399,6 +435,12 @@ theorem markedSchemeCoverData_mem_belyiOpen_iff
       schemeMap φ x ∉ markedSchemePointSet K := by
   rfl
 
+theorem markedSchemeCoverData_belyiOpen_carrier
+    (φ : Φ) :
+    (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).belyiOpen φ =
+      {x : X | schemeMap φ x ∉ markedSchemePointSet K} := by
+  rfl
+
 theorem markedSchemeCoverData_branch_finite :
     (markedSchemeCoverData K X Φ schemeMap continuous_schemeMap).branch.Finite := by
   exact markedSchemePointSet_finite K
@@ -428,6 +470,38 @@ theorem markedSchemeNoncriticalExistence_branch :
 theorem markedSchemeNoncriticalExistence_toCoverData_branch :
     (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
       exists_scheme_for_finite_disjoint).toBelyiCoverData.branch = markedSchemePointSet K := rfl
+
+theorem markedSchemeNoncriticalExistence_map_apply
+    (φ : Φ) (x : X) :
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).map φ x = schemeMap φ x := by
+  rfl
+
+theorem markedSchemeNoncriticalExistence_toCoverData_map_apply
+    (φ : Φ) (x : X) :
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).toBelyiCoverData.map φ x = schemeMap φ x := by
+  rfl
+
+theorem markedSchemeNoncriticalExistence_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ ↔
+      schemeMap φ x ∉ markedSchemePointSet K := by
+  exact
+    NoncriticalBelyiExistence.mem_belyiOpen_iff
+      (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint) φ x
+
+theorem markedSchemeNoncriticalExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ =
+      {x : X | schemeMap φ x ∉ markedSchemePointSet K} := by
+  exact
+    NoncriticalBelyiExistence.belyiOpen_carrier
+      (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint) φ
 
 theorem markedSchemeNoncritical_exists_belyiOpen_inside_complement
     [T1Space (P1 K)]
@@ -908,6 +982,39 @@ theorem morphismMarkedNoncriticalExistence_toCoverData_branch :
     (morphismMarkedNoncriticalExistence K Φ C morphism
       exists_morphism_for_finite_disjoint).toBelyiCoverData.branch =
       markedSchemePointSet K := rfl
+
+theorem morphismMarkedNoncriticalExistence_map_apply
+    (φ : Φ) (x : C) :
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).map φ x = (morphism φ).base x := by
+  rfl
+
+theorem morphismMarkedNoncriticalExistence_toCoverData_map_apply
+    (φ : Φ) (x : C) :
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).toBelyiCoverData.map φ x =
+      (morphism φ).base x := by
+  rfl
+
+theorem morphismMarkedNoncriticalExistence_mem_belyiOpen_iff
+    (φ : Φ) (x : C) :
+    x ∈ (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ ↔
+      (morphism φ).base x ∉ markedSchemePointSet K := by
+  exact
+    NoncriticalBelyiExistence.mem_belyiOpen_iff
+      (morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint) φ x
+
+theorem morphismMarkedNoncriticalExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ =
+      {x : C | (morphism φ).base x ∉ markedSchemePointSet K} := by
+  exact
+    NoncriticalBelyiExistence.belyiOpen_carrier
+      (morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint) φ
 
 theorem morphismMarkedNoncritical_exists_belyiOpen_inside_complement
     [T1Space (P1 K)]
