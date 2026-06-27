@@ -214,6 +214,7 @@ theorem exists_second_section_no_common_zero
 section SchemeSupport
 
 open AlgebraicGeometry
+open CategoryTheory
 
 variable {C : Scheme.{u}}
 
@@ -388,6 +389,45 @@ theorem exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
   exact
     D.toDivisorZeroSectionData.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
       F hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
+/-- Composed-map form of the cohomological divisor-to-reduction bridge: after
+basepoint-free section pairs are upgraded to projective-line section pairs and
+the auxiliary morphism checks are supplied, the cohomological divisor package
+produces an actual composed finite Belyi map whose Belyi open contains `T` and
+avoids `S`. -/
+theorem exists_composedMap_belyiOpen_controls_for_sets_of_projectivePair_factory
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.evalSurjectivity.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc phi,
+        ((F.map phi).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map phi).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        ∃ phi : Φ,
+          ∃ composed : SchemeBelyi.FiniteBelyiMap
+            (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+            composed.hom = (mkPair s1 hnc).hom ≫ (F.map phi).hom ∧
+              T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    D.toDivisorZeroSectionData.exists_composedMap_belyiOpen_controls_for_sets_of_projectivePair_factory
+      F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
 end SchemeSupport
