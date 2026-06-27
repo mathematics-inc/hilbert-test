@@ -7065,6 +7065,29 @@ theorem hilbert_finiteMarkedBelyiExistence_finite_compact_cover_by_belyiOpen_exh
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
       K Φ F Kex
 
+theorem hilbert_finiteMarkedBelyiExistence_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion
+        ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                    (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K Φ F Kex
+
 theorem hilbert_finiteMarkedBelyiExistence_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
     [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -7088,6 +7111,30 @@ theorem hilbert_finiteMarkedBelyiExistence_finite_compact_cover_by_belyiOpen_exh
                       (Kex p.1 p.2) := by
   exact
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K Φ F
+
+theorem hilbert_finiteMarkedBelyiExistence_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion
+        ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                  (Kex p.1 p.2)) ⊆
+                    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                      (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K Φ F
 
 theorem hilbert_finiteMarkedBelyiExistence_finite_compact_coordinate_sets_of_belyiOpen_exhaustions

@@ -1240,6 +1240,29 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     (toMarkedNoncriticalExistence K Φ F).finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the finite marked Belyi compact-exhaustion cover bridge. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    (toMarkedNoncriticalExistence K Φ F).finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Finite marked Belyi compact-cover bridge with compact exhaustions supplied
 from local compactness and second countability of the source. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -1264,6 +1287,31 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                     (Kex p.1 p.2) := by
   exact
     NoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      (toMarkedNoncriticalExistence K Φ F)
+
+/-- Equality form of the finite marked Belyi compact-cover bridge with compact
+exhaustions supplied from local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                  (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    NoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       (toMarkedNoncriticalExistence K Φ F)
 
 /-- Finite marked Belyi form of the compact-coordinate Corollary 3.2 bridge:
