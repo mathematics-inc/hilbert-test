@@ -391,6 +391,105 @@ theorem markedSchemeNoncritical_finite_subcover_on_complement_forall
   exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
     exists_scheme_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
 
+/-- Scheme-carrier marked noncritical compact-exhaustion cover bridge. -/
+theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set X) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val :
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2) := by
+  exact
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
+      Kex
+
+/-- Scheme-carrier marked noncritical compact-cover bridge with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                    exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set X) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val :
+                  (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                    exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                  (Kex p.1 p.2) := by
+  exact
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Scheme-carrier marked noncritical compact-coordinate Corollary 3.2 bridge. -/
+theorem markedSchemeNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {κ : Type z} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → X → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x,
+      x ∈ (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ →
+        ∀ j, G φ x j ∈ A j) :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set X) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                      exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      X) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                      exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      X) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
+
 end SchemeCarrierTarget
 
 section PartialMapDomain
@@ -712,6 +811,105 @@ theorem morphismMarkedNoncritical_finite_subcover_on_complement_forall
               (κ := κ) φ := by
   exact (morphismMarkedNoncriticalExistence K Φ C morphism
     exists_morphism_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
+
+/-- Scheme-morphism marked noncritical compact-exhaustion cover bridge. -/
+theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set C) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val :
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2) := by
+  exact
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
+      Kex
+
+/-- Scheme-morphism marked noncritical compact-cover bridge with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (morphismMarkedNoncriticalExistence K Φ C morphism
+                exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (morphismMarkedNoncriticalExistence K Φ C morphism
+                    exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val :
+                  (morphismMarkedNoncriticalExistence K Φ C morphism
+                    exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                  (Kex p.1 p.2) := by
+  exact
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Scheme-morphism marked noncritical compact-coordinate Corollary 3.2 bridge. -/
+theorem morphismMarkedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {κ : Type z} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → C → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x,
+      x ∈ (morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ →
+        ∀ j, G φ x j ∈ A j) :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (morphismMarkedNoncriticalExistence K Φ C morphism
+                      exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (morphismMarkedNoncriticalExistence K Φ C morphism
+                      exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
 
 end MorphismFamily
 
