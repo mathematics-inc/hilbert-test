@@ -117,6 +117,57 @@ theorem finitePlace_norm_embedding_eq
     ‖NumberField.embedding w.maximalIdeal x‖ = w x :=
   NumberField.FinitePlace.norm_embedding_eq w x
 
+/-- The finite place associated to a height-one prime evaluates as the
+corresponding embedding norm. -/
+theorem finitePlace_mk_apply
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : K) :
+    NumberField.FinitePlace.mk v x = ‖NumberField.embedding v x‖ :=
+  NumberField.FinitePlace.apply v x
+
+/-- A finite-place absolute value is positive exactly on nonzero elements. -/
+theorem finitePlace_pos_iff
+    {K : Type*} [Field K] [NumberField K]
+    {w : NumberField.FinitePlace K} {x : K} :
+    0 < w x ↔ x ≠ 0 :=
+  NumberField.FinitePlace.pos_iff
+
+/-- Reconstructing a finite place from its maximal ideal gives the same place. -/
+theorem finitePlace_mk_maximalIdeal
+    {K : Type*} [Field K] [NumberField K]
+    (w : NumberField.FinitePlace K) :
+    NumberField.FinitePlace.mk w.maximalIdeal = w :=
+  NumberField.FinitePlace.mk_maximalIdeal w
+
+/-- Equality of finite places made from height-one primes is equality of the
+primes. -/
+theorem finitePlace_mk_eq_iff
+    {K : Type*} [Field K] [NumberField K]
+    {v₁ v₂ : HeightOneSpectrum (𝓞 K)} :
+    NumberField.FinitePlace.mk v₁ = NumberField.FinitePlace.mk v₂ ↔ v₁ = v₂ :=
+  NumberField.FinitePlace.mk_eq_iff
+
+/-- The maximal ideal of the finite place associated to a height-one prime is
+that prime. -/
+theorem finitePlace_maximalIdeal_mk
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) :
+    (NumberField.FinitePlace.mk v).maximalIdeal = v :=
+  NumberField.FinitePlace.maximalIdeal_mk v
+
+/-- The maximal-ideal map on finite places is injective. -/
+theorem finitePlace_maximalIdeal_injective
+    {K : Type*} [Field K] [NumberField K] :
+    Function.Injective (fun w : NumberField.FinitePlace K => w.maximalIdeal) :=
+  NumberField.FinitePlace.maximalIdeal_injective
+
+/-- Two finite places have the same maximal ideal exactly when they are equal. -/
+theorem finitePlace_maximalIdeal_inj
+    {K : Type*} [Field K] [NumberField K]
+    (w₁ w₂ : NumberField.FinitePlace K) :
+    w₁.maximalIdeal = w₂.maximalIdeal ↔ w₁ = w₂ :=
+  NumberField.FinitePlace.maximalIdeal_inj w₁ w₂
+
 /-- Finite places are equivalent to height-one primes of the ring of integers. -/
 theorem finitePlace_equivHeightOneSpectrum
     {K : Type*} [Field K] [NumberField K] :
@@ -129,6 +180,31 @@ theorem finitePlace_mulSupport_finite
     {K : Type*} [Field K] [NumberField K] {x : K} (hx : x ≠ 0) :
     (Function.mulSupport fun w : NumberField.FinitePlace K => w x).Finite :=
   NumberField.FinitePlace.mulSupport_finite hx
+
+/-- A nonzero algebraic integer has nontrivial finite-place norm at only
+finitely many finite places. -/
+theorem finitePlace_mulSupport_finite_int
+    {K : Type*} [Field K] [NumberField K] {x : 𝓞 K} (hx : x ≠ 0) :
+    (Function.mulSupport fun w : NumberField.FinitePlace K => w (x : K)).Finite :=
+  NumberField.FinitePlace.mulSupport_finite_int hx
+
+/-- The inverse of the finite-place/height-one-prime equivalence evaluates as
+the corresponding embedding norm. -/
+theorem heightOneSpectrum_equivHeightOneSpectrum_symm_apply
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : K) :
+    (NumberField.FinitePlace.equivHeightOneSpectrum.symm v) x =
+      ‖NumberField.embedding v x‖ :=
+  IsDedekindDomain.HeightOneSpectrum.equivHeightOneSpectrum_symm_apply v x
+
+/-- The finite-place embedding norm times the local ideal norm is normalized to
+one. -/
+theorem heightOneSpectrum_embedding_mul_absNorm
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) {x : 𝓞 K} (hx : x ≠ 0) :
+    ‖NumberField.embedding v (x : K)‖ *
+        (Ideal.absNorm (v.maxPowDividing (Ideal.span {x})) : ℝ) = 1 :=
+  IsDedekindDomain.HeightOneSpectrum.embedding_mul_absNorm v hx
 
 /-- The completion of a number field at an infinite place is locally compact. -/
 theorem infinitePlace_completion_locallyCompactSpace
