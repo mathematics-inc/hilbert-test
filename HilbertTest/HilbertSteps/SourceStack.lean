@@ -1265,6 +1265,30 @@ theorem hilbert_p1ReductionStep_exists_composedMap_of_p1MapExistence_auxEtale
     SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_of_p1MapExistence_auxEtale
       F hS badValues hbad aux himage htargetBad maps_T_to_target hAuxEtale
 
+theorem hilbert_p1ReductionStep_exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = aux ≫ (F.map φ).hom ∧
+          T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+            (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
+      F hS badValues hbad aux himage htargetBad maps_T_to_target hAuxEtale
+
 theorem hilbert_p1ReductionStep_exists_of_auxiliaryData
     {Φ : Type z}
     (F : FiniteMarkedBelyiExistence K Φ (P1 K))
@@ -1293,6 +1317,20 @@ theorem hilbert_p1ReductionStep_exists_composedMap_of_auxiliaryData
     SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_of_auxiliaryData
       F hS D
 
+theorem hilbert_p1ReductionStep_exists_composedMap_belyiOpen_controls_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = D.aux ≫ (F.map φ).hom ∧
+          T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+            (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_belyiOpen_controls_of_auxiliaryData
+      F hS D
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
@@ -1307,6 +1345,20 @@ theorem hilbert_p1ReductionStep_composed_controls :
     (∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
       ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.BelyiReduction.P1ReductionStep.composed_controls R
+
+theorem hilbert_p1ReductionStep_T_subset_composed_belyiOpen :
+    T ⊆ (R.composed.toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.T_subset_composed_belyiOpen R
+
+theorem hilbert_p1ReductionStep_composed_belyiOpen_subset_compl_S :
+    (R.composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_belyiOpen_subset_compl_S R
+
+theorem hilbert_p1ReductionStep_composed_belyiOpen_controls :
+    T ⊆ (R.composed.toBelyiMap.belyiOpen : Set C) ∧
+      (R.composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_belyiOpen_controls R
 
 theorem hilbert_p1ReductionExistence_exists_of_auxiliaryData
     {Φ : Type z}
@@ -5556,6 +5608,22 @@ theorem hilbert_schemeBelyi_finite_compAux_base
     (ψ.compAux aux hEtale).hom.base x = ψ.hom.base (aux.base x) := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_base ψ aux hEtale x
 
+theorem hilbert_schemeBelyi_finite_compAux_belyiOpen_preimage
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
+    ((ψ.compAux aux hEtale).toBelyiMap.belyiOpen : Set Y) =
+      aux.base ⁻¹' (ψ.toBelyiMap.belyiOpen : Set X) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_belyiOpen_preimage
+    ψ aux hEtale
+
+theorem hilbert_schemeBelyi_finite_compAux_mem_belyiOpen_iff
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) (y : Y) :
+    y ∈ (ψ.compAux aux hEtale).toBelyiMap.belyiOpen ↔
+      aux.base y ∈ ψ.toBelyiMap.belyiOpen := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAux_mem_belyiOpen_iff
+    ψ aux hEtale y
+
 theorem hilbert_schemeBelyi_finite_compAux_isFinite_hom
     {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
     (hEtale : IsEtale ((aux ≫ ψ.hom) ∣_ T.branchOpen)) :
@@ -5588,6 +5656,24 @@ theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_base
     (ψ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = ψ.hom.base (aux.base x) := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_base
     ψ aux hAuxEtale x
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_belyiOpen_preimage
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    ((ψ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen : Set Y) =
+      aux.base ⁻¹' (ψ.toBelyiMap.belyiOpen : Set X) := by
+  exact
+    SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_belyiOpen_preimage
+      ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_mem_belyiOpen_iff
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) (y : Y) :
+    y ∈ (ψ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen ↔
+      aux.base y ∈ ψ.toBelyiMap.belyiOpen := by
+  exact
+    SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_mem_belyiOpen_iff
+      ψ aux hAuxEtale y
 
 theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_isFinite_hom
     {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]

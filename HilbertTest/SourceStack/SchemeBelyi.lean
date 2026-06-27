@@ -194,6 +194,24 @@ theorem compAux_base {Y : Scheme.{u}} {T : BelyiTarget P}
     (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) (x : X) :
     (φ.compAux aux hEtale).hom.base x = φ.hom.base (aux.base x) := rfl
 
+/-- The Belyi open of an auxiliary composite is the preimage of the original
+Belyi open under the auxiliary map. -/
+theorem compAux_belyiOpen_preimage {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    ((φ.compAux aux hEtale).toBelyiMap.belyiOpen : Set X) =
+      aux.base ⁻¹' (φ.toBelyiMap.belyiOpen : Set Y) := by
+  rfl
+
+/-- Membership in the Belyi open of an auxiliary composite is membership of
+the auxiliary image in the original Belyi open. -/
+theorem compAux_mem_belyiOpen_iff {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) (x : X) :
+    x ∈ (φ.compAux aux hEtale).toBelyiMap.belyiOpen ↔
+      aux.base x ∈ φ.toBelyiMap.belyiOpen := by
+  rfl
+
 theorem compAux_isFinite_hom {Y : Scheme.{u}} {T : BelyiTarget P}
     (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
     (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
@@ -236,6 +254,24 @@ theorem compAuxOfAuxEtale_base {Y : Scheme.{u}} {T : BelyiTarget P}
     (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
     (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) (x : X) :
     (φ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = φ.hom.base (aux.base x) := rfl
+
+/-- The Belyi open of an auxiliary-etale composite is the preimage of the
+original Belyi open under the auxiliary map. -/
+theorem compAuxOfAuxEtale_belyiOpen_preimage {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    ((φ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen : Set X) =
+      aux.base ⁻¹' (φ.toBelyiMap.belyiOpen : Set Y) := by
+  rfl
+
+/-- Membership in the Belyi open of an auxiliary-etale composite is membership
+of the auxiliary image in the original Belyi open. -/
+theorem compAuxOfAuxEtale_mem_belyiOpen_iff {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) (x : X) :
+    x ∈ (φ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen ↔
+      aux.base x ∈ φ.toBelyiMap.belyiOpen := by
+  rfl
 
 /-- The auxiliary-etale composition constructor yields a finite morphism. -/
 theorem compAuxOfAuxEtale_isFinite_hom {Y : Scheme.{u}} {T : BelyiTarget P}

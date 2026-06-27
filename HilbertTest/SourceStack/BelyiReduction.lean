@@ -604,6 +604,85 @@ theorem composed_controls :
       ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K :=
   ⟨R.composed_maps_S_to_marked, R.composed_avoids_T_marked⟩
 
+/-- The composed Belyi open contains the prescribed noncritical set `T`. -/
+theorem T_subset_composed_belyiOpen :
+    T ⊆ (R.composed.toBelyiMap.belyiOpen : Set C) := by
+  intro x hx
+  exact
+    (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+      (K := K) (hmarkedOpen := hmarkedOpen) R.composed x).2
+      (R.composed_avoids_T_marked x hx)
+
+/-- The composed Belyi open avoids the prescribed branch-forcing set `S`. -/
+theorem composed_belyiOpen_subset_compl_S :
+    (R.composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  intro x hxOpen hxS
+  have hxNotMarked :
+      R.composed.hom.base x ∉ markedSchemePointSet K :=
+    (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+      (K := K) (hmarkedOpen := hmarkedOpen) R.composed x).1 hxOpen
+  exact hxNotMarked (R.composed_maps_S_to_marked x hxS)
+
+/-- Open-set form of the one-step reduction controls: the composed Belyi open
+contains `T` and is contained in the complement of `S`. -/
+theorem composed_belyiOpen_controls :
+    T ⊆ (R.composed.toBelyiMap.belyiOpen : Set C) ∧
+      (R.composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ :=
+  ⟨R.T_subset_composed_belyiOpen, R.composed_belyiOpen_subset_compl_S⟩
+
+/-- Open-control version of `exists_of_p1MapExistence_auxEtale`: finite marked
+Belyi existence on `P1` and an auxiliary-étaleness criterion produce a
+composed finite Belyi map whose Belyi open contains `T` and avoids `S`. -/
+theorem exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = aux ≫ (F.map φ).hom ∧
+          T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+            (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases exists_of_p1MapExistence_auxEtale F hS badValues hbad aux
+      himage htargetBad maps_T_to_target hAuxEtale with
+    ⟨φ, R, _hR, hhom, _hcontrols⟩
+  exact
+    ⟨φ, R.composed, hhom,
+      R.T_subset_composed_belyiOpen,
+      R.composed_belyiOpen_subset_compl_S⟩
+
+/-- Open-control version of `exists_composedMap_of_auxiliaryData`: fixed-pair
+auxiliary source material directly produces a composed finite Belyi map whose
+Belyi open contains `T` and avoids `S`. -/
+theorem exists_composedMap_belyiOpen_controls_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = D.aux ≫ (F.map φ).hom ∧
+          T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+            (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  letI : IsFinite D.aux := D.aux_finite
+  letI : IsDominant D.aux := D.aux_dominant
+  exact exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
+    (K := K) (C := C) (S := S) (T := T) F hS
+    D.badValues D.badValues_finite D.aux
+    (targetPoint := D.targetPoint)
+    D.image_avoids_target D.target_not_bad D.maps_T_to_target
+    D.aux_etale_on_selected_belyiOpen
+
 end P1ReductionStep
 
 /-- Index type for the finite marked Belyi family obtained from reductions for
