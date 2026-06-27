@@ -424,6 +424,23 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hxU
 
+/-- Corollary 1.2-style finite-set open consequence directly from a reduction
+family in the curve-style finite-complement topology form. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUne hT hTsub
+
 /-- Pointwise tuple-cover consequence directly from a reduction family. -/
 theorem pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
