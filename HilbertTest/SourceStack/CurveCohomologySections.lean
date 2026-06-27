@@ -658,6 +658,23 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
       K (ReductionIndex C) D.toFiniteMarkedBelyiExistence Kex
 
+/-- Equality form of the cohomological source compact-exhaustion cover bridge. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i)) :
+    ∃ t : Finset (ReductionIndex C × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+            D.belyiOpen p.1) ∧
+          (⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) =
+            (Set.univ : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence Kex
+
 /-- Cohomological source compact-cover bridge with compact exhaustions supplied
 by local compactness and second countability. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -675,6 +692,25 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
               ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
   exact
     FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence
+
+/-- Equality form of the cohomological source compact-cover bridge with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) =
+              (Set.univ : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K (ReductionIndex C) D.toFiniteMarkedBelyiExistence
 
 /-- Cohomological source compact-coordinate bridge: after choosing the Belyi

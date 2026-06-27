@@ -1450,6 +1450,36 @@ theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustio
     SourceStack.BelyiReduction.P1ReductionExistence.finite_compact_cover_by_belyiOpen_exhaustions
       E Kex
 
+theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ i : ReductionIndex C,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i)) :
+    ∃ t : Finset (ReductionIndex C × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+            C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+              (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                  (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      E Kex
+
 theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
     [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -1480,6 +1510,37 @@ theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustio
                   (Kex p.1 p.2) := by
   exact
     SourceStack.BelyiReduction.P1ReductionExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      E
+
+theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ i : ReductionIndex C,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+              (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                    (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                  (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                  C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       E
 
 theorem hilbert_p1ReductionExistence_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -3813,6 +3874,24 @@ theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_cover_by_belyi
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_compact_cover_by_belyiOpen_exhaustions
       D Kex
 
+theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i)) :
+    ∃ t : Finset (ReductionIndex C × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+            D.belyiOpen p.1) ∧
+          (⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) =
+            (Set.univ : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      D Kex
+
 theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [Infinite K] [T1Space (P1 K)]
     {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
@@ -3830,6 +3909,25 @@ theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_cover_by_belyi
               ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      D
+
+theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) =
+              (Set.univ : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       D
 
 theorem hilbert_cohomologicalP1ReductionSourceData_finite_compact_coordinate_sets_of_belyiOpen_exhaustions

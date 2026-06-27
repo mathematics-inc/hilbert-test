@@ -864,6 +864,38 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
       K (ReductionIndex C) E.toFiniteMarkedBelyiExistence Kex
 
+/-- Equality form of the compact-exhaustion cover bridge directly from a
+reduction family. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ i : ReductionIndex C,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i)) :
+    ∃ t : Finset (ReductionIndex C × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+            C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+              (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                  (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence Kex
+
 /-- Compact-cover bridge directly from a reduction family, with compact
 exhaustions supplied by local compactness and second countability. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -896,6 +928,39 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                   (Kex p.1 p.2) := by
   exact
     FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence
+
+/-- Equality form of the compact-cover bridge directly from a reduction family,
+with compact exhaustions supplied by local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ i : ReductionIndex C,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+              (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                    (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+                  (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                  C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K (ReductionIndex C) E.toFiniteMarkedBelyiExistence
 
 /-- Compact-coordinate Corollary 3.2 bridge directly from a reduction family. -/
