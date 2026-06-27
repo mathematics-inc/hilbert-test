@@ -34,6 +34,26 @@ theorem hilbert_ratio_sub_one_ge_ratio
     beta / alpha <= (beta - 1) / (alpha - 1) := by
   exact NoncriticalBelyi.ratio_sub_one_ge_ratio halpha hbeta
 
+theorem hilbert_ratio_ge_one
+    {alpha beta : Real}
+    (halpha : 0 < alpha)
+    (hbeta : alpha <= beta) :
+    1 <= beta / alpha := by
+  exact NoncriticalBelyi.ratio_ge_one halpha hbeta
+
+theorem hilbert_shifted_ratio_ge_one
+    {alpha beta : Real}
+    (halpha : 1 < alpha)
+    (hbeta : alpha <= beta) :
+    1 <= (beta - 1) / (alpha - 1) := by
+  exact NoncriticalBelyi.shifted_ratio_ge_one halpha hbeta
+
+theorem hilbert_pow_two_ge_self_of_ge_one
+    {x : Real}
+    (hx : 1 <= x) :
+    x <= x ^ 2 := by
+  exact NoncriticalBelyi.pow_two_ge_self_of_ge_one hx
+
 theorem hilbert_belyi_aux_ratio_lower_bound
     {m n : Nat} {alpha beta : Real}
     (hm : 1 <= m)
