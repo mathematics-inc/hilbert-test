@@ -2757,6 +2757,18 @@ theorem hilbert_noncritical_finite_subcover_on_complement
         (Set.univ : Set (κ → {x : X // x ∉ S})) := by
   exact SourceStack.NoncriticalBelyiExistence.finite_subcover_on_complement E hS
 
+theorem hilbert_noncritical_restrictSubtype_finite_subcover_on_complement
+    [Finite κ] [T1Space P] (U : Set X) {S : Set U} (hS : S.Finite)
+    [CompactSpace (κ → {x : U // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (E.restrictSubtype U).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((E.restrictSubtype U).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+            (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : U // x ∉ S})) := by
+  exact SourceStack.NoncriticalBelyiExistence.restrictSubtype_finite_subcover_on_complement
+    E U hS
+
 theorem hilbert_noncritical_finite_subcover_on_complement_forall
     [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
     [CompactSpace (κ → {x : X // x ∉ S})] :

@@ -274,6 +274,19 @@ theorem finite_subcover_on_complement
   exact D.toBelyiCoverData.finite_subcover_on_complement_of_pointwise
     (fun x => D.pointwise_cover_complement hS x)
 
+/-- Corollary 3.1 after restricting the noncritical Belyi existence package to
+an arbitrary subtype of the source. -/
+theorem restrictSubtype_finite_subcover_on_complement
+    [Finite κ] [T1Space P] (U : Set X) {S : Set U} (hS : S.Finite)
+    [CompactSpace (κ → {x : U // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (D.restrictSubtype U).toBelyiCoverData.sendsSetToBranch S φ},
+      (⋃ φ ∈ t,
+          ((D.restrictSubtype U).toBelyiCoverData.complementCoverData S).tupleAvoidSet
+            (κ := κ) φ) =
+        (Set.univ : Set (κ → {x : U // x ∉ S})) := by
+  exact (D.restrictSubtype U).finite_subcover_on_complement hS
+
 /-- Membership form of the abstract Corollary 3.1 finite subcover. -/
 theorem finite_subcover_on_complement_forall
     [Finite κ] [T1Space P] {S : Set X} (hS : S.Finite)
