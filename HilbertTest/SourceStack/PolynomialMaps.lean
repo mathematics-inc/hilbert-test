@@ -350,6 +350,12 @@ theorem mochizukiPolynomial_derivative_aeval
   rw [mochizukiPolynomial_derivative_factor K m n hm hn]
   simp [map_mul, map_sub]
 
+/-- Real evaluation formula for Mochizuki's Lemma 2.1 polynomial. -/
+theorem mochizukiPolynomial_real_aeval
+    (m n : ℕ) (x : ℝ) :
+    Polynomial.aeval x (mochizukiPolynomial ℝ m n) = x ^ m * (x - 1) ^ n := by
+  simp [mochizukiPolynomial]
+
 /-- Real ordered consequence used in Mochizuki Lemma 2.1: for `x > 1`, the
 derivative of `x^m * (x - 1)^n` is strictly positive. -/
 theorem mochizukiPolynomial_real_derivative_aeval_pos_of_one_lt
@@ -370,6 +376,35 @@ theorem mochizukiPolynomial_real_derivative_aeval_pos_of_one_lt
   have hlin : 0 < ((m + n : ℕ) : ℝ) * x - (m : ℝ) := by
     nlinarith
   exact mul_pos (mul_pos hxpow hsubpow) hlin
+
+/-- On the real tail `x > 1`, Mochizuki's Lemma 2.1 polynomial is positive. -/
+theorem mochizukiPolynomial_real_aeval_pos_of_one_lt
+    (m n : ℕ) {x : ℝ} (hx : 1 < x) :
+    0 < Polynomial.aeval x (mochizukiPolynomial ℝ m n) := by
+  rw [mochizukiPolynomial_real_aeval]
+  exact mul_pos (pow_pos (lt_trans zero_lt_one hx) m)
+    (pow_pos (sub_pos.mpr hx) n)
+
+/-- Tail lower bound used in Mochizuki Lemma 2.1: if `x >= 2`, then
+`x^m * (x - 1)^n >= x` as soon as `m` is positive. -/
+theorem mochizukiPolynomial_real_aeval_ge_self_of_two_le
+    (m n : ℕ) (hm : 0 < m) {x : ℝ} (hx : 2 ≤ x) :
+    x ≤ Polynomial.aeval x (mochizukiPolynomial ℝ m n) := by
+  rw [mochizukiPolynomial_real_aeval]
+  have hx_nonneg : 0 ≤ x := by nlinarith
+  have hx_one_le : 1 ≤ x := by nlinarith
+  have hsub_one_le : 1 ≤ x - 1 := by nlinarith
+  have hxpow_ge : x ≤ x ^ m := by
+    rcases Nat.exists_eq_succ_of_ne_zero (Nat.ne_of_gt hm) with ⟨k, rfl⟩
+    have hpow : 1 ≤ x ^ k := one_le_pow₀ hx_one_le
+    have hmul := mul_le_mul_of_nonneg_left hpow hx_nonneg
+    simpa [pow_succ, mul_comm, mul_left_comm, mul_assoc] using hmul
+  have hsubpow_ge : 1 ≤ (x - 1) ^ n := one_le_pow₀ hsub_one_le
+  have hxpow_nonneg : 0 ≤ x ^ m := pow_nonneg hx_nonneg m
+  have hmul_tail : x ^ m ≤ x ^ m * (x - 1) ^ n := by
+    have hmul := mul_le_mul_of_nonneg_left hsubpow_ge hxpow_nonneg
+    simpa [mul_one] using hmul
+  exact le_trans hxpow_ge hmul_tail
 
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
