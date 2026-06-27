@@ -993,6 +993,18 @@ theorem hilbert_p1ReductionExistence_exists_of_auxiliaryData
     SourceStack.BelyiReduction.P1ReductionExistence.exists_of_auxiliaryData
       F data
 
+theorem hilbert_p1ReductionExistence_exists_of_auxiliaryData_nonempty
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (data :
+      ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+        Nonempty (P1ReductionAuxiliaryData K C F S T)) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_of_auxiliaryData_nonempty
+      F data
+
 variable (E : P1ReductionExistence K C)
 
 theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_hmarkedOpen :

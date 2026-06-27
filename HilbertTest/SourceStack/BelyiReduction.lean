@@ -642,6 +642,22 @@ theorem exists_of_auxiliaryData
     (K := K) (C := C) (S := S) (T := T) F hS D
   exact Classical.choose (Classical.choose_spec hex)
 
+/-- Version of `exists_of_auxiliaryData` where the per-pair source material is
+available as nonempty data packages.  This is the form produced by the
+divisor/cohomology source layer before making choices. -/
+theorem exists_of_auxiliaryData_nonempty
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (data :
+      ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+        Nonempty (P1ReductionAuxiliaryData K C F S T)) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  classical
+  exact exists_of_auxiliaryData F
+    (fun {S T} hS hT hdis =>
+      Classical.choice (data (S := S) (T := T) hS hT hdis))
+
 variable (E : P1ReductionExistence K C)
 
 /-- The finite marked Belyi map attached to an indexed reduction. -/
