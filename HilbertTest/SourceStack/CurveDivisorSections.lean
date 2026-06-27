@@ -254,6 +254,36 @@ theorem exists_p1ReductionAuxiliaryData_of_projectivePair_factory
         badValues hbad (hmk_finite s1 hnc) (hmk_dominant s1 hnc)
         htargetBad (hAuxEtale s1 hnc)⟩⟩
 
+/-- Set-indexed form of
+`exists_p1ReductionAuxiliaryData_of_projectivePair_factory`: if the divisor
+support is the prescribed finite set `T`, the produced auxiliary data is typed
+for the reduction pair `S,T`. -/
+theorem exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hT : T.Finite) (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S T) := by
+  cases hsupport
+  exact
+    D.exists_p1ReductionAuxiliaryData_of_projectivePair_factory
+      F hT hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
 end DivisorZeroSectionData
 
 end SchemeSupport

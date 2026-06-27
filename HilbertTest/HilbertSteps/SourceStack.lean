@@ -2590,6 +2590,32 @@ theorem hilbert_divisorZeroSection_exists_p1ReductionAuxiliaryData_of_projective
       D F hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+theorem hilbert_divisorZeroSection_exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+    [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hT : T.Finite) (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S T) := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+      D F hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
 end CurveDivisorSections
 
 namespace CurveCohomologySections
@@ -2816,6 +2842,35 @@ theorem hilbert_cohomologicalDivisor_exists_p1ReductionAuxiliaryData_of_projecti
   exact
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_p1ReductionAuxiliaryData_of_projectivePair_factory
       D F hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
+theorem hilbert_cohomologicalDivisor_exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hT : T.Finite)
+    (hsupport : D.evalSurjectivity.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ _ : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        Nonempty (P1ReductionAuxiliaryData K C F S T) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+      D F hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
 end CurveCohomologySections
