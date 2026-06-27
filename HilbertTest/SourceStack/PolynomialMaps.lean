@@ -350,6 +350,22 @@ theorem mochizukiPolynomial_derivative_aeval
   rw [mochizukiPolynomial_derivative_factor K m n hm hn]
   simp [map_mul, map_sub]
 
+/-- The Mochizuki Lemma 2.1 polynomial vanishes at `0` when `m > 0`. -/
+theorem mochizukiPolynomial_aeval_zero_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) :
+    Polynomial.aeval (0 : K) (mochizukiPolynomial K m n) = 0 := by
+  rw [mochizukiPolynomial, map_mul, map_pow, map_pow, Polynomial.aeval_X,
+    map_sub, Polynomial.aeval_X, Polynomial.aeval_C]
+  rw [zero_pow (Nat.ne_of_gt hm), zero_mul]
+
+/-- The Mochizuki Lemma 2.1 polynomial vanishes at `1` when `n > 0`. -/
+theorem mochizukiPolynomial_aeval_one_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hn : 0 < n) :
+    Polynomial.aeval (1 : K) (mochizukiPolynomial K m n) = 0 := by
+  rw [mochizukiPolynomial, map_mul, map_pow, map_pow, Polynomial.aeval_X,
+    map_sub, Polynomial.aeval_X, Polynomial.aeval_C]
+  simp only [map_one, sub_self, zero_pow (Nat.ne_of_gt hn), mul_zero]
+
 /-- Real evaluation formula for Mochizuki's Lemma 2.1 polynomial. -/
 theorem mochizukiPolynomial_real_aeval
     (m n : ℕ) (x : ℝ) :
