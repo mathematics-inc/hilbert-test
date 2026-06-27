@@ -235,6 +235,37 @@ theorem exists_rational_reciprocal_translate_separating_finset
     · intro α hα
       exact (hS ⟨α, hα⟩).elim
 
+/-- Projective-line rational refinement of Mochizuki Lemma 2.3: if the
+distinguished point is rational, the reciprocal-translate pole may be chosen
+rational, while the induced projective map sends the distinguished point away
+from `0` and `∞` and sends the finite set away from `∞`. -/
+theorem exists_projective_rational_reciprocalTranslate_separating_finset
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+            (ProjectiveLine.affinePoint ℂ α) ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  rcases exists_rational_reciprocal_translate_separating_finset S β C hC hβ with
+    ⟨lam, hlamβ, hlamS, hsep⟩
+  refine ⟨lam, ?_, ?_, ?_, hsep⟩
+  · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_zero ℂ
+      (lam : ℂ) (β : ℂ) (Ne.symm hlamβ)
+  · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      (lam : ℂ) (β : ℂ) (Ne.symm hlamβ)
+  · intro α hα
+    exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      (lam : ℂ) α (Ne.symm (hlamS α hα))
+
 end
 
 end SourceStack
