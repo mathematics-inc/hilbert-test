@@ -206,6 +206,108 @@ theorem markedNoncritical_finite_subcover_on_complement_forall
   exact (markedNoncriticalExistence K X Φ map continuous_map
     exists_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
 
+/-- Raw marked-`Proj` noncritical compact-exhaustion cover bridge. -/
+theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set X) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val :
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2) := by
+  exact
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
+      Kex
+
+/-- Raw marked-`Proj` noncritical compact-cover bridge with compact exhaustions
+supplied by local compactness and second countability. -/
+theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedNoncriticalExistence K X Φ map continuous_map
+                exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedNoncriticalExistence K X Φ map continuous_map
+                    exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set X) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val :
+                  (markedNoncriticalExistence K X Φ map continuous_map
+                    exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                  (Kex p.1 p.2) := by
+  exact
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Raw marked-`Proj` noncritical compact-coordinate Corollary 3.2 bridge. -/
+theorem markedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {κ : Type z} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → X → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x,
+      x ∈ (markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ →
+        ∀ j, G φ x j ∈ A j) :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set X) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (markedNoncriticalExistence K X Φ map continuous_map
+                      exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      X) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (markedNoncriticalExistence K X Φ map continuous_map
+                      exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 →
+                      X) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
+
 section SchemeCarrierTarget
 
 variable (schemeMap : Φ → X → P1 K)
