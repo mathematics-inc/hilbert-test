@@ -41,6 +41,56 @@ theorem schemeMochizukiFourPointFinset_card
     (PolynomialMaps.mochizukiRatio_ne_zero K m n hm hn)
     (PolynomialMaps.mochizukiRatio_ne_one K m n hm hn)
 
+/-- Scheme-carrier four-point cardinality drop: a map from
+`{0, m/(m+n), 1, infinity}` into the marked branch triple has smaller image. -/
+theorem image_schemeMochizukiFourPointFinset_card_lt_of_maps_to_marked
+    [CharZero K] [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : SchemeProjectiveLine.P1 K → SchemeProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ SchemeProjectiveLine.markedSchemePointFinset K) :
+    ((SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).image f).card <
+      (SchemeAffineLinePoints.schemeFourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).card := by
+  have hsubset :
+      (SchemeAffineLinePoints.schemeFourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).image f ⊆
+        SchemeProjectiveLine.markedSchemePointFinset K := by
+    intro y hy
+    rcases Finset.mem_image.mp hy with ⟨x, hx, rfl⟩
+    exact hmap x hx
+  have hle :
+      ((SchemeAffineLinePoints.schemeFourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).image f).card ≤
+        (SchemeProjectiveLine.markedSchemePointFinset K).card :=
+    Finset.card_le_card hsubset
+  have hle3 :
+      ((SchemeAffineLinePoints.schemeFourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).image f).card ≤ 3 := by
+    simpa [SchemeProjectiveLine.markedSchemePointFinset_card K] using hle
+  rw [schemeMochizukiFourPointFinset_card K m n hm hn]
+  omega
+
+/-- Scheme-carrier Lemma 2.2-style cardinality drop specialized to
+Mochizuki's four distinguished points. -/
+theorem image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
+    [CharZero K] [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SchemeProjectiveLine.P1 K))
+    (f : SchemeProjectiveLine.P1 K → SchemeProjectiveLine.P1 K)
+    (hsubset : SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SchemeProjectiveLine.markedSchemePointFinset K) :
+    (S.image f).card < S.card := by
+  exact card_image_lt_of_subset_with_smaller_subimage
+    S
+    (SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))) f hsubset
+    (image_schemeMochizukiFourPointFinset_card_lt_of_maps_to_marked
+      K m n hm hn f (fun x hx => hmap x (hsubset hx)))
+
 /-- The concrete scheme-carrier polynomial point map `x |-> [p(x):1]`. -/
 def concreteSchemePolynomialPointMap (p : F[X]) (x : K) :
     SchemeProjectiveLine.P1 K :=

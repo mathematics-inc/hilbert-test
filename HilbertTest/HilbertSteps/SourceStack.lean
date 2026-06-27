@@ -10547,6 +10547,32 @@ theorem hilbert_concretePolynomialSchemeSeparation_schemeMochizukiFourPointFinse
   exact SourceStack.ConcretePolynomialSchemeSeparation.schemeMochizukiFourPointFinset_card
     K m n hm hn
 
+theorem hilbert_concretePolynomialSchemeSeparation_image_schemeMochizukiFourPointFinset_card_lt_of_maps_to_marked
+    [CharZero K] [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : SourceStack.SchemeProjectiveLine.P1 K → SourceStack.SchemeProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ SourceStack.SchemeProjectiveLine.markedSchemePointFinset K) :
+    ((schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).image f).card <
+      (schemeFourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).card := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.image_schemeMochizukiFourPointFinset_card_lt_of_maps_to_marked
+    K m n hm hn f hmap
+
+theorem hilbert_concretePolynomialSchemeSeparation_image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
+    [CharZero K] [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SourceStack.SchemeProjectiveLine.P1 K))
+    (f : SourceStack.SchemeProjectiveLine.P1 K → SourceStack.SchemeProjectiveLine.P1 K)
+    (hsubset : schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SourceStack.SchemeProjectiveLine.markedSchemePointFinset K) :
+    (S.image f).card < S.card := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
+    K m n hm hn S f hsubset hmap
+
 theorem hilbert_concretePolynomialSchemeSeparation_pointMap_eq_bridge
     (x : K) :
     (concreteLinearSchemePointBridge K).schemePointMap F P x =
