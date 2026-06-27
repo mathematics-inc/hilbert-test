@@ -966,6 +966,41 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     NoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
       (toMarkedNoncriticalExistence K Φ F)
 
+/-- Finite marked Belyi form of the compact-coordinate Corollary 3.2 bridge:
+continuous product-valued maps on the selected Belyi opens give compact
+coordinate target sets after choosing finitely many compact exhaustion members. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {κ : Type z} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → C → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x,
+      x ∈ (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ →
+        ∀ j, G φ x j ∈ A j) :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    NoncriticalBelyiExistence.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      (toMarkedNoncriticalExistence K Φ F) G hG A hGA
+
 theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)

@@ -677,6 +677,32 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
       K (ReductionIndex C) D.toFiniteMarkedBelyiExistence
 
+/-- Cohomological source compact-coordinate bridge: after choosing the Belyi
+family supplied by the source data, continuous product-valued coordinate maps
+give the compact coordinate target sets appearing in Corollary 3.2. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : ReductionIndex C → C → ((j : κ) → Z j))
+    (hG : ∀ i, Continuous (G i))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ i x, x ∈ D.belyiOpen i → ∀ j, G i x j ∈ A j) :
+    ∃ Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence G hG A hGA
+
 /-- Finite-set Belyi-open consequence directly from the cohomological source
 package in the curve-style finite-complement topology form. -/
 theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
