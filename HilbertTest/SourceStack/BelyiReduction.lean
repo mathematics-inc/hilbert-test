@@ -168,6 +168,30 @@ theorem p1Map_belyiOpen_subset_compl_reductionBadSet_of_maps_bad_to_marked
       (reductionBadSet aux S badValues)ᶜ := by
   exact p1Map_belyiOpen_subset_compl_of_maps_bad_to_marked p1Map hbad
 
+/-- Bundled form of the `P1` selection step: finite marked Belyi existence gives
+a map controlling the enlarged bad set and target point, and the selected map's
+Belyi open avoids the enlarged bad set. -/
+theorem exists_p1Map_for_reductionBadSet_target_with_belyiOpen_subset_compl
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    (hS : S.Finite) (hbad : badValues.Finite)
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues) :
+    ∃ φ : Φ,
+      (∀ y ∈ reductionBadSet aux S badValues,
+        (F.map φ).hom.base y ∈ markedSchemePointSet K) ∧
+        (F.map φ).hom.base targetPoint ∉ markedSchemePointSet K ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ := by
+  rcases exists_p1Map_for_reductionBadSet_target F aux hS hbad
+      himage htargetBad with ⟨φ, hφbad, hφtarget⟩
+  exact
+    ⟨φ, hφbad, hφtarget,
+      p1Map_belyiOpen_subset_compl_reductionBadSet_of_maps_bad_to_marked
+        (F.map φ) aux S badValues hφbad⟩
+
 /-- One reduction step for fixed finite sets `S,T` on the source curve.  The
 `bad` set is the finite set on `P1` that the later Belyi map must send to the
 marked branch triple; in the paper it contains `ψ(S)` and the ramification
