@@ -2739,6 +2739,11 @@ theorem hilbert_mem_belyiOpen_iff
     x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch := by
   exact SourceStack.BelyiCoverData.mem_belyiOpen_iff D φ x
 
+theorem hilbert_belyiCoverData_restrictSubtype_branch
+    (U : Set X) :
+    (D.restrictSubtype U).branch = D.branch := by
+  exact SourceStack.BelyiCoverData.restrictSubtype_branch D U
+
 theorem hilbert_belyiCoverData_restrictSubtype_map_apply
     (U : Set X) (φ : Φ) (x : U) :
     (D.restrictSubtype U).map φ x = D.map φ x.1 := by
