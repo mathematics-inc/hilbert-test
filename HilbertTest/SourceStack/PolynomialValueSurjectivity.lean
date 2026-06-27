@@ -111,6 +111,20 @@ theorem exists_p1PolynomialSeparationStep_of_derivative_ne_zero
   exact exists_p1PolynomialSeparationStep F E hS p
     (map_natDegree_pos_of_derivative_ne_zero F E p hpder) hpder
 
+/-- Concrete Mochizuki polynomial instance of the value-surjectivity step:
+for positive exponents in characteristic zero, `x^m * (x - 1)^n` yields a
+selected `P1` polynomial-separation step for any finite input set. -/
+theorem exists_p1PolynomialSeparationStep_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : E, ∃ P : P1PolynomialSeparation.P1PolynomialSeparationStep
+      F E S β,
+      P.polynomial = PolynomialMaps.mochizukiPolynomial F m n := by
+  exact exists_p1PolynomialSeparationStep_of_derivative_ne_zero
+    F E hS (PolynomialMaps.mochizukiPolynomial F m n)
+    (PolynomialMaps.mochizukiPolynomial_derivative_ne_zero F m n hm hn)
+
 end PolynomialValueSurjectivity
 end SourceStack
 end HilbertTest

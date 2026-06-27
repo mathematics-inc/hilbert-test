@@ -9996,6 +9996,16 @@ theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep_of
   exact SourceStack.PolynomialValueSurjectivity.exists_p1PolynomialSeparationStep_of_derivative_ne_zero
     F E hS p hpder
 
+theorem hilbert_polynomialValueSurjectivity_exists_p1PolynomialSeparationStep_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed E]
+    {S : Set E} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : E, ∃ P : SourceStack.P1PolynomialSeparation.P1PolynomialSeparationStep
+      F E S β,
+      P.polynomial = SourceStack.PolynomialMaps.mochizukiPolynomial F m n := by
+  exact SourceStack.PolynomialValueSurjectivity.exists_p1PolynomialSeparationStep_mochizukiPolynomial
+    F E hS m n hm hn
+
 end PolynomialValueSurjectivity
 
 namespace P1SchemePointBridge
