@@ -454,6 +454,15 @@ theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint
     D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint_subtype_sets
+    [Infinite K] (U : Set C) {S T : Set U}
+    (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (D.map s).hom.base x.1 ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (D.map s).hom.base x.1 ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint_subtype_sets
+      D U hS hT hdis
+
 theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
     [Infinite K] :
     (FiniteMarkedBelyiExistence.toMarkedCoverData K V

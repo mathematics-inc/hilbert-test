@@ -139,6 +139,36 @@ theorem exists_for_finite_disjoint
       D.sends_vanishing_to_marked hsS,
       D.nonzero_avoids_marked hsT⟩
 
+/-- Direct finite disjoint-set conclusion after restricting the source of
+scheme-level section-controlled finite marked Belyi data to a subtype. -/
+theorem exists_for_finite_disjoint_subtype_sets
+    [Infinite K] (U : Set C) {S T : Set U} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (D.map s).hom.base x.1 ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (D.map s).hom.base x.1 ∉ markedSchemePointSet K := by
+  let S' : Set C := (Subtype.val : U → C) '' S
+  let T' : Set C := (Subtype.val : U → C) '' T
+  have hS' : S'.Finite := hS.image (Subtype.val : U → C)
+  have hT' : T'.Finite := hT.image (Subtype.val : U → C)
+  have hdis' : Disjoint S' T' := by
+    rw [Set.disjoint_left]
+    intro y hyS hyT
+    rcases hyS with ⟨s, hsS, rfl⟩
+    rcases hyT with ⟨t, htT, ht⟩
+    have hst : s = t := Subtype.ext ht.symm
+    have hs_not_mem_T : s ∉ T := (Set.disjoint_left.mp hdis) hsS
+    exact hs_not_mem_T (by simpa [hst] using htT)
+  rcases D.exists_for_finite_disjoint hS' hT' hdis' with
+    ⟨s, hsS, hsT⟩
+  exact
+    ⟨s,
+      (by
+        intro x hx
+        exact hsS x.1 ⟨x, hx, rfl⟩),
+      (by
+        intro x hx
+        exact hsT x.1 ⟨x, hx, rfl⟩)⟩
+
 theorem toFiniteMarkedBelyiExistence_toMarkedCoverData_branch
     [Infinite K] :
     (FiniteMarkedBelyiExistence.toMarkedCoverData K V
