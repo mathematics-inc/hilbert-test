@@ -836,6 +836,19 @@ theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_complement
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_complement
     E hA hxA
 
+theorem hilbert_p1ReductionExistence_exists_belyiOpen_containing_finite_inside_complement
+    [T1Space (P1 K)]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ Sᶜ := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_containing_finite_inside_complement
+    E hS hT hdis
+
 theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
@@ -848,6 +861,20 @@ theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_finite_comp
             (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_inside_open_of_finite_complement
     E hU hUcompl hxU
+
+theorem hilbert_p1ReductionExistence_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    E hU hUcompl hT hTsub
 
 theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]

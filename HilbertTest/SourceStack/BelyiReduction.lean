@@ -394,6 +394,22 @@ theorem exists_belyiOpen_inside_complement
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_complement
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hA hxA
 
+/-- Corollary 1.2-style finite-set open consequence directly from a reduction
+family, inside the complement of a finite source set. -/
+theorem exists_belyiOpen_containing_finite_inside_complement
+    [T1Space (P1 K)]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ Sᶜ := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_complement
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hS hT hdis
+
 /-- Corollary 1.2-style one-point open consequence directly from a reduction
 family, with the finite complement supplied explicitly. -/
 theorem exists_belyiOpen_inside_open_of_finite_complement
@@ -408,6 +424,23 @@ theorem exists_belyiOpen_inside_open_of_finite_complement
             (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_finite_complement
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUcompl hxU
+
+/-- Corollary 1.2-style finite-set open consequence directly from a reduction
+family, with the finite complement supplied explicitly. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space (P1 K)]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub
 
 /-- Corollary 1.2-style one-point open consequence directly from a reduction
 family in the curve-style finite-complement topology form. -/
