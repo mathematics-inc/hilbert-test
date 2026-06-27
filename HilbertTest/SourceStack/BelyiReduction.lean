@@ -142,6 +142,32 @@ theorem exists_p1Map_for_reductionBadSet_target
       (Set.finite_singleton targetPoint) hdis with ⟨φ, hφbad, hφtarget⟩
   exact ⟨φ, hφbad, hφtarget targetPoint (by simp)⟩
 
+variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
+
+/-- If a finite marked Belyi map on `P1` sends a bad set to the marked branch
+triple, then its Belyi open is contained in the complement of that bad set. -/
+theorem p1Map_belyiOpen_subset_compl_of_maps_bad_to_marked
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    {bad : Set (P1 K)}
+    (hbad : ∀ y ∈ bad, p1Map.hom.base y ∈ markedSchemePointSet K) :
+    (p1Map.toBelyiMap.belyiOpen : Set (P1 K)) ⊆ badᶜ := by
+  intro y hyOpen hyBad
+  have hyNotMarked :
+      p1Map.hom.base y ∉ markedSchemePointSet K :=
+    (FiniteBelyiMap.mem_marked_belyiOpen_iff
+      (K := K) (hmarkedOpen := hmarkedOpen) p1Map y).1 hyOpen
+  exact hyNotMarked (hbad y hyBad)
+
+/-- Specialization to the reduction bad set `aux(S) ∪ badValues`. -/
+theorem p1Map_belyiOpen_subset_compl_reductionBadSet_of_maps_bad_to_marked
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K))
+    (hbad : ∀ y ∈ reductionBadSet aux S badValues,
+      p1Map.hom.base y ∈ markedSchemePointSet K) :
+    (p1Map.toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+      (reductionBadSet aux S badValues)ᶜ := by
+  exact p1Map_belyiOpen_subset_compl_of_maps_bad_to_marked p1Map hbad
+
 /-- One reduction step for fixed finite sets `S,T` on the source curve.  The
 `bad` set is the finite set on `P1` that the later Belyi map must send to the
 marked branch triple; in the paper it contains `ψ(S)` and the ramification

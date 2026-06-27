@@ -692,6 +692,27 @@ theorem hilbert_exists_p1Map_for_reductionBadSet_target
     F aux hS hbad himage htargetBad
 
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
+
+theorem hilbert_p1Map_belyiOpen_subset_compl_of_maps_bad_to_marked
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    {bad : Set (P1 K)}
+    (hbad : ∀ y ∈ bad, p1Map.hom.base y ∈ markedSchemePointSet K) :
+    (p1Map.toBelyiMap.belyiOpen : Set (P1 K)) ⊆ badᶜ := by
+  exact
+    SourceStack.BelyiReduction.p1Map_belyiOpen_subset_compl_of_maps_bad_to_marked
+      p1Map hbad
+
+theorem hilbert_p1Map_belyiOpen_subset_compl_reductionBadSet_of_maps_bad_to_marked
+    (p1Map : FiniteBelyiMap (markedBelyiTarget K hmarkedOpen) (P1 K))
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K))
+    (hbad : ∀ y ∈ reductionBadSet aux S badValues,
+      p1Map.hom.base y ∈ markedSchemePointSet K) :
+    (p1Map.toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+      (reductionBadSet aux S badValues)ᶜ := by
+  exact
+    SourceStack.BelyiReduction.p1Map_belyiOpen_subset_compl_reductionBadSet_of_maps_bad_to_marked
+      p1Map aux S badValues hbad
+
 variable {S T : Set C}
 
 theorem hilbert_p1ReductionStep_ofBadValues_bad
