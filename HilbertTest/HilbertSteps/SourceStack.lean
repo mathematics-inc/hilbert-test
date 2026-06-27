@@ -2893,6 +2893,190 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_finiteMarkedBelyiExist
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_finiteMarkedBelyiExistence
       D
 
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    D.toP1ReductionExistence.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_for_finite_disjoint
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      (∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+          markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_for_finite_disjoint
+      D hS hT hdis
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_complement
+    [Infinite K] [T1Space (P1 K)] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ Aᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_inside_complement
+      D hA hxA
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_containing_finite_inside_complement
+    [Infinite K] [T1Space (P1 K)] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_containing_finite_inside_complement
+      D hS hT hdis
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_inside_open_of_finite_complement
+      D hU hUcompl hxU
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K] [T1Space (P1 K)] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
+      D hU hUcompl hT hTsub
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hxU
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub
+
+theorem hilbert_cohomologicalP1ReductionSourceData_pointwise_cover_complement
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
+    (x : κ → {x : C // x ∉ S}) :
+    ∃ i : ReductionIndex C,
+      (FiniteMarkedBelyiExistence.toMarkedCoverData K
+        (ReductionIndex C) D.toFiniteMarkedBelyiExistence).sendsSetToBranch S i ∧
+        ∀ j, (D.toFiniteMarkedBelyiExistence.map i).hom.base (x j).1 ∉
+          markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.pointwise_cover_complement
+      D κ hS x
+
+theorem hilbert_cohomologicalP1ReductionSourceData_finite_subcover_on_complement
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      (⋃ i ∈ t,
+          ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i) =
+        (Set.univ : Set (κ → {x : C // x ∉ S})) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_subcover_on_complement
+      D κ hS
+
+theorem hilbert_cohomologicalP1ReductionSourceData_finite_subcover_on_complement_forall
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t,
+          x ∈ ((FiniteMarkedBelyiExistence.toMarkedCoverData K
+            (ReductionIndex C) D.toFiniteMarkedBelyiExistence).complementCoverData S).tupleAvoidSet
+              (κ := κ) i := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_subcover_on_complement_forall
+      D κ hS
+
 end CurveCohomologySections
 
 section ComplexSeparation
