@@ -308,6 +308,37 @@ theorem mochizukiPolynomial_derivative_ne_zero
     exact hmn_ne hcoeff
   exact mul_ne_zero (mul_ne_zero hX hY) hlin
 
+/-- The extra point `m/(m+n)` in Mochizuki Lemma 2.1 is not `0` when both
+exponents are positive. -/
+theorem mochizukiRatio_ne_zero
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (m : K) / ((m + n : ℕ) : K) ≠ 0 := by
+  have hm_ne : (m : K) ≠ 0 := by
+    exact_mod_cast (Nat.ne_of_gt hm)
+  have hden_ne : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  exact div_ne_zero hm_ne hden_ne
+
+/-- The extra point `m/(m+n)` in Mochizuki Lemma 2.1 is not `1` when both
+exponents are positive. -/
+theorem mochizukiRatio_ne_one
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (m : K) / ((m + n : ℕ) : K) ≠ 1 := by
+  intro h
+  have hden_ne : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  have hmul := congrArg (fun z : K => z * ((m + n : ℕ) : K)) h
+  change ((m : K) / ((m + n : ℕ) : K)) * ((m + n : ℕ) : K) =
+    1 * ((m + n : ℕ) : K) at hmul
+  have hcast : (m : K) = (m : K) + (n : K) := by
+    rw [div_mul_cancel₀ _ hden_ne, one_mul] at hmul
+    simpa [Nat.cast_add] using hmul
+  have hnat : m = m + n := by
+    exact_mod_cast hcast
+  omega
+
 /-- Evaluated derivative factorization for Mochizuki's Lemma 2.1 polynomial. -/
 theorem mochizukiPolynomial_derivative_aeval
     (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :

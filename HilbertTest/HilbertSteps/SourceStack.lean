@@ -9686,6 +9686,18 @@ theorem hilbert_mochizukiPolynomial_derivative_ne_zero
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_ne_zero
     K m n hm hn
 
+theorem hilbert_mochizukiRatio_ne_zero
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (m : K) / ((m + n : ℕ) : K) ≠ 0 := by
+  exact SourceStack.PolynomialMaps.mochizukiRatio_ne_zero K m n hm hn
+
+theorem hilbert_mochizukiRatio_ne_one
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (m : K) / ((m + n : ℕ) : K) ≠ 1 := by
+  exact SourceStack.PolynomialMaps.mochizukiRatio_ne_one K m n hm hn
+
 theorem hilbert_mochizukiPolynomial_derivative_aeval
     (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
     Polynomial.aeval x (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative =
@@ -9794,6 +9806,57 @@ theorem hilbert_p1PolynomialSeparation_mochizukiPolynomial_derivative_zero_affin
   exact
     SourceStack.P1PolynomialSeparation.mochizukiPolynomial_derivative_zero_affinePoint_mem_fourPointSet
       K m n hm hn hx
+
+theorem hilbert_p1PolynomialSeparation_mochizukiFourPointFinset_card
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).card = 4 := by
+  exact SourceStack.P1PolynomialSeparation.mochizukiFourPointFinset_card
+    K m n hm hn
+
+theorem hilbert_p1PolynomialSeparation_image_mochizukiFourPointFinset_card_lt_of_maps_to_branch
+    (K : Type u) [Field K] [CharZero K]
+    [DecidableEq (SourceStack.ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ((SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).image f).card <
+      (SourceStack.ProjectiveLine.fourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).card := by
+  exact SourceStack.P1PolynomialSeparation.image_mochizukiFourPointFinset_card_lt_of_maps_to_branch
+    K m n hm hn f hmap
+
+theorem hilbert_p1PolynomialSeparation_exists_distinct_same_image_mochizukiFourPoint_of_maps_to_branch
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ∃ x ∈ SourceStack.ProjectiveLine.fourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K)),
+      ∃ y ∈ SourceStack.ProjectiveLine.fourPointFinset K
+          ((m : K) / ((m + n : ℕ) : K)),
+        x ≠ y ∧ f x = f y := by
+  exact SourceStack.P1PolynomialSeparation.exists_distinct_same_image_mochizukiFourPoint_of_maps_to_branch
+    K m n hm hn f hmap
+
+theorem hilbert_p1PolynomialSeparation_image_card_lt_of_mochizukiFourPoint_subset_maps_to_branch
+    (K : Type u) [Field K] [CharZero K]
+    [DecidableEq (SourceStack.ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hsubset : SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    (S.image f).card < S.card := by
+  exact SourceStack.P1PolynomialSeparation.image_card_lt_of_mochizukiFourPoint_subset_maps_to_branch
+    K m n hm hn S f hsubset hmap
 
 variable {S : Set E} {β : E}
 variable (P : P1PolynomialSeparationStep F E S β)

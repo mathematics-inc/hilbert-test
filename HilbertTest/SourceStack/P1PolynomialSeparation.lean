@@ -83,6 +83,65 @@ theorem mochizukiPolynomial_derivative_zero_affinePoint_mem_fourPointSet
         · exact Or.inr (Or.inr hone)
         · exact Or.inr (Or.inl hratio))
 
+/-- The four distinguished points `{0, m/(m+n), 1, infinity}` are distinct in
+characteristic zero when both exponents are positive. -/
+theorem mochizukiFourPointFinset_card
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).card = 4 := by
+  exact ProjectiveLine.fourPointFinset_card K
+    (mochizukiRatio_ne_zero K m n hm hn)
+    (mochizukiRatio_ne_one K m n hm hn)
+
+/-- Mochizuki four-point cardinality drop: a map from
+`{0, m/(m+n), 1, infinity}` into the branch triple has smaller image. -/
+theorem image_mochizukiFourPointFinset_card_lt_of_maps_to_branch
+    [DecidableEq (ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : ProjectiveLine.P1 K → ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ ProjectiveLine.branchFinset K) :
+    ((ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).image f).card <
+      (ProjectiveLine.fourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K))).card := by
+  exact ProjectiveLine.image_fourPointFinset_card_lt_of_maps_to_branch K
+    (mochizukiRatio_ne_zero K m n hm hn)
+    (mochizukiRatio_ne_one K m n hm hn) f hmap
+
+/-- Pigeonhole consequence for the Mochizuki four-point set: if the four
+distinguished points all map into `{0,1,infinity}`, two have the same image. -/
+theorem exists_distinct_same_image_mochizukiFourPoint_of_maps_to_branch
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (f : ProjectiveLine.P1 K → ProjectiveLine.P1 K)
+    (hmap : ∀ x ∈ ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)),
+        f x ∈ ProjectiveLine.branchFinset K) :
+    ∃ x ∈ ProjectiveLine.fourPointFinset K
+        ((m : K) / ((m + n : ℕ) : K)),
+      ∃ y ∈ ProjectiveLine.fourPointFinset K
+          ((m : K) / ((m + n : ℕ) : K)),
+        x ≠ y ∧ f x = f y := by
+  exact ProjectiveLine.exists_distinct_same_image_fourPoint_of_maps_to_branch K
+    (mochizukiRatio_ne_zero K m n hm hn)
+    (mochizukiRatio_ne_one K m n hm hn) f hmap
+
+/-- Lemma 2.2-style finite-set cardinality drop specialized to Mochizuki's
+four distinguished points. -/
+theorem image_card_lt_of_mochizukiFourPoint_subset_maps_to_branch
+    [DecidableEq (ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (ProjectiveLine.P1 K))
+    (f : ProjectiveLine.P1 K → ProjectiveLine.P1 K)
+    (hsubset : ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ ProjectiveLine.branchFinset K) :
+    (S.image f).card < S.card := by
+  exact ProjectiveLine.image_card_lt_of_fourPoint_subset_maps_to_branch K
+    (mochizukiRatio_ne_zero K m n hm hn)
+    (mochizukiRatio_ne_one K m n hm hn) S f hsubset hmap
+
 end MochizukiLemma21
 
 /-- A polynomial separation step whose selected affine target avoids the branch
