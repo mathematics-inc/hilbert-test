@@ -10048,6 +10048,44 @@ theorem hilbert_formallyUnramified_base_change
     Algebra.FormallyUnramified B (B ⊗[R] A) := by
   exact SourceStack.UnramifiedEtale.formallyUnramified_base_change B
 
+theorem hilbert_formallyUnramified_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyUnramified R B := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_of_equiv e
+
+theorem hilbert_formallyUnramified_iff_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyUnramified R A ↔ Algebra.FormallyUnramified R B := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_iff_of_equiv e
+
+theorem hilbert_formallyUnramified_of_surjective
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (f : A →ₐ[R] B) (hf : Function.Surjective f) :
+    Algebra.FormallyUnramified R B := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_of_surjective f hf
+
+theorem hilbert_formallyUnramified_quotient
+    {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
+    [Algebra.FormallyUnramified R A] (I : Ideal A) :
+    Algebra.FormallyUnramified R (A ⧸ I) := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_quotient I
+
+theorem hilbert_formallyUnramified_of_isLocalization
+    {R Rₘ : Type u} [CommRing R] [CommRing Rₘ]
+    (M : Submonoid R) [Algebra R Rₘ] [IsLocalization M Rₘ] :
+    Algebra.FormallyUnramified R Rₘ := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_of_isLocalization M
+
 theorem hilbert_unramified_of_isLocalization_Away
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
     (r : R) [IsLocalization.Away r A] :
@@ -10089,6 +10127,20 @@ theorem hilbert_formallyEtale_to_formallyUnramified
     [Algebra.FormallyEtale R A] :
     Algebra.FormallyUnramified R A := by
   exact SourceStack.UnramifiedEtale.formallyEtale_to_formallyUnramified R A
+
+theorem hilbert_formallyEtale_to_formallySmooth
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A]
+    [Algebra.FormallyEtale R A] :
+    Algebra.FormallySmooth R A := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_to_formallySmooth R A
+
+theorem hilbert_formallyEtale_of_unramified_and_smooth
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A]
+    [Algebra.FormallyUnramified R A] [Algebra.FormallySmooth R A] :
+    Algebra.FormallyEtale R A := by
+  exact SourceStack.UnramifiedEtale.formallyEtale_of_unramified_and_smooth R A
 
 theorem hilbert_formallyEtale_of_equiv
     {R : Type u} [CommRing R]
@@ -10195,6 +10247,30 @@ theorem hilbert_etale_base_change
     [Algebra.Etale R A] :
     Algebra.Etale B (B ⊗[R] A) := by
   exact SourceStack.UnramifiedEtale.etale_base_change R A B
+
+theorem hilbert_scheme_isEtale_iff_isSmoothOfRelativeDimension_zero
+    {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    IsEtale f ↔ IsSmoothOfRelativeDimension 0 f := by
+  exact SourceStack.UnramifiedEtale.scheme_isEtale_iff_isSmoothOfRelativeDimension_zero f
+
+theorem hilbert_scheme_isEtale_stableUnderBaseChange :
+    MorphismProperty.IsStableUnderBaseChange (@IsEtale) := by
+  exact SourceStack.UnramifiedEtale.scheme_isEtale_stableUnderBaseChange
+
+noncomputable def hilbert_scheme_etale_forget_fullyFaithful
+    (X : Scheme.{u}) :
+    (Etale.forget X).FullyFaithful :=
+  SourceStack.UnramifiedEtale.scheme_etale_forget_fullyFaithful X
+
+theorem hilbert_scheme_etale_forget_full
+    (X : Scheme.{u}) :
+    (Etale.forget X).Full := by
+  exact SourceStack.UnramifiedEtale.scheme_etale_forget_full X
+
+theorem hilbert_scheme_etale_forget_faithful
+    (X : Scheme.{u}) :
+    (Etale.forget X).Faithful := by
+  exact SourceStack.UnramifiedEtale.scheme_etale_forget_faithful X
 
 end UnramifiedEtale
 

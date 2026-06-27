@@ -1,3 +1,4 @@
+import Mathlib.AlgebraicGeometry.Morphisms.Etale
 import Mathlib.RingTheory.Etale.Field
 
 /-!
@@ -11,6 +12,8 @@ Stacks definitions: Kähler differentials, formal unramifiedness, formal
 
 noncomputable section
 
+open CategoryTheory MorphismProperty
+open AlgebraicGeometry
 open scoped TensorProduct
 
 namespace HilbertTest
@@ -67,6 +70,49 @@ theorem formallyUnramified_base_change
     Algebra.FormallyUnramified B (B ⊗[R] A) :=
   Algebra.FormallyUnramified.base_change B
 
+/-- Formal unramifiedness is transported by algebra isomorphisms. -/
+theorem formallyUnramified_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyUnramified R B :=
+  Algebra.FormallyUnramified.of_equiv e
+
+/-- Formal unramifiedness is invariant under algebra isomorphisms. -/
+theorem formallyUnramified_iff_of_equiv
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    (e : A ≃ₐ[R] B) :
+    Algebra.FormallyUnramified R A ↔ Algebra.FormallyUnramified R B :=
+  Algebra.FormallyUnramified.iff_of_equiv e
+
+/-- Formal unramifiedness descends along a surjective algebra map. -/
+theorem formallyUnramified_of_surjective
+    {R : Type u} [CommRing R]
+    {A B : Type u} [CommRing A] [Algebra R A]
+    [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (f : A →ₐ[R] B) (hf : Function.Surjective f) :
+    Algebra.FormallyUnramified R B :=
+  Algebra.FormallyUnramified.of_surjective f hf
+
+/-- A quotient of a formally unramified algebra is formally unramified. -/
+theorem formallyUnramified_quotient
+    {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
+    [Algebra.FormallyUnramified R A] (I : Ideal A) :
+    Algebra.FormallyUnramified R (A ⧸ I) := by
+  infer_instance
+
+/-- Localizations are formally unramified. -/
+theorem formallyUnramified_of_isLocalization
+    {R Rₘ : Type u} [CommRing R] [CommRing Rₘ]
+    (M : Submonoid R) [Algebra R Rₘ] [IsLocalization M Rₘ] :
+    Algebra.FormallyUnramified R Rₘ :=
+  Algebra.FormallyUnramified.of_isLocalization M
+
 /-- Localization at one element is unramified. -/
 theorem unramified_of_isLocalization_Away
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
@@ -115,6 +161,22 @@ theorem formallyEtale_to_formallyUnramified
     [Algebra.FormallyEtale R A] :
     Algebra.FormallyUnramified R A :=
   inferInstance
+
+/-- Formal étaleness implies formal smoothness. -/
+theorem formallyEtale_to_formallySmooth
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A]
+    [Algebra.FormallyEtale R A] :
+    Algebra.FormallySmooth R A :=
+  inferInstance
+
+/-- Formal unramifiedness plus formal smoothness gives formal étaleness. -/
+theorem formallyEtale_of_unramified_and_smooth
+    (R : Type u) [CommRing R]
+    (A : Type u) [CommRing A] [Algebra R A]
+    [Algebra.FormallyUnramified R A] [Algebra.FormallySmooth R A] :
+    Algebra.FormallyEtale R A :=
+  Algebra.FormallyEtale.of_unramified_and_smooth
 
 /-- Formal étaleness is transported by algebra isomorphisms. -/
 theorem formallyEtale_of_equiv
@@ -235,6 +297,36 @@ theorem etale_base_change
     [Algebra.Etale R A] :
     Algebra.Etale B (B ⊗[R] A) :=
   Algebra.Etale.baseChange R A B
+
+/-- Scheme-theoretic étaleness is smoothness of relative dimension zero in
+Mathlib. -/
+theorem scheme_isEtale_iff_isSmoothOfRelativeDimension_zero
+    {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    IsEtale f ↔ IsSmoothOfRelativeDimension 0 f := by
+  rfl
+
+/-- Scheme-theoretic étaleness is stable under base change. -/
+theorem scheme_isEtale_stableUnderBaseChange :
+    MorphismProperty.IsStableUnderBaseChange (@IsEtale) := by
+  infer_instance
+
+/-- The forgetful functor from schemes étale over a base is fully faithful. -/
+noncomputable def scheme_etale_forget_fullyFaithful
+    (X : Scheme.{u}) :
+    (Etale.forget X).FullyFaithful :=
+  Etale.forgetFullyFaithful X
+
+/-- The forgetful functor from schemes étale over a base is full. -/
+theorem scheme_etale_forget_full
+    (X : Scheme.{u}) :
+    (Etale.forget X).Full := by
+  infer_instance
+
+/-- The forgetful functor from schemes étale over a base is faithful. -/
+theorem scheme_etale_forget_faithful
+    (X : Scheme.{u}) :
+    (Etale.forget X).Faithful := by
+  infer_instance
 
 end UnramifiedEtale
 end SourceStack
