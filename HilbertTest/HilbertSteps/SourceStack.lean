@@ -61,13 +61,13 @@ open CategoryTheory
 open CategoryTheory.Limits
 open CategoryTheory.Abelian
 open Topology
-open Opposite IsLocalRing
+open Opposite IsLocalRing IsDedekindDomain
 open AlgebraicGeometry
 open HomogeneousLocalization
 open scoped TensorProduct
 open scoped Pointwise
 open scoped nonZeroDivisors
-open scoped IntermediateField Polynomial
+open scoped IntermediateField Polynomial NumberField
 open scoped AlgebraicGeometry
 
 section FiniteSet
@@ -4098,6 +4098,56 @@ theorem hilbert_padic_compactExhaustion_exists
     (p : ℕ) [Fact (Nat.Prime p)] :
     Nonempty (CompactExhaustion ℚ_[p]) := by
   exact SourceStack.LocalFields.padic_compactExhaustion_exists p
+
+theorem hilbert_finitePlace_adicCompletion_normedField_exists
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    Nonempty (NormedField (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)) := by
+  exact SourceStack.LocalFields.finitePlace_adicCompletion_normedField_exists v
+
+theorem hilbert_finitePlace_adicCompletion_completeSpace
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K)) :
+    CompleteSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  exact SourceStack.LocalFields.finitePlace_adicCompletion_completeSpace v
+
+theorem hilbert_finitePlace_embedding_norm_def
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : K) :
+    ‖NumberField.embedding v x‖ = NumberField.vadicAbv v x := by
+  exact SourceStack.LocalFields.finitePlace_embedding_norm_def v x
+
+theorem hilbert_finitePlace_integral_norm_le_one
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : 𝓞 K) :
+    ‖NumberField.embedding v x‖ ≤ 1 := by
+  exact SourceStack.LocalFields.finitePlace_integral_norm_le_one v x
+
+theorem hilbert_finitePlace_integral_norm_eq_one_iff_not_mem
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : 𝓞 K) :
+    ‖NumberField.embedding v x‖ = 1 ↔ x ∉ v.asIdeal := by
+  exact SourceStack.LocalFields.finitePlace_integral_norm_eq_one_iff_not_mem v x
+
+theorem hilbert_finitePlace_integral_norm_lt_one_iff_mem
+    {K : Type*} [Field K] [NumberField K]
+    (v : HeightOneSpectrum (𝓞 K)) (x : 𝓞 K) :
+    ‖NumberField.embedding v x‖ < 1 ↔ x ∈ v.asIdeal := by
+  exact SourceStack.LocalFields.finitePlace_integral_norm_lt_one_iff_mem v x
+
+theorem hilbert_finitePlace_norm_embedding_eq
+    {K : Type*} [Field K] [NumberField K]
+    (w : NumberField.FinitePlace K) (x : K) :
+    ‖NumberField.embedding w.maximalIdeal x‖ = w x := by
+  exact SourceStack.LocalFields.finitePlace_norm_embedding_eq w x
+
+theorem hilbert_finitePlace_equivHeightOneSpectrum
+    {K : Type*} [Field K] [NumberField K] :
+    Nonempty (NumberField.FinitePlace K ≃ HeightOneSpectrum (𝓞 K)) := by
+  exact SourceStack.LocalFields.finitePlace_equivHeightOneSpectrum
+
+theorem hilbert_finitePlace_mulSupport_finite
+    {K : Type*} [Field K] [NumberField K] {x : K} (hx : x ≠ 0) :
+    (Function.mulSupport fun w : NumberField.FinitePlace K => w x).Finite := by
+  exact SourceStack.LocalFields.finitePlace_mulSupport_finite hx
 
 theorem hilbert_infinitePlace_completion_locallyCompactSpace
     {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
