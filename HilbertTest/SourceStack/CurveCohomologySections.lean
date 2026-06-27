@@ -131,6 +131,16 @@ theorem exists_section_for_disjoint_finite_subtype_sets
     E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_subtype_sets
       U hS hT hdis
 
+/-- Singleton-target form after restricting the point set to a subtype: vanish
+on a finite subtype set and remain nonzero at an outside subtype point. -/
+theorem exists_section_vanishing_on_finite_subtype_nonzero_at
+    [Infinite K] (U : Set X) {S : Set U} (hS : S.Finite) {x : U} (hx : x ∉ S) :
+    ∃ s : V, (E.evalData.restrictSubtype U).vanishesOnSet S s ∧
+      (E.evalData.restrictSubtype U).eval x s ≠ 0 := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_subtype_nonzero_at
+      U hS hx
+
 /-- Singleton-target form of restricted evaluation surjectivity: vanish on a
 finite set and remain nonzero at a point outside it. -/
 theorem exists_section_vanishing_on_finite_nonzero_at

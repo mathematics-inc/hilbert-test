@@ -226,6 +226,23 @@ theorem exists_section_for_disjoint_finite_subtype_sets
       ((D.toEvaluationData).restrictSubtype_vanishesOnSet_iff_image U S s).2 hsS,
       ((D.toEvaluationData).restrictSubtype_nonzeroOnSet_iff_image U T s).2 hsT⟩
 
+/-- Singleton-target form after restricting the point set to a subtype: for a
+finite set in the subtype and an outside subtype point, there is a section
+vanishing on the finite set and nonzero at that point. -/
+theorem exists_section_vanishing_on_finite_subtype_nonzero_at
+    [Infinite K] (U : Set X) {S : Set U} (hS : S.Finite) {x : U} (hx : x ∉ S) :
+    ∃ s : V, ((D.toEvaluationData).restrictSubtype U).vanishesOnSet S s ∧
+      ((D.toEvaluationData).restrictSubtype U).eval x s ≠ 0 := by
+  have hdis : Disjoint S ({x} : Set U) := by
+    rw [Set.disjoint_left]
+    intro y hyS hyx
+    rw [Set.mem_singleton_iff] at hyx
+    subst y
+    exact hx hyS
+  rcases D.exists_section_for_disjoint_finite_subtype_sets
+      U hS (Set.finite_singleton x) hdis with ⟨s, hsS, hsx⟩
+  exact ⟨s, hsS, hsx x (by simp)⟩
+
 /-- Singleton-target form: for a finite set `S` and a point outside it, there
 is a section vanishing on `S` and nonzero at that point. -/
 theorem exists_section_vanishing_on_finite_nonzero_at

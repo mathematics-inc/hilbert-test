@@ -297,6 +297,15 @@ theorem hilbert_rr_package_exists_section_for_disjoint_finite_subtype_sets
     SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_subtype_sets
       P U hS hT hdis
 
+theorem hilbert_rr_package_exists_section_vanishing_on_finite_subtype_nonzero_at
+    [Infinite K] (U : Set X) {S : Set U} (hS : S.Finite) {x : U}
+    (hx : x ∉ S) :
+    ∃ s : V, ((P.toEvaluationData).restrictSubtype U).vanishesOnSet S s ∧
+      ((P.toEvaluationData).restrictSubtype U).eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_subtype_nonzero_at
+      P U hS hx
+
 theorem hilbert_rr_package_exists_section_vanishing_on_finite_nonzero_at
     [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
     ∃ s : V, (P.toEvaluationData).vanishesOnSet S s ∧ P.eval x s ≠ 0 := by
@@ -2379,6 +2388,15 @@ theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_fin
   exact
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finite_subtype_sets
       RE U hS hT hdis
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_finite_subtype_nonzero_at
+    [Infinite K] (U : Set X) {S : Set U} (hS : S.Finite) {x : U}
+    (hx : x ∉ S) :
+    ∃ s : V, (RE.evalData.restrictSubtype U).vanishesOnSet S s ∧
+      (RE.evalData.restrictSubtype U).eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_finite_subtype_nonzero_at
+      RE U hS hx
 
 theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_finite_nonzero_at
     [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
