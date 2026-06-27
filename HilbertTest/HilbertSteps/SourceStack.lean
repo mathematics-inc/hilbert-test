@@ -6146,6 +6146,34 @@ theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       K X Φ map continuous_map exists_for_finite_disjoint Kex
 
+theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (markedNoncriticalExistence K X Φ map continuous_map
+                exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K X Φ map continuous_map exists_for_finite_disjoint Kex
+
 theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [T1Space (_root_.ProjectiveSpectrum (grading K))]
     [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
@@ -6174,6 +6202,35 @@ theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_
                   (Kex p.1 p.2) := by
   exact
     SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K X Φ map continuous_map exists_for_finite_disjoint
+
+theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedNoncriticalExistence K X Φ map continuous_map
+                exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedNoncriticalExistence K X Φ map continuous_map
+                    exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K X Φ map continuous_map exists_for_finite_disjoint
 
 theorem hilbert_markedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -6409,6 +6466,33 @@ theorem hilbert_markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaus
     SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint Kex
 
+theorem hilbert_markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint Kex
+
 theorem hilbert_markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
     [LocallyCompactSpace X] [SecondCountableTopology X] :
@@ -6436,6 +6520,34 @@ theorem hilbert_markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaus
                   (Kex p.1 p.2) := by
   exact
     SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint
+
+theorem hilbert_markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                    exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint
 
 theorem hilbert_markedSchemeNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -6790,6 +6902,33 @@ theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exha
     SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       K Φ C morphism exists_morphism_for_finite_disjoint Kex
 
+theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (morphismMarkedNoncriticalExistence K Φ C morphism
+                exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      K Φ C morphism exists_morphism_for_finite_disjoint Kex
+
 theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
     [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -6817,6 +6956,34 @@ theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exha
                   (Kex p.1 p.2) := by
   exact
     SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K Φ C morphism exists_morphism_for_finite_disjoint
+
+theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (morphismMarkedNoncriticalExistence K Φ C morphism
+                exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (morphismMarkedNoncriticalExistence K Φ C morphism
+                    exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       K Φ C morphism exists_morphism_for_finite_disjoint
 
 theorem hilbert_morphismMarkedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions

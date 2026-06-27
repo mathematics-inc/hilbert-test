@@ -237,6 +237,36 @@ theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the raw marked-`Proj` compact-exhaustion cover bridge. -/
+theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedNoncriticalExistence K X Φ map continuous_map
+            exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (markedNoncriticalExistence K X Φ map continuous_map
+                exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Raw marked-`Proj` noncritical compact-cover bridge with compact exhaustions
 supplied by local compactness and second countability. -/
 theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -268,6 +298,37 @@ theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_local
   exact
     (markedNoncriticalExistence K X Φ map continuous_map
       exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the raw marked-`Proj` compact-cover bridge with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedNoncriticalExistence K X Φ map continuous_map
+        exists_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedNoncriticalExistence K X Φ map continuous_map
+              exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedNoncriticalExistence K X Φ map continuous_map
+                exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedNoncriticalExistence K X Φ map continuous_map
+                    exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (markedNoncriticalExistence K X Φ map continuous_map
+                  exists_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    (markedNoncriticalExistence K X Φ map continuous_map
+      exists_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Raw marked-`Proj` noncritical compact-coordinate Corollary 3.2 bridge. -/
 theorem markedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -523,6 +584,36 @@ theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the scheme-carrier marked compact-exhaustion cover
+bridge. -/
+theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+            exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Scheme-carrier marked noncritical compact-cover bridge with compact
 exhaustions supplied by local compactness and second countability. -/
 theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -553,6 +644,36 @@ theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of
   exact
     (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
       exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the scheme-carrier marked compact-cover bridge with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+        exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+              exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                    exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+                  exists_scheme_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) = (Set.univ : Set X) := by
+  exact
+    (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+      exists_scheme_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Scheme-carrier marked noncritical compact-coordinate Corollary 3.2 bridge. -/
 theorem markedSchemeNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -944,6 +1065,36 @@ theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
       exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the scheme-morphism marked compact-exhaustion cover
+bridge. -/
+theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (morphismMarkedNoncriticalExistence K Φ C morphism
+            exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (morphismMarkedNoncriticalExistence K Φ C morphism
+                exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Scheme-morphism marked noncritical compact-cover bridge with compact
 exhaustions supplied by local compactness and second countability. -/
 theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -974,6 +1125,36 @@ theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_
   exact
     (morphismMarkedNoncriticalExistence K Φ C morphism
       exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the scheme-morphism marked compact-cover bridge with
+compact exhaustions supplied by local compactness and second countability. -/
+theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((morphismMarkedNoncriticalExistence K Φ C morphism
+        exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (morphismMarkedNoncriticalExistence K Φ C morphism
+              exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (morphismMarkedNoncriticalExistence K Φ C morphism
+                exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (morphismMarkedNoncriticalExistence K Φ C morphism
+                    exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (morphismMarkedNoncriticalExistence K Φ C morphism
+                  exists_morphism_for_finite_disjoint).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    (morphismMarkedNoncriticalExistence K Φ C morphism
+      exists_morphism_for_finite_disjoint).finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Scheme-morphism marked noncritical compact-coordinate Corollary 3.2 bridge. -/
 theorem morphismMarkedNoncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
