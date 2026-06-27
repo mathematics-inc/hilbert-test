@@ -1,3 +1,4 @@
+import HilbertTest.SourceStack.BelyiReduction
 import HilbertTest.SourceStack.ProjectiveSectionMaps
 
 /-!
@@ -17,11 +18,13 @@ namespace SourceStack
 namespace CurveDivisorSections
 
 open CurveRiemannRoch
+open BelyiReduction
 open MarkedProjectiveLine
 open ProjectiveSectionMaps
+open SchemeMarkedBelyi
 open SchemeProjectiveLine
 
-universe u v w
+universe u v w z
 
 variable {K : Type u} [Field K]
 variable {X : Type v}
@@ -141,6 +144,42 @@ theorem projectivePair_maps_support_to_marked
   rw [D.projectivePair_maps_support_to_zeroPoint P heval hsection0 x hx]
   exact schemeCarrierPoint_mem_markedSchemePointSet K MarkedPointLabel.zero
 
+/-- A projective-line section pair whose first section is the divisor
+zero-section supplies the auxiliary reduction data for the pair
+`S, D.support`, provided the remaining finite/dominant/étale source-material
+checks for the auxiliary morphism are available. -/
+noncomputable def projectivePair_toP1ReductionAuxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S : Set C} (hdis : Disjoint S D.support)
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalData)
+    (hsection0 : P.section0 = D.zeroSection)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (hfinite : IsFinite P.hom) (hdominant : IsDominant P.hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet P.hom S badValues)ᶜ →
+          IsEtale (P.hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    P1ReductionAuxiliaryData K C F S D.support where
+  badValues := badValues
+  badValues_finite := hbad
+  aux := P.hom
+  aux_finite := hfinite
+  aux_dominant := hdominant
+  targetPoint := schemeCarrierPoint K MarkedPointLabel.zero
+  image_avoids_target := by
+    intro x hxS
+    exact D.projectivePair_avoids_zeroPoint_off_support P heval hsection0 x
+      ((Set.disjoint_left.mp hdis) hxS)
+  target_not_bad := htargetBad
+  maps_T_to_target := by
+    intro x hx
+    exact D.projectivePair_maps_support_to_zeroPoint P heval hsection0 x hx
+  aux_etale_on_selected_belyiOpen := hAuxEtale
+
 /-- Factory form of the divisor-section bridge: once the line-bundle
 construction upgrades every basepoint-free pair `(s0, s1)` to a projective-line
 section pair, the divisor source data supplies such a pair mapping the support
@@ -181,6 +220,39 @@ theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
     exact D.projectivePair_avoids_zeroPoint_off_support
       (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc) x
       ((Set.disjoint_left.mp hdis) hxS)
+
+/-- Factory form of the divisor-to-reduction bridge: once the line-bundle
+construction upgrades every basepoint-free pair to a projective-line section
+pair and the auxiliary morphism checks are supplied for those pairs, the
+divisor source data gives reduction auxiliary data for `S` and the divisor
+support. -/
+theorem exists_p1ReductionAuxiliaryData_of_projectivePair_factory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hsupport : D.support.Finite) {S : Set C}
+    (hdis : Disjoint S D.support)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S D.support) := by
+  rcases D.exists_second_section_no_common_zero hsupport with ⟨s1, hnc⟩
+  exact
+    ⟨s1, hnc, ⟨
+      D.projectivePair_toP1ReductionAuxiliaryData F hdis
+        (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)
+        badValues hbad (hmk_finite s1 hnc) (hmk_dominant s1 hnc)
+        htargetBad (hAuxEtale s1 hnc)⟩⟩
 
 end DivisorZeroSectionData
 

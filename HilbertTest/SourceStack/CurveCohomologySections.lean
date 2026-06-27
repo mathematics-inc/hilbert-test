@@ -17,11 +17,13 @@ namespace CurveCohomologySections
 
 open CurveDivisorSections
 open CurveRiemannRoch
+open BelyiReduction
 open MarkedProjectiveLine
 open ProjectiveSectionMaps
+open SchemeMarkedBelyi
 open SchemeProjectiveLine
 
-universe u v w
+universe u v w z
 
 variable {K : Type u} [Field K]
 variable {X : Type v}
@@ -255,6 +257,31 @@ theorem projectivePair_maps_support_to_marked
     exact (D.zeroSection_hasZeroSet x).2 hx
   exact P.maps_section0_zero_to_marked hzero
 
+/-- A projective-line section pair whose first section is the cohomological
+divisor zero-section supplies the auxiliary reduction data for the pair
+`S, D.evalSurjectivity.support`, once the remaining finite/dominant/étale
+checks for the auxiliary morphism are supplied. -/
+noncomputable def projectivePair_toP1ReductionAuxiliaryData
+    (D : CohomologicalDivisorSectionData K C V)
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S : Set C} (hdis : Disjoint S D.evalSurjectivity.support)
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalSurjectivity.evalData)
+    (hsection0 : P.section0 = D.zeroSection)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (hfinite : IsFinite P.hom) (hdominant : IsDominant P.hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet P.hom S badValues)ᶜ →
+          IsEtale (P.hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    P1ReductionAuxiliaryData K C F S D.evalSurjectivity.support :=
+  D.toDivisorZeroSectionData.projectivePair_toP1ReductionAuxiliaryData
+    F hdis P heval hsection0 badValues hbad hfinite hdominant
+    htargetBad hAuxEtale
+
 /-- Factory form of the cohomological bridge: after the line-bundle
 construction upgrades basepoint-free section pairs to projective-line section
 pairs, the cohomological divisor package supplies one whose support maps to the
@@ -297,6 +324,38 @@ theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
   exact
     D.toDivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
       hsupport hdis mkPair hmk_eval hmk_section0
+
+/-- Factory form of the cohomological divisor-to-reduction bridge: after
+basepoint-free section pairs are upgraded to projective-line section pairs and
+the auxiliary morphism checks are supplied, the cohomological divisor package
+gives reduction auxiliary data for `S` and the divisor support. -/
+theorem exists_p1ReductionAuxiliaryData_of_projectivePair_factory
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hsupport : D.evalSurjectivity.support.Finite) {S : Set C}
+    (hdis : Disjoint S D.evalSurjectivity.support)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ _ : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        Nonempty (P1ReductionAuxiliaryData K C F S D.evalSurjectivity.support) := by
+  exact
+    D.toDivisorZeroSectionData.exists_p1ReductionAuxiliaryData_of_projectivePair_factory
+      F hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
 
 end SchemeSupport
 
