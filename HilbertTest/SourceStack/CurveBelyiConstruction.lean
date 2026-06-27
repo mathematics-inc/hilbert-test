@@ -181,6 +181,85 @@ theorem finite_subcover_on_complement_forall
   exact D.toNoncriticalBelyiExistence.finite_subcover_on_complement_forall
     (κ := κ) hS
 
+/-- Compact-exhaustion cover bridge for section-controlled Belyi data. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions
+    [Infinite K] [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (Kex : ∀ s : V,
+      CompactExhaustion (D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2)) ⊆
+                D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set X) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val :
+                D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2) := by
+  exact D.toNoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
+    Kex
+
+/-- Compact-cover bridge for section-controlled Belyi data, with compact
+exhaustions supplied by local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [Infinite K] [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion (D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+                (Kex p.1 p.2)) ⊆
+                  D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set X) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val :
+                  D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+                  (Kex p.1 p.2) := by
+  exact
+    D.toNoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Compact-coordinate Corollary 3.2 bridge for section-controlled Belyi data. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [Infinite K] [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : V → X → ((j : κ) → Z j))
+    (hG : ∀ s, Continuous (G s))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ s x,
+      x ∈ D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s →
+        ∀ j, G s x j ∈ A j) :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion (D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set X) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen p.1 → X) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    D.toNoncriticalBelyiExistence.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
+
 end SectionControlledBelyiData
 
 end CurveBelyiConstruction
