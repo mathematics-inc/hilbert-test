@@ -733,6 +733,16 @@ theorem hilbert_exists_p1Map_for_reductionBadSet_target_with_belyiOpen_subset_co
 
 variable {S T : Set C}
 
+theorem hilbert_p1ReductionAuxiliaryData_reductionBadSet_finite
+    {Φ : Type z}
+    {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+    (D : P1ReductionAuxiliaryData K C F S T)
+    (hS : S.Finite) :
+    (reductionBadSet D.aux S D.badValues).Finite := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionAuxiliaryData.reductionBadSet_finite
+      D hS
+
 theorem hilbert_p1ReductionStep_ofBadValues_bad
     (hS : S.Finite)
     (badValues : Set (P1 K)) (hbad : badValues.Finite)
@@ -928,6 +938,34 @@ theorem hilbert_p1ReductionStep_exists_composedMap_of_p1MapExistence_auxEtale
     SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_of_p1MapExistence_auxEtale
       F hS badValues hbad aux himage htargetBad maps_T_to_target hAuxEtale
 
+theorem hilbert_p1ReductionStep_exists_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ, ∃ R : P1ReductionStep K C F.hmarkedOpen S T,
+      R.p1Map = F.map φ ∧
+        R.composed.hom = D.aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.exists_of_auxiliaryData
+      F hS D
+
+theorem hilbert_p1ReductionStep_exists_composedMap_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = D.aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.exists_composedMap_of_auxiliaryData
+      F hS D
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
@@ -942,6 +980,18 @@ theorem hilbert_p1ReductionStep_composed_controls :
     (∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
       ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.BelyiReduction.P1ReductionStep.composed_controls R
+
+theorem hilbert_p1ReductionExistence_exists_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (data :
+      ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+        P1ReductionAuxiliaryData K C F S T) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_of_auxiliaryData
+      F data
 
 variable (E : P1ReductionExistence K C)
 

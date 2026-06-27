@@ -215,6 +215,44 @@ structure P1ReductionStep
   p1Map_target_avoids_marked :
     p1Map.hom.base targetPoint ∉ markedSchemePointSet K
 
+/-- Fixed-pair source material for the auxiliary-map reduction.  This packages
+the geometric inputs needed to turn finite marked Belyi existence on `P1` into
+a reduction step on `C`: an auxiliary finite dominant morphism, a finite set of
+bad values, a target point for the noncritical set, and the étaleness check used
+after selecting a Belyi map on `P1`. -/
+structure P1ReductionAuxiliaryData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (S T : Set C) where
+  badValues : Set (P1 K)
+  badValues_finite : badValues.Finite
+  aux : C ⟶ P1 K
+  aux_finite : IsFinite aux
+  aux_dominant : IsDominant aux
+  targetPoint : P1 K
+  image_avoids_target : ∀ x ∈ S, aux.base x ≠ targetPoint
+  target_not_bad : targetPoint ∉ badValues
+  maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint
+  aux_etale_on_selected_belyiOpen :
+    ∀ φ : Φ,
+      ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+          (reductionBadSet aux S badValues)ᶜ →
+        IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)
+
+namespace P1ReductionAuxiliaryData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+variable {S T : Set C}
+variable (D : P1ReductionAuxiliaryData K C F S T)
+
+/-- The auxiliary-data bad set has finite enlarged reduction bad set. -/
+theorem reductionBadSet_finite (hS : S.Finite) :
+    (reductionBadSet D.aux S D.badValues).Finite := by
+  exact BelyiReduction.reductionBadSet_finite D.aux hS D.badValues_finite
+
+end P1ReductionAuxiliaryData
+
 namespace P1ReductionStep
 
 variable {S T : Set C}
@@ -498,6 +536,48 @@ theorem exists_composedMap_of_p1MapExistence_auxEtale
     ⟨φ, R, _hR, hhom, hcontrols⟩
   exact ⟨φ, R.composed, hhom, hcontrols⟩
 
+/-- Fixed-pair auxiliary source material produces a reduction step after
+selecting a suitable finite marked Belyi map on `P1`. -/
+theorem exists_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ, ∃ R : P1ReductionStep K C F.hmarkedOpen S T,
+      R.p1Map = F.map φ ∧
+        R.composed.hom = D.aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K) := by
+  letI : IsFinite D.aux := D.aux_finite
+  letI : IsDominant D.aux := D.aux_dominant
+  exact exists_of_p1MapExistence_auxEtale
+    (K := K) (C := C) (S := S) (T := T) F hS
+    D.badValues D.badValues_finite D.aux
+    (targetPoint := D.targetPoint)
+    D.image_avoids_target D.target_not_bad D.maps_T_to_target
+    D.aux_etale_on_selected_belyiOpen
+
+/-- Map-level version of `exists_of_auxiliaryData`: fixed-pair auxiliary source
+material produces the composed finite Belyi map and the prescribed controls. -/
+theorem exists_composedMap_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = D.aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) := by
+  letI : IsFinite D.aux := D.aux_finite
+  letI : IsDominant D.aux := D.aux_dominant
+  exact exists_composedMap_of_p1MapExistence_auxEtale
+    (K := K) (C := C) (S := S) (T := T) F hS
+    D.badValues D.badValues_finite D.aux
+    (targetPoint := D.targetPoint)
+    D.image_avoids_target D.target_not_bad D.maps_T_to_target
+    D.aux_etale_on_selected_belyiOpen
+
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
@@ -540,6 +620,27 @@ structure P1ReductionExistence
       P1ReductionStep K C hmarkedOpen S T
 
 namespace P1ReductionExistence
+
+/-- Per-pair auxiliary source material assembles into a global reduction family,
+which is the reduction-level input needed by the finite marked Belyi interface. -/
+theorem exists_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (data :
+      ∀ {S T : Set C}, S.Finite → T.Finite → Disjoint S T →
+        P1ReductionAuxiliaryData K C F S T) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  classical
+  refine
+    ⟨{ hmarkedOpen := F.hmarkedOpen
+       step := ?_ },
+      rfl⟩
+  intro S T hS hT hdis
+  let D := data (S := S) (T := T) hS hT hdis
+  let hex := P1ReductionStep.exists_of_auxiliaryData
+    (K := K) (C := C) (S := S) (T := T) F hS D
+  exact Classical.choose (Classical.choose_spec hex)
 
 variable (E : P1ReductionExistence K C)
 
