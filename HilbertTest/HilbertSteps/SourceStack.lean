@@ -4618,6 +4618,25 @@ theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_finset
   exact SourceStack.exists_projective_rational_reciprocalTranslate_separating_finset
     S β C hC hβ
 
+theorem hilbert_exists_projective_reciprocalTranslate_separating_projective_finset
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam p ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact SourceStack.exists_projective_reciprocalTranslate_separating_projective_finset
+    S β C hC hβ
+
 end ComplexSeparation
 
 namespace AffineSpace
@@ -5890,6 +5909,18 @@ theorem hilbert_point_eq_affine_or_infinity
     (∃ r : K, p = SourceStack.ProjectiveLine.affinePoint K r) ∨
       p = SourceStack.ProjectiveLine.infinity K := by
   exact SourceStack.ProjectiveLine.point_eq_affine_or_infinity K p
+
+theorem hilbert_affineCoordOrZero_affinePoint (r : K) :
+    SourceStack.ProjectiveLine.affineCoordOrZero K
+      (SourceStack.ProjectiveLine.affinePoint K r) = r := by
+  exact SourceStack.ProjectiveLine.affineCoordOrZero_affinePoint K r
+
+theorem hilbert_affinePoint_affineCoordOrZero_of_ne_infinity
+    {p : SourceStack.ProjectiveLine.P1 K}
+    (hp : p ≠ SourceStack.ProjectiveLine.infinity K) :
+    SourceStack.ProjectiveLine.affinePoint K
+      (SourceStack.ProjectiveLine.affineCoordOrZero K p) = p := by
+  exact SourceStack.ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity K hp
 
 section FractionalLinear
 

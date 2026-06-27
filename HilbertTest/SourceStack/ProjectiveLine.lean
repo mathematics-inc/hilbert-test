@@ -158,6 +158,29 @@ theorem point_eq_affine_or_infinity (p : P1 K) :
         · simp [hden]
         · simp
 
+/-- A chosen affine coordinate for affine projective-line points, with `0` as
+the harmless default at infinity. -/
+noncomputable def affineCoordOrZero (p : P1 K) : K :=
+  by
+    classical
+    exact if h : ∃ r : K, p = affinePoint K r then Classical.choose h else 0
+
+theorem affineCoordOrZero_affinePoint (r : K) :
+    affineCoordOrZero K (affinePoint K r) = r := by
+  classical
+  unfold affineCoordOrZero
+  split_ifs with h
+  · have hspec := Classical.choose_spec h
+    exact (affinePoint_injective K hspec).symm
+  · exact False.elim (h ⟨r, rfl⟩)
+
+theorem affinePoint_affineCoordOrZero_of_ne_infinity
+    {p : P1 K} (hp : p ≠ infinity K) :
+    affinePoint K (affineCoordOrZero K p) = p := by
+  rcases point_eq_affine_or_infinity K p with ⟨r, rfl⟩ | hpinf
+  · rw [affineCoordOrZero_affinePoint]
+  · exact False.elim (hp hpinf)
+
 section FractionalLinear
 
 variable (F : Type*) [Field F]
