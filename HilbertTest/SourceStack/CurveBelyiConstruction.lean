@@ -105,6 +105,30 @@ theorem toNoncriticalBelyiExistence_toCoverData_branch
     [Infinite K] :
     D.toNoncriticalBelyiExistence.toBelyiCoverData.branch = D.branch := rfl
 
+theorem toNoncriticalBelyiExistence_map_apply
+    [Infinite K] (s : V) (x : X) :
+    D.toNoncriticalBelyiExistence.map s x = D.map s x := rfl
+
+theorem toNoncriticalBelyiExistence_toCoverData_map_apply
+    [Infinite K] (s : V) (x : X) :
+    D.toNoncriticalBelyiExistence.toBelyiCoverData.map s x = D.map s x := rfl
+
+theorem toNoncriticalBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : X) :
+    x ∈ D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s ↔
+      D.map s x ∉ D.branch := by
+  exact
+    NoncriticalBelyiExistence.mem_belyiOpen_iff
+      D.toNoncriticalBelyiExistence s x
+
+theorem toNoncriticalBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s =
+      {x : X | D.map s x ∉ D.branch} := by
+  exact
+    NoncriticalBelyiExistence.belyiOpen_carrier
+      D.toNoncriticalBelyiExistence s
+
 /-- The section-controlled construction gives the finite disjoint-set
 conclusion directly. -/
 theorem exists_for_finite_disjoint

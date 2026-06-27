@@ -166,6 +166,10 @@ theorem mem_belyiOpen_iff (φ : Φ) (x : X) :
     x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch :=
   Iff.rfl
 
+theorem belyiOpen_carrier (φ : Φ) :
+    D.belyiOpen φ = {x : X | D.map φ x ∉ D.branch} :=
+  rfl
+
 theorem restrictSubtype_belyiOpen_eq_preimage
     (U : Set X) (φ : Φ) :
     (D.restrictSubtype U).belyiOpen φ =
@@ -244,6 +248,25 @@ theorem restrictSubtype_toBelyiCoverData (U : Set X) :
 theorem restrictSubtype_map_apply
     (U : Set X) (φ : Φ) (x : U) :
     (D.restrictSubtype U).map φ x = D.map φ x.1 := rfl
+
+theorem toBelyiCoverData_branch :
+    D.toBelyiCoverData.branch = D.branch :=
+  rfl
+
+theorem toBelyiCoverData_map_apply
+    (φ : Φ) (x : X) :
+    D.toBelyiCoverData.map φ x = D.map φ x :=
+  rfl
+
+theorem mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ D.toBelyiCoverData.belyiOpen φ ↔ D.map φ x ∉ D.branch :=
+  Iff.rfl
+
+theorem belyiOpen_carrier
+    (φ : Φ) :
+    D.toBelyiCoverData.belyiOpen φ = {x : X | D.map φ x ∉ D.branch} :=
+  rfl
 
 /-- Theorem 2.5-style finite-set existence gives the pointwise tuple-cover
 hypothesis over the complement of a fixed finite set. -/

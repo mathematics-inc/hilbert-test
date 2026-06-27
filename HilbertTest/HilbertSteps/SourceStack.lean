@@ -359,6 +359,32 @@ theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_toCoverData_branch
   exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_toCoverData_branch
     D
 
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_map_apply
+    [Infinite K] (s : V) (x : X) :
+    D.toNoncriticalBelyiExistence.map s x = D.map s x := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_map_apply
+    D s x
+
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_toCoverData_map_apply
+    [Infinite K] (s : V) (x : X) :
+    D.toNoncriticalBelyiExistence.toBelyiCoverData.map s x = D.map s x := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_toCoverData_map_apply
+    D s x
+
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : X) :
+    x ∈ D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s ↔
+      D.map s x ∉ D.branch := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_mem_belyiOpen_iff
+    D s x
+
+theorem hilbert_sectionControlled_toNoncriticalBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    D.toNoncriticalBelyiExistence.toBelyiCoverData.belyiOpen s =
+      {x : X | D.map s x ∉ D.branch} := by
+  exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.toNoncriticalBelyiExistence_belyiOpen_carrier
+    D s
+
 theorem hilbert_sectionControlled_exists_for_finite_disjoint
     [Infinite K] {S T : Set X} (hS : S.Finite) (hT : T.Finite)
     (hdis : Disjoint S T) :
@@ -5059,6 +5085,11 @@ theorem hilbert_mem_belyiOpen_iff
     x ∈ D.belyiOpen φ ↔ D.map φ x ∉ D.branch := by
   exact SourceStack.BelyiCoverData.mem_belyiOpen_iff D φ x
 
+theorem hilbert_belyiOpen_carrier
+    (φ : Φ) :
+    D.belyiOpen φ = {x : X | D.map φ x ∉ D.branch} := by
+  exact SourceStack.BelyiCoverData.belyiOpen_carrier D φ
+
 theorem hilbert_belyiCoverData_restrictSubtype_branch
     (U : Set X) :
     (D.restrictSubtype U).branch = D.branch := by
@@ -5082,6 +5113,25 @@ theorem hilbert_exists_belyiOpen_inside_of_point_avoidance
   exact SourceStack.BelyiCoverData.exists_belyiOpen_inside_of_point_avoidance D h
 
 variable (E : NoncriticalBelyiExistence X P Φ)
+
+theorem hilbert_noncritical_toBelyiCoverData_branch :
+    E.toBelyiCoverData.branch = E.branch := by
+  exact SourceStack.NoncriticalBelyiExistence.toBelyiCoverData_branch E
+
+theorem hilbert_noncritical_toBelyiCoverData_map_apply
+    (φ : Φ) (x : X) :
+    E.toBelyiCoverData.map φ x = E.map φ x := by
+  exact SourceStack.NoncriticalBelyiExistence.toBelyiCoverData_map_apply E φ x
+
+theorem hilbert_noncritical_mem_belyiOpen_iff
+    (φ : Φ) (x : X) :
+    x ∈ E.toBelyiCoverData.belyiOpen φ ↔ E.map φ x ∉ E.branch := by
+  exact SourceStack.NoncriticalBelyiExistence.mem_belyiOpen_iff E φ x
+
+theorem hilbert_noncritical_belyiOpen_carrier
+    (φ : Φ) :
+    E.toBelyiCoverData.belyiOpen φ = {x : X | E.map φ x ∉ E.branch} := by
+  exact SourceStack.NoncriticalBelyiExistence.belyiOpen_carrier E φ
 
 theorem hilbert_noncritical_restrictSubtype_toBelyiCoverData
     (U : Set X) :
