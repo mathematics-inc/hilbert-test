@@ -450,6 +450,55 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
           (D.toBelyiCoverData.belyiOpen_isOpen φ))
   exact ⟨K, D.finite_compact_cover_by_belyiOpen_exhaustions K⟩
 
+/-- Abstract Corollary 3.2 assembly: if each Belyi open carries a continuous
+product-valued map whose coordinates land in prescribed target subsets, then
+local compactness and compactness produce finitely many selected compact pieces
+and compact coordinate target sets `H_j`.  Every point in a selected compact
+piece maps coordinatewise into the corresponding `H_j`, and the selected compact
+pieces cover the source. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → X → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x, x ∈ D.toBelyiCoverData.belyiOpen φ → ∀ j, G φ x j ∈ A j) :
+    ∃ K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set X) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+                    (K p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+                      (K p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  rcases D.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact with
+    ⟨K, t, hcompact, hsubset, hcover⟩
+  let Cpiece : Φ × ℕ → Set X := fun p =>
+    (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) '' (K p.1 p.2)
+  let η := {p : Φ × ℕ // p ∈ t}
+  haveI : Finite η := t.finite_toSet.to_subtype
+  let idx : η → Φ := fun p => p.1.1
+  let Cη : η → Set X := fun p => Cpiece p.1
+  have hCη : ∀ e : η, IsCompact (Cη e) := by
+    intro e
+    exact hcompact e.1 e.2
+  have hGAη : ∀ e x, x ∈ Cη e → ∀ j, G (idx e) x j ∈ A j := by
+    intro e x hx j
+    exact hGA e.1.1 x (hsubset e.1 e.2 hx) j
+  rcases exists_compact_coordinate_sets_from_continuous_images
+      idx Cη hCη G hG A hGAη with
+    ⟨H, hHcompact, hHsub, hHmem⟩
+  refine ⟨K, t, H, hHcompact, hHsub, ?_, ?_⟩
+  · simpa [Cpiece] using hcover
+  · intro p hp x hx j
+    exact hHmem ⟨p, hp⟩ x (by simpa [Cη, Cpiece] using hx) j
+
 /-- Recursive open-subspace form of Corollary 1.2: after restricting a
 noncritical Belyi existence package to an open subtype whose ambient source has
 finite complements for nonempty opens, every open neighborhood in the subtype

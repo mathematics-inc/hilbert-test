@@ -3798,6 +3798,30 @@ theorem hilbert_noncritical_finite_compact_cover_by_belyiOpen_exhaustions_of_loc
   exact SourceStack.NoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     E
 
+theorem hilbert_noncritical_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : Φ → X → ((j : κ) → Z j))
+    (hG : ∀ φ, Continuous (G φ))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ φ x, x ∈ E.toBelyiCoverData.belyiOpen φ → ∀ j, G φ x j ∈ A j) :
+    ∃ K : ∀ φ : Φ, CompactExhaustion (E.toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set X) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val : E.toBelyiCoverData.belyiOpen p.1 → X) ''
+                    (K p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val : E.toBelyiCoverData.belyiOpen p.1 → X) ''
+                      (K p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact SourceStack.NoncriticalBelyiExistence.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    E G hG A hGA
+
 theorem hilbert_noncritical_restrictSubtype_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
     {U : Set X} (hU : IsOpen U) {W : Set U} (hW : IsOpen W)
