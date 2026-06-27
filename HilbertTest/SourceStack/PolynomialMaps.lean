@@ -231,7 +231,7 @@ theorem derivative_aeval_comp_ne_zero_of_target_preimage
       Polynomial.aeval y p = Polynomial.aeval (Polynomial.aeval β q) p →
         Polynomial.aeval y p.derivative ≠ 0)
     (hx : Polynomial.aeval x (p.comp q) = Polynomial.aeval β (p.comp q)) :
-    Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
+      Polynomial.aeval x (p.comp q).derivative ≠ 0 := by
   have hq_nonzero := hq x hx
   have houter_eq :
       Polynomial.aeval (Polynomial.aeval x q) p =
@@ -240,6 +240,87 @@ theorem derivative_aeval_comp_ne_zero_of_target_preimage
     rw [aeval_comp F E p q x, aeval_comp F E p q β] at h
     exact h
   exact derivative_aeval_comp_ne_zero F E p q hq_nonzero (hp _ houter_eq)
+
+section MochizukiLemma21
+
+universe w
+
+/-- Mochizuki's Lemma 2.1 polynomial `x^m * (x - 1)^n`. -/
+def mochizukiPolynomial (R : Type w) [CommRing R] (m n : ℕ) : R[X] :=
+  (Polynomial.X : R[X]) ^ m * ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ n
+
+/-- Product-rule expansion for the derivative of Mochizuki's Lemma 2.1
+polynomial. -/
+theorem mochizukiPolynomial_derivative_expansion
+    (R : Type w) [CommRing R] (m n : ℕ) :
+    (mochizukiPolynomial R m n).derivative =
+      (Polynomial.C (m : R) * Polynomial.X ^ (m - 1)) *
+          ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ n +
+        Polynomial.X ^ m *
+          (Polynomial.C (n : R) *
+            ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ (n - 1)) := by
+  rw [mochizukiPolynomial, Polynomial.derivative_mul, Polynomial.derivative_X_pow,
+    Polynomial.derivative_X_sub_C_pow]
+
+/-- The derivative computation from Mochizuki Lemma 2.1:
+`(x^m (x - 1)^n)' = x^(m-1) (x-1)^(n-1) ((m+n)x - m)`. -/
+theorem mochizukiPolynomial_derivative_factor
+    (R : Type w) [CommRing R] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (mochizukiPolynomial R m n).derivative =
+      Polynomial.X ^ (m - 1) * ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ (n - 1) *
+        (Polynomial.C ((m + n : ℕ) : R) * Polynomial.X - Polynomial.C (m : R)) := by
+  let Y : R[X] := (Polynomial.X : R[X]) - Polynomial.C (1 : R)
+  have hmX : (Polynomial.X : R[X]) ^ m = Polynomial.X ^ (m - 1) * Polynomial.X := by
+    nth_rewrite 1 [show m = (m - 1) + 1 by omega]
+    rw [pow_succ]
+  have hnY : Y ^ n = Y ^ (n - 1) * Y := by
+    nth_rewrite 1 [show n = (n - 1) + 1 by omega]
+    rw [pow_succ]
+  rw [mochizukiPolynomial_derivative_expansion]
+  change Polynomial.C (m : R) * Polynomial.X ^ (m - 1) * Y ^ n +
+      Polynomial.X ^ m * (Polynomial.C (n : R) * Y ^ (n - 1)) =
+    Polynomial.X ^ (m - 1) * Y ^ (n - 1) *
+      (Polynomial.C ((m + n : ℕ) : R) * Polynomial.X - Polynomial.C (m : R))
+  rw [hmX, hnY]
+  rw [Nat.cast_add, map_add]
+  dsimp [Y]
+  rw [Polynomial.C_1]
+  ring_nf
+
+/-- Evaluated derivative factorization for Mochizuki's Lemma 2.1 polynomial. -/
+theorem mochizukiPolynomial_derivative_aeval
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
+    Polynomial.aeval x (mochizukiPolynomial K m n).derivative =
+      x ^ (m - 1) * (x - 1) ^ (n - 1) *
+        (((m + n : ℕ) : K) * x - (m : K)) := by
+  rw [mochizukiPolynomial_derivative_factor K m n hm hn]
+  simp [map_mul, map_sub]
+
+/-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
+characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
+`0`, `1`, or `m/(m+n)`. -/
+theorem mochizukiPolynomial_derivative_aeval_eq_zero_imp
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (mochizukiPolynomial K m n).derivative = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : K) / ((m + n : ℕ) : K) := by
+  rw [mochizukiPolynomial_derivative_aeval K m n hm hn x] at hx
+  rcases mul_eq_zero.mp hx with hprod | hlin
+  · rcases mul_eq_zero.mp hprod with hx0 | hx1
+    · exact Or.inl (pow_eq_zero hx0)
+    · right
+      left
+      exact sub_eq_zero.mp (pow_eq_zero hx1)
+  · right
+    right
+    have hmn_ne : ((m + n : ℕ) : K) ≠ 0 := by
+      exact_mod_cast (show m + n ≠ 0 by omega)
+    have hlin' : x * ((m + n : ℕ) : K) = (m : K) := by
+      rw [mul_comm]
+      exact sub_eq_zero.mp hlin
+    exact (eq_div_iff hmn_ne).2 hlin'
+
+end MochizukiLemma21
 
 end PolynomialMaps
 end SourceStack

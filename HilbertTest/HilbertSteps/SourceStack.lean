@@ -9662,6 +9662,39 @@ theorem hilbert_derivative_aeval_comp_ne_zero_of_target_preimage
   exact SourceStack.PolynomialMaps.derivative_aeval_comp_ne_zero_of_target_preimage
     F E p q hq hp hx
 
+theorem hilbert_mochizukiPolynomial_derivative_expansion
+    (R : Type u) [CommRing R] (m n : ℕ) :
+    (SourceStack.PolynomialMaps.mochizukiPolynomial R m n).derivative =
+      (Polynomial.C (m : R) * Polynomial.X ^ (m - 1)) *
+          ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ n +
+        Polynomial.X ^ m *
+          (Polynomial.C (n : R) *
+            ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ (n - 1)) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_expansion R m n
+
+theorem hilbert_mochizukiPolynomial_derivative_factor
+    (R : Type u) [CommRing R] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (SourceStack.PolynomialMaps.mochizukiPolynomial R m n).derivative =
+      Polynomial.X ^ (m - 1) * ((Polynomial.X : R[X]) - Polynomial.C (1 : R)) ^ (n - 1) *
+        (Polynomial.C ((m + n : ℕ) : R) * Polynomial.X - Polynomial.C (m : R)) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_factor R m n hm hn
+
+theorem hilbert_mochizukiPolynomial_derivative_aeval
+    (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
+    Polynomial.aeval x (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative =
+      x ^ (m - 1) * (x - 1) ^ (n - 1) *
+        (((m + n : ℕ) : K) * x - (m : K)) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_aeval K m n hm hn x
+
+theorem hilbert_mochizukiPolynomial_derivative_aeval_eq_zero_imp
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : K) / ((m + n : ℕ) : K) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_aeval_eq_zero_imp
+    K m n hm hn hx
+
 end PolynomialMaps
 
 namespace PolynomialSeparation
