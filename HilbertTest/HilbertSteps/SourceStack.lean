@@ -6951,6 +6951,11 @@ theorem hilbert_schemeAffineLinePoints_schemeFourPointSet_finite
     (schemeFourPointSet K r).Finite := by
   exact SourceStack.SchemeAffineLinePoints.schemeFourPointSet_finite K r
 
+theorem hilbert_schemeAffineLinePoints_affinePoint_mem_schemeFourPointFinset
+    (r : K) :
+    affinePoint K r ∈ schemeFourPointFinset K r := by
+  exact SourceStack.SchemeAffineLinePoints.affinePoint_mem_schemeFourPointFinset K r
+
 theorem hilbert_schemeAffineLinePoints_affinePoint_mem_schemeFourPointFinset_iff
     (r x : K) :
     affinePoint K x ∈ schemeFourPointFinset K r ↔
@@ -7964,6 +7969,13 @@ theorem hilbert_coeIdeal_injective
     Function.Injective (fun I : Ideal R => (I : FractionalIdeal R⁰ K)) := by
   exact SourceStack.FractionalIdeals.coeIdeal_injective
 
+theorem hilbert_coeIdeal_inj
+    {R : Type u} [CommRing R]
+    {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
+    {I J : Ideal R} :
+    (I : FractionalIdeal R⁰ K) = (J : FractionalIdeal R⁰ K) ↔ I = J := by
+  exact SourceStack.FractionalIdeals.coeIdeal_inj
+
 theorem hilbert_coeIdeal_eq_zero
     {R : Type u} [CommRing R]
     {K : Type v} [Field K] [Algebra R K] [IsFractionRing R K]
@@ -8587,12 +8599,22 @@ theorem hilbert_kaehler_finite
     Module.Finite S (Ω[S⁄R]) := by
   exact SourceStack.SmoothKaehler.kaehler_finite R S
 
+theorem hilbert_kaehler_polynomialEquiv
+    (R : Type u) [CommRing R] :
+    Nonempty (Ω[R[X]⁄R] ≃ₗ[R[X]] R[X]) := by
+  exact SourceStack.SmoothKaehler.kaehler_polynomialEquiv R
+
 theorem hilbert_kaehler_polynomialEquiv_D
     (R : Type u) [CommRing R] (P : R[X]) :
     (KaehlerDifferential.polynomialEquiv R)
       ((KaehlerDifferential.D R R[X]) P) =
         Polynomial.derivative P := by
   exact SourceStack.SmoothKaehler.kaehler_polynomialEquiv_D R P
+
+theorem hilbert_kaehler_mvPolynomialBasis
+    (R : Type u) [CommRing R] (σ : Type v) :
+    Nonempty (Basis σ (MvPolynomial σ R) (Ω[MvPolynomial σ R⁄R])) := by
+  exact SourceStack.SmoothKaehler.kaehler_mvPolynomialBasis R σ
 
 theorem hilbert_kaehler_mvPolynomialBasis_repr_D_X
     (R : Type u) [CommRing R] (σ : Type v) (i : σ) :
