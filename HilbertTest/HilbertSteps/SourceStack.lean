@@ -4570,6 +4570,25 @@ theorem hilbert_exists_reciprocal_translate_separating_finset
           ‖SourceStack.reciprocalTranslate lam β‖ := by
   exact SourceStack.exists_reciprocal_translate_separating_finset S β C hC hβ
 
+theorem hilbert_exists_projective_reciprocalTranslate_separating_finset
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+            (SourceStack.ProjectiveLine.affinePoint ℂ α) ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact SourceStack.exists_projective_reciprocalTranslate_separating_finset
+    S β C hC hβ
+
 theorem hilbert_exists_rational_reciprocal_translate_separating_finset
     (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
     ∃ lam : ℚ,

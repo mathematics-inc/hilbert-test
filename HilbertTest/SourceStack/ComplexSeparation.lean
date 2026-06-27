@@ -1,3 +1,4 @@
+import HilbertTest.SourceStack.ProjectiveLine
 import Mathlib
 
 /-!
@@ -120,6 +121,35 @@ theorem exists_reciprocal_translate_separating_finset
     rw [div_le_div_iff₀ hα_norm_pos hβ_norm_pos]
     simpa [mul_comm, mul_left_comm, mul_assoc] using hdist α hα
   simpa [reciprocalTranslate, norm_inv, div_eq_mul_inv] using hdiv
+
+/-- Projective-line form of Mochizuki Lemma 2.3 over `ℂ`: the chosen
+reciprocal translate sends `β` to an affine point different from `0` and
+`∞`, sends every point of `S` away from `∞`, and satisfies the same norm
+separation estimate. -/
+theorem exists_projective_reciprocalTranslate_separating_finset
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ α) ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate lam α‖ ≤ ‖reciprocalTranslate lam β‖ := by
+  rcases exists_reciprocal_translate_separating_finset S β C hC hβ with
+    ⟨lam, hlamβ, hlamS, hsep⟩
+  refine ⟨lam, ?_, ?_, ?_, hsep⟩
+  · rw [ProjectiveLine.reciprocalTranslate_affinePoint_of_ne ℂ lam β
+      (Ne.symm hlamβ)]
+    exact ProjectiveLine.affinePoint_ne_zero ℂ
+      (inv_ne_zero (sub_ne_zero.mpr (Ne.symm hlamβ)))
+  · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      lam β (Ne.symm hlamβ)
+  · intro α hα
+    exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      lam α (Ne.symm (hlamS α hα))
 
 /-- Rational refinement of the reciprocal separation step: if the distinguished
 point is rational, the pole may be chosen rational. -/
