@@ -435,6 +435,62 @@ theorem mochizukiPolynomial_real_aeval_gt_one_of_two_le
   exact lt_of_lt_of_le (by nlinarith) (mochizukiPolynomial_real_aeval_ge_self_of_two_le
     m n hm hx)
 
+/-- Ratio estimate from Mochizuki Lemma 2.1(e): for `1 < α ≤ β`, the
+polynomial ratio dominates the affine ratio. -/
+theorem mochizukiPolynomial_real_ratio_aeval_ge_ratio_of_one_lt_of_le
+    (m n : ℕ) (hm : 0 < m) {α β : ℝ} (hα : 1 < α) (hαβ : α ≤ β) :
+    β / α ≤
+      Polynomial.aeval β (mochizukiPolynomial ℝ m n) /
+        Polynomial.aeval α (mochizukiPolynomial ℝ m n) := by
+  rw [mochizukiPolynomial_real_aeval, mochizukiPolynomial_real_aeval]
+  have hα_pos : 0 < α := lt_trans zero_lt_one hα
+  have hα_ne : α ≠ 0 := ne_of_gt hα_pos
+  have hα1_pos : 0 < α - 1 := sub_pos.mpr hα
+  have hα1_ne : α - 1 ≠ 0 := ne_of_gt hα1_pos
+  have ht_one : 1 ≤ β / α := by
+    rw [one_le_div₀ hα_pos]
+    exact hαβ
+  have hshift : β / α ≤ (β - 1) / (α - 1) := by
+    rw [div_le_div_iff₀ hα_pos hα1_pos]
+    nlinarith
+  have hpow :
+      β / α ≤ (β / α) ^ m * ((β - 1) / (α - 1)) ^ n := by
+    let t : ℝ := β / α
+    let u : ℝ := (β - 1) / (α - 1)
+    have ht : 1 ≤ t := ht_one
+    have htu : t ≤ u := hshift
+    have ht_nonneg : 0 ≤ t := by nlinarith
+    have hu_one : 1 ≤ u := le_trans ht htu
+    have ht_pow_ge : t ≤ t ^ m := by
+      rcases Nat.exists_eq_succ_of_ne_zero (Nat.ne_of_gt hm) with ⟨k, rfl⟩
+      have hpow1 : 1 ≤ t ^ k := one_le_pow₀ ht
+      have hmul := mul_le_mul_of_nonneg_left hpow1 ht_nonneg
+      simpa [pow_succ, mul_comm, mul_left_comm, mul_assoc] using hmul
+    have hu_pow_ge : 1 ≤ u ^ n := one_le_pow₀ hu_one
+    have ht_pow_nonneg : 0 ≤ t ^ m := pow_nonneg ht_nonneg m
+    have htail : t ^ m ≤ t ^ m * u ^ n := by
+      have hmul := mul_le_mul_of_nonneg_left hu_pow_ge ht_pow_nonneg
+      simpa [mul_one] using hmul
+    exact le_trans ht_pow_ge htail
+  have hratio :
+      (β ^ m * (β - 1) ^ n) / (α ^ m * (α - 1) ^ n) =
+        (β / α) ^ m * ((β - 1) / (α - 1)) ^ n := by
+    field_simp [hα_ne, hα1_ne]
+  rw [hratio]
+  exact hpow
+
+/-- Lower-bound transfer from Mochizuki Lemma 2.1(e): any constant bounded by
+`β / α` is also bounded by the polynomial value ratio. -/
+theorem mochizukiPolynomial_real_ratio_aeval_ge_of_ratio_ge
+    (m n : ℕ) (hm : 0 < m) {α β C : ℝ}
+    (hα : 1 < α) (hαβ : α ≤ β) (hC : C ≤ β / α) :
+    C ≤
+      Polynomial.aeval β (mochizukiPolynomial ℝ m n) /
+        Polynomial.aeval α (mochizukiPolynomial ℝ m n) :=
+  le_trans hC
+    (mochizukiPolynomial_real_ratio_aeval_ge_ratio_of_one_lt_of_le
+      m n hm hα hαβ)
+
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
 `0`, `1`, or `m/(m+n)`. -/
