@@ -120,6 +120,17 @@ theorem exists_section_for_disjoint_finite_sets
   exact E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_sets
     hS hT hdis
 
+/-- Set-level finite subtype version of the cohomological restricted-
+surjectivity handoff. -/
+theorem exists_section_for_disjoint_finite_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (E.evalData.restrictSubtype U).vanishesOnSet S s ∧
+      (E.evalData.restrictSubtype U).nonzeroOnSet T s := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_for_disjoint_finite_subtype_sets
+      U hS hT hdis
+
 /-- Singleton-target form of restricted evaluation surjectivity: vanish on a
 finite set and remain nonzero at a point outside it. -/
 theorem exists_section_vanishing_on_finite_nonzero_at

@@ -2204,6 +2204,15 @@ theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_fin
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finite_sets
       RE hS hT hdis
 
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_for_disjoint_finite_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U}
+    (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ s : V, (RE.evalData.restrictSubtype U).vanishesOnSet S s ∧
+      (RE.evalData.restrictSubtype U).nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_for_disjoint_finite_subtype_sets
+      RE U hS hT hdis
+
 theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_finite_nonzero_at
     [Infinite K] {S : Set X} (hS : S.Finite) {x : X} (hx : x ∉ S) :
     ∃ s : V, RE.evalData.vanishesOnSet S s ∧ RE.evalData.eval x s ≠ 0 := by
