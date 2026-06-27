@@ -510,6 +510,46 @@ theorem toFiniteMarkedBelyiExistence_hmarkedOpen
     D.toFiniteMarkedBelyiExistence.hmarkedOpen = F.hmarkedOpen := by
   simp [toFiniteMarkedBelyiExistence, toP1ReductionExistence_hmarkedOpen]
 
+theorem toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    D.toFiniteMarkedBelyiExistence.map i = D.toP1ReductionExistence.map i := rfl
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+      (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i ↔
+      (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_mem_belyiOpen_iff
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence i x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+      (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i =
+      {x : C | (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+        markedSchemePointSet K} := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_carrier
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence i
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+      (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i =
+      ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence i
+
 /-- Direct finite disjoint-set consequence from the cohomological source
 package after choosing the reduction family. -/
 theorem exists_for_finite_disjoint
@@ -614,6 +654,31 @@ def belyiOpen
     (i : ReductionIndex C) : Set C :=
   ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
     (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i)
+
+theorem mem_belyiOpen_iff
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) (x : C) :
+    x ∈ D.belyiOpen i ↔
+      (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉ markedSchemePointSet K := by
+  exact D.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff i x
+
+theorem belyiOpen_carrier
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    D.belyiOpen i =
+      {x : C | (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+        markedSchemePointSet K} := by
+  exact D.toFiniteMarkedBelyiExistence_belyiOpen_carrier i
+
+theorem belyiOpen_eq_schemeBelyi
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    D.belyiOpen i =
+      ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact D.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi i
 
 /-- The Belyi opens attached to the finite marked Belyi family chosen from the
 cohomological source package. -/

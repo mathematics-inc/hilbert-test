@@ -125,6 +125,33 @@ theorem toFiniteMarkedBelyiExistence_map_apply
     [Infinite K] (s : V) :
     D.toFiniteMarkedBelyiExistence.map s = D.map s := rfl
 
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_mem_belyiOpen_iff
+      K V D.toFiniteMarkedBelyiExistence s x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (D.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_carrier
+      K V D.toFiniteMarkedBelyiExistence s
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((D.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K V D.toFiniteMarkedBelyiExistence s
+
 /-- Direct finite disjoint-set conclusion for scheme-level section-controlled
 finite marked Belyi data. -/
 theorem exists_for_finite_disjoint
