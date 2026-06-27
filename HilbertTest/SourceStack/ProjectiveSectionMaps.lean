@@ -1915,6 +1915,44 @@ theorem finite_subcover_on_complement_forall
   exact F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
     κ hS
 
+/-- Compact-coordinate Corollary 3.2 bridge for concrete trivialized-ratio
+finite marked families. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : V → C → ((j : κ) → Z j))
+    (hG : ∀ s, Continuous (G s))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ s x,
+      x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s →
+        ∀ j, G s x j ∈ A j) :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
+
 end TrivializedProjectiveSectionFiniteMarkedFamily
 
 /-- A concrete finite marked family whose projective-section maps are supplied
@@ -2129,6 +2167,44 @@ theorem finite_subcover_on_complement_forall
               (κ := κ) s := by
   exact F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
     κ hS
+
+/-- Compact-coordinate Corollary 3.2 bridge for denominator-is-unit trivialized
+finite marked families. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : V → C → ((j : κ) → Z j))
+    (hG : ∀ s, Continuous (G s))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ s x,
+      x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s →
+        ∀ j, G s x j ∈ A j) :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      G hG A hGA
 
 end IsUnitTrivializedProjectiveSectionFiniteMarkedFamily
 
@@ -2351,6 +2427,44 @@ theorem finite_subcover_on_complement_forall
   exact
     IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
       F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily κ hS
+
+/-- Compact-coordinate Corollary 3.2 bridge for canonical two-section Bezout
+finite marked families. -/
+theorem finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    {κ : Type*} {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (G : V → C → ((j : κ) → Z j))
+    (hG : ∀ s, Continuous (G s))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ s x,
+      x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s →
+        ∀ j, G s x j ∈ A j) :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        ∃ H : (j : κ) → Set (Z j),
+          (∀ j, IsCompact (H j)) ∧
+            (∀ j, H j ⊆ A j) ∧
+              (Set.univ : Set C) ⊆
+                ⋃ p ∈ t,
+                  (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                    (Kex p.1 p.2) ∧
+                ∀ p ∈ t, ∀ x,
+                  x ∈ (Subtype.val :
+                    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                      C) ''
+                      (Kex p.1 p.2) →
+                    ∀ j, G p.1 x j ∈ H j := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_coordinate_sets_of_belyiOpen_exhaustions
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily G hG A hGA
 
 end TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
 
