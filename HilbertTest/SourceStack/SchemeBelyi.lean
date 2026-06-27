@@ -53,6 +53,18 @@ open. -/
 def belyiOpen : X.Opens :=
   φ.hom ⁻¹ᵁ T.branchOpen
 
+/-- The Belyi open is the preimage of the target branch-complement open as a
+set. -/
+theorem belyiOpen_carrier :
+    (φ.belyiOpen : Set X) = φ.hom.base ⁻¹' T.branchOpen := by
+  rfl
+
+/-- Membership in the Belyi open is membership of the image in the target
+branch-complement open. -/
+theorem mem_belyiOpen_iff (x : X) :
+    x ∈ φ.belyiOpen ↔ φ.hom.base x ∈ T.branchOpen := by
+  rfl
+
 /-- The underlying morphism is dominant. -/
 theorem isDominant_hom : IsDominant φ.hom :=
   φ.dominant
@@ -86,6 +98,18 @@ variable {X P : Scheme.{u}} {T : BelyiTarget P} (φ : FiniteBelyiMap T X)
 
 theorem toBelyiMap_hom :
     φ.toBelyiMap.hom = φ.hom := rfl
+
+/-- The Belyi open of a finite Belyi map is the preimage of the target
+branch-complement open as a set. -/
+theorem belyiOpen_carrier :
+    (φ.toBelyiMap.belyiOpen : Set X) = φ.hom.base ⁻¹' T.branchOpen := by
+  rfl
+
+/-- Membership in the Belyi open of a finite Belyi map is membership of the
+image in the target branch-complement open. -/
+theorem mem_belyiOpen_iff (x : X) :
+    x ∈ φ.toBelyiMap.belyiOpen ↔ φ.hom.base x ∈ T.branchOpen := by
+  rfl
 
 /-- The underlying morphism is finite. -/
 theorem isFinite_hom :
@@ -212,6 +236,38 @@ theorem compAuxOfAuxEtale_base {Y : Scheme.{u}} {T : BelyiTarget P}
     (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
     (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) (x : X) :
     (φ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = φ.hom.base (aux.base x) := rfl
+
+/-- The auxiliary-etale composition constructor yields a finite morphism. -/
+theorem compAuxOfAuxEtale_isFinite_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsFinite (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  (φ.compAuxOfAuxEtale aux hAuxEtale).finite_hom
+
+/-- The auxiliary-etale composition constructor yields a dominant morphism. -/
+theorem compAuxOfAuxEtale_isDominant_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsDominant (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  (φ.compAuxOfAuxEtale aux hAuxEtale).dominant
+
+/-- The auxiliary-etale composition constructor is étale over the target
+branch-complement open. -/
+theorem compAuxOfAuxEtale_isEtale_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsEtale ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  (φ.compAuxOfAuxEtale aux hAuxEtale).etale_on_branchOpen
+
+/-- The Belyi open of the auxiliary-etale composition includes into the source
+by an open immersion. -/
+theorem compAuxOfAuxEtale_belyiOpen_ι_isOpenImmersion {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsOpenImmersion (φ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen.ι :=
+  (φ.compAuxOfAuxEtale aux hAuxEtale).belyiOpen_ι_isOpenImmersion
 
 end FiniteBelyiMap
 

@@ -5102,11 +5102,29 @@ theorem hilbert_schemeBelyi_morphismRestrict_to_branchOpen_ι :
       φ.belyiOpen.ι ≫ φ.hom := by
   exact SourceStack.SchemeBelyi.BelyiMap.morphismRestrict_to_branchOpen_ι φ
 
+theorem hilbert_schemeBelyi_belyiOpen_carrier :
+    (φ.belyiOpen : Set X) = φ.hom.base ⁻¹' T.branchOpen := by
+  exact SourceStack.SchemeBelyi.BelyiMap.belyiOpen_carrier φ
+
+theorem hilbert_schemeBelyi_mem_belyiOpen_iff
+    (x : X) :
+    x ∈ φ.belyiOpen ↔ φ.hom.base x ∈ T.branchOpen := by
+  exact SourceStack.SchemeBelyi.BelyiMap.mem_belyiOpen_iff φ x
+
 variable (ψ : SourceStack.SchemeBelyi.FiniteBelyiMap T X)
 
 theorem hilbert_schemeBelyi_finite_toBelyiMap_hom :
     ψ.toBelyiMap.hom = ψ.hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.toBelyiMap_hom ψ
+
+theorem hilbert_schemeBelyi_finite_belyiOpen_carrier :
+    (ψ.toBelyiMap.belyiOpen : Set X) = ψ.hom.base ⁻¹' T.branchOpen := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.belyiOpen_carrier ψ
+
+theorem hilbert_schemeBelyi_finite_mem_belyiOpen_iff
+    (x : X) :
+    x ∈ ψ.toBelyiMap.belyiOpen ↔ ψ.hom.base x ∈ T.branchOpen := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.mem_belyiOpen_iff ψ x
 
 theorem hilbert_schemeBelyi_finite_isFinite_hom :
     IsFinite ψ.hom := by
@@ -5193,6 +5211,34 @@ theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_base
     (ψ.compAuxOfAuxEtale aux hAuxEtale).hom.base x = ψ.hom.base (aux.base x) := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_base
     ψ aux hAuxEtale x
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_isFinite_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    IsFinite (ψ.compAuxOfAuxEtale aux hAuxEtale).hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_isFinite_hom
+    ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_isDominant_hom
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    IsDominant (ψ.compAuxOfAuxEtale aux hAuxEtale).hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_isDominant_hom
+    ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_isEtale_restrict_branchOpen
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    IsEtale ((ψ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_isEtale_restrict_branchOpen
+    ψ aux hAuxEtale
+
+theorem hilbert_schemeBelyi_finite_compAuxOfAuxEtale_belyiOpen_ι_isOpenImmersion
+    {Y : Scheme.{u}} (aux : Y ⟶ X) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ ψ.toBelyiMap.belyiOpen)) :
+    IsOpenImmersion (ψ.compAuxOfAuxEtale aux hAuxEtale).toBelyiMap.belyiOpen.ι := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_belyiOpen_ι_isOpenImmersion
+    ψ aux hAuxEtale
 
 section MarkedProjectiveLineTarget
 
