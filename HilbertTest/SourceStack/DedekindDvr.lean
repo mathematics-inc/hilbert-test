@@ -410,6 +410,51 @@ theorem addVal_add
       IsDiscreteValuationRing.addVal R (a + b) :=
   IsDiscreteValuationRing.addVal_add
 
+/-- The cotangent space of a noetherian local ring is subsingleton exactly when
+the ring is a field. -/
+theorem localRing_subsingleton_cotangentSpace_iff_field
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Subsingleton (IsLocalRing.CotangentSpace R) ↔ IsField R :=
+  IsLocalRing.subsingleton_cotangentSpace_iff
+
+/-- The cotangent dimension of a noetherian local ring is zero exactly when the
+ring is a field. -/
+theorem localRing_finrank_cotangentSpace_eq_zero_iff_field
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 0 ↔
+      IsField R :=
+  IsLocalRing.finrank_cotangentSpace_eq_zero_iff
+
+/-- The cotangent space of a noetherian local ring has dimension at most one
+exactly when the maximal ideal is principal. -/
+theorem localRing_finrank_cotangentSpace_le_one_iff_maximalIdeal_isPrincipal
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) ≤ 1 ↔
+      (IsLocalRing.maximalIdeal R).IsPrincipal :=
+  IsLocalRing.finrank_cotangentSpace_le_one_iff
+
+/-- For a noetherian local nonfield, principal maximal ideal is equivalent to
+cotangent dimension exactly one. -/
+theorem localRing_finrank_cotangentSpace_eq_one_iff_maximalIdeal_isPrincipal_of_not_isField
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R]
+    (hR : ¬ IsField R) :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 ↔
+      (IsLocalRing.maximalIdeal R).IsPrincipal := by
+  constructor
+  · intro h
+    exact
+      (localRing_finrank_cotangentSpace_le_one_iff_maximalIdeal_isPrincipal R).mp
+        (by rw [h])
+  · intro hprincipal
+    have hle :
+        Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) ≤ 1 :=
+      (localRing_finrank_cotangentSpace_le_one_iff_maximalIdeal_isPrincipal R).mpr
+        hprincipal
+    rcases Nat.le_one_iff_eq_zero_or_eq_one.mp hle with hzero | hone
+    · exact False.elim
+        (hR ((localRing_finrank_cotangentSpace_eq_zero_iff_field R).mp hzero))
+    · exact hone
+
 /-- Cotangent-space characterization of a DVR: for a noetherian local domain,
 cotangent dimension one is equivalent to being a DVR. -/
 theorem localRing_finrank_cotangentSpace_eq_one_iff_dvr

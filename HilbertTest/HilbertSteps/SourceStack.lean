@@ -11889,6 +11889,34 @@ theorem hilbert_addVal_add
       IsDiscreteValuationRing.addVal R (a + b) := by
   exact SourceStack.DedekindDvr.addVal_add
 
+theorem hilbert_localRing_subsingleton_cotangentSpace_iff_field
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Subsingleton (IsLocalRing.CotangentSpace R) ↔ IsField R := by
+  exact SourceStack.DedekindDvr.localRing_subsingleton_cotangentSpace_iff_field R
+
+theorem hilbert_localRing_finrank_cotangentSpace_eq_zero_iff_field
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 0 ↔
+      IsField R := by
+  exact SourceStack.DedekindDvr.localRing_finrank_cotangentSpace_eq_zero_iff_field R
+
+theorem hilbert_localRing_finrank_cotangentSpace_le_one_iff_maximalIdeal_isPrincipal
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) ≤ 1 ↔
+      (IsLocalRing.maximalIdeal R).IsPrincipal := by
+  exact
+    SourceStack.DedekindDvr.localRing_finrank_cotangentSpace_le_one_iff_maximalIdeal_isPrincipal
+      R
+
+theorem hilbert_localRing_finrank_cotangentSpace_eq_one_iff_maximalIdeal_isPrincipal_of_not_isField
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R]
+    (hR : ¬ IsField R) :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 ↔
+      (IsLocalRing.maximalIdeal R).IsPrincipal := by
+  exact
+    SourceStack.DedekindDvr.localRing_finrank_cotangentSpace_eq_one_iff_maximalIdeal_isPrincipal_of_not_isField
+      R hR
+
 theorem hilbert_localRing_finrank_cotangentSpace_eq_one_iff_dvr
     (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [IsDomain R] :
     Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 ↔
