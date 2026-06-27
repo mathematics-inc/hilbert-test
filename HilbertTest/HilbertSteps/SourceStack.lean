@@ -358,6 +358,15 @@ theorem hilbert_sectionControlled_exists_for_finite_disjoint
   exact SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.exists_for_finite_disjoint
     D hS hT hdis
 
+theorem hilbert_sectionControlled_exists_for_finite_disjoint_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U}
+    (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, D.map s x.1 ∈ D.branch) ∧
+      ∀ x ∈ T, D.map s x.1 ∉ D.branch := by
+  exact
+    SourceStack.CurveBelyiConstruction.SectionControlledBelyiData.exists_for_finite_disjoint_subtype_sets
+      D U hS hT hdis
+
 theorem hilbert_sectionControlled_pointwise_cover_complement
     [Infinite K] (κ : Type*) [Finite κ] {S : Set X} (hS : S.Finite)
     (x : κ → {x : X // x ∉ S}) :

@@ -119,6 +119,36 @@ theorem exists_for_finite_disjoint
       D.sendsSetToBranch_of_vanishesOnSet hsS,
       D.avoidsBranch_of_nonzeroOnSet hsT⟩
 
+/-- Finite disjoint-set conclusion after restricting the source of
+section-controlled Belyi data to a subtype. -/
+theorem exists_for_finite_disjoint_subtype_sets
+    [Infinite K] (U : Set X) {S T : Set U} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, D.map s x.1 ∈ D.branch) ∧
+      ∀ x ∈ T, D.map s x.1 ∉ D.branch := by
+  let S' : Set X := (Subtype.val : U → X) '' S
+  let T' : Set X := (Subtype.val : U → X) '' T
+  have hS' : S'.Finite := hS.image (Subtype.val : U → X)
+  have hT' : T'.Finite := hT.image (Subtype.val : U → X)
+  have hdis' : Disjoint S' T' := by
+    rw [Set.disjoint_left]
+    intro y hyS hyT
+    rcases hyS with ⟨s, hsS, rfl⟩
+    rcases hyT with ⟨t, htT, ht⟩
+    have hst : s = t := Subtype.ext ht.symm
+    have hs_not_mem_T : s ∉ T := (Set.disjoint_left.mp hdis) hsS
+    exact hs_not_mem_T (by simpa [hst] using htT)
+  rcases D.exists_for_finite_disjoint hS' hT' hdis' with
+    ⟨s, hsS, hsT⟩
+  exact
+    ⟨s,
+      (by
+        intro x hx
+        exact hsS x.1 ⟨x, hx, rfl⟩),
+      (by
+        intro x hx
+        exact hsT x.1 ⟨x, hx, rfl⟩)⟩
+
 /-- Pointwise tuple-cover consequence for section-controlled Belyi data. -/
 theorem pointwise_cover_complement
     [Infinite K] (κ : Type*) [Finite κ] {S : Set X} (hS : S.Finite)
