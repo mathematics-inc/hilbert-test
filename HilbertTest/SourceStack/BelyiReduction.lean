@@ -426,6 +426,50 @@ theorem ofBadValuesComposedAuxEtale_composed_base_eq
         p1Map.hom.base (aux.base x) := by
   exact SchemeBelyi.FiniteBelyiMap.compAuxOfAuxEtale_base p1Map aux hAuxEtale x
 
+/-- Construct a one-step reduction directly from finite marked Belyi existence
+on `P1`, target avoidance for the enlarged bad set, and an auxiliary-étaleness
+criterion over any selected Belyi open avoiding that bad set.  This packages
+the reduction paragraph of Theorem 2.5 into a single formal handoff. -/
+theorem exists_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ, ∃ R : P1ReductionStep K C F.hmarkedOpen S T,
+      R.p1Map = F.map φ ∧
+        R.composed.hom = aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K) := by
+  rcases exists_p1Map_for_reductionBadSet_target_with_belyiOpen_subset_compl
+      F aux hS hbad himage htargetBad with
+    ⟨φ, hφbad, hφtarget, hφOpen⟩
+  let R : P1ReductionStep K C F.hmarkedOpen S T :=
+    ofBadValuesComposedAuxEtale (K := K) (C := C) (hmarkedOpen := F.hmarkedOpen)
+      (S := S) (T := T) hS badValues hbad aux (F.map φ)
+      (hAuxEtale φ hφOpen) hφbad targetPoint maps_T_to_target hφtarget
+  refine ⟨φ, R, rfl, ?_, ?_⟩
+  · exact ofBadValuesComposedAuxEtale_composed_hom
+      (K := K) (C := C) (hmarkedOpen := F.hmarkedOpen) (S := S) (T := T)
+      hS badValues hbad aux (F.map φ) (hAuxEtale φ hφOpen)
+      hφbad targetPoint maps_T_to_target hφtarget
+  · constructor
+    · intro x hx
+      rw [R.composed_base_eq x]
+      exact R.p1Map_maps_bad_to_marked (R.aux.base x) (R.maps_S_to_bad x hx)
+    · intro x hx
+      rw [R.composed_base_eq x, R.maps_T_to_target x hx]
+      exact R.p1Map_target_avoids_marked
+
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 

@@ -880,6 +880,30 @@ theorem hilbert_p1ReductionStep_ofBadValuesComposedAuxEtale_composed_base_eq
     hS badValues hbad aux p1Map hAuxEtale p1Map_maps_bad_to_marked
     targetPoint maps_T_to_target p1Map_target_avoids_marked x
 
+theorem hilbert_p1ReductionStep_exists_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ, ∃ R : P1ReductionStep K C F.hmarkedOpen S T,
+      R.p1Map = F.map φ ∧
+        R.composed.hom = aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, R.composed.hom.base x ∉ markedSchemePointSet K) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.exists_of_p1MapExistence_auxEtale
+      F hS badValues hbad aux himage htargetBad maps_T_to_target hAuxEtale
+
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
