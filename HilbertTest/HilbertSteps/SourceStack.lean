@@ -2432,6 +2432,34 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_cover_by_bely
     SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       F Kex
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      F Kex
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
     [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -2459,6 +2487,34 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_cover_by_bely
                   (Kex p.1 p.2) := by
   exact
     SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      F
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       F
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -2684,6 +2740,37 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_co
     SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       TF Kex
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+            C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      TF Kex
+
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
     [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -2714,6 +2801,37 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_co
                   (Kex p.1 p.2) := by
   exact
     SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      TF
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                  C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       TF
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -2939,6 +3057,37 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_comp
     SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       ITF Kex
 
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+            C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      ITF Kex
+
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
     [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -2969,6 +3118,37 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_comp
                   (Kex p.1 p.2) := by
   exact
     SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      ITF
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                  C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       ITF
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_compact_coordinate_sets_of_belyiOpen_exhaustions
@@ -3202,6 +3382,37 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compa
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       TSF Kex
 
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+            C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2)) ⊆
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      TSF Kex
+
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
     [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
     [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
@@ -3232,6 +3443,37 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compa
                   (Kex p.1 p.2) := by
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      TSF
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
+    [CompactSpace C] [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+              C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                C) ''
+                (Kex p.1 p.2)) ⊆
+                  (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 →
+                  C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       TSF
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_finite_compact_coordinate_sets_of_belyiOpen_exhaustions

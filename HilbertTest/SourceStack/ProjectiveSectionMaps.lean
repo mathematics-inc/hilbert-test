@@ -1638,6 +1638,35 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     F.toSectionControlledFiniteMarkedBelyiData.finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the compact-exhaustion cover bridge for projective-section
+finite marked families. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Compact-cover bridge for projective-section finite marked families, with
 compact exhaustions supplied by local compactness and second countability. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
@@ -1667,6 +1696,36 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                   (Kex p.1 p.2) := by
   exact
     F.toSectionControlledFiniteMarkedBelyiData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the compact-cover bridge for projective-section finite
+marked families, with compact exhaustions supplied by local compactness and
+second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Compact-coordinate Corollary 3.2 bridge for projective-section finite
 marked families. -/
@@ -1945,6 +2004,35 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the compact-exhaustion cover bridge for concrete
+trivialized-ratio finite marked families. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Compact-cover bridge for concrete trivialized-ratio finite marked
 families, with compact exhaustions supplied by local compactness and second
 countability. -/
@@ -1975,6 +2063,36 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                   (Kex p.1 p.2) := by
   exact
     F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the compact-cover bridge for concrete trivialized-ratio
+finite marked families, with compact exhaustions supplied by local compactness
+and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Compact-coordinate Corollary 3.2 bridge for concrete trivialized-ratio
 finite marked families. -/
@@ -2259,6 +2377,35 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       Kex
 
+/-- Equality form of the compact-exhaustion cover bridge for
+denominator-is-unit trivialized finite marked families. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      Kex
+
 /-- Compact-cover bridge for denominator-is-unit trivialized finite marked
 families, with compact exhaustions supplied by local compactness and second
 countability. -/
@@ -2289,6 +2436,36 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                   (Kex p.1 p.2) := by
   exact
     F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+
+/-- Equality form of the compact-cover bridge for denominator-is-unit
+trivialized finite marked families, with compact exhaustions supplied by local
+compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
 
 /-- Compact-coordinate Corollary 3.2 bridge for denominator-is-unit trivialized
 finite marked families. -/
@@ -2580,6 +2757,35 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions
       F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily Kex
 
+/-- Equality form of the compact-exhaustion cover bridge for canonical
+two-section Bezout finite marked families. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily Kex
+
 /-- Compact-cover bridge for canonical two-section Bezout finite marked
 families, with compact exhaustions supplied by local compactness and second
 countability. -/
@@ -2610,6 +2816,37 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
                   (Kex p.1 p.2) := by
   exact
     IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily
+
+/-- Equality form of the compact-cover bridge for canonical two-section Bezout
+finite marked families, with compact exhaustions supplied by local compactness
+and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V,
+      CompactExhaustion ((SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+              F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                    F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val :
+                (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+                  F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) = (Set.univ : Set C) := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
       F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily
 
 /-- Compact-coordinate Corollary 3.2 bridge for canonical two-section Bezout
