@@ -491,6 +491,46 @@ theorem mochizukiPolynomial_real_ratio_aeval_ge_of_ratio_ge
     (mochizukiPolynomial_real_ratio_aeval_ge_ratio_of_one_lt_of_le
       m n hm hα hαβ)
 
+/-- Strict real-tail increase consequence used in Lemma 2.1(c). -/
+theorem mochizukiPolynomial_real_aeval_lt_of_one_lt_of_lt
+    (m n : ℕ) (hm : 0 < m) {α β : ℝ} (hα : 1 < α) (hαβ : α < β) :
+    Polynomial.aeval α (mochizukiPolynomial ℝ m n) <
+      Polynomial.aeval β (mochizukiPolynomial ℝ m n) := by
+  have hpos : 0 < Polynomial.aeval α (mochizukiPolynomial ℝ m n) :=
+    mochizukiPolynomial_real_aeval_pos_of_one_lt m n hα
+  have hratio_one : 1 < β / α := by
+    rw [lt_div_iff₀ (lt_trans zero_lt_one hα)]
+    simpa using hαβ
+  have hratio_ge :=
+    mochizukiPolynomial_real_ratio_aeval_ge_ratio_of_one_lt_of_le
+      m n hm hα (le_of_lt hαβ)
+  have hratio_gt :
+      1 < Polynomial.aeval β (mochizukiPolynomial ℝ m n) /
+        Polynomial.aeval α (mochizukiPolynomial ℝ m n) :=
+    lt_of_lt_of_le hratio_one hratio_ge
+  have hmul := mul_lt_mul_of_pos_right hratio_gt hpos
+  rw [one_mul] at hmul
+  rw [div_mul_cancel₀] at hmul
+  · exact hmul
+  · exact ne_of_gt hpos
+
+/-- Unit-interval values are separated from tail values `β >= 2`, as used in
+Lemma 2.1(c). -/
+theorem mochizukiPolynomial_real_aeval_ne_of_mem_Icc_of_two_le
+    (m n : ℕ) (hm : 0 < m) {α β : ℝ}
+    (hα0 : 0 ≤ α) (hα1 : α ≤ 1) (hβ : 2 ≤ β) :
+    Polynomial.aeval α (mochizukiPolynomial ℝ m n) ≠
+      Polynomial.aeval β (mochizukiPolynomial ℝ m n) := by
+  have hα_abs := mochizukiPolynomial_real_abs_aeval_le_one_of_mem_Icc
+    m n hα0 hα1
+  have hα_le : Polynomial.aeval α (mochizukiPolynomial ℝ m n) ≤ 1 :=
+    le_trans (le_abs_self _) hα_abs
+  have hβ_gt := mochizukiPolynomial_real_aeval_gt_one_of_two_le m n hm hβ
+  intro h
+  have hβ_le : Polynomial.aeval β (mochizukiPolynomial ℝ m n) ≤ 1 := by
+    simpa [h] using hα_le
+  nlinarith
+
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
 `0`, `1`, or `m/(m+n)`. -/

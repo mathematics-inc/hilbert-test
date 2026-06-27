@@ -9801,6 +9801,21 @@ theorem hilbert_mochizukiPolynomial_real_ratio_aeval_ge_of_ratio_ge
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_ratio_aeval_ge_of_ratio_ge
     m n hm hα hαβ hC
 
+theorem hilbert_mochizukiPolynomial_real_aeval_lt_of_one_lt_of_lt
+    (m n : ℕ) (hm : 0 < m) {α β : ℝ} (hα : 1 < α) (hαβ : α < β) :
+    Polynomial.aeval α (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n) <
+      Polynomial.aeval β (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_aeval_lt_of_one_lt_of_lt
+    m n hm hα hαβ
+
+theorem hilbert_mochizukiPolynomial_real_aeval_ne_of_mem_Icc_of_two_le
+    (m n : ℕ) (hm : 0 < m) {α β : ℝ}
+    (hα0 : 0 ≤ α) (hα1 : α ≤ 1) (hβ : 2 ≤ β) :
+    Polynomial.aeval α (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n) ≠
+      Polynomial.aeval β (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_aeval_ne_of_mem_Icc_of_two_le
+    m n hm hα0 hα1 hβ
+
 theorem hilbert_mochizukiPolynomial_derivative_aeval_eq_zero_imp
     (K : Type u) [Field K] [CharZero K]
     (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
