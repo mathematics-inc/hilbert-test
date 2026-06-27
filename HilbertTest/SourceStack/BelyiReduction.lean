@@ -115,6 +115,33 @@ theorem disjoint_reductionBadSet_singleton_iff
     subst z
     exact (not_mem_reductionBadSet_iff aux S badValues y).2 h hz
 
+/-- Applying finite marked Belyi existence on `P1` to the enlarged reduction
+bad set and a target singleton gives the `p1Map` branch-control data required
+by the reduction step.  The hypotheses spell out the paper's target-avoidance
+checks: the target is not in `aux(S)` and is not among the prescribed bad
+values such as ramification values. -/
+theorem exists_p1Map_for_reductionBadSet_target
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    (hS : S.Finite) (hbad : badValues.Finite)
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues) :
+    ∃ φ : Φ,
+      (∀ y ∈ reductionBadSet aux S badValues,
+        (F.map φ).hom.base y ∈ markedSchemePointSet K) ∧
+        (F.map φ).hom.base targetPoint ∉ markedSchemePointSet K := by
+  have hbadSet : (reductionBadSet aux S badValues).Finite :=
+    reductionBadSet_finite aux hS hbad
+  have hdis :
+      Disjoint (reductionBadSet aux S badValues) ({targetPoint} : Set (P1 K)) :=
+    (disjoint_reductionBadSet_singleton_iff aux S badValues targetPoint).2
+      ⟨himage, htargetBad⟩
+  rcases F.exists_for_finite_disjoint hbadSet
+      (Set.finite_singleton targetPoint) hdis with ⟨φ, hφbad, hφtarget⟩
+  exact ⟨φ, hφbad, hφtarget targetPoint (by simp)⟩
+
 /-- One reduction step for fixed finite sets `S,T` on the source curve.  The
 `bad` set is the finite set on `P1` that the later Belyi map must send to the
 marked branch triple; in the paper it contains `ψ(S)` and the ramification

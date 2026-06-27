@@ -675,6 +675,22 @@ theorem hilbert_disjoint_reductionBadSet_singleton_iff
   exact SourceStack.BelyiReduction.disjoint_reductionBadSet_singleton_iff
     aux S badValues y
 
+theorem hilbert_exists_p1Map_for_reductionBadSet_target
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (SourceStack.SchemeProjectiveLine.P1 K))
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    {S : Set C} {badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)}
+    (hS : S.Finite) (hbad : badValues.Finite)
+    {targetPoint : SourceStack.SchemeProjectiveLine.P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues) :
+    ∃ φ : Φ,
+      (∀ y ∈ reductionBadSet aux S badValues,
+        (F.map φ).hom.base y ∈ markedSchemePointSet K) ∧
+        (F.map φ).hom.base targetPoint ∉ markedSchemePointSet K := by
+  exact SourceStack.BelyiReduction.exists_p1Map_for_reductionBadSet_target
+    F aux hS hbad himage htargetBad
+
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
 variable {S T : Set C}
 
