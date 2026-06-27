@@ -10448,6 +10448,19 @@ theorem hilbert_polynomialSchemeSeparation_exists_scheme_separation_package
   exact SourceStack.PolynomialSchemeSeparation.exists_scheme_separation_package
     F K B hS p hpder
 
+theorem hilbert_polynomialSchemeSeparation_exists_scheme_separation_package_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = SourceStack.PolynomialMaps.mochizukiPolynomial F m n ∧
+        B.schemeTargetPoint F P ∉ SourceStack.SchemeProjectiveLine.markedSchemePointSet K ∧
+          (∀ x ∈ S, B.schemePointMap F P x ≠ B.schemeTargetPoint F P) ∧
+            ∀ x : K, B.schemePointMap F P x = B.schemeTargetPoint F P →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact SourceStack.PolynomialSchemeSeparation.exists_scheme_separation_package_mochizukiPolynomial
+    F K B hS m n hm hn
+
 end PolynomialSchemeSeparation
 
 namespace ConcretePolynomialSchemeSeparation

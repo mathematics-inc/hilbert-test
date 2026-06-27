@@ -48,6 +48,22 @@ theorem exists_scheme_separation_package
     exists_p1PolynomialSeparationStep_of_derivative_ne_zero F K hS p hpder
   exact ⟨β, P, hP, B.scheme_separates_avoids_marked_and_noncritical F P⟩
 
+/-- Concrete Mochizuki polynomial instance of scheme-carrier polynomial
+separation. -/
+theorem exists_scheme_separation_package_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = PolynomialMaps.mochizukiPolynomial F m n ∧
+        B.schemeTargetPoint F P ∉ SchemeProjectiveLine.markedSchemePointSet K ∧
+          (∀ x ∈ S, B.schemePointMap F P x ≠ B.schemeTargetPoint F P) ∧
+            ∀ x : K, B.schemePointMap F P x = B.schemeTargetPoint F P →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  obtain ⟨β, P, hP⟩ :=
+    exists_p1PolynomialSeparationStep_mochizukiPolynomial F K hS m n hm hn
+  exact ⟨β, P, hP, B.scheme_separates_avoids_marked_and_noncritical F P⟩
+
 end PolynomialSchemeSeparation
 end SourceStack
 end HilbertTest
