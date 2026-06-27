@@ -152,6 +152,34 @@ theorem exists_concrete_scheme_separation_package
         concreteSchemePolynomialTargetPoint_eq_bridge F K P]
         using hx)
 
+/-- Direct concrete scheme-carrier separation package with no intermediate
+`P1PolynomialSeparationStep` witness exposed: for a finite input set and a
+polynomial with nonzero derivative over an algebraically closed target field,
+choose `beta` so `[p(beta):1]` avoids the marked scheme triple, is separated
+from all `[p(x):1]` with `x ∈ S`, and has only noncritical polynomial preimages.
+-/
+theorem exists_concrete_scheme_separation_direct
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K,
+      concreteSchemePolynomialTargetPoint F K p β ∉
+        SchemeProjectiveLine.markedSchemePointSet K ∧
+        (∀ x ∈ S, concreteSchemePolynomialPointMap F K p x ≠
+          concreteSchemePolynomialTargetPoint F K p β) ∧
+          ∀ x : K, concreteSchemePolynomialPointMap F K p x =
+            concreteSchemePolynomialTargetPoint F K p β →
+            Polynomial.aeval x p.derivative ≠ 0 := by
+  obtain ⟨β, P, hP, htarget, hsep, hcrit⟩ :=
+    exists_concrete_scheme_separation_package F K hS p hpder
+  refine ⟨β, ?_, ?_, ?_⟩
+  · simpa [hP] using htarget
+  · intro x hx
+    simpa [hP] using hsep x hx
+  · intro x hx
+    exact by
+      simpa [hP] using hcrit x (by simpa [hP] using hx)
+
 /-- Scalar-value form of the concrete scheme-carrier separation package:
 the chosen target value avoids `0` and `1`, separates the finite input set by
 polynomial values, and has only noncritical preimages. -/
@@ -177,6 +205,28 @@ theorem exists_concrete_scheme_separation_scalar_package
   · intro x hx
     exact PolynomialSeparation.PolynomialSeparationStep.derivative_ne_zero_at_preimage
       P.toPolynomialSeparationStep hx
+
+/-- Direct scalar-value form of the concrete scheme-carrier separation package,
+with no intermediate `P1PolynomialSeparationStep` witness exposed. -/
+theorem exists_concrete_scheme_separation_scalar_direct
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K,
+      (Polynomial.aeval β p ≠ 0 ∧
+        Polynomial.aeval β p ≠ 1) ∧
+        (∀ x ∈ S, Polynomial.aeval x p ≠ Polynomial.aeval β p) ∧
+          ∀ x : K, Polynomial.aeval x p = Polynomial.aeval β p →
+            Polynomial.aeval x p.derivative ≠ 0 := by
+  obtain ⟨β, P, hP, htarget, hsep, hcrit⟩ :=
+    exists_concrete_scheme_separation_scalar_package F K hS p hpder
+  refine ⟨β, ?_, ?_, ?_⟩
+  · simpa [hP] using htarget
+  · intro x hx
+    simpa [hP] using hsep x hx
+  · intro x hx
+    exact by
+      simpa [hP] using hcrit x (by simpa [hP] using hx)
 
 end ConcretePolynomialSchemeSeparation
 end SourceStack

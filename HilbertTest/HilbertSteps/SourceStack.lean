@@ -7669,6 +7669,21 @@ theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separa
   exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_package
     F K hS p hpder
 
+theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_direct
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K,
+      concreteSchemePolynomialTargetPoint F K p β ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet K ∧
+        (∀ x ∈ S, concreteSchemePolynomialPointMap F K p x ≠
+          concreteSchemePolynomialTargetPoint F K p β) ∧
+          ∀ x : K, concreteSchemePolynomialPointMap F K p x =
+            concreteSchemePolynomialTargetPoint F K p β →
+            Polynomial.aeval x p.derivative ≠ 0 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_direct
+    F K hS p hpder
+
 theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_scalar_package
     [IsAlgClosed K]
     {S : Set K} (hS : S.Finite)
@@ -7683,6 +7698,19 @@ theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separa
               Polynomial.aeval β P.polynomial →
               Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
   exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_scalar_package
+    F K hS p hpder
+
+theorem hilbert_concretePolynomialSchemeSeparation_exists_concrete_scheme_separation_scalar_direct
+    [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (p : F[X]) (hpder : p.derivative ≠ 0) :
+    ∃ β : K,
+      (Polynomial.aeval β p ≠ 0 ∧
+        Polynomial.aeval β p ≠ 1) ∧
+        (∀ x ∈ S, Polynomial.aeval x p ≠ Polynomial.aeval β p) ∧
+          ∀ x : K, Polynomial.aeval x p = Polynomial.aeval β p →
+            Polynomial.aeval x p.derivative ≠ 0 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.exists_concrete_scheme_separation_scalar_direct
     F K hS p hpder
 
 end ConcretePolynomialSchemeSeparation
