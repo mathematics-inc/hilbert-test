@@ -389,6 +389,67 @@ theorem belyiOpenSetFamily_isTopologicalBasis
       ⟨φ, _hopen, hx, hsub⟩
     exact ⟨D.toBelyiCoverData.belyiOpen φ, ⟨φ, rfl⟩, hx, hsub⟩
 
+/-- The Belyi opens supplied by a noncritical Belyi existence package cover the
+whole source.  This is the global-cover form of Corollary 1.2 used in
+Mochizuki Corollary 3.2. -/
+theorem belyiOpen_cover_univ
+    [T1Space P] [NonemptyOpenFiniteComplement X] :
+    (Set.univ : Set X) ⊆ ⋃ φ : Φ, D.toBelyiCoverData.belyiOpen φ := by
+  intro x _hx
+  rcases D.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      isOpen_univ (by trivial : x ∈ (Set.univ : Set X)) with
+    ⟨φ, _hopen, hxφ, _hsub⟩
+  exact Set.mem_iUnion.mpr ⟨φ, hxφ⟩
+
+/-- Corollary 3.2 compact-cover bridge, parametrized by compact exhaustions of
+the Belyi opens: compactness selects finitely many compact exhaustion members
+inside Belyi opens that cover the source. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions
+    [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+          (K p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+            (K p.1 p.2)) ⊆ D.toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set X) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+                (K p.1 p.2) := by
+  exact HilbertTest.SourceStack.compactSpace_finite_cover_by_compactExhaustion_members
+    (X := X) (ι := Φ)
+    (fun φ => D.toBelyiCoverData.belyiOpen φ)
+    (fun φ => D.toBelyiCoverData.belyiOpen_isOpen φ)
+    D.belyiOpen_cover_univ K
+
+/-- Corollary 3.2 compact-cover bridge with the usual local compactness input:
+open Belyi loci inherit compact exhaustions, and finitely many compact
+exhaustion members cover the compact source. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+            (K p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+              (K p.1 p.2)) ⊆ D.toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set X) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+                  (K p.1 p.2) := by
+  classical
+  let K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ) :=
+    fun φ =>
+      Classical.choice
+        (HilbertTest.SourceStack.compactExhaustion_of_isOpen_subtype
+          (D.toBelyiCoverData.belyiOpen_isOpen φ))
+  exact ⟨K, D.finite_compact_cover_by_belyiOpen_exhaustions K⟩
+
 /-- Recursive open-subspace form of Corollary 1.2: after restricting a
 noncritical Belyi existence package to an open subtype whose ambient source has
 finite complements for nonempty opens, every open neighborhood in the subtype

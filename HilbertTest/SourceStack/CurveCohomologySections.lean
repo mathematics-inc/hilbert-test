@@ -607,6 +607,14 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     K (ReductionIndex C) D.toFiniteMarkedBelyiExistence hU hxU
 
+/-- The Belyi open attached to a chosen cohomological reduction index. -/
+def belyiOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) : Set C :=
+  ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+    (ReductionIndex C) D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i)
+
 /-- The Belyi opens attached to the finite marked Belyi family chosen from the
 cohomological source package. -/
 def belyiOpenSetFamily
@@ -623,6 +631,51 @@ theorem belyiOpenSetFamily_isTopologicalBasis
     (D : CohomologicalP1ReductionSourceData K C V F) :
     TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily :=
   D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily_isTopologicalBasis
+
+/-- The Belyi opens produced from the cohomological source package cover the
+source. -/
+theorem belyiOpen_cover_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    (Set.univ : Set C) ⊆ ⋃ i : ReductionIndex C, D.belyiOpen i := by
+  exact FiniteMarkedBelyiExistence.belyiOpen_cover_univ
+    K (ReductionIndex C) D.toFiniteMarkedBelyiExistence
+
+/-- Cohomological source form of the compact-exhaustion cover bridge. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i)) :
+    ∃ t : Finset (ReductionIndex C × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+            D.belyiOpen p.1) ∧
+          (Set.univ : Set C) ⊆
+            ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence Kex
+
+/-- Cohomological source compact-cover bridge with compact exhaustions supplied
+by local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ Kex : ∀ i : ReductionIndex C, CompactExhaustion (D.belyiOpen i),
+      ∃ t : Finset (ReductionIndex C × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence
 
 /-- Finite-set Belyi-open consequence directly from the cohomological source
 package in the curve-style finite-complement topology form. -/

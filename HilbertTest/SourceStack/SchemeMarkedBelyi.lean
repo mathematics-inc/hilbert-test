@@ -909,6 +909,63 @@ theorem belyiOpenSetFamily_isTopologicalBasis
     TopologicalSpace.IsTopologicalBasis (belyiOpenSetFamily K Φ F) :=
   (toMarkedNoncriticalExistence K Φ F).belyiOpenSetFamily_isTopologicalBasis
 
+/-- The Belyi opens attached to a finite marked Belyi family cover the source. -/
+theorem belyiOpen_cover_univ
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    (Set.univ : Set C) ⊆
+      ⋃ φ : Φ, (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ :=
+  (toMarkedNoncriticalExistence K Φ F).belyiOpen_cover_univ
+
+/-- Finite marked Belyi form of the compact-exhaustion cover bridge. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ φ : Φ,
+      CompactExhaustion ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val :
+          (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+            (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val :
+            (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2)) ⊆
+                (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+          (Set.univ : Set C) ⊆
+            ⋃ p ∈ t,
+              (Subtype.val :
+                (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                  (Kex p.1 p.2) := by
+  exact
+    (toMarkedNoncriticalExistence K Φ F).finite_compact_cover_by_belyiOpen_exhaustions
+      Kex
+
+/-- Finite marked Belyi compact-cover bridge with compact exhaustions supplied
+from local compactness and second countability of the source. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ φ : Φ,
+      CompactExhaustion ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val :
+            (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+              (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val :
+              (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                (Kex p.1 p.2)) ⊆
+                  (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t,
+                (Subtype.val :
+                  (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen p.1 → C) ''
+                    (Kex p.1 p.2) := by
+  exact
+    NoncriticalBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      (toMarkedNoncriticalExistence K Φ F)
+
 theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)

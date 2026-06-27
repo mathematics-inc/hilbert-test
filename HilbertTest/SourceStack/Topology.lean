@@ -308,6 +308,72 @@ theorem compactExhaustion_interior_isOpen
     IsOpen (interior (K n)) :=
   isOpen_interior
 
+/-- If a compact space is covered by open subsets, and each open subset carries
+a compact exhaustion, then finitely many interiors of exhaustion members still
+cover the compact space.  This is the finite-selection step in Mochizuki
+Corollary 3.2 before passing from open interiors to compact sets. -/
+theorem compactSpace_finite_subcover_by_compactExhaustion_interiors
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i)
+    (K : ∀ i, CompactExhaustion (U i)) :
+    ∃ t : Finset (ι × ℕ),
+      (Set.univ : Set X) ⊆
+        ⋃ p ∈ t, (Subtype.val : U p.1 → X) '' interior (K p.1 p.2) := by
+  have hopen : ∀ p : ι × ℕ,
+      IsOpen ((Subtype.val : U p.1 → X) '' interior (K p.1 p.2)) := by
+    intro p
+    exact (hUopen p.1).isOpenMap_subtype_val _ isOpen_interior
+  have hcover' : (Set.univ : Set X) ⊆
+      ⋃ p : ι × ℕ,
+        (Subtype.val : U p.1 → X) '' interior (K p.1 p.2) := by
+    intro x hx
+    have hxcover : x ∈ ⋃ i, U i := hcover hx
+    rcases Set.mem_iUnion.mp hxcover with ⟨i, hxi⟩
+    rcases compactExhaustion_exists_mem_interior (K i) ⟨x, hxi⟩ with ⟨n, hn⟩
+    exact Set.mem_iUnion.mpr ⟨(i, n), ⟨⟨x, hxi⟩, hn, rfl⟩⟩
+  exact compactSpace_elim_finite_subcover
+    (X := X) (ι := ι × ℕ)
+    (fun p => (Subtype.val : U p.1 → X) '' interior (K p.1 p.2))
+    hopen hcover'
+
+/-- Compact version of the finite compact-exhaustion cover: from a compact
+open cover and compact exhaustions of each open member, finitely many compact
+exhaustion members cover the whole compact space and each selected compact set
+lies inside its corresponding open.  This packages the compact `H_v` input used
+in Mochizuki Corollary 3.2. -/
+theorem compactSpace_finite_cover_by_compactExhaustion_members
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i)
+    (K : ∀ i, CompactExhaustion (U i)) :
+    ∃ t : Finset (ι × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : U p.1 → X) '' (K p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : U p.1 → X) '' (K p.1 p.2)) ⊆ U p.1) ∧
+          (Set.univ : Set X) ⊆
+            ⋃ p ∈ t, (Subtype.val : U p.1 → X) '' (K p.1 p.2) := by
+  rcases compactSpace_finite_subcover_by_compactExhaustion_interiors
+      U hUopen hcover K with
+    ⟨t, ht⟩
+  refine ⟨t, ?_, ?_, ?_⟩
+  · intro p _hp
+    exact ((K p.1).isCompact p.2).image continuous_subtype_val
+  · intro p _hp y hy
+    rcases hy with ⟨z, _hz, rfl⟩
+    exact z.2
+  · intro x hx
+    have hxint :
+        x ∈ ⋃ p ∈ t,
+          (Subtype.val : U p.1 → X) '' interior (K p.1 p.2) := ht hx
+    rcases Set.mem_iUnion.mp hxint with ⟨p, hxp⟩
+    rcases Set.mem_iUnion.mp hxp with ⟨hp, hximage⟩
+    rcases hximage with ⟨z, hz, rfl⟩
+    refine Set.mem_iUnion.mpr ⟨p, ?_⟩
+    refine Set.mem_iUnion.mpr ⟨hp, ?_⟩
+    exact ⟨z, interior_subset hz, rfl⟩
+
 /-- In a Hausdorff space, the closure of each interior in a compact exhaustion
 is compact.  This is the compact-closure step used in Mochizuki Corollary 3.2. -/
 theorem compactExhaustion_closure_interior_isCompact
