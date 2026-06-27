@@ -4637,6 +4637,25 @@ theorem hilbert_exists_projective_reciprocalTranslate_separating_projective_fins
   exact SourceStack.exists_projective_reciprocalTranslate_separating_projective_finset
     S β C hC hβ
 
+theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_projective_finset
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ) p ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact SourceStack.exists_projective_rational_reciprocalTranslate_separating_projective_finset
+    S β C hC hβ
+
 end ComplexSeparation
 
 namespace AffineSpace

@@ -326,6 +326,70 @@ theorem exists_projective_reciprocalTranslate_separating_projective_finset
       exact ProjectiveLine.affineCoordOrZero_affinePoint ℂ α
     exact hsep α hαmem
 
+/-- Projective finite-set rational refinement of Mochizuki Lemma 2.3: if the
+distinguished affine point is rational, the reciprocal-translate pole can be
+chosen rational even when the finite set is a finite subset of `P¹(ℂ)` that may
+contain `∞`. -/
+theorem exists_projective_rational_reciprocalTranslate_separating_projective_finset
+    (S : Finset (ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ) (hC : 0 < C)
+    (hβ : ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ) p ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  classical
+  let Saff : Finset ℂ :=
+    (S.filter fun p => p ≠ ProjectiveLine.infinity ℂ).image
+      (ProjectiveLine.affineCoordOrZero ℂ)
+  have hβaff : (β : ℂ) ∉ Saff := by
+    intro hβmem
+    rcases Finset.mem_image.mp hβmem with ⟨p, hpfilter, hpcoord⟩
+    rcases Finset.mem_filter.mp hpfilter with ⟨hpS, hpne⟩
+    have hp_aff :
+        ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+      ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpne
+    have hβp : ProjectiveLine.affinePoint ℂ (β : ℂ) = p := by
+      simpa [hpcoord] using hp_aff
+    exact hβ (by simpa [hβp] using hpS)
+  rcases exists_projective_rational_reciprocalTranslate_separating_finset
+      Saff β C hC hβaff with
+    ⟨lam, hβzero, hβinf, hSaff_inf, hsep⟩
+  refine ⟨lam, hβzero, hβinf, ?_, ?_⟩
+  · intro p hpS
+    by_cases hpinf : p = ProjectiveLine.infinity ℂ
+    · rw [hpinf, ProjectiveLine.reciprocalTranslate_infinity]
+      exact ProjectiveLine.zero_ne_infinity ℂ
+    · have hpfilter :
+          p ∈ S.filter (fun q => q ≠ ProjectiveLine.infinity ℂ) := by
+        exact Finset.mem_filter.mpr ⟨hpS, hpinf⟩
+      have hpcoord_mem : ProjectiveLine.affineCoordOrZero ℂ p ∈ Saff := by
+        exact Finset.mem_image.mpr ⟨p, hpfilter, rfl⟩
+      have hp_aff :
+          ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+        ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpinf
+      have hnot := hSaff_inf (ProjectiveLine.affineCoordOrZero ℂ p) hpcoord_mem
+      rwa [hp_aff] at hnot
+  · intro α hαS
+    have hneinf : ProjectiveLine.affinePoint ℂ α ≠ ProjectiveLine.infinity ℂ :=
+      ProjectiveLine.affinePoint_ne_infinity ℂ α
+    have hfilter :
+        ProjectiveLine.affinePoint ℂ α ∈
+          S.filter (fun p => p ≠ ProjectiveLine.infinity ℂ) := by
+      exact Finset.mem_filter.mpr ⟨hαS, hneinf⟩
+    have hαmem : α ∈ Saff := by
+      refine Finset.mem_image.mpr ⟨ProjectiveLine.affinePoint ℂ α, hfilter, ?_⟩
+      exact ProjectiveLine.affineCoordOrZero_affinePoint ℂ α
+    exact hsep α hαmem
+
 end
 
 end SourceStack
