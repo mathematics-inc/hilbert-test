@@ -9777,6 +9777,17 @@ theorem hilbert_p1PolynomialSeparation_derivative_ne_zero_of_affinePolynomialPoi
   exact SourceStack.P1PolynomialSeparation.derivative_ne_zero_of_affinePolynomialPointMap_eq_target
     F E hpder hβ hmap
 
+theorem hilbert_p1PolynomialSeparation_mochizukiPolynomial_derivative_zero_affinePoint_mem_fourPointSet
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative = 0) :
+    SourceStack.ProjectiveLine.affinePoint K x ∈
+      SourceStack.ProjectiveLine.fourPointSet K ((m : K) / ((m + n : ℕ) : K)) := by
+  exact
+    SourceStack.P1PolynomialSeparation.mochizukiPolynomial_derivative_zero_affinePoint_mem_fourPointSet
+      K m n hm hn hx
+
 variable {S : Set E} {β : E}
 variable (P : P1PolynomialSeparationStep F E S β)
 

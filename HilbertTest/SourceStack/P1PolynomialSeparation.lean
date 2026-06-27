@@ -61,6 +61,30 @@ theorem derivative_ne_zero_of_affinePolynomialPointMap_eq_target
   exact PolynomialMaps.derivative_aeval_ne_zero_of_value_not_mem_replacementSet
     F E hpder hβ hval
 
+section MochizukiLemma21
+
+variable (K : Type u) [Field K] [CharZero K]
+
+/-- Projective-line form of Mochizuki Lemma 2.1(b): every affine critical point
+of `x^m * (x - 1)^n` lies in the four-point set `{0, m/(m+n), 1, infinity}`. -/
+theorem mochizukiPolynomial_derivative_zero_affinePoint_mem_fourPointSet
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (mochizukiPolynomial K m n).derivative = 0) :
+    ProjectiveLine.affinePoint K x ∈
+      ProjectiveLine.fourPointSet K ((m : K) / ((m + n : ℕ) : K)) := by
+  have hcrit :=
+    mochizukiPolynomial_derivative_aeval_eq_zero_imp K m n hm hn hx
+  exact
+    (ProjectiveLine.affinePoint_mem_fourPointSet_iff K
+      ((m : K) / ((m + n : ℕ) : K)) x).2
+      (by
+        rcases hcrit with hzero | hone | hratio
+        · exact Or.inl hzero
+        · exact Or.inr (Or.inr hone)
+        · exact Or.inr (Or.inl hratio))
+
+end MochizukiLemma21
+
 /-- A polynomial separation step whose selected affine target avoids the branch
 triple `{0,1,infinity}` on the linear projective line. -/
 structure P1PolynomialSeparationStep (S : Set E) (β : E)
