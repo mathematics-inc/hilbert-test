@@ -211,6 +211,33 @@ theorem iUnion_pi_projection_image_subset_of_forall
   rcases hyi with ⟨x, hx, rfl⟩
   exact hK i x hx j
 
+/-- A finite family of compact subsets of a product determines compact
+coordinatewise projection sets `H_j`; if every product point is coordinatewise
+inside prescribed target subsets `A_j`, then each `H_j` is contained in `A_j`,
+and every point in the original compact pieces has all coordinates in the
+corresponding `H_j`.  This packages the construction of the compact sets `H_v`
+in Mochizuki Corollary 3.2. -/
+theorem exists_compact_coordinate_projection_unions
+    {ι κ : Type*} [Finite ι] {Z : κ → Type*}
+    [∀ j, TopologicalSpace (Z j)]
+    (K : ι → Set ((j : κ) → Z j))
+    (hK : ∀ i, IsCompact (K i))
+    (A : (j : κ) → Set (Z j))
+    (hKA : ∀ i x, x ∈ K i → ∀ j, x j ∈ A j) :
+    ∃ H : (j : κ) → Set (Z j),
+      (∀ j, IsCompact (H j)) ∧
+        (∀ j, H j ⊆ A j) ∧
+          ∀ i x, x ∈ K i → ∀ j, x j ∈ H j := by
+  refine
+    ⟨fun j => ⋃ i, (fun x : (l : κ) → Z l => x j) '' K i,
+      ?_, ?_, ?_⟩
+  · intro j
+    exact compact_iUnion_pi_projection_image K hK j
+  · intro j
+    exact iUnion_pi_projection_image_subset_of_forall K A hKA j
+  · intro i x hx j
+    exact Set.mem_iUnion.mpr ⟨i, ⟨x, hx, rfl⟩⟩
+
 /-- Products of compact spaces are compact in Mathlib's product topology. -/
 theorem compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
