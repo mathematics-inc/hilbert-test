@@ -9679,6 +9679,13 @@ theorem hilbert_mochizukiPolynomial_derivative_factor
         (Polynomial.C ((m + n : ℕ) : R) * Polynomial.X - Polynomial.C (m : R)) := by
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_factor R m n hm hn
 
+theorem hilbert_mochizukiPolynomial_derivative_ne_zero
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative ≠ 0 := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_ne_zero
+    K m n hm hn
+
 theorem hilbert_mochizukiPolynomial_derivative_aeval
     (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
     Polynomial.aeval x (SourceStack.PolynomialMaps.mochizukiPolynomial K m n).derivative =

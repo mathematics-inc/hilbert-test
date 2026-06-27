@@ -287,6 +287,27 @@ theorem mochizukiPolynomial_derivative_factor
   rw [Polynomial.C_1]
   ring_nf
 
+/-- The derivative in Mochizuki's Lemma 2.1 is a nonzero polynomial in
+characteristic zero when both exponents are positive. -/
+theorem mochizukiPolynomial_derivative_ne_zero
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (mochizukiPolynomial K m n).derivative ≠ 0 := by
+  rw [mochizukiPolynomial_derivative_factor K m n hm hn]
+  have hX : (Polynomial.X : K[X]) ^ (m - 1) ≠ 0 := by
+    exact pow_ne_zero _ Polynomial.X_ne_zero
+  have hY : ((Polynomial.X : K[X]) - Polynomial.C (1 : K)) ^ (n - 1) ≠ 0 := by
+    exact pow_ne_zero _ (Polynomial.X_sub_C_ne_zero (1 : K))
+  have hlin :
+      Polynomial.C ((m + n : ℕ) : K) * Polynomial.X - Polynomial.C (m : K) ≠ 0 := by
+    intro hzero
+    have hcoeff := congrArg (fun p : K[X] => p.coeff 1) hzero
+    have hmn_ne : (m : K) + (n : K) ≠ 0 := by
+      exact_mod_cast (show m + n ≠ 0 by omega)
+    simp at hcoeff
+    exact hmn_ne hcoeff
+  exact mul_ne_zero (mul_ne_zero hX hY) hlin
+
 /-- Evaluated derivative factorization for Mochizuki's Lemma 2.1 polynomial. -/
 theorem mochizukiPolynomial_derivative_aeval
     (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
