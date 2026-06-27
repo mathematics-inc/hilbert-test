@@ -531,6 +531,21 @@ theorem mochizukiPolynomial_real_aeval_ne_of_mem_Icc_of_two_le
     simpa [h] using hα_le
   nlinarith
 
+/-- Lemma 2.1(c) tail separation under the paper's ratio hypothesis:
+if `α > 1` and `C <= β / α` for `C >= 2`, then `f(α) != f(β)`. -/
+theorem mochizukiPolynomial_real_aeval_ne_of_one_lt_of_two_le_ratio
+    (m n : ℕ) (hm : 0 < m) {α β C : ℝ}
+    (hα : 1 < α) (hC : 2 ≤ C) (hratio : C ≤ β / α) :
+    Polynomial.aeval α (mochizukiPolynomial ℝ m n) ≠
+      Polynomial.aeval β (mochizukiPolynomial ℝ m n) := by
+  have hratio_gt_one : 1 < β / α := by nlinarith
+  have hαβ : α < β := by
+    have hα_pos : 0 < α := lt_trans zero_lt_one hα
+    rw [lt_div_iff₀ hα_pos] at hratio_gt_one
+    simpa using hratio_gt_one
+  exact ne_of_lt (mochizukiPolynomial_real_aeval_lt_of_one_lt_of_lt
+    m n hm hα hαβ)
+
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
 `0`, `1`, or `m/(m+n)`. -/
