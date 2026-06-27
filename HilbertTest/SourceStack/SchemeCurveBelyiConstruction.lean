@@ -223,6 +223,23 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
       K V D.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub
 
+/-- Direct curve-style finite-complement-open finite-set Belyi-open consequence
+for section-controlled finite marked Belyi data. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      K V D.toFiniteMarkedBelyiExistence hU hUne hT hTsub
+
 /-- Direct pointwise tuple-cover consequence for section-controlled finite
 marked Belyi data. -/
 theorem pointwise_cover_complement
