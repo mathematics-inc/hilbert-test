@@ -469,6 +469,19 @@ theorem exists_p1ReductionExistence
     ⟨s1, hnc, haux⟩
   exact haux
 
+/-- The indexed cohomological reduction-source package gives the paper-facing
+finite marked Belyi existence interface after forgetting the intermediate
+reduction family. -/
+theorem exists_finiteMarkedBelyiExistence
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ E : FiniteMarkedBelyiExistence K (ReductionIndex C) C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  rcases D.exists_p1ReductionExistence with ⟨E, hE⟩
+  exact
+    ⟨E.toFiniteMarkedBelyiExistence,
+      hE⟩
+
 end CohomologicalP1ReductionSourceData
 
 end SchemeReductionSource

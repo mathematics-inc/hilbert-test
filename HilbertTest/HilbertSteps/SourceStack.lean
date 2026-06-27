@@ -2883,6 +2883,16 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_p1ReductionExistence
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_p1ReductionExistence
       D
 
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_finiteMarkedBelyiExistence
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ E : FiniteMarkedBelyiExistence K (ReductionIndex C) C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_finiteMarkedBelyiExistence
+      D
+
 end CurveCohomologySections
 
 section ComplexSeparation
