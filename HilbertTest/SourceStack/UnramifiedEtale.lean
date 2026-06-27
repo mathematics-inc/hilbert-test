@@ -40,6 +40,29 @@ theorem formallyUnramified_iff_comp_injective
             (A →ₐ[R] B) → A →ₐ[R] B ⧸ I) :=
   Algebra.FormallyUnramified.iff_comp_injective
 
+/-- Formal unramifiedness gives uniqueness of lifts across nilpotent ideals. -/
+theorem formallyUnramified_lift_unique
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    {B : Type w} [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (I : Ideal B) (hI : IsNilpotent I) (g₁ g₂ : A →ₐ[R] B)
+    (h : (Ideal.Quotient.mkₐ R I).comp g₁ =
+      (Ideal.Quotient.mkₐ R I).comp g₂) :
+    g₁ = g₂ :=
+  Algebra.FormallyUnramified.lift_unique I hI g₁ g₂ h
+
+/-- Pointwise form of uniqueness of lifts across nilpotent ideals. -/
+theorem formallyUnramified_ext
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    {B : Type w} [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (I : Ideal B) (hI : IsNilpotent I) {g₁ g₂ : A →ₐ[R] B}
+    (H : ∀ x, Ideal.Quotient.mk I (g₁ x) = Ideal.Quotient.mk I (g₂ x)) :
+    g₁ = g₂ :=
+  Algebra.FormallyUnramified.ext I hI H
+
 /-- Formal unramifiedness is stable under composition. -/
 theorem formallyUnramified_comp
     (R : Type u) [CommRing R]

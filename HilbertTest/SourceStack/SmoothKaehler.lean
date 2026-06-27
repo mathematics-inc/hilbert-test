@@ -276,6 +276,57 @@ theorem kaehler_finite
     Module.Finite S (Ω[S⁄R]) :=
   inferInstance
 
+/-- The universal derivation generates the Kähler differentials as a module. -/
+theorem kaehler_span_range_derivation
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S] :
+    Submodule.span S (Set.range <| KaehlerDifferential.D R S) = ⊤ :=
+  KaehlerDifferential.span_range_derivation R S
+
+/-- A surjective algebra map has trivial Kähler differentials. -/
+theorem kaehler_subsingleton_of_surjective
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
+    (h : Function.Surjective (algebraMap R S)) :
+    Subsingleton (Ω[S⁄R]) :=
+  KaehlerDifferential.subsingleton_of_surjective (R := R) (S := S) h
+
+/-- Any derivation factors through the universal Kähler differential. -/
+theorem derivation_liftKaehlerDifferential_comp
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (D : Derivation R S M) :
+    D.liftKaehlerDifferential.compDer (KaehlerDifferential.D R S) = D :=
+  Derivation.liftKaehlerDifferential_comp D
+
+/-- Pointwise form of the factorization of a derivation through Kähler differentials. -/
+theorem derivation_liftKaehlerDifferential_comp_D
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (D : Derivation R S M) (x : S) :
+    D.liftKaehlerDifferential (KaehlerDifferential.D R S x) = D x :=
+  Derivation.liftKaehlerDifferential_comp_D D x
+
+/-- A linear map out of Kähler differentials is determined by its composite with
+the universal derivation. -/
+theorem derivation_liftKaehlerDifferential_unique
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (f f' : Ω[S⁄R] →ₗ[S] M)
+    (hf : f.compDer (KaehlerDifferential.D R S) =
+      f'.compDer (KaehlerDifferential.D R S)) :
+    f = f' :=
+  Derivation.liftKaehlerDifferential_unique f f' hf
+
+/-- Kähler differentials corepresent derivations. -/
+theorem kaehler_linearMapEquivDerivation_nonempty
+    (R : Type u) (S : Type v) (M : Type w)
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M] :
+    Nonempty ((Ω[S⁄R] →ₗ[S] M) ≃ₗ[S] Derivation R S M) :=
+  ⟨KaehlerDifferential.linearMapEquivDerivation R S⟩
+
 /-- Kähler differentials of a polynomial algebra are equivalent to the
 polynomial algebra itself. -/
 theorem kaehler_polynomialEquiv

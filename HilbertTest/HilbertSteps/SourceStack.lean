@@ -10996,6 +10996,27 @@ theorem hilbert_formallyUnramified_iff_comp_injective
             (A →ₐ[R] B) → A →ₐ[R] B ⧸ I) := by
   exact SourceStack.UnramifiedEtale.formallyUnramified_iff_comp_injective R A
 
+theorem hilbert_formallyUnramified_lift_unique
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    {B : Type w} [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (I : Ideal B) (hI : IsNilpotent I) (g₁ g₂ : A →ₐ[R] B)
+    (h : (Ideal.Quotient.mkₐ R I).comp g₁ =
+      (Ideal.Quotient.mkₐ R I).comp g₂) :
+    g₁ = g₂ := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_lift_unique I hI g₁ g₂ h
+
+theorem hilbert_formallyUnramified_ext
+    {R : Type u} [CommRing R]
+    {A : Type v} [CommRing A] [Algebra R A]
+    {B : Type w} [CommRing B] [Algebra R B]
+    [Algebra.FormallyUnramified R A]
+    (I : Ideal B) (hI : IsNilpotent I) {g₁ g₂ : A →ₐ[R] B}
+    (H : ∀ x, Ideal.Quotient.mk I (g₁ x) = Ideal.Quotient.mk I (g₂ x)) :
+    g₁ = g₂ := by
+  exact SourceStack.UnramifiedEtale.formallyUnramified_ext I hI H
+
 theorem hilbert_formallyUnramified_comp
     (R : Type u) [CommRing R]
     (A : Type v) [CommRing A] [Algebra R A]
@@ -12581,6 +12602,50 @@ theorem hilbert_kaehler_finite
     [Algebra.EssFiniteType R S] :
     Module.Finite S (Ω[S⁄R]) := by
   exact SourceStack.SmoothKaehler.kaehler_finite R S
+
+theorem hilbert_kaehler_span_range_derivation
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S] :
+    Submodule.span S (Set.range <| KaehlerDifferential.D R S) = ⊤ := by
+  exact SourceStack.SmoothKaehler.kaehler_span_range_derivation R S
+
+theorem hilbert_kaehler_subsingleton_of_surjective
+    (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
+    (h : Function.Surjective (algebraMap R S)) :
+    Subsingleton (Ω[S⁄R]) := by
+  exact SourceStack.SmoothKaehler.kaehler_subsingleton_of_surjective R S h
+
+theorem hilbert_derivation_liftKaehlerDifferential_comp
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (D : Derivation R S M) :
+    D.liftKaehlerDifferential.compDer (KaehlerDifferential.D R S) = D := by
+  exact SourceStack.SmoothKaehler.derivation_liftKaehlerDifferential_comp D
+
+theorem hilbert_derivation_liftKaehlerDifferential_comp_D
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (D : Derivation R S M) (x : S) :
+    D.liftKaehlerDifferential (KaehlerDifferential.D R S x) = D x := by
+  exact SourceStack.SmoothKaehler.derivation_liftKaehlerDifferential_comp_D D x
+
+theorem hilbert_derivation_liftKaehlerDifferential_unique
+    {R : Type u} {S : Type v} {M : Type w}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    (f f' : Ω[S⁄R] →ₗ[S] M)
+    (hf : f.compDer (KaehlerDifferential.D R S) =
+      f'.compDer (KaehlerDifferential.D R S)) :
+    f = f' := by
+  exact SourceStack.SmoothKaehler.derivation_liftKaehlerDifferential_unique f f' hf
+
+theorem hilbert_kaehler_linearMapEquivDerivation_nonempty
+    (R : Type u) (S : Type v) (M : Type w)
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M] :
+    Nonempty ((Ω[S⁄R] →ₗ[S] M) ≃ₗ[S] Derivation R S M) := by
+  exact SourceStack.SmoothKaehler.kaehler_linearMapEquivDerivation_nonempty R S M
 
 theorem hilbert_kaehler_polynomialEquiv
     (R : Type u) [CommRing R] :
