@@ -30,6 +30,17 @@ universe u v
 variable (F : Type u) (K : Type v)
 variable [Field F] [Field K] [Algebra F K]
 
+/-- Scheme-carrier form of the Mochizuki four-point cardinality statement:
+`{0, m/(m+n), 1, infinity}` has cardinality four. -/
+theorem schemeMochizukiFourPointFinset_card
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).card = 4 := by
+  exact SchemeAffineLinePoints.schemeFourPointFinset_card K
+    (PolynomialMaps.mochizukiRatio_ne_zero K m n hm hn)
+    (PolynomialMaps.mochizukiRatio_ne_one K m n hm hn)
+
 /-- The concrete scheme-carrier polynomial point map `x |-> [p(x):1]`. -/
 def concreteSchemePolynomialPointMap (p : F[X]) (x : K) :
     SchemeProjectiveLine.P1 K :=

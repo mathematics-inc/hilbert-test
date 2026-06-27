@@ -10539,6 +10539,14 @@ variable [Field F] [Field K] [Algebra F K]
 variable {S : Set K} {β : K}
 variable (P : P1PolynomialSeparationStep F K S β)
 
+theorem hilbert_concretePolynomialSchemeSeparation_schemeMochizukiFourPointFinset_card
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K))).card = 4 := by
+  exact SourceStack.ConcretePolynomialSchemeSeparation.schemeMochizukiFourPointFinset_card
+    K m n hm hn
+
 theorem hilbert_concretePolynomialSchemeSeparation_pointMap_eq_bridge
     (x : K) :
     (concreteLinearSchemePointBridge K).schemePointMap F P x =
