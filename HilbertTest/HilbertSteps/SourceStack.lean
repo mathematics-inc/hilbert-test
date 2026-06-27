@@ -2322,6 +2322,30 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_appl
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData_map_apply
     F s
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    F s x
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (F.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    F s
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    F s
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_eval_zero_to_marked
     (s : V) {x : C} (hx : F.evalPackage.eval x s = 0) :
     (F.map s).hom.base x ∈ markedSchemePointSet K := by
@@ -2625,6 +2649,30 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toProjectiveSecti
     (s : V) :
     TF.toProjectiveSectionFiniteMarkedFamily.map s = TF.map s := by
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (TF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    TF s x
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (TF.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((TF.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
     TF s
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked
@@ -2942,6 +2990,30 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toProjectiv
     (s : V) :
     ITF.toProjectiveSectionFiniteMarkedFamily.map s = ITF.map s := by
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (ITF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    ITF s x
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (ITF.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      ITF.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((ITF.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
     ITF s
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked
@@ -3267,6 +3339,30 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toIsUnit_map
     (s : V) :
     TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = TSF.map s := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (TSF.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    TSF s x
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (TSF.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((TSF.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
     TSF s
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_eval_zero_to_marked

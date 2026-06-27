@@ -1445,6 +1445,33 @@ theorem toSectionControlledFiniteMarkedBelyiData_map_apply
     (s : V) :
     F.toSectionControlledFiniteMarkedBelyiData.map s = F.map s := rfl
 
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_mem_belyiOpen_iff
+      K V F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence s x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (F.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_carrier
+      K V F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence s
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K V F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence s
+
 /-- If a selected projective section evaluates to zero at a point, the
 corresponding finite Belyi map sends that point into the marked branch set. -/
 theorem eval_zero_to_marked
@@ -1827,6 +1854,33 @@ theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
 
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      F.toProjectiveSectionFiniteMarkedFamily s x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (F.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+      F.toProjectiveSectionFiniteMarkedFamily s
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      F.toProjectiveSectionFiniteMarkedFamily s
+
 /-- Pointwise zero-evaluation branch consequence for concrete trivialized-ratio
 finite marked families. -/
 theorem eval_zero_to_marked
@@ -2194,6 +2248,33 @@ def toProjectiveSectionFiniteMarkedFamily :
 theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      F.toProjectiveSectionFiniteMarkedFamily s x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (F.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+      F.toProjectiveSectionFiniteMarkedFamily s
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    ProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      F.toProjectiveSectionFiniteMarkedFamily s
 
 /-- Pointwise zero-evaluation branch consequence for denominator-is-unit
 trivialized finite marked families. -/
@@ -2569,6 +2650,33 @@ def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
 theorem toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily s x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      {x : C | (F.map s).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily s
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily s
 
 /-- Pointwise zero-evaluation branch consequence for canonical two-section
 Bezout finite marked families. -/
