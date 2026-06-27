@@ -111,7 +111,7 @@ theorem compactSpace_elim_finite_subcover
     ∃ t : Finset ι, (Set.univ : Set X) ⊆ ⋃ i ∈ t, U i :=
   isCompact_univ.elim_finite_subcover U hUopen hcover
 
-/-- A compact-space open cover admits a finite subcover written as equality
+/-- A compact-space open cover has a finite subcover written as equality
 with the whole space. -/
 theorem compactSpace_finite_subcover_eq_univ
     [CompactSpace X] (U : ι → Set X)
@@ -278,6 +278,20 @@ theorem compactSpace_pi
     CompactSpace ((i : κ) → Z i) :=
   inferInstance
 
+/-- Finite products of locally compact spaces are locally compact. -/
+theorem locallyCompactSpace_pi_of_finite
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] :
+    LocallyCompactSpace ((i : κ) → Z i) :=
+  inferInstance
+
+/-- Finite products of second-countable spaces are second countable. -/
+theorem secondCountableTopology_pi_of_finite
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, SecondCountableTopology (Z i)] :
+    SecondCountableTopology ((i : κ) → Z i) :=
+  inferInstance
+
 /-- Locally compact second-countable spaces are sigma-compact.  This is the
 countability input behind compact exhaustions in Mochizuki Corollary 3.2. -/
 theorem sigmaCompact_of_locallyCompact_secondCountable
@@ -285,13 +299,37 @@ theorem sigmaCompact_of_locallyCompact_secondCountable
     SigmaCompactSpace X :=
   inferInstance
 
-/-- A locally compact second-countable space admits a compact exhaustion. -/
+/-- A locally compact second-countable space has a compact exhaustion. -/
 theorem compactExhaustion_of_locallyCompact_secondCountable
     [LocallyCompactSpace X] [SecondCountableTopology X] :
     Nonempty (CompactExhaustion X) :=
   ⟨CompactExhaustion.choice X⟩
 
-/-- An open subspace of a locally compact second-countable space admits a
+/-- Finite products of locally compact second-countable spaces have compact
+exhaustions. -/
+theorem compactExhaustion_pi_of_finite_locallyCompact_secondCountable
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] [∀ i, SecondCountableTopology (Z i)] :
+    Nonempty (CompactExhaustion ((i : κ) → Z i)) := by
+  haveI : LocallyCompactSpace ((i : κ) → Z i) :=
+    locallyCompactSpace_pi_of_finite Z
+  haveI : SecondCountableTopology ((i : κ) → Z i) :=
+    secondCountableTopology_pi_of_finite Z
+  exact compactExhaustion_of_locallyCompact_secondCountable
+
+/-- Finite products of locally compact second-countable spaces are
+sigma-compact. -/
+theorem sigmaCompact_pi_of_finite_locallyCompact_secondCountable
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] [∀ i, SecondCountableTopology (Z i)] :
+    SigmaCompactSpace ((i : κ) → Z i) := by
+  haveI : LocallyCompactSpace ((i : κ) → Z i) :=
+    locallyCompactSpace_pi_of_finite Z
+  haveI : SecondCountableTopology ((i : κ) → Z i) :=
+    secondCountableTopology_pi_of_finite Z
+  exact sigmaCompact_of_locallyCompact_secondCountable
+
+/-- An open subspace of a locally compact second-countable space has a
 compact exhaustion.  This packages the topological input used for the open sets
 `U_phi` in Mochizuki Corollary 3.2. -/
 theorem compactExhaustion_of_isOpen_subtype

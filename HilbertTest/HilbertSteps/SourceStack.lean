@@ -3438,6 +3438,18 @@ theorem hilbert_compactSpace_pi
     CompactSpace ((i : κ) → Z i) := by
   exact SourceStack.compactSpace_pi Z
 
+theorem hilbert_locallyCompactSpace_pi_of_finite
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] :
+    LocallyCompactSpace ((i : κ) → Z i) := by
+  exact SourceStack.locallyCompactSpace_pi_of_finite Z
+
+theorem hilbert_secondCountableTopology_pi_of_finite
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, SecondCountableTopology (Z i)] :
+    SecondCountableTopology ((i : κ) → Z i) := by
+  exact SourceStack.secondCountableTopology_pi_of_finite Z
+
 theorem hilbert_sigmaCompact_of_locallyCompact_secondCountable
     [LocallyCompactSpace X] [SecondCountableTopology X] :
     SigmaCompactSpace X := by
@@ -3447,6 +3459,18 @@ theorem hilbert_compactExhaustion_of_locallyCompact_secondCountable
     [LocallyCompactSpace X] [SecondCountableTopology X] :
     Nonempty (CompactExhaustion X) := by
   exact SourceStack.compactExhaustion_of_locallyCompact_secondCountable
+
+theorem hilbert_compactExhaustion_pi_of_finite_locallyCompact_secondCountable
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] [∀ i, SecondCountableTopology (Z i)] :
+    Nonempty (CompactExhaustion ((i : κ) → Z i)) := by
+  exact SourceStack.compactExhaustion_pi_of_finite_locallyCompact_secondCountable Z
+
+theorem hilbert_sigmaCompact_pi_of_finite_locallyCompact_secondCountable
+    {κ : Type*} [Finite κ] (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
+    [∀ i, LocallyCompactSpace (Z i)] [∀ i, SecondCountableTopology (Z i)] :
+    SigmaCompactSpace ((i : κ) → Z i) := by
+  exact SourceStack.sigmaCompact_pi_of_finite_locallyCompact_secondCountable Z
 
 theorem hilbert_compactExhaustion_of_isOpen_subtype
     [LocallyCompactSpace X] [SecondCountableTopology X]
