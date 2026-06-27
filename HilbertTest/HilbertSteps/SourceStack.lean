@@ -10531,6 +10531,12 @@ theorem hilbert_prime_isMaximal_of_dimensionLEOne
     p.IsMaximal := by
   exact SourceStack.DedekindDvr.prime_isMaximal_of_dimensionLEOne hp hne
 
+theorem hilbert_dimensionLEOne_prime_le_prime_iff_eq
+    {R : Type u} [CommRing R] [Ring.DimensionLEOne R]
+    {P Q : Ideal R} [P.IsPrime] [Q.IsPrime] (hP0 : P ≠ ⊥) :
+    P ≤ Q ↔ P = Q := by
+  exact SourceStack.DedekindDvr.dimensionLEOne_prime_le_prime_iff_eq hP0
+
 theorem hilbert_eq_bot_of_prime_lt_prime
     {R : Type u} [CommRing R] [Ring.DimensionLEOne R]
     (p P : Ideal R) [p.IsPrime] [P.IsPrime]
@@ -10604,10 +10610,99 @@ theorem hilbert_dedekindDomainDvr_to_dedekindDomain
     IsDedekindDomain A := by
   exact SourceStack.DedekindDvr.dedekindDomainDvr_to_dedekindDomain A
 
+theorem hilbert_localDedekind_maximalIdeal_isPrincipal
+    (R : Type u) [CommRing R] [IsLocalRing R] [IsDomain R]
+    [IsDedekindDomain R] :
+    (IsLocalRing.maximalIdeal R).IsPrincipal := by
+  exact SourceStack.DedekindDvr.localDedekind_maximalIdeal_isPrincipal R
+
+theorem hilbert_localRing_exists_maximalIdeal_pow_eq_of_principal
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [IsDomain R]
+    (h' : (IsLocalRing.maximalIdeal R).IsPrincipal)
+    (I : Ideal R) (hI : I ≠ ⊥) :
+    ∃ n : ℕ, I = IsLocalRing.maximalIdeal R ^ n := by
+  exact SourceStack.DedekindDvr.localRing_exists_maximalIdeal_pow_eq_of_principal R h' I hI
+
+theorem hilbert_heightOneSpectrum_prime
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Prime v.asIdeal := by
+  exact SourceStack.DedekindDvr.heightOneSpectrum_prime v
+
+theorem hilbert_heightOneSpectrum_irreducible
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Irreducible v.asIdeal := by
+  exact SourceStack.DedekindDvr.heightOneSpectrum_irreducible v
+
+theorem hilbert_heightOneSpectrum_associates_irreducible
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Irreducible (Associates.mk v.asIdeal) := by
+  exact SourceStack.DedekindDvr.heightOneSpectrum_associates_irreducible v
+
+theorem hilbert_ideal_pow_right_strictAnti
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) :
+    StrictAnti fun n : ℕ => I ^ n := by
+  exact SourceStack.DedekindDvr.ideal_pow_right_strictAnti I hI0 hI1
+
+theorem hilbert_ideal_pow_lt_self
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) (e : ℕ) (he : 2 ≤ e) :
+    I ^ e < I := by
+  exact SourceStack.DedekindDvr.ideal_pow_lt_self I hI0 hI1 e he
+
+theorem hilbert_ideal_exists_mem_pow_not_mem_pow_succ
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) (e : ℕ) :
+    ∃ x ∈ I ^ e, x ∉ I ^ (e + 1) := by
+  exact SourceStack.DedekindDvr.ideal_exists_mem_pow_not_mem_pow_succ I hI0 hI1 e
+
+theorem hilbert_ideal_eq_prime_pow_of_succ_lt_of_le
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    {P I : Ideal A} [P.IsPrime] (hP : P ≠ ⊥)
+    {i : ℕ} (hlt : P ^ (i + 1) < I) (hle : I ≤ P ^ i) :
+    I = P ^ i := by
+  exact SourceStack.DedekindDvr.ideal_eq_prime_pow_of_succ_lt_of_le hP hlt hle
+
+theorem hilbert_prime_mul_mem_pow
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (I : Ideal R) [I.IsPrime] {a b : R} {n : ℕ}
+    (h : a * b ∈ I ^ n) :
+    a ∈ I ∨ b ∈ I ^ n := by
+  exact SourceStack.DedekindDvr.prime_mul_mem_pow I h
+
+theorem hilbert_prime_mem_pow_mul
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (I : Ideal R) [I.IsPrime] {a b : R} {n : ℕ}
+    (h : a * b ∈ I ^ n) :
+    a ∈ I ^ n ∨ b ∈ I := by
+  exact SourceStack.DedekindDvr.prime_mem_pow_mul I h
+
+theorem hilbert_ideal_count_normalizedFactors_eq
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    {p x : Ideal R} [p.IsPrime] {n : ℕ}
+    (hle : x ≤ p ^ n) [DecidableEq (Ideal R)] (hlt : ¬ x ≤ p ^ (n + 1)) :
+    Multiset.count p (UniqueFactorizationMonoid.normalizedFactors x) = n := by
+  exact SourceStack.DedekindDvr.ideal_count_normalizedFactors_eq hle hlt
+
+theorem hilbert_dvr_maximalIdeal_ne_bot
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    IsLocalRing.maximalIdeal R ≠ ⊥ := by
+  exact SourceStack.DedekindDvr.dvr_maximalIdeal_ne_bot R
+
 theorem hilbert_dvr_not_isField
     (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
     ¬ IsField R := by
   exact SourceStack.DedekindDvr.dvr_not_isField R
+
+theorem hilbert_irreducible_of_span_eq_maximalIdeal
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsDomain R]
+    (ϖ : R) (hϖ : ϖ ≠ 0)
+    (h : IsLocalRing.maximalIdeal R = Ideal.span {ϖ}) :
+    Irreducible ϖ := by
+  exact SourceStack.DedekindDvr.irreducible_of_span_eq_maximalIdeal ϖ hϖ h
 
 theorem hilbert_irreducible_iff_uniformizer
     {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
@@ -10660,6 +10755,40 @@ theorem hilbert_ideal_eq_span_pow_irreducible
     {I : Ideal R} (hI : I ≠ ⊥) {ϖ : R} (hϖ : Irreducible ϖ) :
     ∃ n : ℕ, I = Ideal.span {ϖ ^ n} := by
   exact SourceStack.DedekindDvr.ideal_eq_span_pow_irreducible hI hϖ
+
+theorem hilbert_unit_mul_pow_congr_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {p q : R} (hp : Irreducible p) (hq : Irreducible q)
+    (u v : Rˣ) (m n : ℕ)
+    (h : (u : R) * p ^ m = (v : R) * q ^ n) :
+    m = n := by
+  exact SourceStack.DedekindDvr.unit_mul_pow_congr_pow hp hq u v m n h
+
+theorem hilbert_unit_mul_pow_congr_unit
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {ϖ : R} (hϖ : Irreducible ϖ) (u v : Rˣ) (m n : ℕ)
+    (h : (u : R) * ϖ ^ m = (v : R) * ϖ ^ n) :
+    u = v := by
+  exact SourceStack.DedekindDvr.unit_mul_pow_congr_unit hϖ u v m n h
+
+theorem hilbert_addVal_def_unit_mul_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (r : R) (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ)
+    (hr : r = (u : R) * ϖ ^ n) :
+    IsDiscreteValuationRing.addVal R r = n := by
+  exact SourceStack.DedekindDvr.addVal_def_unit_mul_pow r u hϖ n hr
+
+theorem hilbert_addVal_unit_mul_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) :
+    IsDiscreteValuationRing.addVal R ((u : R) * ϖ ^ n) = n := by
+  exact SourceStack.DedekindDvr.addVal_unit_mul_pow u hϖ n
+
+theorem hilbert_irreducible_addVal_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) :
+    IsDiscreteValuationRing.addVal R (ϖ ^ n) = n := by
+  exact SourceStack.DedekindDvr.irreducible_addVal_pow hϖ n
 
 theorem hilbert_addVal_zero
     {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :

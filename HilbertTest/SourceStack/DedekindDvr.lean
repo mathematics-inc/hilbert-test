@@ -1,5 +1,7 @@
 import Mathlib.RingTheory.DedekindDomain.Dvr
+import Mathlib.RingTheory.DedekindDomain.Ideal
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
+import Mathlib.RingTheory.DiscreteValuationRing.TFAE
 
 /-!
 Dedekind-domain and DVR source wrappers.
@@ -29,6 +31,13 @@ theorem prime_isMaximal_of_dimensionLEOne
     {p : Ideal R} (hp : p.IsPrime) (hne : p ≠ ⊥) :
     p.IsMaximal :=
   hp.isMaximal hne
+
+/-- In dimension `≤ 1`, a nonzero prime contained in a prime is equal to it. -/
+theorem dimensionLEOne_prime_le_prime_iff_eq
+    {R : Type u} [CommRing R] [Ring.DimensionLEOne R]
+    {P Q : Ideal R} [P.IsPrime] [Q.IsPrime] (hP0 : P ≠ ⊥) :
+    P ≤ Q ↔ P = Q :=
+  Ring.DimensionLeOne.prime_le_prime_iff_eq hP0
 
 /-- A strict inclusion between prime ideals in dimension `≤ 1` starts at `⊥`. -/
 theorem eq_bot_of_prime_lt_prime
@@ -118,15 +127,129 @@ theorem dedekindDomainDvr_to_dedekindDomain
     IsDedekindDomain A :=
   IsDedekindDomainDvr.isDedekindDomain A
 
+/-- The maximal ideal of a local Dedekind domain is principal. -/
+theorem localDedekind_maximalIdeal_isPrincipal
+    (R : Type u) [CommRing R] [IsLocalRing R] [IsDomain R]
+    [IsDedekindDomain R] :
+    (IsLocalRing.maximalIdeal R).IsPrincipal :=
+  maximalIdeal_isPrincipal_of_isDedekindDomain R
+
+/-- If the maximal ideal of a noetherian local domain is principal, every
+nonzero ideal is a power of the maximal ideal. -/
+theorem localRing_exists_maximalIdeal_pow_eq_of_principal
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [IsDomain R]
+    (h' : (IsLocalRing.maximalIdeal R).IsPrincipal)
+    (I : Ideal R) (hI : I ≠ ⊥) :
+    ∃ n : ℕ, I = IsLocalRing.maximalIdeal R ^ n :=
+  exists_maximalIdeal_pow_eq_of_principal R h' I hI
+
+/-- A height-one prime ideal in a Dedekind domain is prime in the ideal
+monoid. -/
+theorem heightOneSpectrum_prime
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Prime v.asIdeal :=
+  IsDedekindDomain.HeightOneSpectrum.prime v
+
+/-- A height-one prime ideal in a Dedekind domain is irreducible in the ideal
+monoid. -/
+theorem heightOneSpectrum_irreducible
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Irreducible v.asIdeal :=
+  IsDedekindDomain.HeightOneSpectrum.irreducible v
+
+/-- A height-one prime ideal gives an irreducible associate class. -/
+theorem heightOneSpectrum_associates_irreducible
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (v : IsDedekindDomain.HeightOneSpectrum R) :
+    Irreducible (Associates.mk v.asIdeal) :=
+  IsDedekindDomain.HeightOneSpectrum.associates_irreducible v
+
+/-- Powers of a nonzero proper ideal in a Dedekind domain are strictly
+decreasing. -/
+theorem ideal_pow_right_strictAnti
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) :
+    StrictAnti fun n : ℕ => I ^ n :=
+  Ideal.pow_right_strictAnti I hI0 hI1
+
+/-- A sufficiently large power of a nonzero proper ideal is strictly contained
+in the ideal. -/
+theorem ideal_pow_lt_self
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) (e : ℕ) (he : 2 ≤ e) :
+    I ^ e < I :=
+  Ideal.pow_lt_self I hI0 hI1 e he
+
+/-- Each ideal-power layer of a nonzero proper ideal has an element not in the
+next layer. -/
+theorem ideal_exists_mem_pow_not_mem_pow_succ
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    (I : Ideal A) (hI0 : I ≠ ⊥) (hI1 : I ≠ ⊤) (e : ℕ) :
+    ∃ x ∈ I ^ e, x ∉ I ^ (e + 1) :=
+  Ideal.exists_mem_pow_not_mem_pow_succ I hI0 hI1 e
+
+/-- If an ideal is squeezed between successive powers of a nonzero prime, it is
+the upper power. -/
+theorem ideal_eq_prime_pow_of_succ_lt_of_le
+    {A : Type u} [CommRing A] [IsDedekindDomain A]
+    {P I : Ideal A} [P.IsPrime] (hP : P ≠ ⊥)
+    {i : ℕ} (hlt : P ^ (i + 1) < I) (hle : I ≤ P ^ i) :
+    I = P ^ i :=
+  Ideal.eq_prime_pow_of_succ_lt_of_le hP hlt hle
+
+/-- For a prime ideal in a Dedekind domain, product membership in a prime power
+forces one factor into the prime or the other into the same power. -/
+theorem prime_mul_mem_pow
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (I : Ideal R) [I.IsPrime] {a b : R} {n : ℕ}
+    (h : a * b ∈ I ^ n) :
+    a ∈ I ∨ b ∈ I ^ n :=
+  Ideal.IsPrime.mul_mem_pow I h
+
+/-- Symmetric product-membership form for a prime-power ideal in a Dedekind
+domain. -/
+theorem prime_mem_pow_mul
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    (I : Ideal R) [I.IsPrime] {a b : R} {n : ℕ}
+    (h : a * b ∈ I ^ n) :
+    a ∈ I ^ n ∨ b ∈ I :=
+  Ideal.IsPrime.mem_pow_mul I h
+
+/-- A normalized-factor count is determined by containment in one prime power
+but not the next. -/
+theorem ideal_count_normalizedFactors_eq
+    {R : Type u} [CommRing R] [IsDedekindDomain R]
+    {p x : Ideal R} [p.IsPrime] {n : ℕ}
+    (hle : x ≤ p ^ n) [DecidableEq (Ideal R)] (hlt : ¬ x ≤ p ^ (n + 1)) :
+    Multiset.count p (UniqueFactorizationMonoid.normalizedFactors x) = n :=
+  Ideal.count_normalizedFactors_eq hle hlt
+
 end Dedekind
 
 section DVR
+
+/-- The maximal ideal of a DVR is nonzero. -/
+theorem dvr_maximalIdeal_ne_bot
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    IsLocalRing.maximalIdeal R ≠ ⊥ :=
+  IsDiscreteValuationRing.not_a_field R
 
 /-- A DVR is not a field. -/
 theorem dvr_not_isField
     (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
     ¬ IsField R :=
   IsDiscreteValuationRing.not_isField R
+
+/-- In a local domain, a nonzero generator of the maximal ideal is
+irreducible. -/
+theorem irreducible_of_span_eq_maximalIdeal
+    {R : Type u} [CommRing R] [IsLocalRing R] [IsDomain R]
+    (ϖ : R) (hϖ : ϖ ≠ 0)
+    (h : IsLocalRing.maximalIdeal R = Ideal.span {ϖ}) :
+    Irreducible ϖ :=
+  IsDiscreteValuationRing.irreducible_of_span_eq_maximalIdeal ϖ hϖ h
 
 /-- In a DVR, an element is a uniformizer iff it generates the maximal ideal. -/
 theorem irreducible_iff_uniformizer
@@ -188,6 +311,47 @@ theorem ideal_eq_span_pow_irreducible
     {I : Ideal R} (hI : I ≠ ⊥) {ϖ : R} (hϖ : Irreducible ϖ) :
     ∃ n : ℕ, I = Ideal.span {ϖ ^ n} :=
   IsDiscreteValuationRing.ideal_eq_span_pow_irreducible hI hϖ
+
+/-- Unit-times-uniformizer-power decompositions have the same exponent. -/
+theorem unit_mul_pow_congr_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {p q : R} (hp : Irreducible p) (hq : Irreducible q)
+    (u v : Rˣ) (m n : ℕ)
+    (h : (u : R) * p ^ m = (v : R) * q ^ n) :
+    m = n :=
+  IsDiscreteValuationRing.unit_mul_pow_congr_pow hp hq u v m n h
+
+/-- Unit-times-powers of the same uniformizer have the same unit coefficient. -/
+theorem unit_mul_pow_congr_unit
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {ϖ : R} (hϖ : Irreducible ϖ) (u v : Rˣ) (m n : ℕ)
+    (h : (u : R) * ϖ ^ m = (v : R) * ϖ ^ n) :
+    u = v :=
+  IsDiscreteValuationRing.unit_mul_pow_congr_unit hϖ u v m n h
+
+/-- The DVR additive valuation reads off the exponent in a
+unit-times-uniformizer-power expression. -/
+theorem addVal_def_unit_mul_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (r : R) (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ)
+    (hr : r = (u : R) * ϖ ^ n) :
+    IsDiscreteValuationRing.addVal R r = n :=
+  IsDiscreteValuationRing.addVal_def r u hϖ n hr
+
+/-- The DVR additive valuation of a unit times a uniformizer power is the
+power. -/
+theorem addVal_unit_mul_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (u : Rˣ) {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) :
+    IsDiscreteValuationRing.addVal R ((u : R) * ϖ ^ n) = n :=
+  IsDiscreteValuationRing.addVal_def' u hϖ n
+
+/-- The DVR additive valuation of a uniformizer power is the exponent. -/
+theorem irreducible_addVal_pow
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {ϖ : R} (hϖ : Irreducible ϖ) (n : ℕ) :
+    IsDiscreteValuationRing.addVal R (ϖ ^ n) = n :=
+  hϖ.addVal_pow n
 
 /-- The DVR additive valuation sends zero to top. -/
 theorem addVal_zero
