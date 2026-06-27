@@ -686,6 +686,54 @@ theorem toFiniteMarkedBelyiExistence_map_apply
     (i : ReductionIndex C) :
     E.toFiniteMarkedBelyiExistence.map i = E.map i := rfl
 
+theorem toFiniteMarkedBelyiExistence_finite_hom
+    (i : ReductionIndex C) :
+    IsFinite (E.toFiniteMarkedBelyiExistence.map i).hom :=
+  SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_hom
+    K (ReductionIndex C) E.toFiniteMarkedBelyiExistence i
+
+theorem map_finite_hom
+    (i : ReductionIndex C) :
+    IsFinite (E.map i).hom := by
+  rw [← E.toFiniteMarkedBelyiExistence_map_apply i]
+  exact E.toFiniteMarkedBelyiExistence_finite_hom i
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    (i : ReductionIndex C) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i ↔
+        (E.map i).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.mem_belyiOpen_iff
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence i x
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i =
+        {x : C | (E.map i).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpen_carrier
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence i
+
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i =
+        ((E.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpen_eq_schemeBelyi
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence i
+
+theorem toFiniteMarkedBelyiExistence_toNoncritical_belyiOpen_eq_schemeBelyi
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i =
+        ((E.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K (ReductionIndex C) E.toFiniteMarkedBelyiExistence i
+
 /-- Direct finite disjoint-set conclusion from a reduction family. -/
 theorem exists_for_finite_disjoint
     {S T : Set C} (hS : S.Finite) (hT : T.Finite)

@@ -1292,6 +1292,53 @@ theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_map_apply
   exact SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_map_apply
     E i
 
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_finite_hom
+    (i : ReductionIndex C) :
+    IsFinite (E.toFiniteMarkedBelyiExistence.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_finite_hom
+    E i
+
+theorem hilbert_p1ReductionExistence_map_finite_hom
+    (i : ReductionIndex C) :
+    IsFinite (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_finite_hom E i
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    (i : ReductionIndex C) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i ↔
+        (E.map i).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      E i x
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_belyiOpen_carrier
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i =
+        {x : C | (E.map i).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_belyiOpen_carrier
+      E i
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).belyiOpen i =
+        ((E.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      E i
+
+theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_toNoncritical_belyiOpen_eq_schemeBelyi
+    (i : ReductionIndex C) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K
+      (ReductionIndex C) E.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen i =
+        ((E.map i).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.toFiniteMarkedBelyiExistence_toNoncritical_belyiOpen_eq_schemeBelyi
+      E i
+
 theorem hilbert_p1ReductionExistence_exists_for_finite_disjoint
     {S T : Set C} (hS : S.Finite) (hT : T.Finite)
     (hdis : Disjoint S T) :
@@ -7625,6 +7672,11 @@ theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_branch :
   exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_branch
     K hmarkedOpen φfin
 
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_branch_finite :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).branch.Finite := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_branch_finite
+    K hmarkedOpen φfin
+
 theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_isFinite_hom :
     IsFinite φfin.hom := by
   exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_isFinite_hom
@@ -7636,6 +7688,19 @@ theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_map_apply
       φfin.hom.base x := by
   exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_map_apply
     K hmarkedOpen φfin x
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
+    (x : C) :
+    x ∈ (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () ↔
+      φfin.hom.base x ∉ markedSchemePointSet K := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
+    K hmarkedOpen φfin x
+
+theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_belyiOpen_carrier :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () =
+      {x : C | φfin.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeMarkedBelyi.finiteSchemeBelyiMapMarkedCoverData_belyiOpen_carrier
+    K hmarkedOpen φfin
 
 theorem hilbert_finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
     (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () =
@@ -7667,6 +7732,13 @@ theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_branch :
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_branch
     K Φ F
 
+theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_toBelyiCoverData_eq_toMarkedCoverData :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData =
+      FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_toBelyiCoverData_eq_toMarkedCoverData
+      K Φ F
+
 theorem hilbert_finiteMarkedBelyiExistence_map_apply
     (φ : Φ) (x : C) :
     (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).map φ x =
@@ -7687,6 +7759,29 @@ theorem hilbert_finiteMarkedBelyiExistence_mem_belyiOpen_iff
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.mem_belyiOpen_iff
     K Φ F φ x
 
+theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_mem_belyiOpen_iff
+    (φ : Φ) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ ↔
+      (F.map φ).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_mem_belyiOpen_iff
+      K Φ F φ x
+
+theorem hilbert_finiteMarkedBelyiExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).belyiOpen φ =
+      {x : C | (F.map φ).hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpen_carrier
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ =
+      {x : C | (F.map φ).hom.base x ∉ markedSchemePointSet K} := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_carrier
+      K Φ F φ
+
 theorem hilbert_finiteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
     (φ : Φ) :
     (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).belyiOpen φ =
@@ -7694,11 +7789,26 @@ theorem hilbert_finiteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpen_eq_schemeBelyi
     K Φ F φ
 
+theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+    (φ : Φ) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ =
+      ((F.map φ).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K Φ F φ
+
 theorem hilbert_finiteMarkedBelyiExistence_belyiOpen_isOpen
     (φ : Φ) :
     IsOpen ((FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).belyiOpen φ) := by
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.belyiOpen_isOpen
     K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_toMarkedNoncriticalExistence_belyiOpen_isOpen
+    (φ : Φ) :
+    IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_isOpen
+      K Φ F φ
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_complement
     [T1Space (P1 K)]

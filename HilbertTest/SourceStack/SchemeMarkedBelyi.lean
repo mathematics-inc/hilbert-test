@@ -1250,6 +1250,10 @@ theorem finiteSchemeBelyiMapMarkedCoverData_branch :
     (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).branch =
       markedSchemePointSet K := rfl
 
+theorem finiteSchemeBelyiMapMarkedCoverData_branch_finite :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).branch.Finite := by
+  exact markedSchemePointSet_finite K
+
 theorem finiteSchemeBelyiMapMarkedCoverData_isFinite_hom :
     IsFinite φfin.hom :=
   φfin.finite_hom
@@ -1258,6 +1262,17 @@ theorem finiteSchemeBelyiMapMarkedCoverData_map_apply
     (x : C) :
     (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).map () x =
       φfin.hom.base x := by
+  rfl
+
+theorem finiteSchemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
+    (x : C) :
+    x ∈ (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () ↔
+      φfin.hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem finiteSchemeBelyiMapMarkedCoverData_belyiOpen_carrier :
+    (finiteSchemeBelyiMapMarkedCoverData K hmarkedOpen φfin).belyiOpen () =
+      {x : C | φfin.hom.base x ∉ markedSchemePointSet K} := by
   rfl
 
 theorem finiteSchemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
@@ -1312,6 +1327,10 @@ theorem toMarkedCoverData_branch :
 theorem toMarkedNoncriticalExistence_branch :
     (toMarkedNoncriticalExistence K Φ F).branch = markedSchemePointSet K := rfl
 
+theorem toMarkedNoncriticalExistence_toBelyiCoverData_eq_toMarkedCoverData :
+    (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData =
+      toMarkedCoverData K Φ F := rfl
+
 theorem map_apply
     (φ : Φ) (x : C) :
     (toMarkedCoverData K Φ F).map φ x = (F.map φ).hom.base x := by
@@ -1328,9 +1347,33 @@ theorem mem_belyiOpen_iff
       (F.map φ).hom.base x ∉ markedSchemePointSet K := by
   rfl
 
+theorem toMarkedNoncriticalExistence_mem_belyiOpen_iff
+    (φ : Φ) (x : C) :
+    x ∈ (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ ↔
+      (F.map φ).hom.base x ∉ markedSchemePointSet K := by
+  rfl
+
+theorem belyiOpen_carrier
+    (φ : Φ) :
+    (toMarkedCoverData K Φ F).belyiOpen φ =
+      {x : C | (F.map φ).hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
+theorem toMarkedNoncriticalExistence_belyiOpen_carrier
+    (φ : Φ) :
+    (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ =
+      {x : C | (F.map φ).hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
 theorem belyiOpen_eq_schemeBelyi
     (φ : Φ) :
     (toMarkedCoverData K Φ F).belyiOpen φ =
+      ((F.map φ).toBelyiMap.belyiOpen : Set C) := by
+  rfl
+
+theorem toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+    (φ : Φ) :
+    (toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ =
       ((F.map φ).toBelyiMap.belyiOpen : Set C) := by
   rfl
 
@@ -1338,6 +1381,12 @@ theorem belyiOpen_isOpen
     (φ : Φ) :
     IsOpen ((toMarkedCoverData K Φ F).belyiOpen φ) := by
   rw [belyiOpen_eq_schemeBelyi K Φ F φ]
+  exact (F.map φ).toBelyiMap.belyiOpen.2
+
+theorem toMarkedNoncriticalExistence_belyiOpen_isOpen
+    (φ : Φ) :
+    IsOpen ((toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) := by
+  rw [toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi K Φ F φ]
   exact (F.map φ).toBelyiMap.belyiOpen.2
 
 theorem exists_belyiOpen_inside_complement
