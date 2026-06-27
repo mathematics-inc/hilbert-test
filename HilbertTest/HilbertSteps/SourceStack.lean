@@ -2873,6 +2873,16 @@ theorem hilbert_cohomologicalDivisor_exists_p1ReductionAuxiliaryData_for_sets_of
       D F hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_p1ReductionExistence
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_p1ReductionExistence
+      D
+
 end CurveCohomologySections
 
 section ComplexSeparation

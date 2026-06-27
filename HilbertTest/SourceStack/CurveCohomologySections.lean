@@ -394,6 +394,85 @@ end SchemeSupport
 
 end CohomologicalDivisorSectionData
 
+section SchemeReductionSource
+
+open AlgebraicGeometry
+
+variable {C : Scheme.{u}}
+
+/-- A cohomological source package indexed by all finite disjoint pairs of
+source sets.  For each pair `S,T`, it supplies a divisor zero-section package
+with support `T`, the projective-line section-pair construction, and the
+remaining finite/dominant/étale checks needed to enter the reduction layer. -/
+structure CohomologicalP1ReductionSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K)) where
+  divisor : ∀ _ : ReductionIndex C, CohomologicalDivisorSectionData K C V
+  support_eq :
+    ∀ i : ReductionIndex C, (divisor i).evalSurjectivity.support = i.1.2
+  badValues : ∀ _ : ReductionIndex C, Set (P1 K)
+  badValues_finite : ∀ i : ReductionIndex C, (badValues i).Finite
+  mkPair :
+    ∀ i : ReductionIndex C, ∀ s1 : V,
+      HasNoCommonZero (divisor i).evalSurjectivity.evalData
+        (divisor i).zeroSection s1 →
+        ProjectiveLineSectionPair K C V
+  mkPair_eval :
+    ∀ i : ReductionIndex C, ∀ s1 hnc,
+      (mkPair i s1 hnc).evalData = (divisor i).evalSurjectivity.evalData
+  mkPair_section0 :
+    ∀ i : ReductionIndex C, ∀ s1 hnc,
+      (mkPair i s1 hnc).section0 = (divisor i).zeroSection
+  mkPair_finite :
+    ∀ i : ReductionIndex C, ∀ s1 hnc, IsFinite (mkPair i s1 hnc).hom
+  mkPair_dominant :
+    ∀ i : ReductionIndex C, ∀ s1 hnc, IsDominant (mkPair i s1 hnc).hom
+  target_not_bad :
+    ∀ i : ReductionIndex C,
+      schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues i
+  aux_etale :
+    ∀ i : ReductionIndex C, ∀ s1 hnc φ,
+      ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+          (reductionBadSet (mkPair i s1 hnc).hom i.1.1 (badValues i))ᶜ →
+        IsEtale ((mkPair i s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)
+
+namespace CohomologicalP1ReductionSourceData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+
+/-- A cohomological reduction-source package supplies the global reduction
+family needed by the finite marked Belyi interface. -/
+theorem exists_p1ReductionExistence
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  classical
+  apply P1ReductionExistence.exists_of_auxiliaryData_nonempty F
+  intro S T hS hT hdis
+  let i : ReductionIndex C := ⟨(S, T), hS, hT, hdis⟩
+  rcases
+      CohomologicalDivisorSectionData.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
+        (CohomologicalP1ReductionSourceData.divisor D i) F hT
+        (CohomologicalP1ReductionSourceData.support_eq D i) hdis
+        (CohomologicalP1ReductionSourceData.badValues D i)
+        (CohomologicalP1ReductionSourceData.badValues_finite D i)
+        (CohomologicalP1ReductionSourceData.mkPair D i)
+        (CohomologicalP1ReductionSourceData.mkPair_eval D i)
+        (CohomologicalP1ReductionSourceData.mkPair_section0 D i)
+        (CohomologicalP1ReductionSourceData.mkPair_finite D i)
+        (CohomologicalP1ReductionSourceData.mkPair_dominant D i)
+        (CohomologicalP1ReductionSourceData.target_not_bad D i)
+        (CohomologicalP1ReductionSourceData.aux_etale D i) with
+    ⟨s1, hnc, haux⟩
+  exact haux
+
+end CohomologicalP1ReductionSourceData
+
+end SchemeReductionSource
+
 end CurveCohomologySections
 end SourceStack
 end HilbertTest
