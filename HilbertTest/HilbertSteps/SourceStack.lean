@@ -9743,6 +9743,13 @@ theorem hilbert_mochizukiPolynomial_derivative_aeval
         (((m + n : ℕ) : K) * x - (m : K)) := by
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_aeval K m n hm hn x
 
+theorem hilbert_mochizukiPolynomial_real_derivative_aeval_pos_of_one_lt
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : ℝ} (hx : 1 < x) :
+    0 < Polynomial.aeval x
+      (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n).derivative := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_derivative_aeval_pos_of_one_lt
+    m n hm hn hx
+
 theorem hilbert_mochizukiPolynomial_derivative_aeval_eq_zero_imp
     (K : Type u) [Field K] [CharZero K]
     (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}

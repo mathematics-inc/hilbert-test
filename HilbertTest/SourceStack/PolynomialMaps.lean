@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Polynomial.Roots
 import Mathlib.Algebra.Polynomial.Derivative
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
 
 /-!
 Polynomial finite-set wrappers for the recursive Belyi source stack.
@@ -347,6 +349,27 @@ theorem mochizukiPolynomial_derivative_aeval
         (((m + n : ℕ) : K) * x - (m : K)) := by
   rw [mochizukiPolynomial_derivative_factor K m n hm hn]
   simp [map_mul, map_sub]
+
+/-- Real ordered consequence used in Mochizuki Lemma 2.1: for `x > 1`, the
+derivative of `x^m * (x - 1)^n` is strictly positive. -/
+theorem mochizukiPolynomial_real_derivative_aeval_pos_of_one_lt
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : ℝ} (hx : 1 < x) :
+    0 < Polynomial.aeval x (mochizukiPolynomial ℝ m n).derivative := by
+  rw [mochizukiPolynomial_derivative_aeval ℝ m n hm hn x]
+  have hxpos : 0 < x := lt_trans zero_lt_one hx
+  have hxpow : 0 < x ^ (m - 1) := pow_pos hxpos _
+  have hsubpos : 0 < x - 1 := sub_pos.mpr hx
+  have hsubpow : 0 < (x - 1) ^ (n - 1) := pow_pos hsubpos _
+  have hmn_pos : 0 < ((m + n : ℕ) : ℝ) := by
+    exact_mod_cast (show 0 < m + n by omega)
+  have hm_lt_hmn : (m : ℝ) < ((m + n : ℕ) : ℝ) := by
+    exact_mod_cast (Nat.lt_add_of_pos_right hn)
+  have hmn_lt_mul : ((m + n : ℕ) : ℝ) < ((m + n : ℕ) : ℝ) * x := by
+    have h := mul_lt_mul_of_pos_left hx hmn_pos
+    simpa [mul_one] using h
+  have hlin : 0 < ((m + n : ℕ) : ℝ) * x - (m : ℝ) := by
+    nlinarith
+  exact mul_pos (mul_pos hxpow hsubpow) hlin
 
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
