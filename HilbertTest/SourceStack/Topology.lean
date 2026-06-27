@@ -238,6 +238,39 @@ theorem exists_compact_coordinate_projection_unions
   · intro i x hx j
     exact Set.mem_iUnion.mpr ⟨i, ⟨x, hx, rfl⟩⟩
 
+/-- Continuous product-valued maps on finitely many compact source pieces give
+compact coordinate target sets `H_j`.  This is the topological final step in
+Mochizuki Corollary 3.2: apply it to the compact source pieces
+`\overline{V}_{\phi_i,j_i}` and the product-valued maps induced by the selected
+Belyi maps. -/
+theorem exists_compact_coordinate_sets_from_continuous_images
+    {η ι κ X : Type*} [Finite η] [TopologicalSpace X]
+    {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (idx : η → ι)
+    (C : η → Set X) (hC : ∀ e, IsCompact (C e))
+    (G : ι → X → ((j : κ) → Z j))
+    (hG : ∀ i, Continuous (G i))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ e x, x ∈ C e → ∀ j, G (idx e) x j ∈ A j) :
+    ∃ H : (j : κ) → Set (Z j),
+      (∀ j, IsCompact (H j)) ∧
+        (∀ j, H j ⊆ A j) ∧
+          ∀ e x, x ∈ C e → ∀ j, G (idx e) x j ∈ H j := by
+  let Kprod : η → Set ((j : κ) → Z j) := fun e => G (idx e) '' C e
+  have hKprod : ∀ e, IsCompact (Kprod e) := by
+    intro e
+    exact (hC e).image (hG (idx e))
+  have hKprodA :
+      ∀ e y, y ∈ Kprod e → ∀ j, y j ∈ A j := by
+    intro e y hy j
+    rcases hy with ⟨x, hx, rfl⟩
+    exact hGA e x hx j
+  rcases exists_compact_coordinate_projection_unions Kprod hKprod A hKprodA with
+    ⟨H, hHcompact, hHsub, hHmem⟩
+  refine ⟨H, hHcompact, hHsub, ?_⟩
+  intro e x hx j
+  exact hHmem e (G (idx e) x) ⟨x, hx, rfl⟩ j
+
 /-- Products of compact spaces are compact in Mathlib's product topology. -/
 theorem compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]

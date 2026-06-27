@@ -3416,6 +3416,22 @@ theorem hilbert_exists_compact_coordinate_projection_unions
           ∀ i x, x ∈ K i → ∀ j, x j ∈ H j := by
   exact SourceStack.exists_compact_coordinate_projection_unions K hK A hKA
 
+theorem hilbert_exists_compact_coordinate_sets_from_continuous_images
+    {η ι κ X : Type*} [Finite η] [TopologicalSpace X]
+    {Z : κ → Type*} [∀ j, TopologicalSpace (Z j)]
+    (idx : η → ι)
+    (C : η → Set X) (hC : ∀ e, IsCompact (C e))
+    (G : ι → X → ((j : κ) → Z j))
+    (hG : ∀ i, Continuous (G i))
+    (A : (j : κ) → Set (Z j))
+    (hGA : ∀ e x, x ∈ C e → ∀ j, G (idx e) x j ∈ A j) :
+    ∃ H : (j : κ) → Set (Z j),
+      (∀ j, IsCompact (H j)) ∧
+        (∀ j, H j ⊆ A j) ∧
+          ∀ e x, x ∈ C e → ∀ j, G (idx e) x j ∈ H j := by
+  exact SourceStack.exists_compact_coordinate_sets_from_continuous_images
+    idx C hC G hG A hGA
+
 theorem hilbert_compactSpace_pi
     {κ : Type*} (Z : κ → Type*) [∀ i, TopologicalSpace (Z i)]
     [∀ i, CompactSpace (Z i)] :
