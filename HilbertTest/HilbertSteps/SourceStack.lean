@@ -645,6 +645,36 @@ theorem hilbert_badValues_subset_reductionBadSet
     badValues ⊆ reductionBadSet aux S badValues := by
   exact SourceStack.BelyiReduction.badValues_subset_reductionBadSet aux S badValues
 
+theorem hilbert_not_mem_reductionBadSet_iff
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    (S : Set C) (badValues : Set (SourceStack.SchemeProjectiveLine.P1 K))
+    (y : SourceStack.SchemeProjectiveLine.P1 K) :
+    y ∉ reductionBadSet aux S badValues ↔
+      (∀ x ∈ S, aux.base x ≠ y) ∧ y ∉ badValues := by
+  exact SourceStack.BelyiReduction.not_mem_reductionBadSet_iff
+    aux S badValues y
+
+theorem hilbert_not_mem_reductionBadSet_of_image_avoids_of_not_mem_badValues
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    {S : Set C} {badValues : Set (SourceStack.SchemeProjectiveLine.P1 K)}
+    {y : SourceStack.SchemeProjectiveLine.P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ y)
+    (hybad : y ∉ badValues) :
+    y ∉ reductionBadSet aux S badValues := by
+  exact
+    SourceStack.BelyiReduction.not_mem_reductionBadSet_of_image_avoids_of_not_mem_badValues
+      aux himage hybad
+
+theorem hilbert_disjoint_reductionBadSet_singleton_iff
+    (aux : C ⟶ SourceStack.SchemeProjectiveLine.P1 K)
+    (S : Set C) (badValues : Set (SourceStack.SchemeProjectiveLine.P1 K))
+    (y : SourceStack.SchemeProjectiveLine.P1 K) :
+    Disjoint (reductionBadSet aux S badValues)
+        ({y} : Set (SourceStack.SchemeProjectiveLine.P1 K)) ↔
+      (∀ x ∈ S, aux.base x ≠ y) ∧ y ∉ badValues := by
+  exact SourceStack.BelyiReduction.disjoint_reductionBadSet_singleton_iff
+    aux S badValues y
+
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
 variable {S T : Set C}
 

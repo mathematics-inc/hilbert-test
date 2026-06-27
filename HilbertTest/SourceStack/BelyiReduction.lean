@@ -65,6 +65,56 @@ theorem badValues_subset_reductionBadSet
     badValues ⊆ reductionBadSet aux S badValues := by
   exact Set.subset_union_right
 
+/-- A target point is outside the enlarged reduction bad set exactly when it is
+not hit by the prescribed source set and is not one of the prescribed bad
+target values. -/
+theorem not_mem_reductionBadSet_iff
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K))
+    (y : P1 K) :
+    y ∉ reductionBadSet aux S badValues ↔
+      (∀ x ∈ S, aux.base x ≠ y) ∧ y ∉ badValues := by
+  constructor
+  · intro hy
+    constructor
+    · intro x hx hxy
+      exact hy (Or.inl ⟨x, hx, hxy⟩)
+    · intro hybad
+      exact hy (Or.inr hybad)
+  · intro h hy
+    rcases hy with hyImage | hybad
+    · rcases hyImage with ⟨x, hx, hxy⟩
+      exact h.1 x hx hxy
+    · exact h.2 hybad
+
+/-- Forward form of `not_mem_reductionBadSet_iff`. -/
+theorem not_mem_reductionBadSet_of_image_avoids_of_not_mem_badValues
+    (aux : C ⟶ P1 K) {S : Set C} {badValues : Set (P1 K)}
+    {y : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ y)
+    (hybad : y ∉ badValues) :
+    y ∉ reductionBadSet aux S badValues := by
+  exact (not_mem_reductionBadSet_iff aux S badValues y).2 ⟨himage, hybad⟩
+
+/-- The enlarged reduction bad set is disjoint from a target singleton exactly
+when the source image and the prescribed bad-value set avoid that target. -/
+theorem disjoint_reductionBadSet_singleton_iff
+    (aux : C ⟶ P1 K) (S : Set C) (badValues : Set (P1 K))
+    (y : P1 K) :
+    Disjoint (reductionBadSet aux S badValues) ({y} : Set (P1 K)) ↔
+      (∀ x ∈ S, aux.base x ≠ y) ∧ y ∉ badValues := by
+  constructor
+  · intro hdis
+    have hy : y ∉ reductionBadSet aux S badValues := by
+      intro hy
+      exact (Set.disjoint_left.mp hdis) hy (by simp)
+    exact (not_mem_reductionBadSet_iff aux S badValues y).1 hy
+  · intro h
+    rw [Set.disjoint_left]
+    intro z hz hzy
+    rw [Set.mem_singleton_iff] at hzy
+    subst z
+    exact (not_mem_reductionBadSet_iff aux S badValues y).2 h hz
+
 /-- One reduction step for fixed finite sets `S,T` on the source curve.  The
 `bad` set is the finite set on `P1` that the later Belyi map must send to the
 marked branch triple; in the paper it contains `ψ(S)` and the ramification
