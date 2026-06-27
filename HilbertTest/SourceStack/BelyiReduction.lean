@@ -470,6 +470,34 @@ theorem exists_of_p1MapExistence_auxEtale
       rw [R.composed_base_eq x, R.maps_T_to_target x hx]
       exact R.p1Map_target_avoids_marked
 
+/-- Map-level corollary of `exists_of_p1MapExistence_auxEtale`: the reduction
+data produces an actual composed finite Belyi map on `C` with the prescribed
+branch and noncritical controls. -/
+theorem exists_composedMap_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) := by
+  rcases exists_of_p1MapExistence_auxEtale F hS badValues hbad aux
+      himage htargetBad maps_T_to_target hAuxEtale with
+    ⟨φ, R, _hR, hhom, hcontrols⟩
+  exact ⟨φ, R.composed, hhom, hcontrols⟩
+
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
