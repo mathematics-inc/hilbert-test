@@ -410,6 +410,28 @@ theorem addVal_add
       IsDiscreteValuationRing.addVal R (a + b) :=
   IsDiscreteValuationRing.addVal_add
 
+/-- Cotangent-space characterization of a DVR: for a noetherian local domain,
+cotangent dimension one is equivalent to being a DVR. -/
+theorem localRing_finrank_cotangentSpace_eq_one_iff_dvr
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [IsDomain R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 ↔
+      IsDiscreteValuationRing R :=
+  IsLocalRing.finrank_CotangentSpace_eq_one_iff
+
+/-- The cotangent space of a DVR has dimension one over its residue field. -/
+theorem dvr_finrank_cotangentSpace_eq_one
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 :=
+  IsLocalRing.finrank_CotangentSpace_eq_one R
+
+/-- The cotangent space of a DVR has positive dimension over its residue
+field. -/
+theorem dvr_finrank_cotangentSpace_pos
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    0 < Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) := by
+  rw [dvr_finrank_cotangentSpace_eq_one R]
+  norm_num
+
 end DVR
 
 end DedekindDvr

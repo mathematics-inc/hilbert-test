@@ -11858,6 +11858,22 @@ theorem hilbert_addVal_add
       IsDiscreteValuationRing.addVal R (a + b) := by
   exact SourceStack.DedekindDvr.addVal_add
 
+theorem hilbert_localRing_finrank_cotangentSpace_eq_one_iff_dvr
+    (R : Type u) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] [IsDomain R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 ↔
+      IsDiscreteValuationRing R := by
+  exact SourceStack.DedekindDvr.localRing_finrank_cotangentSpace_eq_one_iff_dvr R
+
+theorem hilbert_dvr_finrank_cotangentSpace_eq_one
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) = 1 := by
+  exact SourceStack.DedekindDvr.dvr_finrank_cotangentSpace_eq_one R
+
+theorem hilbert_dvr_finrank_cotangentSpace_pos
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] :
+    0 < Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.CotangentSpace R) := by
+  exact SourceStack.DedekindDvr.dvr_finrank_cotangentSpace_pos R
+
 end DedekindDvr
 
 namespace FractionalIdeals
