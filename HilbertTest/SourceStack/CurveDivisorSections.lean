@@ -17,6 +17,7 @@ namespace SourceStack
 namespace CurveDivisorSections
 
 open CurveRiemannRoch
+open MarkedProjectiveLine
 open ProjectiveSectionMaps
 open SchemeProjectiveLine
 
@@ -105,16 +106,40 @@ variable (D : DivisorZeroSectionData K C V)
 
 /-- Once the basepoint-free pair has been upgraded to a projective-line
 morphism, the zero-section support maps to the marked branch point `0`. -/
+theorem projectivePair_maps_support_to_zeroPoint
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∈ D.support, P.hom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  intro x hx
+  exact P.zero_of_section0_vanishes x
+    (by
+      rw [heval, hsection0]
+      exact (D.zeroSection_hasZeroSet x).2 hx)
+
+/-- Away from the support of the zero-section divisor, the associated
+projective-line morphism avoids the checked zero point. -/
+theorem projectivePair_avoids_zeroPoint_off_support
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∉ D.support, P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  intro x hx hzero
+  have hvanish : D.evalData.eval x D.zeroSection = 0 := by
+    rw [← heval, ← hsection0]
+    exact P.section0_vanishes_of_zero x hzero
+  exact hx ((D.zeroSection_hasZeroSet x).1 hvanish)
+
+/-- Once the basepoint-free pair has been upgraded to a projective-line
+morphism, the zero-section support maps to the marked branch point `0`. -/
 theorem projectivePair_maps_support_to_marked
     (P : ProjectiveLineSectionPair K C V)
     (heval : P.evalData = D.evalData)
     (hsection0 : P.section0 = D.zeroSection) :
     ∀ x ∈ D.support, P.hom.base x ∈ markedSchemePointSet K := by
   intro x hx
-  have hzero : P.evalData.eval x P.section0 = 0 := by
-    rw [heval, hsection0]
-    exact (D.zeroSection_hasZeroSet x).2 hx
-  exact P.maps_section0_zero_to_marked hzero
+  rw [D.projectivePair_maps_support_to_zeroPoint P heval hsection0 x hx]
+  exact schemeCarrierPoint_mem_markedSchemePointSet K MarkedPointLabel.zero
 
 /-- Factory form of the divisor-section bridge: once the line-bundle
 construction upgrades every basepoint-free pair `(s0, s1)` to a projective-line
@@ -132,6 +157,30 @@ theorem exists_projectivePair_maps_support_to_marked
   exact ⟨s1, hnc,
     D.projectivePair_maps_support_to_marked
       (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)⟩
+
+/-- Factory form of the divisor-section bridge, with the sharper pointwise
+statement used in the reduction step: the support maps to `0`, while any
+prescribed set disjoint from the support avoids `0`. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
+    [Infinite K] (hsupport : D.support.Finite) {S : Set C}
+    (hdis : Disjoint S D.support)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      (∀ x ∈ D.support,
+        (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+        ∀ x ∈ S,
+          (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  rcases D.exists_second_section_no_common_zero hsupport with ⟨s1, hnc⟩
+  refine ⟨s1, hnc, ?_, ?_⟩
+  · exact D.projectivePair_maps_support_to_zeroPoint
+      (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)
+  · intro x hxS
+    exact D.projectivePair_avoids_zeroPoint_off_support
+      (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc) x
+      ((Set.disjoint_left.mp hdis) hxS)
 
 end DivisorZeroSectionData
 

@@ -17,6 +17,7 @@ namespace CurveCohomologySections
 
 open CurveDivisorSections
 open CurveRiemannRoch
+open MarkedProjectiveLine
 open ProjectiveSectionMaps
 open SchemeProjectiveLine
 
@@ -216,6 +217,32 @@ variable {C : Scheme.{u}}
 
 /-- After the cohomological divisor package is upgraded to a projective-line
 section pair, the divisor support maps to the marked branch point `0`. -/
+theorem projectivePair_maps_support_to_zeroPoint
+    (D : CohomologicalDivisorSectionData K C V)
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalSurjectivity.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∈ D.evalSurjectivity.support,
+      P.hom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toDivisorZeroSectionData.projectivePair_maps_support_to_zeroPoint
+      P heval hsection0
+
+/-- Away from the cohomological divisor support, the associated projective-line
+morphism avoids the checked zero point. -/
+theorem projectivePair_avoids_zeroPoint_off_support
+    (D : CohomologicalDivisorSectionData K C V)
+    (P : ProjectiveLineSectionPair K C V)
+    (heval : P.evalData = D.evalSurjectivity.evalData)
+    (hsection0 : P.section0 = D.zeroSection) :
+    ∀ x ∉ D.evalSurjectivity.support,
+      P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toDivisorZeroSectionData.projectivePair_avoids_zeroPoint_off_support
+      P heval hsection0
+
+/-- After the cohomological divisor package is upgraded to a projective-line
+section pair, the divisor support maps to the marked branch point `0`. -/
 theorem projectivePair_maps_support_to_marked
     (D : CohomologicalDivisorSectionData K C V)
     (P : ProjectiveLineSectionPair K C V)
@@ -248,6 +275,28 @@ theorem exists_projectivePair_maps_support_to_marked
   exact ⟨s1, hnc,
     D.projectivePair_maps_support_to_marked
       (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc)⟩
+
+/-- Factory form of the cohomological divisor bridge, with the sharper
+pointwise statement used in the reduction step: the support maps to `0`, while
+any prescribed set disjoint from the support avoids `0`. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] (hsupport : D.evalSurjectivity.support.Finite) {S : Set C}
+    (hdis : Disjoint S D.evalSurjectivity.support)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        (∀ x ∈ D.evalSurjectivity.support,
+          (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+          ∀ x ∈ S,
+            (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toDivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
+      hsupport hdis mkPair hmk_eval hmk_section0
 
 end SchemeSupport
 
