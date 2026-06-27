@@ -228,6 +228,87 @@ theorem exists_concrete_scheme_separation_scalar_direct
     exact by
       simpa [hP] using hcrit x (by simpa [hP] using hx)
 
+/-- Concrete scheme-carrier separation package for Mochizuki's polynomial
+`x^m * (x - 1)^n`. -/
+theorem exists_concrete_scheme_separation_package_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = PolynomialMaps.mochizukiPolynomial F m n ∧
+        concreteSchemePolynomialTargetPoint F K P.polynomial β ∉
+          SchemeProjectiveLine.markedSchemePointSet K ∧
+          (∀ x ∈ S, concreteSchemePolynomialPointMap F K P.polynomial x ≠
+            concreteSchemePolynomialTargetPoint F K P.polynomial β) ∧
+            ∀ x : K, concreteSchemePolynomialPointMap F K P.polynomial x =
+              concreteSchemePolynomialTargetPoint F K P.polynomial β →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact exists_concrete_scheme_separation_package F K hS
+    (PolynomialMaps.mochizukiPolynomial F m n)
+    (PolynomialMaps.mochizukiPolynomial_derivative_ne_zero F m n hm hn)
+
+/-- Direct concrete scheme-carrier separation for Mochizuki's polynomial, with
+no intermediate `P1PolynomialSeparationStep` witness exposed. -/
+theorem exists_concrete_scheme_separation_direct_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K,
+      concreteSchemePolynomialTargetPoint F K
+        (PolynomialMaps.mochizukiPolynomial F m n) β ∉
+        SchemeProjectiveLine.markedSchemePointSet K ∧
+        (∀ x ∈ S,
+          concreteSchemePolynomialPointMap F K
+            (PolynomialMaps.mochizukiPolynomial F m n) x ≠
+          concreteSchemePolynomialTargetPoint F K
+            (PolynomialMaps.mochizukiPolynomial F m n) β) ∧
+          ∀ x : K,
+            concreteSchemePolynomialPointMap F K
+              (PolynomialMaps.mochizukiPolynomial F m n) x =
+            concreteSchemePolynomialTargetPoint F K
+              (PolynomialMaps.mochizukiPolynomial F m n) β →
+            Polynomial.aeval x
+              (PolynomialMaps.mochizukiPolynomial F m n).derivative ≠ 0 := by
+  exact exists_concrete_scheme_separation_direct F K hS
+    (PolynomialMaps.mochizukiPolynomial F m n)
+    (PolynomialMaps.mochizukiPolynomial_derivative_ne_zero F m n hm hn)
+
+/-- Scalar-value concrete separation package for Mochizuki's polynomial. -/
+theorem exists_concrete_scheme_separation_scalar_package_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K, ∃ P : P1PolynomialSeparationStep F K S β,
+      P.polynomial = PolynomialMaps.mochizukiPolynomial F m n ∧
+        (Polynomial.aeval β P.polynomial ≠ 0 ∧
+          Polynomial.aeval β P.polynomial ≠ 1) ∧
+          (∀ x ∈ S, Polynomial.aeval x P.polynomial ≠
+            Polynomial.aeval β P.polynomial) ∧
+            ∀ x : K, Polynomial.aeval x P.polynomial =
+              Polynomial.aeval β P.polynomial →
+              Polynomial.aeval x P.polynomial.derivative ≠ 0 := by
+  exact exists_concrete_scheme_separation_scalar_package F K hS
+    (PolynomialMaps.mochizukiPolynomial F m n)
+    (PolynomialMaps.mochizukiPolynomial_derivative_ne_zero F m n hm hn)
+
+/-- Direct scalar-value concrete separation for Mochizuki's polynomial. -/
+theorem exists_concrete_scheme_separation_scalar_direct_mochizukiPolynomial
+    [CharZero F] [IsAlgClosed K]
+    {S : Set K} (hS : S.Finite)
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ∃ β : K,
+      (Polynomial.aeval β (PolynomialMaps.mochizukiPolynomial F m n) ≠ 0 ∧
+        Polynomial.aeval β (PolynomialMaps.mochizukiPolynomial F m n) ≠ 1) ∧
+        (∀ x ∈ S, Polynomial.aeval x (PolynomialMaps.mochizukiPolynomial F m n) ≠
+          Polynomial.aeval β (PolynomialMaps.mochizukiPolynomial F m n)) ∧
+          ∀ x : K, Polynomial.aeval x (PolynomialMaps.mochizukiPolynomial F m n) =
+            Polynomial.aeval β (PolynomialMaps.mochizukiPolynomial F m n) →
+            Polynomial.aeval x
+              (PolynomialMaps.mochizukiPolynomial F m n).derivative ≠ 0 := by
+  exact exists_concrete_scheme_separation_scalar_direct F K hS
+    (PolynomialMaps.mochizukiPolynomial F m n)
+    (PolynomialMaps.mochizukiPolynomial_derivative_ne_zero F m n hm hn)
+
 end ConcretePolynomialSchemeSeparation
 end SourceStack
 end HilbertTest
