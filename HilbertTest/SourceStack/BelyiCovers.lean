@@ -424,6 +424,27 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions
     (fun φ => D.toBelyiCoverData.belyiOpen_isOpen φ)
     D.belyiOpen_cover_univ K
 
+/-- Equality form of the Corollary 3.2 compact-cover bridge: finitely many
+compact exhaustion members inside Belyi opens have union equal to the source. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_eq_univ
+    [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    (K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ)) :
+    ∃ t : Finset (Φ × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+          (K p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+            (K p.1 p.2)) ⊆ D.toBelyiCoverData.belyiOpen p.1) ∧
+          (⋃ p ∈ t,
+            (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+              (K p.1 p.2)) = (Set.univ : Set X) := by
+  exact HilbertTest.SourceStack.compactSpace_finite_cover_by_compactExhaustion_members_eq_univ
+    (X := X) (ι := Φ)
+    (fun φ => D.toBelyiCoverData.belyiOpen φ)
+    (fun φ => D.toBelyiCoverData.belyiOpen_isOpen φ)
+    D.belyiOpen_cover_univ K
+
 /-- Corollary 3.2 compact-cover bridge with the usual local compactness input:
 open Belyi loci inherit compact exhaustions, and finitely many compact
 exhaustion members cover the compact source. -/
@@ -449,6 +470,29 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
         (HilbertTest.SourceStack.compactExhaustion_of_isOpen_subtype
           (D.toBelyiCoverData.belyiOpen_isOpen φ))
   exact ⟨K, D.finite_compact_cover_by_belyiOpen_exhaustions K⟩
+
+/-- Equality form of the local-compactness compact-cover bridge. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact_eq_univ
+    [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    ∃ K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ),
+      ∃ t : Finset (Φ × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+            (K p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+              (K p.1 p.2)) ⊆ D.toBelyiCoverData.belyiOpen p.1) ∧
+            (⋃ p ∈ t,
+              (Subtype.val : D.toBelyiCoverData.belyiOpen p.1 → X) ''
+                (K p.1 p.2)) = (Set.univ : Set X) := by
+  classical
+  let K : ∀ φ : Φ, CompactExhaustion (D.toBelyiCoverData.belyiOpen φ) :=
+    fun φ =>
+      Classical.choice
+        (HilbertTest.SourceStack.compactExhaustion_of_isOpen_subtype
+          (D.toBelyiCoverData.belyiOpen_isOpen φ))
+  exact ⟨K, D.finite_compact_cover_by_belyiOpen_exhaustions_eq_univ K⟩
 
 /-- Abstract Corollary 3.2 assembly: if each Belyi open carries a continuous
 product-valued map whose coordinates land in prescribed target subsets, then

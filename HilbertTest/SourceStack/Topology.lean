@@ -472,6 +472,25 @@ theorem compactSpace_finite_cover_by_compactExhaustion_members
     refine Set.mem_iUnion.mpr ⟨hp, ?_⟩
     exact ⟨z, interior_subset hz, rfl⟩
 
+/-- Equality form of the finite compact-exhaustion cover: the finitely many
+selected compact exhaustion members cover exactly the whole compact space. -/
+theorem compactSpace_finite_cover_by_compactExhaustion_members_eq_univ
+    [CompactSpace X] (U : ι → Set X)
+    (hUopen : ∀ i, IsOpen (U i))
+    (hcover : (Set.univ : Set X) ⊆ ⋃ i, U i)
+    (K : ∀ i, CompactExhaustion (U i)) :
+    ∃ t : Finset (ι × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : U p.1 → X) '' (K p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : U p.1 → X) '' (K p.1 p.2)) ⊆ U p.1) ∧
+          (⋃ p ∈ t, (Subtype.val : U p.1 → X) '' (K p.1 p.2)) =
+            (Set.univ : Set X) := by
+  rcases compactSpace_finite_cover_by_compactExhaustion_members
+      U hUopen hcover K with
+    ⟨t, hcompact, hsubset, hcover'⟩
+  exact ⟨t, hcompact, hsubset, Set.eq_univ_of_univ_subset hcover'⟩
+
 /-- In a Hausdorff space, the closure of each interior in a compact exhaustion
 is compact.  This is the compact-closure step used in Mochizuki Corollary 3.2. -/
 theorem compactExhaustion_closure_interior_isCompact
