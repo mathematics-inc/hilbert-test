@@ -406,6 +406,35 @@ theorem mochizukiPolynomial_real_aeval_ge_self_of_two_le
     simpa [mul_one] using hmul
   exact le_trans hxpow_ge hmul_tail
 
+/-- On the unit interval, the absolute value of Mochizuki's Lemma 2.1
+polynomial is bounded by `1`. -/
+theorem mochizukiPolynomial_real_abs_aeval_le_one_of_mem_Icc
+    (m n : ℕ) {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
+    |Polynomial.aeval x (mochizukiPolynomial ℝ m n)| ≤ 1 := by
+  rw [mochizukiPolynomial_real_aeval, abs_mul, abs_pow, abs_pow]
+  have hx_abs_le_one : |x| ≤ 1 := by
+    rw [abs_of_nonneg hx0]
+    exact hx1
+  have hsub_abs_le_one : |x - 1| ≤ 1 := by
+    have hsub_nonpos : x - 1 ≤ 0 := sub_nonpos.mpr hx1
+    rw [abs_of_nonpos hsub_nonpos]
+    nlinarith
+  have hxpow_le : |x| ^ m ≤ 1 := pow_le_one₀ (abs_nonneg x) hx_abs_le_one
+  have hsubpow_le : |x - 1| ^ n ≤ 1 :=
+    pow_le_one₀ (abs_nonneg (x - 1)) hsub_abs_le_one
+  have hsubpow_nonneg : 0 ≤ |x - 1| ^ n :=
+    pow_nonneg (abs_nonneg (x - 1)) n
+  have hprod := mul_le_mul hxpow_le hsubpow_le hsubpow_nonneg (by norm_num : 0 ≤ (1 : ℝ))
+  simpa using hprod
+
+/-- If `x >= 2`, then Mochizuki's Lemma 2.1 polynomial has value greater than
+`1`, for positive `m`. -/
+theorem mochizukiPolynomial_real_aeval_gt_one_of_two_le
+    (m n : ℕ) (hm : 0 < m) {x : ℝ} (hx : 2 ≤ x) :
+    1 < Polynomial.aeval x (mochizukiPolynomial ℝ m n) := by
+  exact lt_of_lt_of_le (by nlinarith) (mochizukiPolynomial_real_aeval_ge_self_of_two_le
+    m n hm hx)
+
 /-- Affine critical-point consequence from Mochizuki Lemma 2.1(b): over
 characteristic zero, every affine critical point of `x^m * (x - 1)^n` is
 `0`, `1`, or `m/(m+n)`. -/

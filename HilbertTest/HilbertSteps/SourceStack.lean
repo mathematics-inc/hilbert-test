@@ -9770,6 +9770,20 @@ theorem hilbert_mochizukiPolynomial_real_aeval_ge_self_of_two_le
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_aeval_ge_self_of_two_le
     m n hm hx
 
+theorem hilbert_mochizukiPolynomial_real_abs_aeval_le_one_of_mem_Icc
+    (m n : ℕ) {x : ℝ} (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
+    |Polynomial.aeval x (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n)| ≤
+      1 := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_abs_aeval_le_one_of_mem_Icc
+    m n hx0 hx1
+
+theorem hilbert_mochizukiPolynomial_real_aeval_gt_one_of_two_le
+    (m n : ℕ) (hm : 0 < m) {x : ℝ} (hx : 2 ≤ x) :
+    1 < Polynomial.aeval x
+      (SourceStack.PolynomialMaps.mochizukiPolynomial ℝ m n) := by
+  exact SourceStack.PolynomialMaps.mochizukiPolynomial_real_aeval_gt_one_of_two_le
+    m n hm hx
+
 theorem hilbert_mochizukiPolynomial_derivative_aeval_eq_zero_imp
     (K : Type u) [Field K] [CharZero K]
     (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
