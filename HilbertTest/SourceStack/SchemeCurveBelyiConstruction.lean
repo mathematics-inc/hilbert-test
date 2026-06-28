@@ -371,6 +371,45 @@ theorem exists_map_belyiOpen_containing_finite_inside_complement
       (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
 
+/-- Actual finite-map one-point finite-complement-open consequence for
+section-controlled finite marked Belyi data. -/
+theorem exists_map_belyiOpen_inside_open_of_finite_complement
+    [Infinite K]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_open_of_finite_complement
+        K V D.toFiniteMarkedBelyiExistence hU hUcompl hxU with
+    ⟨s, hopen, hxopen, hsub⟩
+  exact
+    ⟨s,
+      (by simpa [toFiniteMarkedBelyiExistence] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hxopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
+
+/-- Actual finite-map finite-set finite-complement-open consequence for
+section-controlled finite marked Belyi data. -/
+theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+        K V D.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub with
+    ⟨s, hopen, hTopen, hsub⟩
+  exact
+    ⟨s,
+      (by simpa [toFiniteMarkedBelyiExistence] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
+
 /-- Direct finite disjoint-set conclusion after restricting the source of
 scheme-level section-controlled finite marked Belyi data to a subtype. -/
 theorem exists_for_finite_disjoint_subtype_sets

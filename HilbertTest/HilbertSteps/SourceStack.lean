@@ -828,6 +828,29 @@ theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_containing_finite_i
     SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_containing_finite_inside_complement
       D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_inside_open_of_finite_complement
+    [Infinite K]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_inside_open_of_finite_complement
+      D hU hUcompl hxU
+
+theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+      D hU hUcompl hT hTsub
+
 theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint_subtype_sets
     [Infinite K] (U : Set C) {S T : Set U}
     (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
