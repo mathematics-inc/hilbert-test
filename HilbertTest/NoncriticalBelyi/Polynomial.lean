@@ -103,6 +103,40 @@ theorem derivative_paperPolynomial_eval_eq_zero_iff
       field_simp [hden]
   tauto
 
+/-- For positive endpoint exponents, every rational zero of the formal
+derivative lies among the two endpoints or the middle point.  Unlike
+`derivative_paperPolynomial_eval_eq_zero_iff`, this implication also covers
+the cases `m = 1` or `n = 1`, where one endpoint factor has exponent zero. -/
+theorem derivative_paperPolynomial_eval_eq_zero_imp
+    {m n : ℕ} (hm : 0 < m) (hn : 0 < n) (x : ℚ)
+    (hzero : (derivative (paperPolynomial m n)).eval x = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : ℚ) / (((m + n : ℕ) : ℚ)) := by
+  have hden : (((m + n : ℕ) : ℚ)) ≠ 0 := by
+    exact_mod_cast (Nat.add_pos_left hm n).ne'
+  have hlin : (((m + n : ℕ) : ℚ)) * x - (m : ℚ) = 0 →
+      x = (m : ℚ) / (((m + n : ℕ) : ℚ)) := by
+    intro h
+    have hmx : (((m + n : ℕ) : ℚ)) * x = (m : ℚ) := by linarith
+    rw [eq_div_iff hden]
+    simpa [mul_comm] using hmx
+  rw [derivative_paperPolynomial_factor hm hn] at hzero
+  simp only [eval_mul, eval_pow, eval_sub, eval_X, eval_one, eval_C] at hzero
+  rcases mul_eq_zero.mp hzero with hpowers_zero | hlinear_zero
+  · rcases mul_eq_zero.mp hpowers_zero with hxpow_zero | hxonepow_zero
+    · by_cases hmexp : m - 1 = 0
+      · simp [hmexp] at hxpow_zero
+      · left
+        exact (pow_eq_zero_iff hmexp).mp hxpow_zero
+    · by_cases hnexp : n - 1 = 0
+      · simp [hnexp] at hxonepow_zero
+      · right
+        left
+        have hxminus : x - 1 = 0 := (pow_eq_zero_iff hnexp).mp hxonepow_zero
+        linarith
+  · right
+    right
+    exact hlin hlinear_zero
+
 /-- Packaged algebraic data from Lemma 2.1: the two endpoint values, the
 factored derivative, and the middle critical-point evaluation. -/
 theorem paperPolynomial_basic_data

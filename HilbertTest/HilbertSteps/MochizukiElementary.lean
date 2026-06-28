@@ -533,6 +533,13 @@ theorem hilbert_derivative_paperPolynomial_eval_eq_zero_iff
       x = 0 ∨ x = 1 ∨ x = (m : ℚ) / (((m + n : Nat) : ℚ)) := by
   exact NoncriticalBelyi.derivative_paperPolynomial_eval_eq_zero_iff hm hn x
 
+theorem hilbert_derivative_paperPolynomial_eval_eq_zero_imp
+    {m n : Nat} (hm : 0 < m) (hn : 0 < n) (x : ℚ)
+    (hzero : (derivative (NoncriticalBelyi.paperPolynomial m n)).eval x = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : ℚ) / (((m + n : Nat) : ℚ)) := by
+  exact NoncriticalBelyi.derivative_paperPolynomial_eval_eq_zero_imp
+    hm hn x hzero
+
 theorem hilbert_paperPolynomial_basic_data
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     (NoncriticalBelyi.paperPolynomial m n).eval 0 = 0 ∧
