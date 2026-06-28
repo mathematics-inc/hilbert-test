@@ -4269,6 +4269,29 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_p1ReductionExistence
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_p1ReductionExistence
       D
 
+open CategoryTheory in
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_composedMap_belyiOpen_controls_for_finite_disjoint
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SourceStack.SchemeBelyi.FiniteBelyiMap
+              (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = S ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                      (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_composedMap_belyiOpen_controls_for_finite_disjoint
+      D hS hT hdis
+
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_finiteMarkedBelyiExistence
     [Infinite K] {C : Scheme.{u}} {Φ : Type z}
     (F : FiniteMarkedBelyiExistence K Φ (P1 K))

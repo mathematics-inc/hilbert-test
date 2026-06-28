@@ -437,6 +437,7 @@ end CohomologicalDivisorSectionData
 section SchemeReductionSource
 
 open AlgebraicGeometry
+open CategoryTheory
 
 variable {C : Scheme.{u}}
 
@@ -508,6 +509,43 @@ theorem exists_p1ReductionExistence
         (CohomologicalP1ReductionSourceData.aux_etale D i) with
     ⟨s1, hnc, haux⟩
   exact haux
+
+/-- Direct composed-map consequence from the indexed cohomological source
+package: for every finite disjoint pair `S,T`, the package produces an actual
+composed finite Belyi map whose Belyi open contains `T` and avoids `S`. -/
+theorem exists_composedMap_belyiOpen_controls_for_finite_disjoint
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = S ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                      (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  let i : ReductionIndex C := ⟨(S, T), hS, hT, hdis⟩
+  rcases
+      CohomologicalDivisorSectionData.exists_composedMap_belyiOpen_controls_for_sets_of_projectivePair_factory
+        (CohomologicalP1ReductionSourceData.divisor D i) F hS hT
+        (CohomologicalP1ReductionSourceData.support_eq D i) hdis
+        (CohomologicalP1ReductionSourceData.badValues D i)
+        (CohomologicalP1ReductionSourceData.badValues_finite D i)
+        (CohomologicalP1ReductionSourceData.mkPair D i)
+        (CohomologicalP1ReductionSourceData.mkPair_eval D i)
+        (CohomologicalP1ReductionSourceData.mkPair_section0 D i)
+        (CohomologicalP1ReductionSourceData.mkPair_finite D i)
+        (CohomologicalP1ReductionSourceData.mkPair_dominant D i)
+        (CohomologicalP1ReductionSourceData.target_not_bad D i)
+        (CohomologicalP1ReductionSourceData.aux_etale D i) with
+    ⟨s1, hnc, φ, composed, hhom, hTopen, hopenS⟩
+  exact ⟨i, s1, hnc, φ, composed, rfl, rfl, hhom, hTopen, hopenS⟩
 
 /-- The indexed cohomological reduction-source package gives the paper-facing
 finite marked Belyi existence interface after forgetting the intermediate
