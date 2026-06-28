@@ -9462,6 +9462,102 @@ theorem hilbert_finiteMarkedBelyiExistence_finite_hom
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_hom
     K Φ F φ
 
+theorem hilbert_finiteMarkedBelyiExistence_isDominant_hom
+    (φ : Φ) :
+    IsDominant (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isDominant_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_denseRange_hom
+    (φ : Φ) :
+    DenseRange (F.map φ).hom.base := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.denseRange_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isEtale_restrict_branchOpen
+    (φ : Φ) :
+    IsEtale ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isEtale_restrict_branchOpen
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isFinite_restrict_branchOpen
+    (φ : Φ) :
+    IsFinite ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isFinite_restrict_branchOpen
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isAffineHom_restrict_branchOpen
+    (φ : Φ) :
+    IsAffineHom ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isAffineHom_restrict_branchOpen
+      K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isIntegralHom_restrict_branchOpen
+    (φ : Φ) :
+    IsIntegralHom ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isIntegralHom_restrict_branchOpen
+      K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_locallyOfFiniteType_restrict_branchOpen
+    (φ : Φ) :
+    LocallyOfFiniteType ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.locallyOfFiniteType_restrict_branchOpen
+      K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isSeparated_restrict_branchOpen
+    (φ : Φ) :
+    IsSeparated ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isSeparated_restrict_branchOpen
+      K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_quasiCompact_restrict_branchOpen
+    (φ : Φ) :
+    QuasiCompact ((F.map φ).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.quasiCompact_restrict_branchOpen
+      K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isAffineHom_hom
+    (φ : Φ) :
+    IsAffineHom (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isAffineHom_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isIntegralHom_hom
+    (φ : Φ) :
+    IsIntegralHom (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isIntegralHom_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_locallyOfFiniteType_hom
+    (φ : Φ) :
+    LocallyOfFiniteType (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.locallyOfFiniteType_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_isSeparated_hom
+    (φ : Φ) :
+    IsSeparated (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.isSeparated_hom
+    K Φ F φ
+
+theorem hilbert_finiteMarkedBelyiExistence_quasiCompact_hom
+    (φ : Φ) :
+    QuasiCompact (F.map φ).hom := by
+  exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.quasiCompact_hom
+    K Φ F φ
+
 theorem hilbert_finiteMarkedBelyiExistence_mem_belyiOpen_iff
     (φ : Φ) (x : C) :
     x ∈ (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).belyiOpen φ ↔

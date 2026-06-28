@@ -1510,6 +1510,103 @@ theorem finite_hom
     IsFinite (F.map φ).hom :=
   (F.map φ).finite_hom
 
+/-- Every member of a finite marked Belyi family is dominant. -/
+theorem isDominant_hom
+    (φ : Φ) :
+    IsDominant (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (F.map φ)
+
+/-- The underlying continuous map of every member of a finite marked Belyi
+family has dense range. -/
+theorem denseRange_hom
+    (φ : Φ) :
+    DenseRange (F.map φ).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is etale. -/
+theorem isEtale_restrict_branchOpen
+    (φ : Φ) :
+    IsEtale ((F.map φ).hom ∣_ (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is finite. -/
+theorem isFinite_restrict_branchOpen
+    (φ : Φ) :
+    IsFinite ((F.map φ).hom ∣_ (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is affine. -/
+theorem isAffineHom_restrict_branchOpen
+    (φ : Φ) :
+    IsAffineHom ((F.map φ).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is integral. -/
+theorem isIntegralHom_restrict_branchOpen
+    (φ : Φ) :
+    IsIntegralHom ((F.map φ).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is locally of finite type. -/
+theorem locallyOfFiniteType_restrict_branchOpen
+    (φ : Φ) :
+    LocallyOfFiniteType ((F.map φ).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is separated. -/
+theorem isSeparated_restrict_branchOpen
+    (φ : Φ) :
+    IsSeparated ((F.map φ).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen (F.map φ)
+
+/-- The branch-open restriction of every member of a finite marked Belyi family
+is quasi-compact. -/
+theorem quasiCompact_restrict_branchOpen
+    (φ : Φ) :
+    QuasiCompact ((F.map φ).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen (F.map φ)
+
+/-- Every member of a finite marked Belyi family is affine as a morphism. -/
+theorem isAffineHom_hom
+    (φ : Φ) :
+    IsAffineHom (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (F.map φ)
+
+/-- Every member of a finite marked Belyi family is integral as a morphism. -/
+theorem isIntegralHom_hom
+    (φ : Φ) :
+    IsIntegralHom (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (F.map φ)
+
+/-- Every member of a finite marked Belyi family is locally of finite type. -/
+theorem locallyOfFiniteType_hom
+    (φ : Φ) :
+    LocallyOfFiniteType (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (F.map φ)
+
+/-- Every member of a finite marked Belyi family is separated as a morphism. -/
+theorem isSeparated_hom
+    (φ : Φ) :
+    IsSeparated (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (F.map φ)
+
+/-- Every member of a finite marked Belyi family is quasi-compact as a morphism. -/
+theorem quasiCompact_hom
+    (φ : Φ) :
+    QuasiCompact (F.map φ).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (F.map φ)
+
 theorem mem_belyiOpen_iff
     (φ : Φ) (x : C) :
     x ∈ (toMarkedCoverData K Φ F).belyiOpen φ ↔
