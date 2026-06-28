@@ -1510,6 +1510,71 @@ theorem hilbert_p1ReductionStep_exists_composedMap_controls_and_isOpen_belyiOpen
 
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
+theorem hilbert_p1ReductionStep_composed_finite_hom :
+    IsFinite R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_finite_hom R
+
+theorem hilbert_p1ReductionStep_composed_isDominant_hom :
+    IsDominant R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isDominant_hom R
+
+theorem hilbert_p1ReductionStep_composed_denseRange_hom :
+    DenseRange R.composed.hom.base := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_denseRange_hom R
+
+theorem hilbert_p1ReductionStep_composed_isEtale_restrict_branchOpen :
+    IsEtale (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isEtale_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_isFinite_restrict_branchOpen :
+    IsFinite (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isFinite_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_isAffineHom_restrict_branchOpen :
+    IsAffineHom (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_isAffineHom_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_isIntegralHom_restrict_branchOpen :
+    IsIntegralHom (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_isIntegralHom_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_locallyOfFiniteType_restrict_branchOpen :
+    LocallyOfFiniteType (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_locallyOfFiniteType_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_isSeparated_restrict_branchOpen :
+    IsSeparated (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_isSeparated_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_quasiCompact_restrict_branchOpen :
+    QuasiCompact (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionStep.composed_quasiCompact_restrict_branchOpen R
+
+theorem hilbert_p1ReductionStep_composed_isAffineHom_hom :
+    IsAffineHom R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isAffineHom_hom R
+
+theorem hilbert_p1ReductionStep_composed_isIntegralHom_hom :
+    IsIntegralHom R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isIntegralHom_hom R
+
+theorem hilbert_p1ReductionStep_composed_locallyOfFiniteType_hom :
+    LocallyOfFiniteType R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_locallyOfFiniteType_hom R
+
+theorem hilbert_p1ReductionStep_composed_isSeparated_hom :
+    IsSeparated R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_isSeparated_hom R
+
+theorem hilbert_p1ReductionStep_composed_quasiCompact_hom :
+    QuasiCompact R.composed.hom := by
+  exact SourceStack.BelyiReduction.P1ReductionStep.composed_quasiCompact_hom R
+
 theorem hilbert_p1ReductionStep_composed_maps_S_to_marked :
     ∀ x ∈ S, R.composed.hom.base x ∈ markedSchemePointSet K := by
   exact SourceStack.BelyiReduction.P1ReductionStep.composed_maps_S_to_marked R

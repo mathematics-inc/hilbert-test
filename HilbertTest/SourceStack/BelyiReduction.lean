@@ -581,6 +581,84 @@ theorem exists_composedMap_of_auxiliaryData
 variable {S T : Set C}
 variable (R : P1ReductionStep K C hmarkedOpen S T)
 
+/-- The composed reduction map is finite. -/
+theorem composed_finite_hom :
+    IsFinite R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_hom R.composed
+
+/-- The composed reduction map is dominant. -/
+theorem composed_isDominant_hom :
+    IsDominant R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom R.composed
+
+/-- The underlying continuous map of the composed reduction map has dense
+range. -/
+theorem composed_denseRange_hom :
+    DenseRange R.composed.hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom R.composed
+
+/-- The composed reduction map is etale over the marked branch-complement open. -/
+theorem composed_isEtale_restrict_branchOpen :
+    IsEtale (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is finite. -/
+theorem composed_isFinite_restrict_branchOpen :
+    IsFinite (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is affine. -/
+theorem composed_isAffineHom_restrict_branchOpen :
+    IsAffineHom (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is integral. -/
+theorem composed_isIntegralHom_restrict_branchOpen :
+    IsIntegralHom (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is locally of
+finite type. -/
+theorem composed_locallyOfFiniteType_restrict_branchOpen :
+    LocallyOfFiniteType (R.composed.hom ∣_
+      (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is separated. -/
+theorem composed_isSeparated_restrict_branchOpen :
+    IsSeparated (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen R.composed
+
+/-- The branch-open restriction of the composed reduction map is quasi-compact. -/
+theorem composed_quasiCompact_restrict_branchOpen :
+    QuasiCompact (R.composed.hom ∣_ (markedBelyiTarget K hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen R.composed
+
+/-- The composed reduction map is affine. -/
+theorem composed_isAffineHom_hom :
+    IsAffineHom R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom R.composed
+
+/-- The composed reduction map is integral. -/
+theorem composed_isIntegralHom_hom :
+    IsIntegralHom R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom R.composed
+
+/-- The composed reduction map is locally of finite type. -/
+theorem composed_locallyOfFiniteType_hom :
+    LocallyOfFiniteType R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom R.composed
+
+/-- The composed reduction map is separated. -/
+theorem composed_isSeparated_hom :
+    IsSeparated R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom R.composed
+
+/-- The composed reduction map is quasi-compact. -/
+theorem composed_quasiCompact_hom :
+    QuasiCompact R.composed.hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom R.composed
+
 /-- The composed map sends the prescribed source set to the marked branch
 triple. -/
 theorem composed_maps_S_to_marked :
