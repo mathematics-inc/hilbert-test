@@ -104,6 +104,28 @@ theorem hilbert_belyi_aux_pos_of_gt_one
     0 < NoncriticalBelyi.belyiAux m n x := by
   exact NoncriticalBelyi.belyi_aux_pos_of_gt_one hx
 
+theorem hilbert_belyi_aux_zero
+    {m n : Nat}
+    (hm : 1 <= m) :
+    NoncriticalBelyi.belyiAux m n 0 = 0 := by
+  exact NoncriticalBelyi.belyi_aux_zero hm
+
+theorem hilbert_belyi_aux_one
+    {m n : Nat}
+    (hn : 1 <= n) :
+    NoncriticalBelyi.belyiAux m n 1 = 0 := by
+  exact NoncriticalBelyi.belyi_aux_one hn
+
+theorem hilbert_belyi_aux_pos_on_open_unit_interval_of_even
+    {m n : Nat} {x : Real}
+    (hm : 1 <= m)
+    (hn_even : Even n)
+    (hx0 : 0 < x)
+    (hx1 : x < 1) :
+    0 < NoncriticalBelyi.belyiAux m n x := by
+  exact NoncriticalBelyi.belyi_aux_pos_on_open_unit_interval_of_even
+    hm hn_even hx0 hx1
+
 theorem hilbert_abs_belyi_aux_middle_eq_power_product
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     |NoncriticalBelyi.belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| =
@@ -123,6 +145,15 @@ theorem hilbert_abs_belyi_aux_middle_le_quarter
     |NoncriticalBelyi.belyiAux m n
         ((m : Real) / ((m + n : Nat) : Real))| <= 1 / 4 := by
   exact NoncriticalBelyi.abs_belyi_aux_middle_le_quarter hm hn
+
+theorem hilbert_belyi_aux_middle_neg_of_odd
+    {m n : Nat}
+    (hm : 0 < m)
+    (hn : 0 < n)
+    (hn_odd : Odd n) :
+    NoncriticalBelyi.belyiAux m n
+      ((m : Real) / ((m + n : Nat) : Real)) < 0 := by
+  exact NoncriticalBelyi.belyi_aux_middle_neg_of_odd hm hn hn_odd
 
 theorem hilbert_belyi_aux_beta_ge_four_mul_of_scale
     {m n : Nat} {alpha beta C : Real}
@@ -381,6 +412,90 @@ theorem hilbert_belyi_aux_finite_ratio_ge_scale
           NoncriticalBelyi.belyiAux m n x := by
   exact NoncriticalBelyi.belyi_aux_finite_ratio_ge_scale
     hm hn hC h_one_mem hscale hcases
+
+theorem hilbert_belyi_aux_even_shape_ratio_cases
+    {m n : Nat}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_even : Even n)
+    {S : Finset Real}
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨ (0 < x ∧ x < 1) ∨ 1 < x) :
+    ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x ≠ 0 →
+      1 < x ∨
+        (0 < NoncriticalBelyi.belyiAux m n x ∧
+          NoncriticalBelyi.belyiAux m n x <= 1) := by
+  exact NoncriticalBelyi.belyi_aux_even_shape_ratio_cases
+    hm hn hn_even hS_shape
+
+theorem hilbert_belyi_aux_finite_ratio_ge_scale_of_even_shape
+    {m n : Nat} {beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_even : Even n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨ (0 < x ∧ x < 1) ∨ 1 < x) :
+    ∀ x ∈ S, NoncriticalBelyi.belyiAux m n x ≠ 0 →
+      C <=
+        NoncriticalBelyi.belyiAux m n beta /
+          NoncriticalBelyi.belyiAux m n x := by
+  exact NoncriticalBelyi.belyi_aux_finite_ratio_ge_scale_of_even_shape
+    hm hn hn_even hC h_one_mem hscale hS_shape
+
+theorem hilbert_belyi_aux_odd_middle_shape_shifted_cases
+    {m n : Nat}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_odd : Odd n)
+    {S : Finset Real}
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨
+        x = (m : Real) / ((m + n : Nat) : Real) ∨ 1 < x) :
+    ∀ x ∈ S,
+      NoncriticalBelyi.belyiAux m n x +
+          |NoncriticalBelyi.belyiAux m n
+            ((m : Real) / ((m + n : Nat) : Real))| ≠ 0 →
+        NoncriticalBelyi.belyiAux m n x = 0 ∨
+          (1 < x ∧
+            |NoncriticalBelyi.belyiAux m n
+              ((m : Real) / ((m + n : Nat) : Real))| <=
+                NoncriticalBelyi.belyiAux m n x) ∨
+          (1 < x ∧
+            NoncriticalBelyi.belyiAux m n x <=
+              |NoncriticalBelyi.belyiAux m n
+                ((m : Real) / ((m + n : Nat) : Real))|) := by
+  exact NoncriticalBelyi.belyi_aux_odd_middle_shape_shifted_cases
+    hm hn hn_odd hS_shape
+
+theorem hilbert_belyi_aux_finite_shifted_ratio_ge_scale_of_odd_middle_shape
+    {m n : Nat} {beta C : Real}
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_odd : Odd n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨
+        x = (m : Real) / ((m + n : Nat) : Real) ∨ 1 < x) :
+    ∀ x ∈ S,
+      NoncriticalBelyi.belyiAux m n x +
+          |NoncriticalBelyi.belyiAux m n
+            ((m : Real) / ((m + n : Nat) : Real))| ≠ 0 →
+        C <=
+          (NoncriticalBelyi.belyiAux m n beta +
+              |NoncriticalBelyi.belyiAux m n
+                ((m : Real) / ((m + n : Nat) : Real))|) /
+            (NoncriticalBelyi.belyiAux m n x +
+              |NoncriticalBelyi.belyiAux m n
+                ((m : Real) / ((m + n : Nat) : Real))|) := by
+  exact NoncriticalBelyi.belyi_aux_finite_shifted_ratio_ge_scale_of_odd_middle_shape
+    hm hn hn_odd hC h_one_mem hscale hS_shape
 
 theorem hilbert_paperPolynomial_eval_zero
     {m n : Nat} (hm : 0 < m) :

@@ -172,6 +172,31 @@ theorem belyi_aux_pos_of_gt_one
   unfold belyiAux
   exact mul_pos (pow_pos (by nlinarith) m) (pow_pos (by nlinarith) n)
 
+theorem belyi_aux_zero
+    (hm : 1 <= m) :
+    belyiAux m n 0 = 0 := by
+  have hm0 : 0 < m := by omega
+  simp [belyiAux, zero_pow hm0.ne']
+
+theorem belyi_aux_one
+    (hn : 1 <= n) :
+    belyiAux m n 1 = 0 := by
+  have hn0 : 0 < n := by omega
+  simp [belyiAux, zero_pow hn0.ne']
+
+theorem belyi_aux_pos_on_open_unit_interval_of_even
+    (_hm : 1 <= m)
+    (hn_even : Even n)
+    (hx0 : 0 < x)
+    (hx1 : x < 1) :
+    0 < belyiAux m n x := by
+  unfold belyiAux
+  rcases hn_even with ⟨k, hk⟩
+  subst n
+  rw [pow_add]
+  exact mul_pos (pow_pos hx0 m)
+    (mul_self_pos.mpr (pow_ne_zero k (by nlinarith)))
+
 theorem abs_belyi_aux_middle_eq_power_product
     {m n : Nat} (hm : 0 < m) (hn : 0 < n) :
     |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| =
@@ -201,6 +226,28 @@ theorem abs_belyi_aux_middle_le_quarter
     |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| <= 1 / 4 := by
   rw [abs_belyi_aux_middle_eq_power_product (m := m) (n := n) hm hn]
   exact Belyi1980.middle_power_product_le_quarter hm hn
+
+theorem belyi_aux_middle_neg_of_odd
+    {m n : Nat}
+    (hm : 0 < m)
+    (hn : 0 < n)
+    (hn_odd : Odd n) :
+    belyiAux m n ((m : Real) / ((m + n : Nat) : Real)) < 0 := by
+  let r : Real := (m : Real) / ((m + n : Nat) : Real)
+  have hr := Belyi1980.middle_mem_unit_interval (m := m) (n := n) hm hn
+  have hrpos : 0 < r := by simpa [r] using hr.1
+  have hrlt : r < 1 := by simpa [r] using hr.2
+  have hleft : 0 < r ^ m := pow_pos hrpos m
+  have hright_pos : 0 < (1 - r) ^ n := pow_pos (by nlinarith) n
+  have hright : (r - 1) ^ n = -((1 - r) ^ n) := by
+    have heq : r - 1 = -(1 - r) := by ring
+    rw [heq, hn_odd.neg_pow]
+  have hright_neg : (r - 1) ^ n < 0 := by
+    rw [hright]
+    nlinarith
+  have hprod : r ^ m * (r - 1) ^ n < 0 :=
+    mul_neg_of_pos_of_neg hleft hright_neg
+  simpa [belyiAux, r] using hprod
 
 theorem belyi_aux_beta_ge_four_mul_of_scale
     (hm : 1 <= m)
@@ -663,6 +710,125 @@ theorem belyi_aux_finite_ratio_ge_scale
   · exact belyi_aux_ratio_ge_scale_of_value_le_one (m := m) (n := n)
       (beta := beta) (C := C) (alpha := x)
       hm hn hC hC_le_beta hunit_value.1 hunit_value.2
+
+theorem belyi_aux_even_shape_ratio_cases
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_even : Even n)
+    {S : Finset Real}
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨ (0 < x ∧ x < 1) ∨ 1 < x) :
+    ∀ x ∈ S, belyiAux m n x ≠ 0 →
+      1 < x ∨ (0 < belyiAux m n x ∧ belyiAux m n x <= 1) := by
+  intro x hxS hx_ne_zero_value
+  rcases hS_shape x hxS with hzero | hone | hunit | hgt_one
+  · have hfx : belyiAux m n x = 0 := by
+      simpa [hzero] using belyi_aux_zero (m := m) (n := n) hm
+    exact False.elim (hx_ne_zero_value hfx)
+  · have hfx : belyiAux m n x = 0 := by
+      simpa [hone] using belyi_aux_one (m := m) (n := n) hn
+    exact False.elim (hx_ne_zero_value hfx)
+  · right
+    have hpos := belyi_aux_pos_on_open_unit_interval_of_even
+      (m := m) (n := n) (x := x) hm hn_even hunit.1 hunit.2
+    have habs := abs_belyi_aux_le_one_on_unit_interval
+      (m := m) (n := n) (x := x) hm hn hunit.1.le hunit.2.le
+    exact ⟨hpos, le_trans (le_abs_self _) habs⟩
+  · exact Or.inl hgt_one
+
+theorem belyi_aux_finite_ratio_ge_scale_of_even_shape
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_even : Even n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨ (0 < x ∧ x < 1) ∨ 1 < x) :
+    ∀ x ∈ S, belyiAux m n x ≠ 0 →
+      C <= belyiAux m n beta / belyiAux m n x := by
+  exact belyi_aux_finite_ratio_ge_scale (m := m) (n := n) (beta := beta)
+    (C := C) hm hn hC h_one_mem hscale
+    (belyi_aux_even_shape_ratio_cases (m := m) (n := n)
+      hm hn hn_even hS_shape)
+
+theorem belyi_aux_odd_middle_shape_shifted_cases
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_odd : Odd n)
+    {S : Finset Real}
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨
+        x = (m : Real) / ((m + n : Nat) : Real) ∨ 1 < x) :
+    ∀ x ∈ S,
+      belyiAux m n x +
+          |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| ≠ 0 →
+        belyiAux m n x = 0 ∨
+          (1 < x ∧
+            |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| <=
+              belyiAux m n x) ∨
+          (1 < x ∧
+            belyiAux m n x <=
+              |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))|) := by
+  intro x hxS hden
+  rcases hS_shape x hxS with hzero | hone | hmiddle | hgt_one
+  · left
+    simpa [hzero] using belyi_aux_zero (m := m) (n := n) hm
+  · left
+    simpa [hone] using belyi_aux_one (m := m) (n := n) hn
+  · have hm0 : 0 < m := by omega
+    have hn0 : 0 < n := by omega
+    have hneg := belyi_aux_middle_neg_of_odd (m := m) (n := n)
+      hm0 hn0 hn_odd
+    have hsum :
+        belyiAux m n ((m : Real) / ((m + n : Nat) : Real)) +
+            |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| = 0 := by
+      rw [abs_of_neg hneg]
+      ring
+    have hden' :
+        belyiAux m n ((m : Real) / ((m + n : Nat) : Real)) +
+            |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| ≠ 0 := by
+      simpa [hmiddle] using hden
+    exact False.elim (hden' hsum)
+  · by_cases hle :
+      |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| <=
+        belyiAux m n x
+    · exact Or.inr (Or.inl ⟨hgt_one, hle⟩)
+    · have hle' :
+        belyiAux m n x <=
+          |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| :=
+        le_of_not_ge hle
+      exact Or.inr (Or.inr ⟨hgt_one, hle'⟩)
+
+theorem belyi_aux_finite_shifted_ratio_ge_scale_of_odd_middle_shape
+    (hm : 1 <= m)
+    (hn : 1 <= n)
+    (hn_odd : Odd n)
+    (hC : 2 <= C)
+    {S : Finset Real}
+    (h_one_mem : 1 ∈ S)
+    (hscale : ∀ x ∈ S, x ≠ 0 → beta / x >= C)
+    (hS_shape : ∀ x ∈ S,
+      x = 0 ∨ x = 1 ∨
+        x = (m : Real) / ((m + n : Nat) : Real) ∨ 1 < x) :
+    ∀ x ∈ S,
+      belyiAux m n x +
+          |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))| ≠ 0 →
+        C <=
+          (belyiAux m n beta +
+              |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))|) /
+            (belyiAux m n x +
+              |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))|) := by
+  have hm0 : 0 < m := by omega
+  have hn0 : 0 < n := by omega
+  exact belyi_aux_finite_shifted_ratio_ge_scale (m := m) (n := n)
+    (beta := beta) (C := C) hm hn hC h_one_mem hscale
+    (f0 := |belyiAux m n ((m : Real) / ((m + n : Nat) : Real))|)
+    (abs_belyi_aux_middle_pos (m := m) (n := n) hm0 hn0)
+    (abs_belyi_aux_middle_le_quarter (m := m) (n := n) hm0 hn0)
+    (belyi_aux_odd_middle_shape_shifted_cases (m := m) (n := n)
+      hm hn hn_odd hS_shape)
 
 end Lemma21Arithmetic
 
