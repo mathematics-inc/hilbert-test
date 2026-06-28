@@ -271,6 +271,111 @@ theorem compAux_isDominant_hom {Y : Scheme.{u}} {T : BelyiTarget P}
     IsDominant (φ.compAux aux hEtale).hom :=
   (φ.compAux aux hEtale).dominant
 
+/-- The auxiliary composition constructor has dense range on underlying
+spaces. -/
+theorem compAux_denseRange_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    DenseRange (φ.compAux aux hEtale).hom.base :=
+  FiniteBelyiMap.denseRange_hom (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is etale over the target
+branch-complement open. -/
+theorem compAux_isEtale_restrict_branchOpen {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsEtale ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isEtale_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+finite. -/
+theorem compAux_isFinite_restrict_branchOpen {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsFinite ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isFinite_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+affine. -/
+theorem compAux_isAffineHom_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsAffineHom ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isAffineHom_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+integral. -/
+theorem compAux_isIntegralHom_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsIntegralHom ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isIntegralHom_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+locally of finite type. -/
+theorem compAux_locallyOfFiniteType_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    LocallyOfFiniteType ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+separated. -/
+theorem compAux_isSeparated_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsSeparated ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isSeparated_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The branch-open restriction of the auxiliary composition constructor is
+quasi-compact. -/
+theorem compAux_quasiCompact_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    QuasiCompact ((φ.compAux aux hEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.quasiCompact_restrict_branchOpen (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is affine as a morphism. -/
+theorem compAux_isAffineHom_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsAffineHom (φ.compAux aux hEtale).hom :=
+  FiniteBelyiMap.isAffineHom_hom (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is integral as a morphism. -/
+theorem compAux_isIntegralHom_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsIntegralHom (φ.compAux aux hEtale).hom :=
+  FiniteBelyiMap.isIntegralHom_hom (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is locally of finite type as a
+morphism. -/
+theorem compAux_locallyOfFiniteType_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    LocallyOfFiniteType (φ.compAux aux hEtale).hom :=
+  FiniteBelyiMap.locallyOfFiniteType_hom (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is separated as a morphism. -/
+theorem compAux_isSeparated_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    IsSeparated (φ.compAux aux hEtale).hom :=
+  FiniteBelyiMap.isSeparated_hom (φ.compAux aux hEtale)
+
+/-- The auxiliary composition constructor is quasi-compact as a morphism. -/
+theorem compAux_quasiCompact_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hEtale : IsEtale ((aux ≫ φ.hom) ∣_ T.branchOpen)) :
+    QuasiCompact (φ.compAux aux hEtale).hom :=
+  FiniteBelyiMap.quasiCompact_hom (φ.compAux aux hEtale)
+
 /-- If the auxiliary morphism is étale over the preimage of the branch-open,
 then the composite is étale over the branch-open. -/
 theorem compAux_etale_of_aux_restrict {Y : Scheme.{u}} {T : BelyiTarget P}
@@ -334,6 +439,14 @@ theorem compAuxOfAuxEtale_isDominant_hom {Y : Scheme.{u}} {T : BelyiTarget P}
     IsDominant (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
   (φ.compAuxOfAuxEtale aux hAuxEtale).dominant
 
+/-- The auxiliary-etale composition constructor has dense range on underlying
+spaces. -/
+theorem compAuxOfAuxEtale_denseRange_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    DenseRange (φ.compAuxOfAuxEtale aux hAuxEtale).hom.base :=
+  FiniteBelyiMap.denseRange_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
+
 /-- The auxiliary-etale composition constructor is étale over the target
 branch-complement open. -/
 theorem compAuxOfAuxEtale_isEtale_restrict_branchOpen {Y : Scheme.{u}}
@@ -342,6 +455,104 @@ theorem compAuxOfAuxEtale_isEtale_restrict_branchOpen {Y : Scheme.{u}}
     (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
     IsEtale ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
   (φ.compAuxOfAuxEtale aux hAuxEtale).etale_on_branchOpen
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is finite. -/
+theorem compAuxOfAuxEtale_isFinite_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsFinite ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isFinite_restrict_branchOpen (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is affine. -/
+theorem compAuxOfAuxEtale_isAffineHom_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsAffineHom ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isAffineHom_restrict_branchOpen
+    (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is integral. -/
+theorem compAuxOfAuxEtale_isIntegralHom_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsIntegralHom ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isIntegralHom_restrict_branchOpen
+    (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is locally of finite type. -/
+theorem compAuxOfAuxEtale_locallyOfFiniteType_restrict_branchOpen
+    {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    LocallyOfFiniteType ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_
+      T.branchOpen) :=
+  FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen
+    (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is separated. -/
+theorem compAuxOfAuxEtale_isSeparated_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsSeparated ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.isSeparated_restrict_branchOpen
+    (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The branch-open restriction of the auxiliary-etale composition constructor
+is quasi-compact. -/
+theorem compAuxOfAuxEtale_quasiCompact_restrict_branchOpen {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    QuasiCompact ((φ.compAuxOfAuxEtale aux hAuxEtale).hom ∣_ T.branchOpen) :=
+  FiniteBelyiMap.quasiCompact_restrict_branchOpen
+    (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The auxiliary-etale composition constructor is affine as a morphism. -/
+theorem compAuxOfAuxEtale_isAffineHom_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsAffineHom (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  FiniteBelyiMap.isAffineHom_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The auxiliary-etale composition constructor is integral as a morphism. -/
+theorem compAuxOfAuxEtale_isIntegralHom_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsIntegralHom (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  FiniteBelyiMap.isIntegralHom_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The auxiliary-etale composition constructor is locally of finite type as a
+morphism. -/
+theorem compAuxOfAuxEtale_locallyOfFiniteType_hom {Y : Scheme.{u}}
+    {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    LocallyOfFiniteType (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  FiniteBelyiMap.locallyOfFiniteType_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The auxiliary-etale composition constructor is separated as a morphism. -/
+theorem compAuxOfAuxEtale_isSeparated_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    IsSeparated (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  FiniteBelyiMap.isSeparated_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
+
+/-- The auxiliary-etale composition constructor is quasi-compact as a
+morphism. -/
+theorem compAuxOfAuxEtale_quasiCompact_hom {Y : Scheme.{u}} {T : BelyiTarget P}
+    (φ : FiniteBelyiMap T Y) (aux : X ⟶ Y) [IsFinite aux] [IsDominant aux]
+    (hAuxEtale : IsEtale (aux ∣_ φ.toBelyiMap.belyiOpen)) :
+    QuasiCompact (φ.compAuxOfAuxEtale aux hAuxEtale).hom :=
+  FiniteBelyiMap.quasiCompact_hom (φ.compAuxOfAuxEtale aux hAuxEtale)
 
 /-- The Belyi open of the auxiliary-etale composition includes into the source
 by an open immersion. -/
