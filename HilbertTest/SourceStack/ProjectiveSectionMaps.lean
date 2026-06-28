@@ -1656,6 +1656,19 @@ theorem finite_subcover_on_complement_forall
   exact F.toSectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement_forall
     κ hS
 
+/-- Direct finite tuple-subcover consequence of the projective-section finite
+marked family, in concrete marked-avoidance form. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          F.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t, ∀ i, (F.map s.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  exact F.toSectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement_forall_avoidance
+    κ hS
+
 /-- Compact-exhaustion cover bridge for projective-section finite marked
 families. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions
@@ -2058,6 +2071,24 @@ theorem finite_subcover_on_complement_forall
               (κ := κ) s := by
   exact F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
     κ hS
+
+/-- Direct finite tuple-subcover consequence for concrete trivialized-ratio
+finite marked families, in concrete marked-avoidance form. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t, ∀ i, (F.map s.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall_avoidance
+      κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨s, hst, hsx⟩
+  exact ⟨s, hst, by simpa [toProjectiveSectionFiniteMarkedFamily] using hsx⟩
 
 /-- Compact-exhaustion cover bridge for concrete trivialized-ratio finite
 marked families. -/
@@ -2468,6 +2499,24 @@ theorem finite_subcover_on_complement_forall
               (κ := κ) s := by
   exact F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
     κ hS
+
+/-- Direct finite tuple-subcover consequence for denominator-is-unit
+trivialized finite marked families, in concrete marked-avoidance form. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          F.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t, ∀ i, (F.map s.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases F.toProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall_avoidance
+      κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨s, hst, hsx⟩
+  exact ⟨s, hst, by simpa [toProjectiveSectionFiniteMarkedFamily] using hsx⟩
 
 /-- Compact-exhaustion cover bridge for denominator-is-unit trivialized finite
 marked families. -/
@@ -2885,6 +2934,26 @@ theorem finite_subcover_on_complement_forall
   exact
     IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall
       F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily κ hS
+
+/-- Direct finite tuple-subcover consequence for canonical two-section Bezout
+finite marked families, in concrete marked-avoidance form. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t, ∀ i, (F.map s.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases
+      IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.finite_subcover_on_complement_forall_avoidance
+        F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨s, hst, hsx⟩
+  exact ⟨s, hst, by
+    simpa [toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily, map] using hsx⟩
 
 /-- Compact-exhaustion cover bridge for canonical two-section Bezout finite
 marked families. -/
