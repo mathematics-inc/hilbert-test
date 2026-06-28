@@ -47,6 +47,31 @@ theorem exists_schemeReciprocalTranslatePoint_separating_projective_finset_avoid
       schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
         ℂ lam p (hSinf p hp)
 
+/-- Image-finset package form of the scheme-point reciprocal separation over
+`ℂ`: the finite transformed image avoids scheme infinity and has the same
+cardinality as the source finite set. -/
+theorem exists_schemeReciprocalTranslatePoint_separating_projective_finset_image_package
+    [DecidableEq (SchemeProjectiveLine.P1 ℂ)]
+    (S : Finset (ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ) (hC : 0 < C)
+    (hβ : ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      schemeReciprocalTranslatePoint ℂ lam
+          (ProjectiveLine.affinePoint ℂ β) ∉
+        SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ q ∈ S.image (schemeReciprocalTranslatePoint ℂ lam),
+        q ≠ SchemeProjectiveLine.infinityPoint ℂ) ∧
+      (S.image (schemeReciprocalTranslatePoint ℂ lam)).card = S.card ∧
+      ∀ α : ℂ, ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖reciprocalTranslate lam α‖ ≤ ‖reciprocalTranslate lam β‖ := by
+  rcases exists_schemeReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+      S β C hC hβ with
+    ⟨lam, hβmarked, hSinf, hsep⟩
+  refine ⟨lam, hβmarked, ?_, ?_, hsep⟩
+  · intro q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hSinf p hp
+  · exact schemeReciprocalTranslatePoint_image_card ℂ lam S
+
 /-- Rational scheme-point form of the strengthened projective finite-set
 separation: if the distinguished point is rational, the reciprocal-translate
 pole can be chosen rational while retaining the scheme marked-set avoidance. -/
@@ -76,6 +101,33 @@ theorem exists_schemeRationalReciprocalTranslatePoint_separating_projective_fins
     exact
       schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
         ℂ (lam : ℂ) p (hSinf p hp)
+
+/-- Image-finset package form of the rational scheme-point reciprocal
+separation: the finite transformed image avoids scheme infinity and has the
+same cardinality as the source finite set. -/
+theorem exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_image_package
+    [DecidableEq (SchemeProjectiveLine.P1 ℂ)]
+    (S : Finset (ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ) (hC : 0 < C)
+    (hβ : ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      schemeReciprocalTranslatePoint ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ∉
+        SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ q ∈ S.image (schemeReciprocalTranslatePoint ℂ (lam : ℂ)),
+        q ≠ SchemeProjectiveLine.infinityPoint ℂ) ∧
+      (S.image (schemeReciprocalTranslatePoint ℂ (lam : ℂ))).card = S.card ∧
+      ∀ α : ℂ, ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  rcases
+      exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+        S β C hC hβ with
+    ⟨lam, hβmarked, hSinf, hsep⟩
+  refine ⟨lam, hβmarked, ?_, ?_, hsep⟩
+  · intro q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hSinf p hp
+  · exact schemeReciprocalTranslatePoint_image_card ℂ (lam : ℂ) S
 
 end
 

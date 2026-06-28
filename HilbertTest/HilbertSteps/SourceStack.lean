@@ -5091,6 +5091,27 @@ theorem hilbert_exists_schemeReciprocalTranslatePoint_separating_projective_fins
     SourceStack.ComplexSchemeSeparation.exists_schemeReciprocalTranslatePoint_separating_projective_finset_avoid_marked
       S β C hC hβ
 
+theorem hilbert_exists_schemeReciprocalTranslatePoint_separating_projective_finset_image_package
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 ℂ)]
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ q ∈ S.image
+          (SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ lam),
+        q ≠ SourceStack.SchemeProjectiveLine.infinityPoint ℂ) ∧
+      (S.image
+          (SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ lam)).card =
+        S.card ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact
+    SourceStack.ComplexSchemeSeparation.exists_schemeReciprocalTranslatePoint_separating_projective_finset_image_package
+      S β C hC hβ
+
 theorem hilbert_exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_avoid_marked
     (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
     (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
@@ -5107,6 +5128,27 @@ theorem hilbert_exists_schemeRationalReciprocalTranslatePoint_separating_project
           ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
   exact
     SourceStack.ComplexSchemeSeparation.exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+      S β C hC hβ
+
+theorem hilbert_exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_image_package
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 ℂ)]
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ q ∈ S.image
+          (SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ (lam : ℂ)),
+        q ≠ SourceStack.SchemeProjectiveLine.infinityPoint ℂ) ∧
+      (S.image
+          (SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ
+            (lam : ℂ))).card = S.card ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact
+    SourceStack.ComplexSchemeSeparation.exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_image_package
       S β C hC hβ
 
 end ComplexSchemeSeparation

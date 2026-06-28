@@ -103,8 +103,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ComplexSchemeSeparation`: transports the
   strengthened Lemma 2.3 reciprocal-translate output to the concrete scheme
   carrier of `P^1 = Proj K[X0,X1]`, proving marked-scheme-set avoidance for the
-  distinguished point and scheme-infinity avoidance for finite projective sets,
-  including the rational-pole variant.
+  distinguished point, scheme-infinity avoidance for finite projective sets,
+  transformed-image scheme-infinity avoidance/cardinality preservation
+  packages, and rational-pole variants.
 - `HilbertTest.SourceStack.AffineSpace`: Mathlib affine-space wrappers showing
   that global coordinate sections define morphisms to affine space, pull back
   coordinates as expected, satisfy extensionality, identify over-morphisms with
