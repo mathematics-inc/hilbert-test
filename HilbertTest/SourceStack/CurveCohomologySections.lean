@@ -774,6 +774,41 @@ theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_insid
     ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen, hTopen,
       by simpa using hopenS⟩
 
+/-- One-point finite-complement-open composed-map consequence from the indexed
+cohomological source package. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_inside_open_of_finite_complement
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = Uᶜ ∧
+                i.1.2 = ({x} : Set C) ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ y ∈ Uᶜ, composed.hom.base y ∈ markedSchemePointSet K) ∧
+                      ∀ y ∈ ({x} : Set C),
+                        composed.hom.base y ∉ markedSchemePointSet K) ∧
+                      IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        x ∈ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                          (composed.toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  have hT : ({x} : Set C).Finite := Set.finite_singleton x
+  have hTsub : ({x} : Set C) ⊆ U := by
+    intro y hy
+    rw [Set.mem_singleton_iff] at hy
+    simpa [hy] using hxU
+  rcases
+      D.exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+        hU hUcompl hT hTsub with
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen, hTopen, hopenU⟩
+  exact
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen,
+      hTopen (by simp), hopenU⟩
+
 /-- The indexed cohomological reduction-source package gives the paper-facing
 finite marked Belyi existence interface after forgetting the intermediate
 reduction family. -/
