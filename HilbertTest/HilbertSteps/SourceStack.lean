@@ -640,6 +640,15 @@ theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint
     D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_controls
+      D hS hT hdis
+
 theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint_subtype_sets
     [Infinite K] (U : Set C) {S T : Set U}
     (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
@@ -1451,6 +1460,14 @@ theorem hilbert_p1ReductionExistence_exists_for_finite_disjoint
       (∀ x ∈ S, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
         ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_for_finite_disjoint
+    E hS hT hdis
+
+theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C, T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+      ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.exists_map_belyiOpen_controls
     E hS hT hdis
 
 theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_complement
@@ -4416,6 +4433,19 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_for_finite_disjoint
           markedSchemePointSet K := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_for_finite_disjoint
+      D hS hT hdis
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_controls
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_belyiOpen_controls
       D hS hT hdis
 
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_complement
@@ -8521,6 +8551,15 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_containing_finite_in
           ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K Φ F).toBelyiCoverData.belyiOpen φ) ⊆ Sᶜ := by
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_complement
     K Φ F hS hT hdis
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ φ : Φ, T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+      ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
+      K Φ F hS hT hdis
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]

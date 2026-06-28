@@ -822,6 +822,22 @@ theorem exists_for_finite_disjoint
         ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K := by
   exact E.toFiniteMarkedBelyiExistence.exists_for_finite_disjoint hS hT hdis
 
+/-- Direct scheme-Belyi-open form of the finite disjoint-set conclusion for a
+global `P1`-reduction family. -/
+theorem exists_map_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C, T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+      ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
+        (K := K) (Φ := ReductionIndex C) E.toFiniteMarkedBelyiExistence
+        hS hT hdis with
+    ⟨i, hTopen, hopenS⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopenS)⟩
+
 /-- Corollary 1.2-style one-point open consequence directly from a reduction
 family. -/
 theorem exists_belyiOpen_inside_complement

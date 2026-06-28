@@ -1515,6 +1515,27 @@ theorem exists_belyiOpen_containing_finite_inside_complement
   exact (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_containing_finite_inside_complement
     hS hT hdis
 
+/-- Direct scheme-Belyi-open form of the finite disjoint-set conclusion: the
+selected finite marked Belyi map has source Belyi open containing `T` and
+contained in the complement of `S`. -/
+theorem exists_map_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ, T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+      ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases F.exists_for_finite_disjoint hS hT hdis with ⟨φ, hSmark, hTavoid⟩
+  refine ⟨φ, ?_, ?_⟩
+  · intro x hxT
+    exact
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map φ) x).2
+        (hTavoid x hxT)
+  · intro x hxOpen hxS
+    have hxNotMarked :
+        (F.map φ).hom.base x ∉ markedSchemePointSet K :=
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map φ) x).1 hxOpen
+    exact hxNotMarked (hSmark x hxS)
+
 theorem exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :

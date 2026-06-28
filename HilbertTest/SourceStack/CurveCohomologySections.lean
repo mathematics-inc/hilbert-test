@@ -642,6 +642,21 @@ theorem exists_for_finite_disjoint
           markedSchemePointSet K :=
   D.toFiniteMarkedBelyiExistence.exists_for_finite_disjoint hS hT hdis
 
+/-- Direct scheme-Belyi-open form of the finite disjoint-set conclusion after
+choosing the cohomological reduction family. -/
+theorem exists_map_belyiOpen_controls
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
+      (K := K) (Φ := ReductionIndex C) D.toFiniteMarkedBelyiExistence
+      hS hT hdis
+
 /-- Corollary 1.2-style one-point Belyi-open consequence directly from the
 cohomological source package. -/
 theorem exists_belyiOpen_inside_complement

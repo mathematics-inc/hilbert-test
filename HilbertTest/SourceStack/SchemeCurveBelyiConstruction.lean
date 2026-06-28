@@ -166,6 +166,22 @@ theorem exists_for_finite_disjoint
       D.sends_vanishing_to_marked hsS,
       D.nonzero_avoids_marked hsT⟩
 
+/-- Direct scheme-Belyi-open form of the finite disjoint-set conclusion for
+section-controlled finite marked Belyi data. -/
+theorem exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
+        (K := K) (Φ := V) D.toFiniteMarkedBelyiExistence hS hT hdis with
+    ⟨s, hTopen, hopenS⟩
+  exact
+    ⟨s,
+      (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hopenS)⟩
+
 /-- Direct finite disjoint-set conclusion after restricting the source of
 scheme-level section-controlled finite marked Belyi data to a subtype. -/
 theorem exists_for_finite_disjoint_subtype_sets
