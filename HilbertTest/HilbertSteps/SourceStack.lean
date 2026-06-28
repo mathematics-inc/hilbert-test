@@ -8555,6 +8555,18 @@ theorem hilbert_morphismMarkedNoncritical_finite_subcover_on_complement_forall
   exact SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_subcover_on_complement_forall
     K Φ C morphism exists_morphism_for_finite_disjoint κ hS
 
+theorem hilbert_morphismMarkedNoncritical_finite_subcover_on_complement_forall_avoidance
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t, ∀ i, (morphism φ.1).base (x i).1 ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeMarkedBelyi.morphismMarkedNoncritical_finite_subcover_on_complement_forall_avoidance
+      K Φ C morphism exists_morphism_for_finite_disjoint κ hS
+
 theorem hilbert_morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
     (Kex : ∀ φ : Φ,

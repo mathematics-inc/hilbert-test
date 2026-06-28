@@ -1162,6 +1162,25 @@ theorem morphismMarkedNoncritical_finite_subcover_on_complement_forall
   exact (morphismMarkedNoncriticalExistence K Φ C morphism
     exists_morphism_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
 
+/-- Concrete coordinate-avoidance form of the scheme-morphism marked finite
+subcover over a fixed complement. -/
+theorem morphismMarkedNoncritical_finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (morphismMarkedNoncriticalExistence K Φ C morphism
+          exists_morphism_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t, ∀ i, (morphism φ.1).base (x i).1 ∉ markedSchemePointSet K := by
+  rcases morphismMarkedNoncritical_finite_subcover_on_complement_forall
+      K Φ C morphism exists_morphism_for_finite_disjoint κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨φ, hφt, hxφ⟩
+  refine ⟨φ, hφt, ?_⟩
+  exact hxφ
+
 /-- Scheme-morphism marked noncritical compact-exhaustion cover bridge. -/
 theorem morphismMarkedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]

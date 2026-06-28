@@ -164,8 +164,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   scheme-theoretic marked triple on `Proj K[X0,X1]`, including the specialized
   Corollary 1.2-style Belyi-open containment wrappers and Corollary 3.1-style
   pointwise-cover/finite-subcover wrappers, including concrete coordinate
-  marked-avoidance forms, both for the raw projective-spectrum target and for
-  maps whose target type is the scheme carrier `P1 K`, plus
+  marked-avoidance forms for scheme-carrier maps and honest scheme morphisms,
+  both for the raw projective-spectrum target and for maps whose target type is
+  the scheme carrier `P1 K`, plus
   one-map partial/rational-map cover data and honest `C ⟶ P1 K`
   morphism-family cover/noncritical interfaces.  It also checks the
   `FiniteMarkedBelyiExistence` family interface for finite marked Belyi maps and
