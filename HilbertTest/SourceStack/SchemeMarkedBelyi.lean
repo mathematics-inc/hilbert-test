@@ -1536,6 +1536,69 @@ theorem exists_map_belyiOpen_controls
         (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map φ) x).1 hxOpen
     exact hxNotMarked (hSmark x hxS)
 
+/-- Actual finite-map version of the one-point Corollary 1.2 consequence:
+outside a finite set, some selected finite Belyi map has a source Belyi open
+through the point and contained in the finite complement. -/
+theorem exists_map_belyiOpen_inside_complement
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Aᶜ := by
+  have hsingleton : ({x} : Set C).Finite := Set.finite_singleton x
+  have hdis : Disjoint A ({x} : Set C) := by
+    rw [Set.disjoint_left]
+    intro y hyA hyx
+    rw [Set.mem_singleton_iff] at hyx
+    exact hxA (by simpa [hyx] using hyA)
+  rcases exists_map_belyiOpen_controls K Φ F hA hsingleton hdis with
+    ⟨φ, hmem, hsub⟩
+  exact ⟨φ, (F.map φ).toBelyiMap.belyiOpen.2, hmem (by simp), hsub⟩
+
+/-- Actual finite-map version of the finite-set Corollary 1.2 consequence:
+for finite disjoint sets `S,T`, some selected finite Belyi map has a source
+Belyi open containing `T` and contained in `Sᶜ`. -/
+theorem exists_map_belyiOpen_containing_finite_inside_complement
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases exists_map_belyiOpen_controls K Φ F hS hT hdis with
+    ⟨φ, hTopen, hopenS⟩
+  exact ⟨φ, (F.map φ).toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
+
+/-- Actual finite-map version of the one-point finite-complement-open
+consequence. -/
+theorem exists_map_belyiOpen_inside_open_of_finite_complement
+    {V : Set C} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  rcases exists_map_belyiOpen_inside_complement K Φ F hVcompl
+      (A := Vᶜ) (x := x) (by simpa using hxV) with
+    ⟨φ, hopen, hxopen, hsub⟩
+  exact ⟨φ, hopen, hxopen, by simpa using hsub⟩
+
+/-- Actual finite-map version of the finite-set finite-complement-open
+consequence. -/
+theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {V T : Set C} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  have hdis : Disjoint Vᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxVcomp hxT
+    exact hxVcomp (hTsub hxT)
+  rcases exists_map_belyiOpen_containing_finite_inside_complement K Φ F
+      hVcompl hT hdis with
+    ⟨φ, hopen, hTopen, hsub⟩
+  exact ⟨φ, hopen, hTopen, by simpa using hsub⟩
+
 theorem exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :

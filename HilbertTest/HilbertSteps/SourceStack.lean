@@ -8561,6 +8561,48 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_controls
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
       K Φ F hS hT hdis
 
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_inside_complement
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Aᶜ := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_complement
+      K Φ F hA hxA
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_containing_finite_inside_complement
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_complement
+      K Φ F hS hT hdis
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_inside_open_of_finite_complement
+    {V : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_open_of_finite_complement
+      K Φ F hV hVcompl hxV
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+      K Φ F hV hVcompl hT hTsub
+
 theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]
     {V : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite) {x : C} (hxV : x ∈ V) :
