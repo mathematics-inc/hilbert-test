@@ -698,6 +698,41 @@ theorem exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_finite_dis
     ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols,
       composed.toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
 
+/-- Finite-complement-open composed-map consequence from the indexed
+cohomological source package: if a finite set `T` lies in an open whose
+complement is finite, the package produces an actual composed finite Belyi map
+whose Belyi open contains `T` and is contained in that open. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (_hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = Uᶜ ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ x ∈ Uᶜ, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                      ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                      IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                          (composed.toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  have hdis : Disjoint Uᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxU hxT
+    exact hxU (hTsub hxT)
+  rcases D.exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_finite_disjoint
+      hUcompl hT hdis with
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen, hTopen, hopenS⟩
+  exact
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen, hTopen,
+      by simpa using hopenS⟩
+
 /-- The indexed cohomological reduction-source package gives the paper-facing
 finite marked Belyi existence interface after forgetting the intermediate
 reduction family. -/
