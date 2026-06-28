@@ -1650,6 +1650,81 @@ theorem hilbert_p1ReductionExistence_map_finite_hom
     IsFinite (E.map i).hom := by
   exact SourceStack.BelyiReduction.P1ReductionExistence.map_finite_hom E i
 
+theorem hilbert_p1ReductionExistence_map_isDominant_hom
+    (i : ReductionIndex C) :
+    IsDominant (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isDominant_hom E i
+
+theorem hilbert_p1ReductionExistence_map_denseRange_hom
+    (i : ReductionIndex C) :
+    DenseRange (E.map i).hom.base := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_denseRange_hom E i
+
+theorem hilbert_p1ReductionExistence_map_isEtale_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsEtale ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isEtale_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_isFinite_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsFinite ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isFinite_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_isAffineHom_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsAffineHom ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.map_isAffineHom_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_isIntegralHom_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsIntegralHom ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.map_isIntegralHom_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_locallyOfFiniteType_restrict_branchOpen
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.map_locallyOfFiniteType_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_isSeparated_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsSeparated ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.map_isSeparated_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_quasiCompact_restrict_branchOpen
+    (i : ReductionIndex C) :
+    QuasiCompact ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.map_quasiCompact_restrict_branchOpen E i
+
+theorem hilbert_p1ReductionExistence_map_isAffineHom_hom
+    (i : ReductionIndex C) :
+    IsAffineHom (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isAffineHom_hom E i
+
+theorem hilbert_p1ReductionExistence_map_isIntegralHom_hom
+    (i : ReductionIndex C) :
+    IsIntegralHom (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isIntegralHom_hom E i
+
+theorem hilbert_p1ReductionExistence_map_locallyOfFiniteType_hom
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_locallyOfFiniteType_hom E i
+
+theorem hilbert_p1ReductionExistence_map_isSeparated_hom
+    (i : ReductionIndex C) :
+    IsSeparated (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_isSeparated_hom E i
+
+theorem hilbert_p1ReductionExistence_map_quasiCompact_hom
+    (i : ReductionIndex C) :
+    QuasiCompact (E.map i).hom := by
+  exact SourceStack.BelyiReduction.P1ReductionExistence.map_quasiCompact_hom E i
+
 theorem hilbert_p1ReductionExistence_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     (i : ReductionIndex C) (x : C) :
     x ∈ (FiniteMarkedBelyiExistence.toMarkedCoverData K

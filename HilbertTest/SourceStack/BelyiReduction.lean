@@ -971,6 +971,98 @@ theorem map_finite_hom
   rw [← E.toFiniteMarkedBelyiExistence_map_apply i]
   exact E.toFiniteMarkedBelyiExistence_finite_hom i
 
+/-- Each map in a global reduction family is dominant. -/
+theorem map_isDominant_hom
+    (i : ReductionIndex C) :
+    IsDominant (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (E.map i)
+
+/-- Each map in a global reduction family has dense range on underlying spaces. -/
+theorem map_denseRange_hom
+    (i : ReductionIndex C) :
+    DenseRange (E.map i).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (E.map i)
+
+/-- Each map in a global reduction family is etale over the marked
+branch-complement open. -/
+theorem map_isEtale_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsEtale ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+finite. -/
+theorem map_isFinite_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsFinite ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+affine. -/
+theorem map_isAffineHom_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsAffineHom ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+integral. -/
+theorem map_isIntegralHom_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsIntegralHom ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+locally of finite type. -/
+theorem map_locallyOfFiniteType_restrict_branchOpen
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType ((E.map i).hom ∣_
+      (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+separated. -/
+theorem map_isSeparated_restrict_branchOpen
+    (i : ReductionIndex C) :
+    IsSeparated ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen (E.map i)
+
+/-- The branch-open restriction of each map in a global reduction family is
+quasi-compact. -/
+theorem map_quasiCompact_restrict_branchOpen
+    (i : ReductionIndex C) :
+    QuasiCompact ((E.map i).hom ∣_ (markedBelyiTarget K E.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen (E.map i)
+
+/-- Each map in a global reduction family is affine. -/
+theorem map_isAffineHom_hom
+    (i : ReductionIndex C) :
+    IsAffineHom (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (E.map i)
+
+/-- Each map in a global reduction family is integral. -/
+theorem map_isIntegralHom_hom
+    (i : ReductionIndex C) :
+    IsIntegralHom (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (E.map i)
+
+/-- Each map in a global reduction family is locally of finite type. -/
+theorem map_locallyOfFiniteType_hom
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (E.map i)
+
+/-- Each map in a global reduction family is separated. -/
+theorem map_isSeparated_hom
+    (i : ReductionIndex C) :
+    IsSeparated (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (E.map i)
+
+/-- Each map in a global reduction family is quasi-compact. -/
+theorem map_quasiCompact_hom
+    (i : ReductionIndex C) :
+    QuasiCompact (E.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (E.map i)
+
 theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     (i : ReductionIndex C) (x : C) :
     x ∈ (FiniteMarkedBelyiExistence.toMarkedCoverData K
