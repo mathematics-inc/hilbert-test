@@ -11340,6 +11340,13 @@ theorem hilbert_p1PartialMap_compHom_hom
     (f.compHom g).hom = f.hom ≫ g := by
   exact SourceStack.RationalMaps.p1PartialMap_compHom_hom K f g
 
+theorem hilbert_p1PartialMap_compHom_toRationalMap
+    (K : Type u) [CommRing K] {Z : Scheme.{u}}
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (g : SourceStack.SchemeProjectiveLine.P1 K ⟶ Z) :
+    (f.compHom g).toRationalMap = f.toRationalMap.compHom g := by
+  exact SourceStack.RationalMaps.p1PartialMap_compHom_toRationalMap K f g
+
 theorem hilbert_p1PartialMap_fromSpecStalkOfMem_eq
     (K : Type u) [CommRing K]
     (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
@@ -11356,6 +11363,23 @@ theorem hilbert_p1PartialMap_fromSpecStalkOfMem_restrict
     (f.restrict U hU hU').fromSpecStalkOfMem hx =
       f.fromSpecStalkOfMem (hU' hx) := by
   exact SourceStack.RationalMaps.p1PartialMap_fromSpecStalkOfMem_restrict K f hU hU' hx
+
+theorem hilbert_p1PartialMap_fromSpecStalkOfMem_compHom
+    (K : Type u) [CommRing K] {Z : Scheme.{u}}
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (g : SourceStack.SchemeProjectiveLine.P1 K ⟶ Z)
+    {x : X} (hx : x ∈ f.domain) :
+    (f.compHom g).fromSpecStalkOfMem hx =
+      f.fromSpecStalkOfMem hx ≫ g := by
+  exact SourceStack.RationalMaps.p1PartialMap_fromSpecStalkOfMem_compHom K f g hx
+
+theorem hilbert_p1PartialMap_fromFunctionField_compHom
+    (K : Type u) [CommRing K] [IrreducibleSpace X]
+    {Z : Scheme.{u}}
+    (f : X.PartialMap (SourceStack.SchemeProjectiveLine.P1 K))
+    (g : SourceStack.SchemeProjectiveLine.P1 K ⟶ Z) :
+    (f.compHom g).fromFunctionField = f.fromFunctionField ≫ g := by
+  exact SourceStack.RationalMaps.p1PartialMap_fromFunctionField_compHom K f g
 
 theorem hilbert_p1RationalMap_fromFunctionField_toRationalMap
     (K : Type u) [CommRing K] [IrreducibleSpace X]

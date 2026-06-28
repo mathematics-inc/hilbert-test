@@ -205,6 +205,13 @@ theorem p1PartialMap_compHom_hom
     (f.compHom g).hom = f.hom ≫ g :=
   rfl
 
+/-- Right-composition of a partial map to `P1 K` represents the
+right-composition of its rational-map class. -/
+theorem p1PartialMap_compHom_toRationalMap
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
+    (f.compHom g).toRationalMap = f.toRationalMap.compHom g :=
+  Scheme.RationalMap.compHom_toRationalMap f g
+
 /-- At a point in the domain of a partial map to `P1 K`, the induced map from
 `Spec O_{X,x}` is the canonical local map followed by the underlying morphism. -/
 theorem p1PartialMap_fromSpecStalkOfMem_eq
@@ -222,6 +229,23 @@ theorem p1PartialMap_fromSpecStalkOfMem_restrict
     (f.restrict U hU hU').fromSpecStalkOfMem hx =
       f.fromSpecStalkOfMem (hU' hx) :=
   Scheme.PartialMap.fromSpecStalkOfMem_restrict f hU hU' hx
+
+/-- Right-composition of a partial map to `P1 K` composes the induced local map
+from `Spec O_{X,x}` with the target morphism. -/
+theorem p1PartialMap_fromSpecStalkOfMem_compHom
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z)
+    {x : X} (hx : x ∈ f.domain) :
+    (f.compHom g).fromSpecStalkOfMem hx =
+      f.fromSpecStalkOfMem hx ≫ g :=
+  Scheme.PartialMap.fromSpecStalkOfMem_compHom f g x hx
+
+/-- Right-composition of a partial map to `P1 K` composes the induced
+function-field map with the target morphism. -/
+theorem p1PartialMap_fromFunctionField_compHom
+    [IrreducibleSpace X]
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
+    (f.compHom g).fromFunctionField = f.fromFunctionField ≫ g :=
+  Scheme.PartialMap.fromSpecStalkOfMem_compHom f g _ _
 
 /-- The function-field map associated to a partial map to `P1 K` agrees with
 the one associated to its rational-map class. -/
