@@ -1011,6 +1011,19 @@ theorem finite_subcover_on_complement_forall
   exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
     K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS
 
+/-- Concrete coordinate-avoidance form of the finite tuple-subcover consequence
+directly from a reduction family. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t, ∀ j, (E.map i.1).hom.base (x j).1 ∉ markedSchemePointSet K := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall_avoidance
+    K (ReductionIndex C) E.toFiniteMarkedBelyiExistence κ hS
+
 /-- Compact-exhaustion cover bridge directly from a reduction family. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]

@@ -1643,6 +1643,18 @@ theorem hilbert_p1ReductionExistence_finite_subcover_on_complement_forall
   exact SourceStack.BelyiReduction.P1ReductionExistence.finite_subcover_on_complement_forall
     E κ hS
 
+theorem hilbert_p1ReductionExistence_finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) E.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t, ∀ j, (E.map i.1).hom.base (x j).1 ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.finite_subcover_on_complement_forall_avoidance
+      E κ hS
+
 theorem hilbert_p1ReductionExistence_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
     (Kex : ∀ i : ReductionIndex C,
