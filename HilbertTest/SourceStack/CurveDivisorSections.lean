@@ -485,6 +485,43 @@ theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_insid
     ⟨s1, hnc, phi, composed, hhom, hcontrols, hopen, hTopen,
       by simpa using hopenS⟩
 
+/-- Nonempty-open composed-map form of the divisor-to-reduction bridge in a
+finite-complement topology. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement_for_sets_of_projectivePair_factory
+    [Infinite K] [NonemptyOpenFiniteComplement C] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.support = T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc phi,
+        ((F.map phi).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom Uᶜ badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map phi).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∃ phi : Φ,
+        ∃ composed : SchemeBelyi.FiniteBelyiMap
+          (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+          composed.hom = (mkPair s1 hnc).hom ≫ (F.map phi).hom ∧
+            ((∀ x ∈ Uᶜ, composed.hom.base x ∈ markedSchemePointSet K) ∧
+              ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+              IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                  (composed.toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    D.exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement_for_sets_of_projectivePair_factory
+      F hU (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub hsupport
+      badValues hbad mkPair hmk_eval hmk_section0 hmk_finite hmk_dominant
+      htargetBad hAuxEtale
+
 end DivisorZeroSectionData
 
 end SchemeSupport
