@@ -343,8 +343,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   consequences, including finite restriction to the branch-complement open.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness, properness,
   second-countability, sigma-compactness, and compact-exhaustion wrappers, plus
-  locally compact/second-countable/sigma-compact infinite-place completions,
-  compact exhaustions, and real/complex infinite-place isometry models.
+  finite-place completion norm/completeness/separability/second-countability
+  wrappers, conditional finite-place compact-exhaustion and sigma-compactness
+  bridges under local compactness, locally compact/second-countable/sigma-compact
+  infinite-place completions, compact exhaustions, and real/complex infinite-place
+  isometry models.
 - `HilbertTest.HilbertSteps.*`: Hilbert-facing benchmark statements for those
   checked layers.
 - `data/belyi_source_stack`, `data/belyi1980_polynomial`, and

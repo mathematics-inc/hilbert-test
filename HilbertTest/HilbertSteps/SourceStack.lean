@@ -6278,6 +6278,15 @@ theorem hilbert_finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCo
     SourceStack.LocalFields.finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCompact
       v
 
+theorem hilbert_finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K))
+    [LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)] :
+    SigmaCompactSpace
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  exact
+    SourceStack.LocalFields.finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
+      v
+
 theorem hilbert_finitePlace_embedding_norm_def
     {K : Type*} [Field K] [NumberField K]
     (v : HeightOneSpectrum (𝓞 K)) (x : K) :

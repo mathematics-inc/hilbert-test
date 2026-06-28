@@ -134,6 +134,19 @@ theorem finitePlace_adicCompletion_compactExhaustion_exists_of_locallyCompact
   exact ⟨CompactExhaustion.choice
     (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)⟩
 
+/-- Once local compactness is available, the finite-place completion of a
+number field is sigma-compact; second countability is supplied by the
+finite-place bridge above. -/
+theorem finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K))
+    [LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v)] :
+    SigmaCompactSpace
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) := by
+  haveI : SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) :=
+    finitePlace_adicCompletion_secondCountableTopology v
+  infer_instance
+
 /-- The canonical embedding of a number field into its finite-place completion
 has norm equal to the associated finite-place absolute value. -/
 theorem finitePlace_embedding_norm_def
