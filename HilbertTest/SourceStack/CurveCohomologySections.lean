@@ -657,6 +657,35 @@ theorem exists_map_belyiOpen_controls
       (K := K) (Φ := ReductionIndex C) D.toFiniteMarkedBelyiExistence
       hS hT hdis
 
+/-- Actual finite-map one-point Belyi-open consequence after choosing the
+cohomological reduction family. -/
+theorem exists_map_belyiOpen_inside_complement
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Aᶜ := by
+  exact
+    FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_complement
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence hA hxA
+
+/-- Actual finite-map finite-set Belyi-open consequence after choosing the
+cohomological reduction family. -/
+theorem exists_map_belyiOpen_containing_finite_inside_complement
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_complement
+      K (ReductionIndex C) D.toFiniteMarkedBelyiExistence hS hT hdis
+
 /-- Corollary 1.2-style one-point Belyi-open consequence directly from the
 cohomological source package. -/
 theorem exists_belyiOpen_inside_complement

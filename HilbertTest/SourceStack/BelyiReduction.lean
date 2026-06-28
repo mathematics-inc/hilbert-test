@@ -838,6 +838,42 @@ theorem exists_map_belyiOpen_controls
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopenS)⟩
 
+/-- Actual finite-map one-point Belyi-open consequence from a reduction
+family. -/
+theorem exists_map_belyiOpen_inside_complement
+    {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Aᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_complement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hA hxA with
+    ⟨i, hopen, hxopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hxopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
+/-- Actual finite-map finite-set Belyi-open consequence from a reduction
+family. -/
+theorem exists_map_belyiOpen_containing_finite_inside_complement
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_complement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hS hT hdis with
+    ⟨i, hopen, hTopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
 /-- Corollary 1.2-style one-point open consequence directly from a reduction
 family. -/
 theorem exists_belyiOpen_inside_complement
