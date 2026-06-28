@@ -3286,6 +3286,115 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toProjectiveSecti
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
     TF s
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_finite_hom
+    (s : V) :
+    IsFinite (TF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_finite_hom
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isDominant_hom
+    (s : V) :
+    IsDominant (TF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isDominant_hom
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_denseRange_hom
+    (s : V) :
+    DenseRange (TF.map s).hom.base := by
+  exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_denseRange_hom
+    TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isEtale_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isFinite_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isAffineHom_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isSeparated_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((TF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_quasiCompact_restrict_branchOpen
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (TF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isAffineHom_hom
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (TF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_hom
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (TF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_hom
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_isSeparated_hom
+    (s : V) :
+    IsSeparated (TF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_isSeparated_hom
+      TF s
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (TF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.map_quasiCompact_hom
+      TF s
+
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
     x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
@@ -3672,6 +3781,115 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toProjectiv
     ITF.toProjectiveSectionFiniteMarkedFamily.map s = ITF.map s := by
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
     ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_finite_hom
+    (s : V) :
+    IsFinite (ITF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_finite_hom
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isDominant_hom
+    (s : V) :
+    IsDominant (ITF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isDominant_hom
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_denseRange_hom
+    (s : V) :
+    DenseRange (ITF.map s).hom.base := by
+  exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_denseRange_hom
+    ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isEtale_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isFinite_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isAffineHom_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isSeparated_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((ITF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K ITF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_quasiCompact_restrict_branchOpen
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (ITF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isAffineHom_hom
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (ITF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_hom
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (ITF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_hom
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_isSeparated_hom
+    (s : V) :
+    IsSeparated (ITF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_isSeparated_hom
+      ITF s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (ITF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map_quasiCompact_hom
+      ITF s
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
@@ -4067,6 +4285,115 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toIsUnit_map
     TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = TSF.map s := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_finite_hom
+    (s : V) :
+    IsFinite (TSF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_finite_hom
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isDominant_hom
+    (s : V) :
+    IsDominant (TSF.map s).hom := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isDominant_hom
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_denseRange_hom
+    (s : V) :
+    DenseRange (TSF.map s).hom.base := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_denseRange_hom
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isEtale_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isFinite_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isAffineHom_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isSeparated_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((TSF.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K TSF.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_quasiCompact_restrict_branchOpen
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (TSF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isAffineHom_hom
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (TSF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isIntegralHom_hom
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (TSF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_locallyOfFiniteType_hom
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_isSeparated_hom
+    (s : V) :
+    IsSeparated (TSF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_isSeparated_hom
+      TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (TSF.map s).hom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_quasiCompact_hom
+      TSF s
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :

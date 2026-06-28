@@ -2029,6 +2029,106 @@ theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
 
+/-- Each trivialized-ratio finite marked family map is finite. -/
+theorem map_finite_hom
+    (s : V) :
+    IsFinite (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is dominant. -/
+theorem map_isDominant_hom
+    (s : V) :
+    IsDominant (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map has dense range on
+underlying spaces. -/
+theorem map_denseRange_hom
+    (s : V) :
+    DenseRange (F.map s).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is etale over the marked
+branch-complement open. -/
+theorem map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is finite. -/
+theorem map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is affine. -/
+theorem map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is integral. -/
+theorem map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is locally of
+finite type. -/
+theorem map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is separated. -/
+theorem map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each trivialized-ratio map is quasi-compact. -/
+theorem map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is affine. -/
+theorem map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is integral. -/
+theorem map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is locally of finite type. -/
+theorem map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is separated. -/
+theorem map_isSeparated_hom
+    (s : V) :
+    IsSeparated (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (F.map s)
+
+/-- Each trivialized-ratio finite marked family map is quasi-compact. -/
+theorem map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (F.map s)
+
 theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
     x ∈ (SchemeMarkedBelyi.FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
@@ -2478,6 +2578,106 @@ def toProjectiveSectionFiniteMarkedFamily :
 theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Each denominator-is-unit finite marked family map is finite. -/
+theorem map_finite_hom
+    (s : V) :
+    IsFinite (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is dominant. -/
+theorem map_isDominant_hom
+    (s : V) :
+    IsDominant (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map has dense range on
+underlying spaces. -/
+theorem map_denseRange_hom
+    (s : V) :
+    DenseRange (F.map s).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is etale over the marked
+branch-complement open. -/
+theorem map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is finite. -/
+theorem map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is affine. -/
+theorem map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is integral. -/
+theorem map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is locally of
+finite type. -/
+theorem map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is separated. -/
+theorem map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each denominator-is-unit map is quasi-compact. -/
+theorem map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is affine. -/
+theorem map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is integral. -/
+theorem map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is locally of finite type. -/
+theorem map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is separated. -/
+theorem map_isSeparated_hom
+    (s : V) :
+    IsSeparated (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (F.map s)
+
+/-- Each denominator-is-unit finite marked family map is quasi-compact. -/
+theorem map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (F.map s)
 
 theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
@@ -2935,6 +3135,108 @@ def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
 theorem toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- Each canonical two-section finite marked family map is finite. -/
+theorem map_finite_hom
+    (s : V) :
+    IsFinite (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is dominant. -/
+theorem map_isDominant_hom
+    (s : V) :
+    IsDominant (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map has dense range on
+underlying spaces. -/
+theorem map_denseRange_hom
+    (s : V) :
+    DenseRange (F.map s).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is etale over the
+marked branch-complement open. -/
+theorem map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is finite. -/
+theorem map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is affine. -/
+theorem map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is integral. -/
+theorem map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is locally of
+finite type. -/
+theorem map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is separated. -/
+theorem map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen (F.map s)
+
+/-- The branch-open restriction of each canonical two-section map is
+quasi-compact. -/
+theorem map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((F.map s).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen (F.map s)
+
+/-- Each canonical two-section finite marked family map is affine. -/
+theorem map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is integral. -/
+theorem map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is locally of finite
+type. -/
+theorem map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is separated. -/
+theorem map_isSeparated_hom
+    (s : V) :
+    IsSeparated (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (F.map s)
+
+/-- Each canonical two-section finite marked family map is quasi-compact. -/
+theorem map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (F.map s).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (F.map s)
 
 theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
