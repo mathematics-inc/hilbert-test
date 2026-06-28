@@ -520,7 +520,8 @@ Lean-facing declarations needed:
 The ring-theoretic ramification and inertia facts needed below this geometric
 branch-locus layer are now checked in `SourceStack.Ramification`, and the
 Dedekind/DVR local algebra underneath codimension-one ramification is checked in
-`SourceStack.DedekindDvr`; open-immersion and target-open restriction wrappers
+`SourceStack.DedekindDvr`, including the concrete `Localization.AtPrime`
+nonzero-prime DVR bridge; open-immersion and target-open restriction wrappers
 are checked in `SourceStack.Schemes`; the missing piece is still the
 curve/scheme specialization that turns local ramification indices into
 branch-locus statements for finite maps of smooth curves.

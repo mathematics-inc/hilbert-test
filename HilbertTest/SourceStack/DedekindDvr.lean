@@ -161,6 +161,14 @@ theorem localization_atPrime_isDVR_of_dedekind
     IsDiscreteValuationRing Aₘ :=
   IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain A hP Aₘ
 
+/-- Concrete localization-at-prime form of the DVR theorem for Dedekind
+domains. -/
+theorem localizationAtPrime_isDVR_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    IsDiscreteValuationRing (Localization.AtPrime P) :=
+  localization_atPrime_isDVR_of_dedekind A hP (Localization.AtPrime P)
+
 /-- A Dedekind domain satisfies the local-DVR definition of Dedekind domain. -/
 theorem dedekindDomain_to_dedekindDomainDvr
     (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A] :

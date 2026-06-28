@@ -12597,6 +12597,12 @@ theorem hilbert_localization_atPrime_isDVR_of_dedekind
     IsDiscreteValuationRing Aₘ := by
   exact SourceStack.DedekindDvr.localization_atPrime_isDVR_of_dedekind A hP Aₘ
 
+theorem hilbert_localizationAtPrime_isDVR_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    IsDiscreteValuationRing (Localization.AtPrime P) := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_isDVR_of_dedekind A hP
+
 theorem hilbert_dedekindDomain_to_dedekindDomainDvr
     (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A] :
     IsDedekindDomainDvr A := by
