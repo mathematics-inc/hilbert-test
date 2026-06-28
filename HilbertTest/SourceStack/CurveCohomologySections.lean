@@ -774,6 +774,34 @@ theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_insid
     ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen, hTopen,
       by simpa using hopenS⟩
 
+/-- Nonempty-open composed-map consequence from the indexed cohomological
+source package in a finite-complement topology: if a finite set `T` lies in a
+nonempty open, the package produces an actual composed finite Belyi map whose
+Belyi open contains `T` and is contained in that open. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = Uᶜ ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ x ∈ Uᶜ, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                      ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                      IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                          (composed.toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    D.exists_composedMap_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub
+
 /-- One-point finite-complement-open composed-map consequence from the indexed
 cohomological source package. -/
 theorem exists_composedMap_controls_and_isOpen_belyiOpen_inside_open_of_finite_complement
@@ -808,6 +836,32 @@ theorem exists_composedMap_controls_and_isOpen_belyiOpen_inside_open_of_finite_c
   exact
     ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hopen,
       hTopen (by simp), hopenU⟩
+
+/-- One-point nonempty-open composed-map consequence from the indexed
+cohomological source package in a finite-complement topology. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = Uᶜ ∧
+                i.1.2 = ({x} : Set C) ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ y ∈ Uᶜ, composed.hom.base y ∈ markedSchemePointSet K) ∧
+                      ∀ y ∈ ({x} : Set C),
+                        composed.hom.base y ∉ markedSchemePointSet K) ∧
+                      IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        x ∈ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                          (composed.toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    D.exists_composedMap_controls_and_isOpen_belyiOpen_inside_open_of_finite_complement
+      hU (finite_compl_of_isOpen_of_mem hU hxU) hxU
 
 /-- The indexed cohomological reduction-source package gives the paper-facing
 finite marked Belyi existence interface after forgetting the intermediate
