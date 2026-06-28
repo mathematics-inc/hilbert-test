@@ -242,6 +242,24 @@ theorem markedNoncritical_finite_subcover_on_complement_forall
   exact (markedNoncriticalExistence K X Φ map continuous_map
     exists_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
 
+/-- Concrete branch-avoidance form of the raw marked-`Proj` finite subcover
+over a fixed complement. -/
+theorem markedNoncritical_finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t, ∀ i, map φ.1 (x i).1 ∉ markedPointSet K := by
+  rcases markedNoncritical_finite_subcover_on_complement_forall
+      K X Φ map continuous_map exists_for_finite_disjoint κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨φ, hφt, hxφ⟩
+  exact ⟨φ, hφt, hxφ⟩
+
 /-- Raw marked-`Proj` noncritical compact-exhaustion cover bridge. -/
 theorem markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (_root_.ProjectiveSpectrum (grading K))]

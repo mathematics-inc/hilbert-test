@@ -7815,6 +7815,18 @@ theorem hilbert_markedNoncritical_finite_subcover_on_complement_forall
   exact SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement_forall
     K X Φ map continuous_map exists_for_finite_disjoint κ hS
 
+theorem hilbert_markedNoncritical_finite_subcover_on_complement_forall_avoidance
+    (κ : Type*) [Finite κ] [T1Space (_root_.ProjectiveSpectrum (grading K))]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedNoncriticalExistence K X Φ map continuous_map
+          exists_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t, ∀ i, map φ.1 (x i).1 ∉ markedPointSet K := by
+  exact
+    SourceStack.SchemeMarkedBelyi.markedNoncritical_finite_subcover_on_complement_forall_avoidance
+      K X Φ map continuous_map exists_for_finite_disjoint κ hS
+
 theorem hilbert_markedNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (_root_.ProjectiveSpectrum (grading K))]
     [SourceStack.NonemptyOpenFiniteComplement X] [CompactSpace X]
