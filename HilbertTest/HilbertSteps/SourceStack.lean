@@ -2809,6 +2809,15 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_for_finite
   exact SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     TF hS hT hdis
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      TF hS hT hdis
+
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
@@ -3149,6 +3158,15 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_for_
       ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     ITF hS hT hdis
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      ITF hS hT hdis
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
@@ -3498,6 +3516,15 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_for_f
       ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     TSF hS hT hdis
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      TSF hS hT hdis
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
