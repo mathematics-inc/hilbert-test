@@ -1,4 +1,5 @@
 import HilbertTest.SourceStack.LinearAlgebra
+import HilbertTest.SourceStack.Topology
 
 /-!
 Source-stack interface for the Riemann-Roch-to-linear-algebra handoff in
@@ -257,6 +258,49 @@ theorem exists_section_vanishing_on_finite_nonzero_at
   rcases D.exists_section_for_disjoint_finite_sets
       hS (Set.finite_singleton x) hdis with ⟨s, hsS, hsx⟩
   exact ⟨s, hsS, hsx x (by simp)⟩
+
+/-- Finite-complement-open Riemann-Roch handoff: if a finite set lies in a set
+whose complement is finite, there is a section vanishing on the complement and
+nonzero on the finite set. -/
+theorem exists_section_vanishing_on_complement_nonzero_on_finite
+    [Infinite K] {U T : Set X} (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, (D.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      (D.toEvaluationData).nonzeroOnSet T s := by
+  have hdis : Disjoint Uᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxU hxT
+    exact hxU (hTsub hxT)
+  exact D.exists_section_for_disjoint_finite_sets hUcompl hT hdis
+
+/-- Pointwise finite-complement-open Riemann-Roch handoff. -/
+theorem exists_section_vanishing_on_complement_nonzero_at
+    [Infinite K] {U : Set X} (hUcompl : Uᶜ.Finite)
+    {x : X} (hxU : x ∈ U) :
+    ∃ s : V, (D.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      D.eval x s ≠ 0 := by
+  exact D.exists_section_vanishing_on_finite_nonzero_at hUcompl
+    (show x ∉ Uᶜ by simpa using hxU)
+
+/-- Nonempty-open Riemann-Roch handoff in a finite-complement topology. -/
+theorem exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [NonemptyOpenFiniteComplement X]
+    {U T : Set X} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, (D.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      (D.toEvaluationData).nonzeroOnSet T s := by
+  exact D.exists_section_vanishing_on_complement_nonzero_on_finite
+    (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub
+
+/-- Pointwise nonempty-open Riemann-Roch handoff in a finite-complement
+topology. -/
+theorem exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {x : X} (hxU : x ∈ U) :
+    ∃ s : V, (D.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      D.eval x s ≠ 0 := by
+  exact D.exists_section_vanishing_on_complement_nonzero_at
+    (finite_compl_of_isOpen_of_mem hU hxU) hxU
 
 end RiemannRochFiniteEvaluationPackage
 

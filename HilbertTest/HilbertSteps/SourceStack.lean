@@ -326,6 +326,41 @@ theorem hilbert_rr_package_exists_section_vanishing_on_finite_nonzero_at
   exact SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_nonzero_at
     P hS hx
 
+theorem hilbert_rr_package_exists_section_vanishing_on_complement_nonzero_on_finite
+    [Infinite K] {U T : Set X} (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      (P.toEvaluationData).nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_on_finite
+      P hUcompl hT hTsub
+
+theorem hilbert_rr_package_exists_section_vanishing_on_complement_nonzero_at
+    [Infinite K] {U : Set X} (hUcompl : Uᶜ.Finite)
+    {x : X} (hxU : x ∈ U) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet Uᶜ s ∧ P.eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_at
+      P hUcompl hxU
+
+theorem hilbert_rr_package_exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [SourceStack.NonemptyOpenFiniteComplement X]
+    {U T : Set X} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet Uᶜ s ∧
+      (P.toEvaluationData).nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+      P hU hUne hT hTsub
+
+theorem hilbert_rr_package_exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [SourceStack.NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {x : X} (hxU : x ∈ U) :
+    ∃ s : V, (P.toEvaluationData).vanishesOnSet Uᶜ s ∧ P.eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+      P hU hxU
+
 end CurveRiemannRoch
 
 namespace CurveBelyiConstruction
