@@ -56,6 +56,55 @@ theorem schemeReciprocalTranslatePoint_image_card
   Finset.card_image_of_injective S
     (schemeReciprocalTranslatePoint_injective K lambda)
 
+/-- Membership in a finite image under a reciprocal translate is exactly
+membership in the source finite set, using injectivity. -/
+theorem schemeReciprocalTranslatePoint_mem_image_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K))
+    (p : ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p ∈
+        S.image (schemeReciprocalTranslatePoint K lambda) ↔
+      p ∈ S := by
+  constructor
+  · intro hp
+    rcases Finset.mem_image.mp hp with ⟨q, hq, hpq⟩
+    have hqp : q = p :=
+      schemeReciprocalTranslatePoint_injective K lambda hpq
+    simpa [hqp] using hq
+  · intro hp
+    exact Finset.mem_image_of_mem (schemeReciprocalTranslatePoint K lambda) hp
+
+/-- A point outside the source finite set remains outside the reciprocal
+translated finite image. -/
+theorem schemeReciprocalTranslatePoint_not_mem_image_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K))
+    (p : ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p ∉
+        S.image (schemeReciprocalTranslatePoint K lambda) ↔
+      p ∉ S := by
+  exact not_congr
+    (schemeReciprocalTranslatePoint_mem_image_iff K lambda S p)
+
+/-- The reciprocal-translated finite image lies in the marked scheme triple
+exactly when every source point maps to the marked scheme triple. -/
+theorem schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeReciprocalTranslatePoint K lambda) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ∈
+          SchemeProjectiveLine.markedSchemePointSet K := by
+  constructor
+  · intro hS p hp
+    exact hS (Finset.mem_image_of_mem
+      (schemeReciprocalTranslatePoint K lambda) hp)
+  · intro hS q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hS p hp
+
 /-- If a finite set maps pointwise away from the marked scheme triple under a
 reciprocal translate, then its image finset is contained in the marked
 complement. -/
@@ -72,6 +121,43 @@ theorem schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl
   rw [Set.mem_compl_iff]
   rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
   exact hS p hp
+
+/-- The reciprocal-translated finite image lies in the marked complement
+exactly when every source point maps away from the marked scheme triple. -/
+theorem schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeReciprocalTranslatePoint K lambda) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      (SchemeProjectiveLine.markedSchemePointSet K)ᶜ ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ∉
+          SchemeProjectiveLine.markedSchemePointSet K := by
+  constructor
+  · intro hS p hp hmarked
+    exact (hS (Finset.mem_image_of_mem
+      (schemeReciprocalTranslatePoint K lambda) hp)) hmarked
+  · intro hS
+    exact schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl
+      K lambda S hS
+
+/-- Avoiding scheme infinity on the reciprocal-translated finite image is
+equivalent to pointwise avoidance on the source finite set. -/
+theorem schemeReciprocalTranslatePoint_image_avoids_infinity_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K)) :
+    (∀ q ∈ S.image (schemeReciprocalTranslatePoint K lambda),
+      q ≠ SchemeProjectiveLine.infinityPoint K) ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ≠
+          SchemeProjectiveLine.infinityPoint K := by
+  constructor
+  · intro hS p hp
+    exact hS (schemeReciprocalTranslatePoint K lambda p)
+      (Finset.mem_image_of_mem (schemeReciprocalTranslatePoint K lambda) hp)
+  · intro hS q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hS p hp
 
 theorem schemeReciprocalTranslatePoint_affinePoint_of_ne
     (lambda r : K) (hr : r ≠ lambda) :
@@ -235,6 +321,55 @@ theorem schemeAffineLinearPoint_image_card
   Finset.card_image_of_injective S
     (schemeAffineLinearPoint_injective K a b ha)
 
+/-- Membership in a finite image under an affine-linear transform is exactly
+membership in the source finite set, using injectivity. -/
+theorem schemeAffineLinearPoint_mem_image_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K))
+    (p : ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p ∈
+        S.image (schemeAffineLinearPoint K a b ha) ↔
+      p ∈ S := by
+  constructor
+  · intro hp
+    rcases Finset.mem_image.mp hp with ⟨q, hq, hpq⟩
+    have hqp : q = p :=
+      schemeAffineLinearPoint_injective K a b ha hpq
+    simpa [hqp] using hq
+  · intro hp
+    exact Finset.mem_image_of_mem (schemeAffineLinearPoint K a b ha) hp
+
+/-- A point outside the source finite set remains outside the affine-linear
+transformed finite image. -/
+theorem schemeAffineLinearPoint_not_mem_image_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K))
+    (p : ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p ∉
+        S.image (schemeAffineLinearPoint K a b ha) ↔
+      p ∉ S := by
+  exact not_congr
+    (schemeAffineLinearPoint_mem_image_iff K a b ha S p)
+
+/-- The affine-linear finite image lies in the marked scheme triple exactly
+when every source point maps to the marked scheme triple. -/
+theorem schemeAffineLinearPoint_image_subset_markedSchemePointSet_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeAffineLinearPoint K a b ha) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ∈
+          SchemeProjectiveLine.markedSchemePointSet K := by
+  constructor
+  · intro hS p hp
+    exact hS (Finset.mem_image_of_mem
+      (schemeAffineLinearPoint K a b ha) hp)
+  · intro hS q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hS p hp
+
 /-- If a finite set maps pointwise away from the marked scheme triple under an
 affine-linear map, then its image finset is contained in the marked
 complement. -/
@@ -251,6 +386,43 @@ theorem schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
   rw [Set.mem_compl_iff]
   rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
   exact hS p hp
+
+/-- The affine-linear finite image lies in the marked complement exactly when
+every source point maps away from the marked scheme triple. -/
+theorem schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeAffineLinearPoint K a b ha) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      (SchemeProjectiveLine.markedSchemePointSet K)ᶜ ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ∉
+          SchemeProjectiveLine.markedSchemePointSet K := by
+  constructor
+  · intro hS p hp hmarked
+    exact (hS (Finset.mem_image_of_mem
+      (schemeAffineLinearPoint K a b ha) hp)) hmarked
+  · intro hS
+    exact schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
+      K a b ha S hS
+
+/-- Avoiding scheme infinity on the affine-linear finite image is equivalent
+to pointwise avoidance on the source finite set. -/
+theorem schemeAffineLinearPoint_image_avoids_infinity_iff
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K)) :
+    (∀ q ∈ S.image (schemeAffineLinearPoint K a b ha),
+      q ≠ SchemeProjectiveLine.infinityPoint K) ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ≠
+          SchemeProjectiveLine.infinityPoint K := by
+  constructor
+  · intro hS p hp
+    exact hS (schemeAffineLinearPoint K a b ha p)
+      (Finset.mem_image_of_mem (schemeAffineLinearPoint K a b ha) hp)
+  · intro hS q hq
+    rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+    exact hS p hp
 
 theorem schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :

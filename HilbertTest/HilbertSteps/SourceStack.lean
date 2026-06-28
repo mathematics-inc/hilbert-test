@@ -13423,6 +13423,41 @@ theorem hilbert_schemeReciprocalTranslatePoint_image_card
   exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_image_card
     K lambda S
 
+theorem hilbert_schemeReciprocalTranslatePoint_mem_image_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p ∈
+        S.image (schemeReciprocalTranslatePoint K lambda) ↔
+      p ∈ S := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_mem_image_iff
+      K lambda S p
+
+theorem hilbert_schemeReciprocalTranslatePoint_not_mem_image_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p ∉
+        S.image (schemeReciprocalTranslatePoint K lambda) ↔
+      p ∉ S := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_not_mem_image_iff
+      K lambda S p
+
+theorem hilbert_schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (S.image (schemeReciprocalTranslatePoint K lambda) :
+        Set (SourceStack.SchemeProjectiveLine.P1 K)) ⊆
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ∈
+          SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_iff
+      K lambda S
+
 theorem hilbert_schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl
     [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
     (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K))
@@ -13435,6 +13470,31 @@ theorem hilbert_schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet
   exact
     SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl
       K lambda S hS
+
+theorem hilbert_schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (S.image (schemeReciprocalTranslatePoint K lambda) :
+        Set (SourceStack.SchemeProjectiveLine.P1 K)) ⊆
+      (SourceStack.SchemeProjectiveLine.markedSchemePointSet K)ᶜ ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ∉
+          SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl_iff
+      K lambda S
+
+theorem hilbert_schemeReciprocalTranslatePoint_image_avoids_infinity_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (∀ q ∈ S.image (schemeReciprocalTranslatePoint K lambda),
+      q ≠ SourceStack.SchemeProjectiveLine.infinityPoint K) ↔
+      ∀ p ∈ S,
+        schemeReciprocalTranslatePoint K lambda p ≠
+          SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_image_avoids_infinity_iff
+      K lambda S
 
 theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_of_ne
     (lambda r : K) (hr : r ≠ lambda) :
@@ -13477,6 +13537,16 @@ theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePoint
         r - lambda = 1 := by
   exact
     SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePointSet_iff_of_ne
+      K lambda r hr
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet_iff_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+        r - lambda ≠ 1 := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet_iff_of_ne
       K lambda r hr
 
 theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet
@@ -13535,6 +13605,44 @@ theorem hilbert_schemeAffineLinearPoint_image_card
   exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_image_card
     K a b ha S
 
+theorem hilbert_schemeAffineLinearPoint_mem_image_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p ∈
+        S.image (schemeAffineLinearPoint K a b ha) ↔
+      p ∈ S := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_mem_image_iff
+      K a b ha S p
+
+theorem hilbert_schemeAffineLinearPoint_not_mem_image_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (p : SourceStack.ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p ∉
+        S.image (schemeAffineLinearPoint K a b ha) ↔
+      p ∉ S := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_not_mem_image_iff
+      K a b ha S p
+
+theorem hilbert_schemeAffineLinearPoint_image_subset_markedSchemePointSet_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (S.image (schemeAffineLinearPoint K a b ha) :
+        Set (SourceStack.SchemeProjectiveLine.P1 K)) ⊆
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ∈
+          SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_image_subset_markedSchemePointSet_iff
+      K a b ha S
+
 theorem hilbert_schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
     [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
     (a b : K) (ha : a ≠ 0) (S : Finset (SourceStack.ProjectiveLine.P1 K))
@@ -13547,6 +13655,33 @@ theorem hilbert_schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
   exact
     SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
       K a b ha S hS
+
+theorem hilbert_schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (S.image (schemeAffineLinearPoint K a b ha) :
+        Set (SourceStack.SchemeProjectiveLine.P1 K)) ⊆
+      (SourceStack.SchemeProjectiveLine.markedSchemePointSet K)ᶜ ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ∉
+          SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl_iff
+      K a b ha S
+
+theorem hilbert_schemeAffineLinearPoint_image_avoids_infinity_iff
+    [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K)) :
+    (∀ q ∈ S.image (schemeAffineLinearPoint K a b ha),
+      q ≠ SourceStack.SchemeProjectiveLine.infinityPoint K) ↔
+      ∀ p ∈ S,
+        schemeAffineLinearPoint K a b ha p ≠
+          SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_image_avoids_infinity_iff
+      K a b ha S
 
 theorem hilbert_schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :
@@ -13589,6 +13724,16 @@ theorem hilbert_schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff
         a * r + b = 0 ∨ a * r + b = 1 := by
   exact
     SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff
+      K a b ha r
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet_iff
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+        a * r + b ≠ 0 ∧ a * r + b ≠ 1 := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet_iff
       K a b ha r
 
 theorem hilbert_schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet
