@@ -661,6 +661,39 @@ theorem exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
       R.T_subset_composed_belyiOpen,
       R.composed_belyiOpen_subset_compl_S⟩
 
+/-- Combined map-level and open-control version of the one-step reduction:
+the selected composed finite Belyi map has the prescribed marked controls and
+its Belyi open contains `T` while avoiding `S`. -/
+theorem exists_composedMap_controls_and_belyiOpen_controls_of_p1MapExistence_auxEtale
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (aux : C ⟶ P1 K) [IsFinite aux] [IsDominant aux]
+    {targetPoint : P1 K}
+    (himage : ∀ x ∈ S, aux.base x ≠ targetPoint)
+    (htargetBad : targetPoint ∉ badValues)
+    (maps_T_to_target : ∀ x ∈ T, aux.base x = targetPoint)
+    (hAuxEtale :
+      ∀ φ : Φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet aux S badValues)ᶜ →
+          IsEtale (aux ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+            T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+              (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases exists_of_p1MapExistence_auxEtale F hS badValues hbad aux
+      himage htargetBad maps_T_to_target hAuxEtale with
+    ⟨φ, R, _hR, hhom, hcontrols⟩
+  exact
+    ⟨φ, R.composed, hhom, hcontrols,
+      R.T_subset_composed_belyiOpen,
+      R.composed_belyiOpen_subset_compl_S⟩
+
 /-- Open-control version of `exists_composedMap_of_auxiliaryData`: fixed-pair
 auxiliary source material directly produces a composed finite Belyi map whose
 Belyi open contains `T` and avoids `S`. -/
@@ -677,6 +710,30 @@ theorem exists_composedMap_belyiOpen_controls_of_auxiliaryData
   letI : IsFinite D.aux := D.aux_finite
   letI : IsDominant D.aux := D.aux_dominant
   exact exists_composedMap_belyiOpen_controls_of_p1MapExistence_auxEtale
+    (K := K) (C := C) (S := S) (T := T) F hS
+    D.badValues D.badValues_finite D.aux
+    (targetPoint := D.targetPoint)
+    D.image_avoids_target D.target_not_bad D.maps_T_to_target
+    D.aux_etale_on_selected_belyiOpen
+
+/-- Combined map-level and open-control version of `exists_of_auxiliaryData`:
+fixed-pair auxiliary source material directly produces a composed finite Belyi
+map with both marked controls and Belyi-open controls. -/
+theorem exists_composedMap_controls_and_belyiOpen_controls_of_auxiliaryData
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hS : S.Finite)
+    (D : P1ReductionAuxiliaryData K C F S T) :
+    ∃ φ : Φ,
+      ∃ composed : FiniteBelyiMap (markedBelyiTarget K F.hmarkedOpen) C,
+        composed.hom = D.aux ≫ (F.map φ).hom ∧
+          ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+            ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+            T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+              (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  letI : IsFinite D.aux := D.aux_finite
+  letI : IsDominant D.aux := D.aux_dominant
+  exact exists_composedMap_controls_and_belyiOpen_controls_of_p1MapExistence_auxEtale
     (K := K) (C := C) (S := S) (T := T) F hS
     D.badValues D.badValues_finite D.aux
     (targetPoint := D.targetPoint)
