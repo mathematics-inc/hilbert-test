@@ -29,6 +29,25 @@ def schemeReciprocalTranslatePoint
     (lambda : K) (p : ProjectiveLine.P1 K) : SchemeProjectiveLine.P1 K :=
   linearToSchemePoint K (ProjectiveLine.reciprocalTranslate K lambda p)
 
+theorem schemeReciprocalTranslatePoint_injective
+    (lambda : K) :
+    Function.Injective (schemeReciprocalTranslatePoint K lambda) := by
+  intro p q hpq
+  have hlinear :
+      ProjectiveLine.reciprocalTranslate K lambda p =
+        ProjectiveLine.reciprocalTranslate K lambda q := by
+    exact linearToSchemePoint_injective K
+      (by simpa [schemeReciprocalTranslatePoint] using hpq)
+  exact ProjectiveLine.reciprocalTranslate_injective K lambda hlinear
+
+theorem schemeReciprocalTranslatePoint_eq_iff
+    (lambda : K) (p q : ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p =
+        schemeReciprocalTranslatePoint K lambda q ↔
+      p = q := by
+  exact ⟨fun h => schemeReciprocalTranslatePoint_injective K lambda h,
+    fun h => by rw [h]⟩
+
 theorem schemeReciprocalTranslatePoint_affinePoint_of_ne
     (lambda r : K) (hr : r ≠ lambda) :
     schemeReciprocalTranslatePoint K lambda (ProjectiveLine.affinePoint K r) =
@@ -163,6 +182,25 @@ def schemeAffineLinearPoint
     (a b : K) (ha : a ≠ 0) (p : ProjectiveLine.P1 K) :
     SchemeProjectiveLine.P1 K :=
   linearToSchemePoint K (ProjectiveLine.affineLinearMap K a b ha p)
+
+theorem schemeAffineLinearPoint_injective
+    (a b : K) (ha : a ≠ 0) :
+    Function.Injective (schemeAffineLinearPoint K a b ha) := by
+  intro p q hpq
+  have hlinear :
+      ProjectiveLine.affineLinearMap K a b ha p =
+        ProjectiveLine.affineLinearMap K a b ha q := by
+    exact linearToSchemePoint_injective K
+      (by simpa [schemeAffineLinearPoint] using hpq)
+  exact ProjectiveLine.affineLinearMap_injective K ha hlinear
+
+theorem schemeAffineLinearPoint_eq_iff
+    (a b : K) (ha : a ≠ 0) (p q : ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p =
+        schemeAffineLinearPoint K a b ha q ↔
+      p = q := by
+  exact ⟨fun h => schemeAffineLinearPoint_injective K a b ha h,
+    fun h => by rw [h]⟩
 
 theorem schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :

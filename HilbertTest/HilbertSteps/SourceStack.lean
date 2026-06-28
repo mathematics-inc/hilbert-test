@@ -11381,6 +11381,20 @@ universe u
 
 variable (K : Type u) [Field K]
 
+theorem hilbert_schemeReciprocalTranslatePoint_injective
+    (lambda : K) :
+    Function.Injective (schemeReciprocalTranslatePoint K lambda) := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_injective
+    K lambda
+
+theorem hilbert_schemeReciprocalTranslatePoint_eq_iff
+    (lambda : K) (p q : SourceStack.ProjectiveLine.P1 K) :
+    schemeReciprocalTranslatePoint K lambda p =
+        schemeReciprocalTranslatePoint K lambda q ↔
+      p = q := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_eq_iff
+    K lambda p q
+
 theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_of_ne
     (lambda r : K) (hr : r ≠ lambda) :
     schemeReciprocalTranslatePoint K lambda
@@ -11458,6 +11472,20 @@ theorem hilbert_schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
   exact
     SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
       K lambda p h
+
+theorem hilbert_schemeAffineLinearPoint_injective
+    (a b : K) (ha : a ≠ 0) :
+    Function.Injective (schemeAffineLinearPoint K a b ha) := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_injective
+    K a b ha
+
+theorem hilbert_schemeAffineLinearPoint_eq_iff
+    (a b : K) (ha : a ≠ 0) (p q : SourceStack.ProjectiveLine.P1 K) :
+    schemeAffineLinearPoint K a b ha p =
+        schemeAffineLinearPoint K a b ha q ↔
+      p = q := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_eq_iff
+    K a b ha p q
 
 theorem hilbert_schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :

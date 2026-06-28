@@ -131,6 +131,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   scheme carrier through the concrete linear-to-scheme bridge, including the
   expected formulas on affine points, poles, zero, and infinity, and the exact
   marked-scheme-set criterion for reciprocal translates away from the pole.
+  The transported reciprocal and affine-linear point maps are also checked
+  injective, with equality criteria against the original linear projective
+  points.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure
@@ -575,7 +578,8 @@ Lean-facing declarations needed:
   linear-projectivization reciprocal translate/affine-linear maps, and concrete
   scheme-carrier point transport are checked in `SourceStack.ComplexSeparation`,
   `SourceStack.ProjectiveLine`, `SourceStack.SchemeProjectiveLineTransform`,
-  and `SourceStack.ComplexSchemeSeparation`; still missing is the full
+  and `SourceStack.ComplexSchemeSeparation`, including transported
+  scheme-carrier point-map injectivity/equality criteria; still missing is the full
   scheme-`P^1` morphism packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.  The underlying primitive-element, separability, normal/Galois,
