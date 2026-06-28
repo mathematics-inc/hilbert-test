@@ -107,6 +107,19 @@ theorem hilbert_card_image_lt_of_subset_card_four_image_le_three
   exact SourceStack.card_image_lt_of_subset_card_four_image_le_three
     s u f hu hucard himage
 
+theorem hilbert_exists_smaller_image_finset_of_subset_card_four_image_le_three
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hucard : u.card = 4)
+    (himage : (u.image f).card ≤ 3) :
+    ∃ t : Finset β,
+      t = s.image f ∧
+        (∀ x ∈ s, f x ∈ t) ∧
+          t.card < s.card := by
+  exact SourceStack.exists_smaller_image_finset_of_subset_card_four_image_le_three
+    s u f hu hucard himage
+
 theorem hilbert_exists_finset_superset_card_ge_disjoint
     [Infinite α] [DecidableEq α]
     (S T : Finset α) (hdis : ∀ x, x ∈ S → x ∉ T) (N : ℕ) :
@@ -6637,6 +6650,21 @@ theorem hilbert_image_card_lt_of_fourPoint_subset_maps_to_branch
   exact SourceStack.ProjectiveLine.image_card_lt_of_fourPoint_subset_maps_to_branch
     K hr0 hr1 S f hsubset hmap
 
+theorem hilbert_exists_smaller_image_finset_of_fourPoint_subset_maps_to_branch
+    [DecidableEq (SourceStack.ProjectiveLine.P1 K)]
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hsubset : SourceStack.ProjectiveLine.fourPointFinset K r ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ∃ T : Finset (SourceStack.ProjectiveLine.P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  exact
+    SourceStack.ProjectiveLine.exists_smaller_image_finset_of_fourPoint_subset_maps_to_branch
+      K hr0 hr1 S f hsubset hmap
+
 end ProjectiveLine
 
 namespace ProjectiveSpectrum
@@ -10597,6 +10625,23 @@ theorem hilbert_p1PolynomialSeparation_image_card_lt_of_mochizukiFourPoint_subse
   exact SourceStack.P1PolynomialSeparation.image_card_lt_of_mochizukiFourPoint_subset_maps_to_branch
     K m n hm hn S f hsubset hmap
 
+theorem hilbert_p1PolynomialSeparation_exists_smaller_image_finset_of_mochizukiFourPoint_subset_maps_to_branch
+    (K : Type u) [Field K] [CharZero K]
+    [DecidableEq (SourceStack.ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SourceStack.ProjectiveLine.P1 K))
+    (f : SourceStack.ProjectiveLine.P1 K → SourceStack.ProjectiveLine.P1 K)
+    (hsubset : SourceStack.ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SourceStack.ProjectiveLine.branchFinset K) :
+    ∃ T : Finset (SourceStack.ProjectiveLine.P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  exact
+    SourceStack.P1PolynomialSeparation.exists_smaller_image_finset_of_mochizukiFourPoint_subset_maps_to_branch
+      K m n hm hn S f hsubset hmap
+
 variable {S : Set E} {β : E}
 variable (P : P1PolynomialSeparationStep F E S β)
 
@@ -11410,6 +11455,22 @@ theorem hilbert_concretePolynomialSchemeSeparation_image_card_lt_of_schemeMochiz
     (S.image f).card < S.card := by
   exact SourceStack.ConcretePolynomialSchemeSeparation.image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
     K m n hm hn S f hsubset hmap
+
+theorem hilbert_concretePolynomialSchemeSeparation_exists_smaller_image_finset_of_schemeMochizukiFourPoint_subset_maps_to_marked
+    [CharZero K] [DecidableEq (SourceStack.SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SourceStack.SchemeProjectiveLine.P1 K))
+    (f : SourceStack.SchemeProjectiveLine.P1 K → SourceStack.SchemeProjectiveLine.P1 K)
+    (hsubset : schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SourceStack.SchemeProjectiveLine.markedSchemePointFinset K) :
+    ∃ T : Finset (SourceStack.SchemeProjectiveLine.P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  exact
+    SourceStack.ConcretePolynomialSchemeSeparation.exists_smaller_image_finset_of_schemeMochizukiFourPoint_subset_maps_to_marked
+      K m n hm hn S f hsubset hmap
 
 theorem hilbert_concretePolynomialSchemeSeparation_pointMap_eq_bridge
     (x : K) :

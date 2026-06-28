@@ -142,6 +142,24 @@ theorem image_card_lt_of_mochizukiFourPoint_subset_maps_to_branch
     (mochizukiRatio_ne_zero K m n hm hn)
     (mochizukiRatio_ne_one K m n hm hn) S f hsubset hmap
 
+/-- Lemma 2.2 induction handoff specialized to Mochizuki's four distinguished
+points: the image finset is strictly smaller and contains all target images. -/
+theorem exists_smaller_image_finset_of_mochizukiFourPoint_subset_maps_to_branch
+    [DecidableEq (ProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (ProjectiveLine.P1 K))
+    (f : ProjectiveLine.P1 K → ProjectiveLine.P1 K)
+    (hsubset : ProjectiveLine.fourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ ProjectiveLine.branchFinset K) :
+    ∃ T : Finset (ProjectiveLine.P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  exact ProjectiveLine.exists_smaller_image_finset_of_fourPoint_subset_maps_to_branch
+    K (mochizukiRatio_ne_zero K m n hm hn)
+    (mochizukiRatio_ne_one K m n hm hn) S f hsubset hmap
+
 end MochizukiLemma21
 
 /-- A polynomial separation step whose selected affine target avoids the branch

@@ -91,6 +91,27 @@ theorem image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
     (image_schemeMochizukiFourPointFinset_card_lt_of_maps_to_marked
       K m n hm hn f (fun x hx => hmap x (hsubset hx)))
 
+/-- Scheme-carrier Lemma 2.2 induction handoff specialized to Mochizuki's four
+distinguished points: the image finset is strictly smaller and contains every
+target image. -/
+theorem exists_smaller_image_finset_of_schemeMochizukiFourPoint_subset_maps_to_marked
+    [CharZero K] [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n)
+    (S : Finset (SchemeProjectiveLine.P1 K))
+    (f : SchemeProjectiveLine.P1 K → SchemeProjectiveLine.P1 K)
+    (hsubset : SchemeAffineLinePoints.schemeFourPointFinset K
+      ((m : K) / ((m + n : ℕ) : K)) ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ SchemeProjectiveLine.markedSchemePointFinset K) :
+    ∃ T : Finset (SchemeProjectiveLine.P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  refine ⟨S.image f, rfl, ?_, ?_⟩
+  · intro x hx
+    exact Finset.mem_image_of_mem f hx
+  · exact image_card_lt_of_schemeMochizukiFourPoint_subset_maps_to_marked
+      K m n hm hn S f hsubset hmap
+
 /-- The concrete scheme-carrier polynomial point map `x |-> [p(x):1]`. -/
 def concreteSchemePolynomialPointMap (p : F[X]) (x : K) :
     SchemeProjectiveLine.P1 K :=

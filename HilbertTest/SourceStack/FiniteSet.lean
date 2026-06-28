@@ -63,6 +63,25 @@ theorem card_image_lt_of_subset_card_four_image_le_three
   have hcard : (u.image f).card < u.card := by omega
   exact card_image_lt_of_subset_with_smaller_subimage s u f hu hcard
 
+/-- Lemma 2.2 induction handoff: under the four-to-three image hypothesis,
+the actual image finset is a strictly smaller finite target containing every
+image of the original finite set. -/
+theorem exists_smaller_image_finset_of_subset_card_four_image_le_three
+    [DecidableEq β]
+    (s u : Finset α) (f : α → β)
+    (hu : u ⊆ s)
+    (hucard : u.card = 4)
+    (himage : (u.image f).card ≤ 3) :
+    ∃ t : Finset β,
+      t = s.image f ∧
+        (∀ x ∈ s, f x ∈ t) ∧
+          t.card < s.card := by
+  refine ⟨s.image f, rfl, ?_, ?_⟩
+  · intro x hx
+    exact Finset.mem_image_of_mem f hx
+  · exact card_image_lt_of_subset_card_four_image_le_three
+      s u f hu hucard himage
+
 end ImageCardinality
 
 section InfiniteEnlargement

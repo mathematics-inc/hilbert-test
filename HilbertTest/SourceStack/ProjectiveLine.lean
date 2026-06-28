@@ -532,6 +532,25 @@ theorem image_card_lt_of_fourPoint_subset_maps_to_branch
     (image_fourPointFinset_card_lt_of_maps_to_branch K hr0 hr1 f
       (fun x hx => hmap x (hsubset hx)))
 
+/-- Lemma 2.2 induction handoff on the linear projective line: the image of a
+finite set containing `{0,r,1,∞}` and mapping into `{0,1,∞}` is a strictly
+smaller finite set containing all target images. -/
+theorem exists_smaller_image_finset_of_fourPoint_subset_maps_to_branch
+    [DecidableEq (P1 K)]
+    {r : K} (hr0 : r ≠ 0) (hr1 : r ≠ 1)
+    (S : Finset (P1 K)) (f : P1 K → P1 K)
+    (hsubset : fourPointFinset K r ⊆ S)
+    (hmap : ∀ x ∈ S, f x ∈ branchFinset K) :
+    ∃ T : Finset (P1 K),
+      T = S.image f ∧
+        (∀ x ∈ S, f x ∈ T) ∧
+          T.card < S.card := by
+  refine ⟨S.image f, rfl, ?_, ?_⟩
+  · intro x hx
+    exact Finset.mem_image_of_mem f hx
+  · exact image_card_lt_of_fourPoint_subset_maps_to_branch
+      K hr0 hr1 S f hsubset hmap
+
 end ProjectiveLine
 
 end SourceStack

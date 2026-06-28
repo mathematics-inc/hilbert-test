@@ -90,10 +90,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `FiniteMarkedBelyiExistence`.
 - `HilbertTest.SourceStack.FiniteSet`: finite image-cardinality drop and
   pigeonhole lemmas used in the Lemma 2.2 induction bookkeeping, including the
-  four-distinguished-points-to-three-images cardinality-drop package; it also
-  checks the Theorem 2.5 finite-enlargement step that an infinite point set lets
-  one enlarge `T` past any prescribed cardinality while keeping it disjoint from
-  a fixed finite set `S`.
+  four-distinguished-points-to-three-images cardinality-drop package and the
+  explicit smaller-image finite-set handoff for induction; it also checks the
+  Theorem 2.5 finite-enlargement step that an infinite point set lets one
+  enlarge `T` past any prescribed cardinality while keeping it disjoint from a
+  fixed finite set `S`.
 - `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is
@@ -556,7 +557,10 @@ Lean-facing declarations needed:
 - full scheme/`P^1` version of Mochizuki Lemma 2.1 over `Q`; the formal
   `ℚ[X]` derivative and critical-point calculation are checked, but the
   projective morphism and ramification packaging remains.
-- Lemma 2.2 induction reducing finite rational sets.
+- Lemma 2.2: the finite cardinality-drop and explicit smaller-image handoff are
+  checked on the linear and concrete scheme-carrier four-point sets; the
+  remaining work is the full rational/scheme induction packaging around these
+  handoff steps.
 - Lemma 2.3: the analytic complex finite-set separation, reciprocal translate
   estimate, rational-pole refinement, strengthened marked-point avoidance,
   linear-projectivization reciprocal translate/affine-linear maps, and concrete
