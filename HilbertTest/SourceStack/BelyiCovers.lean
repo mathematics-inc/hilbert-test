@@ -386,6 +386,48 @@ theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
   exact D.exists_belyiOpen_inside_open_of_finite_complement hV
     (finite_compl_of_isOpen_of_mem hV hxV) hxV
 
+/-- Combined finite-complement form of Corollary 1.2 with the underlying map
+controls retained: for an open with finite complement and a point inside it,
+there is a map sending the complement to the branch set, avoiding the branch
+set at the point, and whose Belyi open lies inside the original open. -/
+theorem exists_map_controls_and_belyiOpen_inside_open_of_finite_complement
+    [T1Space P] {V : Set X} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      D.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        D.map φ x ∉ D.branch ∧
+          IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+            x ∈ D.toBelyiCoverData.belyiOpen φ ∧
+              D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  have hsingleton : ({x} : Set X).Finite := Set.finite_singleton x
+  have hdis : Disjoint Vᶜ ({x} : Set X) := by
+    rw [Set.disjoint_left]
+    intro y hyV hyx
+    rw [Set.mem_singleton_iff] at hyx
+    exact hyV (hyx ▸ hxV)
+  rcases D.exists_for_finite_disjoint hVcompl hsingleton hdis with
+    ⟨φ, hφV, hφx⟩
+  have hxφ : D.map φ x ∉ D.branch := hφx x (by simp)
+  exact
+    ⟨φ, hφV, hxφ, D.toBelyiCoverData.belyiOpen_isOpen φ, hxφ,
+      by
+        simpa only [compl_compl] using
+          D.toBelyiCoverData.belyiOpen_subset_compl_of_sendsSetToBranch hφV⟩
+
+/-- Combined finite-complement-space form of Corollary 1.2 with the underlying
+map controls retained. -/
+theorem exists_map_controls_and_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      D.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        D.map φ x ∉ D.branch ∧
+          IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+            x ∈ D.toBelyiCoverData.belyiOpen φ ∧
+              D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact D.exists_map_controls_and_belyiOpen_inside_open_of_finite_complement
+    hV (finite_compl_of_isOpen_of_mem hV hxV) hxV
+
 /-- The Belyi opens attached to a noncritical Belyi existence package. -/
 def belyiOpenSetFamily : Set (Set X) :=
   Set.range fun φ : Φ => D.toBelyiCoverData.belyiOpen φ
@@ -615,6 +657,46 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComp
           D.toBelyiCoverData.belyiOpen φ ⊆ V := by
   exact D.exists_belyiOpen_containing_finite_inside_open_of_finite_complement
     hV (finite_compl_of_isOpen_nonempty hV hVne) hT hTsub
+
+/-- Combined finite-set finite-complement form with the underlying map controls
+retained: if `V` has finite complement and contains a finite set `T`, then some
+map sends the complement of `V` to the branch set, avoids the branch set on
+`T`, and has Belyi open containing `T` inside `V`. -/
+theorem exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space P] {V T : Set X} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      D.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        (∀ x ∈ T, D.map φ x ∉ D.branch) ∧
+          IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+            T ⊆ D.toBelyiCoverData.belyiOpen φ ∧
+              D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  have hdis : Disjoint Vᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxV hxT
+    exact hxV (hTsub hxT)
+  rcases D.exists_for_finite_disjoint hVcompl hT hdis with ⟨φ, hφV, hφT⟩
+  exact
+    ⟨φ, hφV, hφT, D.toBelyiCoverData.belyiOpen_isOpen φ, hφT,
+      by
+        simpa only [compl_compl] using
+          D.toBelyiCoverData.belyiOpen_subset_compl_of_sendsSetToBranch hφV⟩
+
+/-- Combined finite-set finite-complement-space form with the underlying map
+controls retained. -/
+theorem exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [NonemptyOpenFiniteComplement X]
+    {V T : Set X} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      D.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        (∀ x ∈ T, D.map φ x ∉ D.branch) ∧
+          IsOpen (D.toBelyiCoverData.belyiOpen φ) ∧
+            T ⊆ D.toBelyiCoverData.belyiOpen φ ∧
+              D.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact
+    D.exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hV (finite_compl_of_isOpen_nonempty hV hVne) hT hTsub
 
 /-- Recursive finite-set open-subspace form of Corollary 1.2: after restricting
 a noncritical Belyi existence package to an open subtype whose ambient source

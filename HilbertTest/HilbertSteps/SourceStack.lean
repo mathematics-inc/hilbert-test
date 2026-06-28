@@ -8153,6 +8153,32 @@ theorem hilbert_noncritical_exists_belyiOpen_inside_open_of_nonemptyOpenFiniteCo
   exact SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
     E hV hxV
 
+theorem hilbert_noncritical_exists_map_controls_and_belyiOpen_inside_open_of_finite_complement
+    [T1Space P] {V : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      E.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        E.map φ x ∉ E.branch ∧
+          IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+            x ∈ E.toBelyiCoverData.belyiOpen φ ∧
+              E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact
+    SourceStack.NoncriticalBelyiExistence.exists_map_controls_and_belyiOpen_inside_open_of_finite_complement
+      E hV hVcompl hxV
+
+theorem hilbert_noncritical_exists_map_controls_and_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
+    {V : Set X} (hV : IsOpen V) {x : X} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      E.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        E.map φ x ∉ E.branch ∧
+          IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+            x ∈ E.toBelyiCoverData.belyiOpen φ ∧
+              E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact
+    SourceStack.NoncriticalBelyiExistence.exists_map_controls_and_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      E hV hxV
+
 theorem hilbert_noncritical_belyiOpenSetFamily_isTopologicalBasis
     [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X] :
     TopologicalSpace.IsTopologicalBasis E.belyiOpenSetFamily := by
@@ -8293,6 +8319,33 @@ theorem hilbert_noncritical_exists_belyiOpen_containing_finite_inside_open_of_no
           E.toBelyiCoverData.belyiOpen φ ⊆ V := by
   exact
     SourceStack.NoncriticalBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      E hV hVne hT hTsub
+
+theorem hilbert_noncritical_exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [T1Space P] {V T : Set X} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      E.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        (∀ x ∈ T, E.map φ x ∉ E.branch) ∧
+          IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+            T ⊆ E.toBelyiCoverData.belyiOpen φ ∧
+              E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact
+    SourceStack.NoncriticalBelyiExistence.exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_finite_complement
+      E hV hVcompl hT hTsub
+
+theorem hilbert_noncritical_exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [T1Space P] [SourceStack.NonemptyOpenFiniteComplement X]
+    {V T : Set X} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      E.toBelyiCoverData.sendsSetToBranch Vᶜ φ ∧
+        (∀ x ∈ T, E.map φ x ∉ E.branch) ∧
+          IsOpen (E.toBelyiCoverData.belyiOpen φ) ∧
+            T ⊆ E.toBelyiCoverData.belyiOpen φ ∧
+              E.toBelyiCoverData.belyiOpen φ ⊆ V := by
+  exact
+    SourceStack.NoncriticalBelyiExistence.exists_map_controls_and_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       E hV hVne hT hTsub
 
 theorem hilbert_noncritical_restrictSubtype_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
