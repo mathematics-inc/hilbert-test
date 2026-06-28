@@ -11777,6 +11777,25 @@ theorem hilbert_concretePolynomialSchemeSeparation_normalizedBelyiPolynomial_cri
     SourceStack.ConcretePolynomialSchemeSeparation.normalizedBelyiPolynomial_critical_concreteSchemePolynomialPointMap_mem_markedSchemePointSet
       K m n hm hn hx
 
+theorem hilbert_concretePolynomialSchemeSeparation_normalizedBelyiPolynomial_pointMap_basic_data
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    concreteSchemePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) 0 =
+      SourceStack.SchemeProjectiveLine.zeroPoint K ∧
+    concreteSchemePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) 1 =
+      SourceStack.SchemeProjectiveLine.zeroPoint K ∧
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0 ∧
+    concreteSchemePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n)
+        ((m : K) / ((m + n : ℕ) : K)) =
+      SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact
+    SourceStack.ConcretePolynomialSchemeSeparation.normalizedBelyiPolynomial_concreteSchemePolynomialPointMap_basic_data
+      K m n hm hn
+
 theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_mem_markedSchemePointSet_iff
     (p : F[X]) (β : K) :
     concreteSchemePolynomialTargetPoint F K p β ∈

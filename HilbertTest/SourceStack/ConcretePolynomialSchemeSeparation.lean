@@ -170,6 +170,38 @@ theorem normalizedBelyiPolynomial_critical_concreteSchemePolynomialPointMap_mem_
     (concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff K K
       (PolynomialMaps.normalizedBelyiPolynomial K m n) x).2 hvalue
 
+/-- Concrete scheme-carrier basic data for the normalized Belyi polynomial:
+the endpoints map to the scheme zero point, the middle point is critical, and
+the middle point maps to the scheme one point. -/
+theorem normalizedBelyiPolynomial_concreteSchemePolynomialPointMap_basic_data
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    concreteSchemePolynomialPointMap K K
+        (PolynomialMaps.normalizedBelyiPolynomial K m n) 0 =
+      SchemeProjectiveLine.zeroPoint K ∧
+    concreteSchemePolynomialPointMap K K
+        (PolynomialMaps.normalizedBelyiPolynomial K m n) 1 =
+      SchemeProjectiveLine.zeroPoint K ∧
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0 ∧
+    concreteSchemePolynomialPointMap K K
+        (PolynomialMaps.normalizedBelyiPolynomial K m n)
+        ((m : K) / ((m + n : ℕ) : K)) =
+      SchemeProjectiveLine.onePoint K := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rw [concreteSchemePolynomialPointMap,
+      PolynomialMaps.normalizedBelyiPolynomial_aeval_zero_of_pos K m n hm,
+      SchemeAffineLinePoints.affinePoint_zero]
+  · rw [concreteSchemePolynomialPointMap,
+      PolynomialMaps.normalizedBelyiPolynomial_aeval_one_of_pos K m n hn,
+      SchemeAffineLinePoints.affinePoint_zero]
+  · exact
+      PolynomialMaps.normalizedBelyiPolynomial_derivative_aeval_middle_eq_zero
+        K m n hm hn
+  · rw [concreteSchemePolynomialPointMap,
+      PolynomialMaps.normalizedBelyiPolynomial_aeval_middle_eq_one K m n hm hn,
+      SchemeAffineLinePoints.affinePoint_one]
+
 theorem concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
     (p : F[X]) (β : K) :
     concreteSchemePolynomialTargetPoint F K p β ∈

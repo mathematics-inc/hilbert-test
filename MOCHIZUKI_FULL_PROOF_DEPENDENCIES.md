@@ -266,7 +266,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   `x |-> [p(x):1]` and the selected target with `[p(beta):1]`, and reducing
   marked membership to the branch values `0` and `1`.  It also checks that
   critical points of the normalized Belyi polynomial map by
-  `x |-> [B(x):1]` into the marked scheme triple.
+  `x |-> [B(x):1]` into the marked scheme triple, and packages the concrete
+  scheme-point endpoint/middle data: `0` and `1` map to scheme zero, the middle
+  point is critical, and the middle point maps to scheme one.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
