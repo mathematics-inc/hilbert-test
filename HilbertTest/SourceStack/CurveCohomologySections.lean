@@ -995,6 +995,22 @@ theorem finite_subcover_on_complement_forall
   exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
     K (ReductionIndex C) D.toFiniteMarkedBelyiExistence κ hS
 
+/-- Concrete coordinate-avoidance form of the finite tuple-subcover consequence
+directly from the cohomological source package. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t, ∀ j, (D.toFiniteMarkedBelyiExistence.map i.1).hom.base (x j).1 ∉
+          markedSchemePointSet K := by
+  exact FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall_avoidance
+    K (ReductionIndex C) D.toFiniteMarkedBelyiExistence κ hS
+
 end CohomologicalP1ReductionSourceData
 
 end SchemeReductionSource

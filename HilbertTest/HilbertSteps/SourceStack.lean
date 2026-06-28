@@ -4834,6 +4834,22 @@ theorem hilbert_cohomologicalP1ReductionSourceData_finite_subcover_on_complement
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_subcover_on_complement_forall
       D κ hS
 
+theorem hilbert_cohomologicalP1ReductionSourceData_finite_subcover_on_complement_forall_avoidance
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {i : ReductionIndex C //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K
+          (ReductionIndex C) D.toFiniteMarkedBelyiExistence).sendsSetToBranch S i},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ i ∈ t, ∀ j, (D.toFiniteMarkedBelyiExistence.map i.1).hom.base (x j).1 ∉
+          markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.finite_subcover_on_complement_forall_avoidance
+      D κ hS
+
 end CurveCohomologySections
 
 section ComplexSeparation
