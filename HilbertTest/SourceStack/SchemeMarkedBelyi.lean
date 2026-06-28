@@ -1622,6 +1622,21 @@ theorem exists_map_controls_and_belyiOpen_controls
         (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map φ) x).1 hxOpen
     exact hxNotMarked (hSmark x hxS)
 
+/-- Direct same-map finite disjoint-set conclusion with explicit openness:
+the selected finite marked Belyi map satisfies the marked point controls, its
+source Belyi open is open, contains `T`, and is contained in `Sᶜ`. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      ((∀ x ∈ S, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases exists_map_controls_and_belyiOpen_controls K Φ F hS hT hdis with
+    ⟨φ, hcontrols, hTopen, hopenS⟩
+  exact ⟨φ, hcontrols, (F.map φ).toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
+
 /-- Actual finite-map version of the one-point Corollary 1.2 consequence:
 outside a finite set, some selected finite Belyi map has a source Belyi open
 through the point and contained in the finite complement. -/

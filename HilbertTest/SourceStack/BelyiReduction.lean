@@ -920,6 +920,33 @@ theorem exists_map_controls_and_belyiOpen_controls
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopenS)⟩
 
+/-- Direct same-map finite disjoint-set conclusion from a global
+`P1`-reduction family, with explicit openness of the selected source Belyi
+open. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_controls
+        (K := K) (Φ := ReductionIndex C) E.toFiniteMarkedBelyiExistence
+        hS hT hdis with
+    ⟨i, hcontrols, hopen, hTopen, hopenS⟩
+  exact
+    ⟨i,
+      (by
+        rcases hcontrols with ⟨hSmark, hTavoid⟩
+        exact
+          ⟨(by simpa [toFiniteMarkedBelyiExistence_map_apply] using hSmark),
+            (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTavoid)⟩),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopenS)⟩
+
 /-- Actual finite-map one-point Belyi-open consequence from a reduction
 family. -/
 theorem exists_map_belyiOpen_inside_complement

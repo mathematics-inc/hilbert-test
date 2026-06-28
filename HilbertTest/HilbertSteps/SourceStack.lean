@@ -685,6 +685,19 @@ theorem hilbert_schemeSectionControlled_exists_map_controls_and_belyiOpen_contro
     SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_controls_and_belyiOpen_controls
       D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_controls_and_isOpen_belyiOpen_controls
+      D hS hT hdis
+
 theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_inside_complement
     [Infinite K] {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
     ∃ s : V,
@@ -1591,6 +1604,19 @@ theorem hilbert_p1ReductionExistence_exists_map_controls_and_belyiOpen_controls
           ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.BelyiReduction.P1ReductionExistence.exists_map_controls_and_belyiOpen_controls
+      E hS hT hdis
+
+theorem hilbert_p1ReductionExistence_exists_map_controls_and_isOpen_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_map_controls_and_isOpen_belyiOpen_controls
       E hS hT hdis
 
 theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_inside_complement
@@ -2664,6 +2690,19 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_controls_and_bely
     SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
       F hS hT hdis
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
+      F hS hT hdis
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
@@ -3024,6 +3063,19 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_contro
           ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+      TF hS hT hdis
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (TF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
       TF hS hT hdis
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
@@ -3398,6 +3450,19 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_
           ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+      ITF hS hT hdis
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (ITF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
       ITF hS hT hdis
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
@@ -3780,6 +3845,19 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_c
           ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+      TSF hS hT hdis
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (TSF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
       TSF hS hT hdis
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
@@ -4811,6 +4889,24 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_controls_and_belyi
           ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_controls_and_belyiOpen_controls
+      D hS hT hdis
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+          markedSchemePointSet K) ∧
+        IsOpen ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_controls_and_isOpen_belyiOpen_controls
       D hS hT hdis
 
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_inside_complement
@@ -9291,6 +9387,19 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_map_controls_and_belyiOpen_con
           ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_controls_and_belyiOpen_controls
+      K Φ F hS hT hdis
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_controls_and_isOpen_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      ((∀ x ∈ S, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_controls
       K Φ F hS hT hdis
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_inside_complement

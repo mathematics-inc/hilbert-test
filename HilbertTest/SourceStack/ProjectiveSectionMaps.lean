@@ -1552,6 +1552,22 @@ theorem exists_map_controls_and_belyiOpen_controls
         (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).1 hxOpen
     exact hxNotMarked (hSmark x hxS)
 
+/-- Direct same-map finite disjoint-set conclusion for projective-section
+finite marked families, with explicit openness of the selected source Belyi
+open. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases F.exists_map_controls_and_belyiOpen_controls hS hT hdis with
+    ⟨s, hcontrols, hTopen, hopenS⟩
+  exact ⟨s, hcontrols, (F.map s).toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
+
 /-- Corollary 1.2-style one-point open consequence of the projective-section
 finite marked family. -/
 theorem exists_belyiOpen_inside_complement
@@ -1985,6 +2001,20 @@ theorem exists_map_controls_and_belyiOpen_controls
         T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
           ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+    hS hT hdis
+
+/-- Direct same-map marked, open, and Belyi-open controls for concrete
+trivialized-ratio finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
     hS hT hdis
 
 /-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
@@ -2421,6 +2451,20 @@ theorem exists_map_controls_and_belyiOpen_controls
         T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
           ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+    hS hT hdis
+
+/-- Direct same-map marked, open, and Belyi-open controls for
+denominator-is-unit trivialized finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
     hS hT hdis
 
 /-- Direct one-point Belyi-open consequence for denominator-is-unit
@@ -2866,6 +2910,20 @@ theorem exists_map_controls_and_belyiOpen_controls
         T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
           ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+    F.isUnitFamily hS hT hdis
+
+/-- Direct same-map marked, open, and Belyi-open controls for canonical
+two-section Bezout finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
     F.isUnitFamily hS hT hdis
 
 /-- Direct one-point Belyi-open consequence for canonical two-section Bezout
