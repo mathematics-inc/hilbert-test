@@ -12603,6 +12603,38 @@ theorem hilbert_localizationAtPrime_isDVR_of_dedekind
     IsDiscreteValuationRing (Localization.AtPrime P) := by
   exact SourceStack.DedekindDvr.localizationAtPrime_isDVR_of_dedekind A hP
 
+theorem hilbert_localizationAtPrime_not_isField
+    (A : Type u) [CommRing A] [IsDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    ¬ IsField (Localization.AtPrime P) := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_not_isField A hP
+
+theorem hilbert_localizationAtPrime_maximalIdeal_ne_bot_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    IsLocalRing.maximalIdeal (Localization.AtPrime P) ≠ ⊥ := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_maximalIdeal_ne_bot_of_dedekind A hP
+
+theorem hilbert_localizationAtPrime_maximalIdeal_isPrincipal_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} [P.IsPrime] :
+    (IsLocalRing.maximalIdeal (Localization.AtPrime P)).IsPrincipal := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_maximalIdeal_isPrincipal_of_dedekind A
+
+theorem hilbert_localizationAtPrime_exists_irreducible_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    ∃ ϖ : Localization.AtPrime P, Irreducible ϖ := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_exists_irreducible_of_dedekind A hP
+
+theorem hilbert_localizationAtPrime_finrank_cotangentSpace_eq_one_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    Module.finrank
+      (IsLocalRing.ResidueField (Localization.AtPrime P))
+      (IsLocalRing.CotangentSpace (Localization.AtPrime P)) = 1 := by
+  exact SourceStack.DedekindDvr.localizationAtPrime_finrank_cotangentSpace_eq_one_of_dedekind A hP
+
 theorem hilbert_dedekindDomain_to_dedekindDomainDvr
     (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A] :
     IsDedekindDomainDvr A := by

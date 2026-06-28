@@ -169,6 +169,55 @@ theorem localizationAtPrime_isDVR_of_dedekind
     IsDiscreteValuationRing (Localization.AtPrime P) :=
   localization_atPrime_isDVR_of_dedekind A hP (Localization.AtPrime P)
 
+/-- The concrete localization at a nonzero prime of a domain is not a field. -/
+theorem localizationAtPrime_not_isField
+    (A : Type u) [CommRing A] [IsDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    ¬ IsField (Localization.AtPrime P) :=
+  localization_atPrime_not_isField A hP (Localization.AtPrime P)
+
+/-- The maximal ideal of the concrete localization at a nonzero prime of a
+Dedekind domain is nonzero. -/
+theorem localizationAtPrime_maximalIdeal_ne_bot_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    IsLocalRing.maximalIdeal (Localization.AtPrime P) ≠ ⊥ := by
+  haveI : IsDiscreteValuationRing (Localization.AtPrime P) :=
+    localizationAtPrime_isDVR_of_dedekind A hP
+  exact IsDiscreteValuationRing.not_a_field (Localization.AtPrime P)
+
+/-- The maximal ideal of the concrete localization at a nonzero prime of a
+Dedekind domain is principal. -/
+theorem localizationAtPrime_maximalIdeal_isPrincipal_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} [P.IsPrime] :
+    (IsLocalRing.maximalIdeal (Localization.AtPrime P)).IsPrincipal := by
+  haveI : IsDedekindDomain (Localization.AtPrime P) :=
+    localization_atPrime_isDedekindDomain A P (Localization.AtPrime P)
+  exact maximalIdeal_isPrincipal_of_isDedekindDomain (Localization.AtPrime P)
+
+/-- The concrete localization at a nonzero prime of a Dedekind domain has an
+irreducible uniformizer. -/
+theorem localizationAtPrime_exists_irreducible_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    ∃ ϖ : Localization.AtPrime P, Irreducible ϖ := by
+  haveI : IsDiscreteValuationRing (Localization.AtPrime P) :=
+    localizationAtPrime_isDVR_of_dedekind A hP
+  exact IsDiscreteValuationRing.exists_irreducible (Localization.AtPrime P)
+
+/-- The cotangent space of the concrete localization at a nonzero prime of a
+Dedekind domain has dimension one over its residue field. -/
+theorem localizationAtPrime_finrank_cotangentSpace_eq_one_of_dedekind
+    (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A]
+    {P : Ideal A} (hP : P ≠ ⊥) [P.IsPrime] :
+    Module.finrank
+      (IsLocalRing.ResidueField (Localization.AtPrime P))
+      (IsLocalRing.CotangentSpace (Localization.AtPrime P)) = 1 := by
+  haveI : IsDiscreteValuationRing (Localization.AtPrime P) :=
+    localizationAtPrime_isDVR_of_dedekind A hP
+  exact IsLocalRing.finrank_CotangentSpace_eq_one (Localization.AtPrime P)
+
 /-- A Dedekind domain satisfies the local-DVR definition of Dedekind domain. -/
 theorem dedekindDomain_to_dedekindDomainDvr
     (A : Type u) [CommRing A] [IsDomain A] [IsDedekindDomain A] :

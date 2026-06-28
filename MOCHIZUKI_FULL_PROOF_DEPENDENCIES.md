@@ -521,10 +521,12 @@ The ring-theoretic ramification and inertia facts needed below this geometric
 branch-locus layer are now checked in `SourceStack.Ramification`, and the
 Dedekind/DVR local algebra underneath codimension-one ramification is checked in
 `SourceStack.DedekindDvr`, including the concrete `Localization.AtPrime`
-nonzero-prime DVR bridge; open-immersion and target-open restriction wrappers
-are checked in `SourceStack.Schemes`; the missing piece is still the
-curve/scheme specialization that turns local ramification indices into
-branch-locus statements for finite maps of smooth curves.
+nonzero-prime DVR bridge, nonfield/nonzero-maximal-ideal consequences,
+principal maximal ideals, uniformizer existence, and cotangent dimension one;
+open-immersion and target-open restriction wrappers are checked in
+`SourceStack.Schemes`; the missing piece is still the curve/scheme
+specialization that turns local ramification indices into branch-locus
+statements for finite maps of smooth curves.
 
 ### F. `P^1` rational-function layer
 

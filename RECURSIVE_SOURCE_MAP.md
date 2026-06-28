@@ -310,7 +310,8 @@ Current Mathlib status:
 - The local algebra supporting codimension-one curve ramification is checked in
   `HilbertTest.SourceStack.DedekindDvr`: dimension-one prime behavior,
   Dedekind localization at nonzero primes, the concrete `Localization.AtPrime`
-  DVR specialization, DVR uniformizers, prime-power ideals, and additive
+  DVR specialization, nonfield and nonzero/principal maximal-ideal consequences,
+  DVR uniformizers, cotangent dimension one, prime-power ideals, and additive
   valuation laws.
 - The curve/divisor/ramification API needed to use them for Belyi maps does not
   yet exist as a coherent package.
