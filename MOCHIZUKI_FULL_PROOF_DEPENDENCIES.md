@@ -133,7 +133,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   marked-scheme-set criterion for reciprocal translates away from the pole.
   The transported reciprocal and affine-linear point maps are also checked
   injective, with equality criteria against the original linear projective
-  points.
+  points, finite-image cardinality preservation, and marked-complement
+  containment for image finsets under pointwise marked avoidance.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure

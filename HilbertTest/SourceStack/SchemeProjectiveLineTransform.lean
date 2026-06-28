@@ -48,6 +48,31 @@ theorem schemeReciprocalTranslatePoint_eq_iff
   exact ⟨fun h => schemeReciprocalTranslatePoint_injective K lambda h,
     fun h => by rw [h]⟩
 
+/-- The reciprocal-translate scheme-point map preserves finset cardinality. -/
+theorem schemeReciprocalTranslatePoint_image_card
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeReciprocalTranslatePoint K lambda)).card = S.card :=
+  Finset.card_image_of_injective S
+    (schemeReciprocalTranslatePoint_injective K lambda)
+
+/-- If a finite set maps pointwise away from the marked scheme triple under a
+reciprocal translate, then its image finset is contained in the marked
+complement. -/
+theorem schemeReciprocalTranslatePoint_image_subset_markedSchemePointSet_compl
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (lambda : K) (S : Finset (ProjectiveLine.P1 K))
+    (hS : ∀ p ∈ S,
+      schemeReciprocalTranslatePoint K lambda p ∉
+        SchemeProjectiveLine.markedSchemePointSet K) :
+    (S.image (schemeReciprocalTranslatePoint K lambda) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      (SchemeProjectiveLine.markedSchemePointSet K)ᶜ := by
+  intro q hq
+  rw [Set.mem_compl_iff]
+  rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+  exact hS p hp
+
 theorem schemeReciprocalTranslatePoint_affinePoint_of_ne
     (lambda r : K) (hr : r ≠ lambda) :
     schemeReciprocalTranslatePoint K lambda (ProjectiveLine.affinePoint K r) =
@@ -201,6 +226,31 @@ theorem schemeAffineLinearPoint_eq_iff
       p = q := by
   exact ⟨fun h => schemeAffineLinearPoint_injective K a b ha h,
     fun h => by rw [h]⟩
+
+/-- The affine-linear scheme-point map preserves finset cardinality. -/
+theorem schemeAffineLinearPoint_image_card
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K)) :
+    (S.image (schemeAffineLinearPoint K a b ha)).card = S.card :=
+  Finset.card_image_of_injective S
+    (schemeAffineLinearPoint_injective K a b ha)
+
+/-- If a finite set maps pointwise away from the marked scheme triple under an
+affine-linear map, then its image finset is contained in the marked
+complement. -/
+theorem schemeAffineLinearPoint_image_subset_markedSchemePointSet_compl
+    [DecidableEq (SchemeProjectiveLine.P1 K)]
+    (a b : K) (ha : a ≠ 0) (S : Finset (ProjectiveLine.P1 K))
+    (hS : ∀ p ∈ S,
+      schemeAffineLinearPoint K a b ha p ∉
+        SchemeProjectiveLine.markedSchemePointSet K) :
+    (S.image (schemeAffineLinearPoint K a b ha) :
+        Set (SchemeProjectiveLine.P1 K)) ⊆
+      (SchemeProjectiveLine.markedSchemePointSet K)ᶜ := by
+  intro q hq
+  rw [Set.mem_compl_iff]
+  rcases Finset.mem_image.mp hq with ⟨p, hp, rfl⟩
+  exact hS p hp
 
 theorem schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :
