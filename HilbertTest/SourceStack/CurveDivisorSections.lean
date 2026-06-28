@@ -397,6 +397,48 @@ theorem exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectiv
     ⟨phi, composed, hhom, hcontrols, hTopen, hopenS⟩
   exact ⟨s1, hnc, phi, composed, hhom, hcontrols, hTopen, hopenS⟩
 
+/-- Combined composed-map form of the divisor-to-reduction bridge with
+explicit openness: the divisor source data produces an actual composed finite
+Belyi map with marked controls, an open source Belyi open, and Belyi-open
+controls. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_sets_of_projectivePair_factory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc phi,
+        ((F.map phi).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map phi).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∃ phi : Φ,
+        ∃ composed : SchemeBelyi.FiniteBelyiMap
+          (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+          composed.hom = (mkPair s1 hnc).hom ≫ (F.map phi).hom ∧
+            ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+              ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+              IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                  (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      D.exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+        F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+        hmk_finite hmk_dominant htargetBad hAuxEtale with
+    ⟨s1, hnc, phi, composed, hhom, hcontrols, hTopen, hopenS⟩
+  exact
+    ⟨s1, hnc, phi, composed, hhom, hcontrols,
+      composed.toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
+
 end DivisorZeroSectionData
 
 end SchemeSupport

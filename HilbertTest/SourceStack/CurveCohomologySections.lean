@@ -469,6 +469,47 @@ theorem exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectiv
       F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+/-- Combined composed-map form of the cohomological divisor-to-reduction bridge
+with explicit openness: the cohomological divisor package produces an actual
+composed finite Belyi map with marked controls, an open source Belyi open, and
+Belyi-open controls. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_sets_of_projectivePair_factory
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.evalSurjectivity.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc phi,
+        ((F.map phi).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map phi).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        ∃ phi : Φ,
+          ∃ composed : SchemeBelyi.FiniteBelyiMap
+            (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+            composed.hom = (mkPair s1 hnc).hom ≫ (F.map phi).hom ∧
+              ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                  T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                    (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    D.toDivisorZeroSectionData.exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_sets_of_projectivePair_factory
+      F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
 end SchemeSupport
 
 end CohomologicalDivisorSectionData
@@ -625,6 +666,37 @@ theorem exists_composedMap_controls_and_belyiOpen_controls_for_finite_disjoint
         (CohomologicalP1ReductionSourceData.aux_etale D i) with
     ⟨s1, hnc, φ, composed, hhom, hcontrols, hTopen, hopenS⟩
   exact ⟨i, s1, hnc, φ, composed, rfl, rfl, hhom, hcontrols, hTopen, hopenS⟩
+
+/-- Direct combined composed-map consequence from the indexed cohomological
+source package with explicit openness: for every finite disjoint pair `S,T`,
+the package produces an actual composed finite Belyi map with marked controls,
+an open source Belyi open, and Belyi-open controls. -/
+theorem exists_composedMap_controls_and_isOpen_belyiOpen_controls_for_finite_disjoint
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SchemeBelyi.FiniteBelyiMap
+              (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = S ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                      ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                      IsOpen (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                          (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases D.exists_composedMap_controls_and_belyiOpen_controls_for_finite_disjoint
+      hS hT hdis with
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols, hTopen, hopenS⟩
+  exact
+    ⟨i, s1, hnc, φ, composed, hiS, hiT, hhom, hcontrols,
+      composed.toBelyiMap.belyiOpen.2, hTopen, hopenS⟩
 
 /-- The indexed cohomological reduction-source package gives the paper-facing
 finite marked Belyi existence interface after forgetting the intermediate
