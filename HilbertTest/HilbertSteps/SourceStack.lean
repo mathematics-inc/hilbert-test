@@ -9206,6 +9206,17 @@ theorem hilbert_finiteMarkedBelyiExistence_finite_subcover_on_complement_forall
   exact SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall
     K Φ F κ hS
 
+theorem hilbert_finiteMarkedBelyiExistence_finite_subcover_on_complement_forall_avoidance
+    (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K Φ F).sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t, ∀ i, (F.map φ.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.finite_subcover_on_complement_forall_avoidance
+      K Φ F κ hS
+
 end FiniteMarkedBelyiFamily
 
 end SchemeMarkedBelyi

@@ -1870,6 +1870,21 @@ theorem finite_subcover_on_complement_forall
   exact (toMarkedNoncriticalExistence K Φ F).finite_subcover_on_complement_forall
     (κ := κ) hS
 
+/-- Concrete coordinate-avoidance form of the finite marked Belyi-family
+subcover over a fixed complement. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {φ : Φ // (toMarkedCoverData K Φ F).sendsSetToBranch S φ},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ φ ∈ t, ∀ i, (F.map φ.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  rcases finite_subcover_on_complement_forall K Φ F κ hS with ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨φ, hφt, hxφ⟩
+  refine ⟨φ, hφt, ?_⟩
+  exact hxφ
+
 end FiniteMarkedBelyiExistence
 
 end FiniteMarkedBelyiExistence
