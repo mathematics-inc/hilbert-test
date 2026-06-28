@@ -153,6 +153,49 @@ theorem exists_section_vanishing_on_finite_nonzero_at
     E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_finite_nonzero_at
       hS hx
 
+/-- Finite-complement-open version of restricted evaluation surjectivity:
+vanish on the complement of `U` and remain nonzero on a finite subset of `U`. -/
+theorem exists_section_vanishing_on_complement_nonzero_on_finite
+    [Infinite K] {U T : Set X} (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, E.evalData.vanishesOnSet Uᶜ s ∧
+      E.evalData.nonzeroOnSet T s := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_on_finite
+      hUcompl hT hTsub
+
+/-- Pointwise finite-complement-open version of restricted evaluation
+surjectivity. -/
+theorem exists_section_vanishing_on_complement_nonzero_at
+    [Infinite K] {U : Set X} (hUcompl : Uᶜ.Finite)
+    {x : X} (hxU : x ∈ U) :
+    ∃ s : V, E.evalData.vanishesOnSet Uᶜ s ∧ E.evalData.eval x s ≠ 0 := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_at
+      hUcompl hxU
+
+/-- Nonempty-open finite-complement version of restricted evaluation
+surjectivity. -/
+theorem exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [NonemptyOpenFiniteComplement X]
+    {U T : Set X} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, E.evalData.vanishesOnSet Uᶜ s ∧
+      E.evalData.nonzeroOnSet T s := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
+
+/-- Pointwise nonempty-open finite-complement version of restricted evaluation
+surjectivity. -/
+theorem exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {x : X} (hxU : x ∈ U) :
+    ∃ s : V, E.evalData.vanishesOnSet Uᶜ s ∧ E.evalData.eval x s ≠ 0 := by
+  exact
+    E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+      hU hxU
+
 end RestrictedEvaluationSurjectivityData
 
 /-- Cohomological divisor-section data: evaluation surjectivity plus the

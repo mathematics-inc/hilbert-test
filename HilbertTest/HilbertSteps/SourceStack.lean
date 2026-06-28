@@ -5499,6 +5499,39 @@ theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_fin
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_finite_nonzero_at
       RE hS hx
 
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_complement_nonzero_on_finite
+    [Infinite K] {U T : Set X} (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, RE.evalData.vanishesOnSet Uᶜ s ∧ RE.evalData.nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_complement_nonzero_on_finite
+      RE hUcompl hT hTsub
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_complement_nonzero_at
+    [Infinite K] {U : Set X} (hUcompl : Uᶜ.Finite)
+    {x : X} (hxU : x ∈ U) :
+    ∃ s : V, RE.evalData.vanishesOnSet Uᶜ s ∧ RE.evalData.eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_complement_nonzero_at
+      RE hUcompl hxU
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [SourceStack.NonemptyOpenFiniteComplement X]
+    {U T : Set X} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V, RE.evalData.vanishesOnSet Uᶜ s ∧ RE.evalData.nonzeroOnSet T s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_complement_nonzero_on_finite_of_nonemptyOpenFiniteComplement
+      RE hU hUne hT hTsub
+
+theorem hilbert_restrictedEvaluationSurjectivity_exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+    [Infinite K] [TopologicalSpace X] [SourceStack.NonemptyOpenFiniteComplement X]
+    {U : Set X} (hU : IsOpen U) {x : X} (hxU : x ∈ U) :
+    ∃ s : V, RE.evalData.vanishesOnSet Uᶜ s ∧ RE.evalData.eval x s ≠ 0 := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
+      RE hU hxU
+
 variable (D : CohomologicalDivisorSectionData K X V)
 
 theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
