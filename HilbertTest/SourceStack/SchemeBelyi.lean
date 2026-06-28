@@ -138,6 +138,41 @@ theorem isFinite_restrict_branchOpen :
   letI : IsFinite φ.hom := φ.finite_hom
   exact _root_.HilbertTest.SourceStack.Schemes.finite_restrict φ.hom T.branchOpen
 
+/-- The branch-open restriction of a finite Belyi map is affine. -/
+theorem isAffineHom_restrict_branchOpen :
+    IsAffineHom (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite (φ.hom ∣_ T.branchOpen) := isFinite_restrict_branchOpen φ
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_isAffineHom
+    (φ.hom ∣_ T.branchOpen)
+
+/-- The branch-open restriction of a finite Belyi map is integral. -/
+theorem isIntegralHom_restrict_branchOpen :
+    IsIntegralHom (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite (φ.hom ∣_ T.branchOpen) := isFinite_restrict_branchOpen φ
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_is_integral
+    (φ.hom ∣_ T.branchOpen)
+
+/-- The branch-open restriction of a finite Belyi map is locally of finite type. -/
+theorem locallyOfFiniteType_restrict_branchOpen :
+    LocallyOfFiniteType (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite (φ.hom ∣_ T.branchOpen) := isFinite_restrict_branchOpen φ
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_locally_of_finite_type
+    (φ.hom ∣_ T.branchOpen)
+
+/-- The branch-open restriction of a finite Belyi map is separated. -/
+theorem isSeparated_restrict_branchOpen :
+    IsSeparated (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite (φ.hom ∣_ T.branchOpen) := isFinite_restrict_branchOpen φ
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_isSeparated
+    (φ.hom ∣_ T.branchOpen)
+
+/-- The branch-open restriction of a finite Belyi map is quasi-compact. -/
+theorem quasiCompact_restrict_branchOpen :
+    QuasiCompact (φ.hom ∣_ T.branchOpen) := by
+  letI : IsFinite (φ.hom ∣_ T.branchOpen) := isFinite_restrict_branchOpen φ
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_quasiCompact
+    (φ.hom ∣_ T.branchOpen)
+
 /-- A finite Belyi map is affine as a morphism. -/
 theorem isAffineHom_hom :
     IsAffineHom φ.hom := by

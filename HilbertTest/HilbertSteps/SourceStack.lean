@@ -6584,6 +6584,26 @@ theorem hilbert_schemeBelyi_finite_isFinite_restrict_branchOpen :
     IsFinite (ψ.hom ∣_ T.branchOpen) := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen ψ
 
+theorem hilbert_schemeBelyi_finite_isAffineHom_restrict_branchOpen :
+    IsAffineHom (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_isIntegralHom_restrict_branchOpen :
+    IsIntegralHom (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_locallyOfFiniteType_restrict_branchOpen :
+    LocallyOfFiniteType (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_isSeparated_restrict_branchOpen :
+    IsSeparated (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen ψ
+
+theorem hilbert_schemeBelyi_finite_quasiCompact_restrict_branchOpen :
+    QuasiCompact (ψ.hom ∣_ T.branchOpen) := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen ψ
+
 theorem hilbert_schemeBelyi_finite_isAffineHom_hom :
     IsAffineHom ψ.hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.isAffineHom_hom ψ
