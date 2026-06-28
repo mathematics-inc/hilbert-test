@@ -725,6 +725,155 @@ theorem toP1ReductionExistence_hmarkedOpen
     D.toP1ReductionExistence.hmarkedOpen = F.hmarkedOpen :=
   Classical.choose_spec D.exists_p1ReductionExistence
 
+/-- Each chosen cohomological reduction-family map is finite. -/
+theorem toP1ReductionExistence_map_finite_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsFinite (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is dominant. -/
+theorem toP1ReductionExistence_map_isDominant_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsDominant (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isDominant_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map has dense range on
+underlying spaces. -/
+theorem toP1ReductionExistence_map_denseRange_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    DenseRange (D.toP1ReductionExistence.map i).hom.base :=
+  SchemeBelyi.FiniteBelyiMap.denseRange_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is etale over the marked
+branch-complement open. -/
+theorem toP1ReductionExistence_map_isEtale_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsEtale ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isEtale_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is finite. -/
+theorem toP1ReductionExistence_map_isFinite_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsFinite ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isFinite_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is affine. -/
+theorem toP1ReductionExistence_map_isAffineHom_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsAffineHom ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is integral. -/
+theorem toP1ReductionExistence_map_isIntegralHom_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsIntegralHom ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is locally of finite type. -/
+theorem toP1ReductionExistence_map_locallyOfFiniteType_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is separated. -/
+theorem toP1ReductionExistence_map_isSeparated_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsSeparated ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- The branch-open restriction of each chosen cohomological reduction-family
+map is quasi-compact. -/
+theorem toP1ReductionExistence_map_quasiCompact_restrict_branchOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    QuasiCompact ((D.toP1ReductionExistence.map i).hom ∣_
+      (SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_restrict_branchOpen
+    (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is affine. -/
+theorem toP1ReductionExistence_map_isAffineHom_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsAffineHom (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isAffineHom_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is integral. -/
+theorem toP1ReductionExistence_map_isIntegralHom_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsIntegralHom (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is locally of finite type. -/
+theorem toP1ReductionExistence_map_locallyOfFiniteType_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is separated. -/
+theorem toP1ReductionExistence_map_isSeparated_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsSeparated (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.isSeparated_hom (D.toP1ReductionExistence.map i)
+
+/-- Each chosen cohomological reduction-family map is quasi-compact. -/
+theorem toP1ReductionExistence_map_quasiCompact_hom
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    QuasiCompact (D.toP1ReductionExistence.map i).hom :=
+  SchemeBelyi.FiniteBelyiMap.quasiCompact_hom (D.toP1ReductionExistence.map i)
+
 /-- Forget the chosen cohomological reduction family to the paper-facing finite
 marked Belyi existence interface. -/
 noncomputable def toFiniteMarkedBelyiExistence

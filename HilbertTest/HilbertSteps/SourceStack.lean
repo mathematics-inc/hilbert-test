@@ -5612,6 +5612,170 @@ theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_hmarke
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_hmarkedOpen
       D
 
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_finite_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsFinite (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_finite_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isDominant_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsDominant (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isDominant_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_denseRange_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    DenseRange (D.toP1ReductionExistence.map i).hom.base := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_denseRange_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isEtale_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsEtale ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isEtale_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isFinite_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsFinite ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isFinite_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isAffineHom_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsAffineHom ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isAffineHom_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isIntegralHom_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsIntegralHom ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isIntegralHom_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_locallyOfFiniteType_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_locallyOfFiniteType_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isSeparated_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsSeparated ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isSeparated_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_quasiCompact_restrict_branchOpen
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    QuasiCompact ((D.toP1ReductionExistence.map i).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K
+        D.toP1ReductionExistence.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_quasiCompact_restrict_branchOpen
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isAffineHom_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsAffineHom (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isAffineHom_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isIntegralHom_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsIntegralHom (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isIntegralHom_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_locallyOfFiniteType_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    LocallyOfFiniteType (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_locallyOfFiniteType_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_isSeparated_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    IsSeparated (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_isSeparated_hom
+      D i
+
+theorem hilbert_cohomologicalP1ReductionSourceData_toP1ReductionExistence_map_quasiCompact_hom
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    (i : ReductionIndex C) :
+    QuasiCompact (D.toP1ReductionExistence.map i).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.toP1ReductionExistence_map_quasiCompact_hom
+      D i
+
 theorem hilbert_cohomologicalP1ReductionSourceData_toFiniteMarkedBelyiExistence_hmarkedOpen
     [Infinite K] {C : Scheme.{u}} {Φ : Type z}
     (F : FiniteMarkedBelyiExistence K Φ (P1 K))
