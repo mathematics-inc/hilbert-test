@@ -2652,6 +2652,18 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_control
     SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
       F hS hT hdis
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
+      F hS hT hdis
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
@@ -3000,6 +3012,18 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_belyiO
       ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      TF hS hT hdis
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (TF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
       TF hS hT hdis
 
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
@@ -3362,6 +3386,18 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_
       ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      ITF hS hT hdis
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (ITF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
       ITF hS hT hdis
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
@@ -3732,6 +3768,18 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_b
       ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      TSF hS hT hdis
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (TSF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_belyiOpen_controls
       TSF hS hT hdis
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
