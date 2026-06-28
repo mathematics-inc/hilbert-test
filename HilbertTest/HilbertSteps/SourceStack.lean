@@ -14592,6 +14592,21 @@ theorem hilbert_proper_restrict
     IsProper (f ∣_ U) := by
   exact SourceStack.Schemes.proper_restrict f U
 
+theorem hilbert_proper_isSeparated
+    (f : X ⟶ Y) [IsProper f] :
+    IsSeparated f := by
+  exact SourceStack.Schemes.proper_isSeparated f
+
+theorem hilbert_proper_universallyClosed
+    (f : X ⟶ Y) [IsProper f] :
+    UniversallyClosed f := by
+  exact SourceStack.Schemes.proper_universallyClosed f
+
+theorem hilbert_proper_locallyOfFiniteType
+    (f : X ⟶ Y) [IsProper f] :
+    LocallyOfFiniteType f := by
+  exact SourceStack.Schemes.proper_locallyOfFiniteType f
+
 theorem hilbert_proper_isClosedMap
     (f : X ⟶ Y) [IsProper f] :
     IsClosedMap f.base := by

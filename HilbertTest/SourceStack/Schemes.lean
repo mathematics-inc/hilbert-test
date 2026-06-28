@@ -570,6 +570,24 @@ theorem proper_restrict
     IsProper (f ∣_ U) :=
   IsLocalAtTarget.restrict (P := @IsProper) (f := f) inferInstance U
 
+/-- Proper morphisms are separated. -/
+theorem proper_isSeparated
+    (f : X ⟶ Y) [IsProper f] :
+    IsSeparated f :=
+  inferInstance
+
+/-- Proper morphisms are universally closed. -/
+theorem proper_universallyClosed
+    (f : X ⟶ Y) [IsProper f] :
+    UniversallyClosed f :=
+  inferInstance
+
+/-- Proper morphisms are locally of finite type. -/
+theorem proper_locallyOfFiniteType
+    (f : X ⟶ Y) [IsProper f] :
+    LocallyOfFiniteType f :=
+  inferInstance
+
 /-- A proper morphism has a closed underlying topological map. -/
 theorem proper_isClosedMap
     (f : X ⟶ Y) [IsProper f] :
