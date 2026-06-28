@@ -481,6 +481,69 @@ theorem exists_p1ReductionAuxiliaryData_for_sets_of_projectivePair_factory
       F hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+/-- Finite-complement-open cohomological auxiliary-data bridge: if the
+cohomological divisor support is a finite set inside `U`, the section-pair
+factory gives auxiliary reduction data for the pair `Uᶜ, T`. -/
+theorem exists_p1ReductionAuxiliaryData_containing_finite_inside_open_of_finite_complement_for_sets_of_projectivePair_factory
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom Uᶜ badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ _ : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        Nonempty (P1ReductionAuxiliaryData K C F Uᶜ T) := by
+  exact
+    D.toDivisorZeroSectionData.exists_p1ReductionAuxiliaryData_containing_finite_inside_open_of_finite_complement_for_sets_of_projectivePair_factory
+      F hU hUcompl hT hTsub hsupport badValues hbad mkPair hmk_eval
+      hmk_section0 hmk_finite hmk_dominant htargetBad hAuxEtale
+
+/-- Nonempty-open cohomological auxiliary-data bridge in a finite-complement
+topology. -/
+theorem exists_p1ReductionAuxiliaryData_containing_finite_inside_open_of_nonemptyOpenFiniteComplement_for_sets_of_projectivePair_factory
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] [NonemptyOpenFiniteComplement C] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom Uᶜ badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ _ : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        Nonempty (P1ReductionAuxiliaryData K C F Uᶜ T) := by
+  exact
+    D.toDivisorZeroSectionData.exists_p1ReductionAuxiliaryData_containing_finite_inside_open_of_nonemptyOpenFiniteComplement_for_sets_of_projectivePair_factory
+      F hU hUne hT hTsub hsupport badValues hbad mkPair hmk_eval
+      hmk_section0 hmk_finite hmk_dominant htargetBad hAuxEtale
+
 /-- Composed-map form of the cohomological divisor-to-reduction bridge: after
 basepoint-free section pairs are upgraded to projective-line section pairs and
 the auxiliary morphism checks are supplied, the cohomological divisor package
