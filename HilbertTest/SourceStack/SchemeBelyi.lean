@@ -144,6 +144,18 @@ theorem isAffineHom_hom :
   letI : IsFinite φ.hom := φ.finite_hom
   exact _root_.HilbertTest.SourceStack.Schemes.finite_isAffineHom φ.hom
 
+/-- A finite Belyi map is integral as a morphism. -/
+theorem isIntegralHom_hom :
+    IsIntegralHom φ.hom := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_is_integral φ.hom
+
+/-- A finite Belyi map is locally of finite type as a morphism. -/
+theorem locallyOfFiniteType_hom :
+    LocallyOfFiniteType φ.hom := by
+  letI : IsFinite φ.hom := φ.finite_hom
+  exact _root_.HilbertTest.SourceStack.Schemes.finite_locally_of_finite_type φ.hom
+
 /-- A finite Belyi map is separated as a morphism. -/
 theorem isSeparated_hom :
     IsSeparated φ.hom := by

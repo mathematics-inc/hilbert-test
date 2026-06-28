@@ -6588,6 +6588,14 @@ theorem hilbert_schemeBelyi_finite_isAffineHom_hom :
     IsAffineHom ψ.hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.isAffineHom_hom ψ
 
+theorem hilbert_schemeBelyi_finite_isIntegralHom_hom :
+    IsIntegralHom ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.isIntegralHom_hom ψ
+
+theorem hilbert_schemeBelyi_finite_locallyOfFiniteType_hom :
+    LocallyOfFiniteType ψ.hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.locallyOfFiniteType_hom ψ
+
 theorem hilbert_schemeBelyi_finite_isSeparated_hom :
     IsSeparated ψ.hom := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.isSeparated_hom ψ
