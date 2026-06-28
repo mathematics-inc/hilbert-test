@@ -1569,6 +1569,18 @@ theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_controls
   exact SourceStack.BelyiReduction.P1ReductionExistence.exists_map_belyiOpen_controls
     E hS hT hdis
 
+theorem hilbert_p1ReductionExistence_exists_map_controls_and_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_map_controls_and_belyiOpen_controls
+      E hS hT hdis
+
 theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_inside_complement
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
     ∃ i : ReductionIndex C,
