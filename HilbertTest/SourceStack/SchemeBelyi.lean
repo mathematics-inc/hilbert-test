@@ -360,6 +360,12 @@ theorem markedBelyiTargetOfT1_branchOpen
     (markedBelyiTargetOfT1 K).branchOpen =
       markedBranchOpen K (markedSchemePointSet_compl_isOpen K) := rfl
 
+theorem mem_markedBelyiTargetOfT1_branchOpen_iff
+    [T1Space (P1 K)] (p : P1 K) :
+    p ∈ (markedBelyiTargetOfT1 K).branchOpen ↔
+      p ∉ markedSchemePointSet K := by
+  exact mem_markedBranchOpen_iff K (markedSchemePointSet_compl_isOpen K) p
+
 variable {K}
 variable {X : Scheme.{u}}
 variable {hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ}
@@ -385,6 +391,18 @@ theorem FiniteBelyiMap.marked_belyiOpen_carrier
     (φ.toBelyiMap.belyiOpen : Set X) =
       {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
   rfl
+
+theorem BelyiMap.mem_marked_belyiOpen_iff_ofT1
+    [T1Space (P1 K)]
+    (φ : BelyiMap (markedBelyiTargetOfT1 K) X) (x : X) :
+    x ∈ φ.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
+  exact mem_markedBelyiTargetOfT1_branchOpen_iff K (φ.hom.base x)
+
+theorem FiniteBelyiMap.mem_marked_belyiOpen_iff_ofT1
+    [T1Space (P1 K)]
+    (φ : FiniteBelyiMap (markedBelyiTargetOfT1 K) X) (x : X) :
+    x ∈ φ.toBelyiMap.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
+  exact mem_markedBelyiTargetOfT1_branchOpen_iff K (φ.hom.base x)
 
 end MarkedProjectiveLineTarget
 

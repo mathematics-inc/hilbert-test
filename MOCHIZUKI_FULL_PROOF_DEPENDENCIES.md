@@ -334,7 +334,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   over that open, the preimage Belyi open, and the restriction/open-immersion
   identity for the Belyi open.  It now also defines the marked `P1 K`
   branch-complement open and marked target, and identifies membership in the
-  source Belyi open with avoidance of the checked marked triple.  The finite
+  source Belyi open with avoidance of the checked marked triple, including
+  T1-specialized forms that require no explicit branch-open hypothesis.  The finite
   refinement records the finite underlying morphism and checked finite-morphism
   consequences, including finite restriction to the branch-complement open.
 - `HilbertTest.SourceStack.LocalFields`: p-adic compactness, properness,
