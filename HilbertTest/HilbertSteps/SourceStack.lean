@@ -1955,6 +1955,27 @@ theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_containing_finite_insi
     SourceStack.BelyiReduction.P1ReductionExistence.exists_map_belyiOpen_containing_finite_inside_complement
       E hS hT hdis
 
+theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_inside_open_of_finite_complement
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_map_belyiOpen_inside_open_of_finite_complement
+      E hU hUcompl hxU
+
+theorem hilbert_p1ReductionExistence_exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.BelyiReduction.P1ReductionExistence.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+      E hU hUcompl hT hTsub
+
 theorem hilbert_p1ReductionExistence_exists_belyiOpen_inside_complement
     [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
@@ -6200,6 +6221,33 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_containi
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_belyiOpen_containing_finite_inside_complement
       D hS hT hdis
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_inside_open_of_finite_complement
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_belyiOpen_inside_open_of_finite_complement
+      D hU hUcompl hxU
+
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+      D hU hUcompl hT hTsub
 
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)] {C : Scheme.{u}} {Φ : Type z}
