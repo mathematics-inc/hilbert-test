@@ -205,6 +205,20 @@ theorem finite_subcover_on_complement_forall
   exact D.toNoncriticalBelyiExistence.finite_subcover_on_complement_forall
     (κ := κ) hS
 
+/-- Concrete branch-avoidance form of the finite tuple-subcover consequence for
+section-controlled Belyi data. -/
+theorem finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space P]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {s : V // D.toBelyiCoverData.sendsSetToBranch S s},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ s ∈ t, ∀ i, D.map s.1 (x i).1 ∉ D.branch := by
+  rcases finite_subcover_on_complement_forall D κ hS with ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨s, hst, hsx⟩
+  exact ⟨s, hst, hsx⟩
+
 /-- Compact-exhaustion cover bridge for section-controlled Belyi data. -/
 theorem finite_compact_cover_by_belyiOpen_exhaustions
     [Infinite K] [T1Space P] [NonemptyOpenFiniteComplement X] [CompactSpace X]
