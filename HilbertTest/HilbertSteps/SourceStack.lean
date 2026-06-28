@@ -11269,6 +11269,51 @@ theorem hilbert_schemeAffineLinearPoint_affinePoint
   exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint
     K a b ha r
 
+theorem hilbert_schemeAffineLinearPoint_affinePoint_ne_zero
+    (a b : K) (ha : a ≠ 0) (r : K) (h0 : a * r + b ≠ 0) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_ne_zero
+    K a b ha r h0
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint_ne_one
+    (a b : K) (ha : a ≠ 0) (r : K) (h1 : a * r + b ≠ 1) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_ne_one
+    K a b ha r h1
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint_ne_infinity
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_ne_infinity
+      K a b ha r
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ∈
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+        a * r + b = 0 ∨ a * r + b = 1 := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff
+      K a b ha r
+
+theorem hilbert_schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet
+    (a b : K) (ha : a ≠ 0) (r : K)
+    (h0 : a * r + b ≠ 0) (h1 : a * r + b ≠ 1) :
+    schemeAffineLinearPoint K a b ha
+        (SourceStack.ProjectiveLine.affinePoint K r) ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet
+      K a b ha r h0 h1
+
 theorem hilbert_schemeAffineLinearPoint_infinity
     (a b : K) (ha : a ≠ 0) :
     schemeAffineLinearPoint K a b ha

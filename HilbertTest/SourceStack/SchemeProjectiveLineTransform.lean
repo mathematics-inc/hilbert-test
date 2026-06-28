@@ -171,6 +171,63 @@ theorem schemeAffineLinearPoint_affinePoint
   rw [schemeAffineLinearPoint, ProjectiveLine.affineLinearMap_affinePoint,
     linearToSchemePoint_affinePoint]
 
+theorem schemeAffineLinearPoint_affinePoint_ne_zero
+    (a b : K) (ha : a ≠ 0) (r : K) (h0 : a * r + b ≠ 0) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.zeroPoint K := by
+  rw [schemeAffineLinearPoint_affinePoint K a b ha r]
+  exact SchemeAffineLinePoints.affinePoint_ne_zero K h0
+
+theorem schemeAffineLinearPoint_affinePoint_ne_one
+    (a b : K) (ha : a ≠ 0) (r : K) (h1 : a * r + b ≠ 1) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.onePoint K := by
+  rw [schemeAffineLinearPoint_affinePoint K a b ha r]
+  exact SchemeAffineLinePoints.affinePoint_ne_one K h1
+
+theorem schemeAffineLinearPoint_affinePoint_ne_infinity
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.infinityPoint K := by
+  rw [schemeAffineLinearPoint_affinePoint K a b ha r]
+  exact SchemeAffineLinePoints.affinePoint_ne_infinity K _
+
+theorem schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ∈
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+        a * r + b = 0 ∨ a * r + b = 1 := by
+  rw [schemeAffineLinearPoint_affinePoint K a b ha r]
+  exact SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K _
+
+theorem schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet_iff
+    (a b : K) (ha : a ≠ 0) (r : K) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ∉
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+        a * r + b ≠ 0 ∧ a * r + b ≠ 1 := by
+  rw [schemeAffineLinearPoint_affinePoint_mem_markedSchemePointSet_iff K a b ha r]
+  constructor
+  · intro hmarked
+    exact ⟨fun h0 => hmarked (Or.inl h0), fun h1 => hmarked (Or.inr h1)⟩
+  · rintro ⟨h0, h1⟩ (hmarked | hmarked)
+    · exact h0 hmarked
+    · exact h1 hmarked
+
+theorem schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet
+    (a b : K) (ha : a ≠ 0) (r : K)
+    (h0 : a * r + b ≠ 0) (h1 : a * r + b ≠ 1) :
+    schemeAffineLinearPoint K a b ha
+        (ProjectiveLine.affinePoint K r) ∉
+      SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    (schemeAffineLinearPoint_affinePoint_not_mem_markedSchemePointSet_iff
+      K a b ha r).2 ⟨h0, h1⟩
+
 theorem schemeAffineLinearPoint_infinity
     (a b : K) (ha : a ≠ 0) :
     schemeAffineLinearPoint K a b ha (ProjectiveLine.infinity K) =
