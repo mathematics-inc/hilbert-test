@@ -5180,6 +5180,49 @@ theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_zeroPoi
     SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
       D hsupport hdis mkPair hmk_eval hmk_section0
 
+theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+    [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) (hsupport : D.support = T)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      (∀ x ∈ T,
+        (mkPair s1 hnc).hom.base x =
+          SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+            SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero) ∧
+        ∀ x ∈ Uᶜ,
+          (mkPair s1 hnc).hom.base x ≠
+            SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+              SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+      D hU hUcompl hT hTsub hsupport mkPair hmk_eval hmk_section0
+
+theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+    [Infinite K] {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : DivisorZeroSectionData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) (hsupport : D.support = T)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      (∀ x ∈ T,
+        (mkPair s1 hnc).hom.base x =
+          SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+            SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero) ∧
+        ∀ x ∈ Uᶜ,
+          (mkPair s1 hnc).hom.base x ≠
+            SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+              SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub hsupport mkPair hmk_eval hmk_section0
+
 theorem hilbert_divisorZeroSection_exists_p1ReductionAuxiliaryData_of_projectivePair_factory
     [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
     {Φ : Type z}
@@ -5641,6 +5684,55 @@ theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_zeroP
   exact
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
       D hsupport hdis mkPair hmk_eval hmk_section0
+
+theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        (∀ x ∈ T,
+          (mkPair s1 hnc).hom.base x =
+            SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+              SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero) ∧
+          ∀ x ∈ Uᶜ,
+            (mkPair s1 hnc).hom.base x ≠
+              SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+                SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+      D hU hUcompl hT hTsub hsupport mkPair hmk_eval hmk_section0
+
+theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+    [Infinite K] {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalDivisorSectionData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        SourceStack.ProjectiveSectionMaps.ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        (∀ x ∈ T,
+          (mkPair s1 hnc).hom.base x =
+            SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+              SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero) ∧
+          ∀ x ∈ Uᶜ,
+            (mkPair s1 hnc).hom.base x ≠
+              SourceStack.MarkedProjectiveLine.schemeCarrierPoint K
+                SourceStack.MarkedProjectiveLine.MarkedPointLabel.zero := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub hsupport mkPair hmk_eval hmk_section0
 
 theorem hilbert_cohomologicalDivisor_exists_p1ReductionAuxiliaryData_of_projectivePair_factory
     [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)

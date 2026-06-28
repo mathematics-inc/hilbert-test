@@ -222,6 +222,50 @@ theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
       (mkPair s1 hnc) (hmk_eval s1 hnc) (hmk_section0 s1 hnc) x
       ((Set.disjoint_left.mp hdis) hxS)
 
+/-- Finite-complement-open section-pair control: if the divisor support is a
+finite set inside `U`, the projective-line section-pair factory yields a map
+sending the support to `0` and sending the complement of `U` away from `0`. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+    [Infinite K] {U T : Set C} (_hU : IsOpen U) (_hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) (hsupport : D.support = T)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      (∀ x ∈ T,
+        (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+        ∀ x ∈ Uᶜ,
+          (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  cases hsupport
+  have hdis : Disjoint Uᶜ D.support := by
+    rw [Set.disjoint_left]
+    intro x hxU hxT
+    exact hxU (hTsub hxT)
+  exact
+    D.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
+      hT hdis mkPair hmk_eval hmk_section0
+
+/-- Nonempty-open finite-complement section-pair control in a finite-complement
+topology. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) (hsupport : D.support = T)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      (∀ x ∈ T,
+        (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+        ∀ x ∈ Uᶜ,
+          (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+      hU (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub hsupport
+      mkPair hmk_eval hmk_section0
+
 /-- Factory form of the divisor-to-reduction bridge: once the line-bundle
 construction upgrades every basepoint-free pair to a projective-line section
 pair and the auxiliary morphism checks are supplied for those pairs, the

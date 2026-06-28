@@ -369,6 +369,53 @@ theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_set
     D.toDivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_set
       hsupport hdis mkPair hmk_eval hmk_section0
 
+/-- Finite-complement-open cohomological section-pair control: if the divisor
+support is a finite set inside `U`, the projective-line section-pair factory
+yields a map sending the support to `0` and the complement of `U` away from
+`0`. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        (∀ x ∈ T,
+          (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+          ∀ x ∈ Uᶜ,
+            (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toDivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_finite_complement
+      hU hUcompl hT hTsub hsupport mkPair hmk_eval hmk_section0
+
+/-- Nonempty-open finite-complement cohomological section-pair control in a
+finite-complement topology. -/
+theorem exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U)
+    (hsupport : D.evalSurjectivity.support = T)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        (∀ x ∈ T,
+          (mkPair s1 hnc).hom.base x = schemeCarrierPoint K MarkedPointLabel.zero) ∧
+          ∀ x ∈ Uᶜ,
+            (mkPair s1 hnc).hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toDivisorZeroSectionData.exists_projectivePair_maps_support_to_zeroPoint_avoids_complement_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub hsupport mkPair hmk_eval hmk_section0
+
 /-- Factory form of the cohomological divisor-to-reduction bridge: after
 basepoint-free section pairs are upgraded to projective-line section pairs and
 the auxiliary morphism checks are supplied, the cohomological divisor package
