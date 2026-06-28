@@ -1779,6 +1779,18 @@ theorem exists_map_belyiOpen_inside_open_of_finite_complement
     ⟨φ, hopen, hxopen, hsub⟩
   exact ⟨φ, hopen, hxopen, by simpa using hsub⟩
 
+/-- Actual finite-map version of the one-point nonempty-open finite-complement
+consequence. -/
+theorem exists_map_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {V : Set C} (hV : IsOpen V) {x : C} (hxV : x ∈ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact exists_map_belyiOpen_inside_open_of_finite_complement K Φ F
+    hV (finite_compl_of_isOpen_of_mem hV hxV) hxV
+
 /-- Actual finite-map version of the finite-set finite-complement-open
 consequence. -/
 theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
@@ -1796,6 +1808,19 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       hVcompl hT hdis with
     ⟨φ, hopen, hTopen, hsub⟩
   exact ⟨φ, hopen, hTopen, by simpa using hsub⟩
+
+/-- Actual finite-map version of the finite-set nonempty-open
+finite-complement consequence. -/
+theorem exists_map_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {V T : Set C} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    K Φ F hV (finite_compl_of_isOpen_nonempty hV hVne) hT hTsub
 
 theorem exists_belyiOpen_inside_open_of_finite_complement
     [T1Space (P1 K)]

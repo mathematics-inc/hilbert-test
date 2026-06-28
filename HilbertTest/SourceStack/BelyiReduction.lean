@@ -1230,6 +1230,25 @@ theorem exists_map_belyiOpen_inside_open_of_finite_complement
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hxopen),
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
 
+/-- Actual finite-map one-point Belyi-open consequence from a reduction
+family in the curve-style finite-complement topology form. -/
+theorem exists_map_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hxU with
+    ⟨i, hopen, hxopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hxopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
 /-- Actual finite-map finite-set Belyi-open consequence from a reduction
 family, with the finite complement supplied explicitly. -/
 theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
@@ -1242,6 +1261,26 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
   rcases
       FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
         K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub with
+    ⟨i, hopen, hTopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
+/-- Actual finite-map finite-set Belyi-open consequence from a reduction
+family in the curve-style finite-complement topology form. -/
+theorem exists_map_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUne hT hTsub with
     ⟨i, hopen, hTopen, hsub⟩
   exact
     ⟨i,
