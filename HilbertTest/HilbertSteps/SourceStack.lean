@@ -819,6 +819,18 @@ theorem hilbert_schemeSectionControlled_finite_subcover_on_complement_forall
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement_forall
     D κ hS
 
+theorem hilbert_schemeSectionControlled_finite_subcover_on_complement_forall_avoidance
+    [Infinite K] (κ : Type*) [Finite κ] [T1Space (P1 K)]
+    {S : Set C} (hS : S.Finite) [CompactSpace (κ → {x : C // x ∉ S})] :
+    ∃ t : Finset {s : V //
+        (FiniteMarkedBelyiExistence.toMarkedCoverData K V
+          D.toFiniteMarkedBelyiExistence).sendsSetToBranch S s},
+      ∀ x : κ → {x : C // x ∉ S},
+        ∃ s ∈ t, ∀ i, (D.map s.1).hom.base (x i).1 ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.finite_subcover_on_complement_forall_avoidance
+      D κ hS
+
 theorem hilbert_schemeSectionControlled_finite_compact_cover_by_belyiOpen_exhaustions
     [Infinite K] [T1Space (P1 K)] [SourceStack.NonemptyOpenFiniteComplement C]
     [CompactSpace C]
