@@ -2244,6 +2244,33 @@ theorem exists_map_controls_and_isOpen_belyiOpen_controls
   exact F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_controls
     hS hT hdis
 
+/-- Actual finite-map one-point finite-complement-open consequence for
+concrete trivialized-ratio finite marked families. -/
+theorem exists_map_belyiOpen_inside_open_of_finite_complement
+    [Infinite K]
+    {U : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+        x ∈ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_inside_open_of_finite_complement
+      hU hUcompl hxU
+
+/-- Actual finite-map finite-set finite-complement-open consequence for
+concrete trivialized-ratio finite marked families. -/
+theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+        T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU hUcompl hT hTsub
+
 /-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
 finite marked families. -/
 theorem exists_belyiOpen_inside_complement
