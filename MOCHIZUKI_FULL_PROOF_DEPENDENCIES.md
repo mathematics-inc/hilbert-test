@@ -259,7 +259,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   scheme-carrier package after instantiating the bridge with the concrete
   `Proj` affine-point construction, identifying the point map with
   `x |-> [p(x):1]` and the selected target with `[p(beta):1]`, and reducing
-  marked membership to the branch values `0` and `1`.
+  marked membership to the branch values `0` and `1`.  It also checks that
+  critical points of the normalized Belyi polynomial map by
+  `x |-> [B(x):1]` into the marked scheme triple.
 - `HilbertTest.SourceStack.Schemes`: finite/smooth/proper/etale morphism
   stability wrappers around Mathlib, open-immersion composition/mono/etale/
   smooth/separated/finite-type wrappers, target-open restriction wrappers for
@@ -592,7 +594,8 @@ Lean-facing declarations needed:
   `SourceStack.P1SchemePointBridge` transports it further to the scheme carrier
   and `SourceStack.SchemeAffineLinePoints` supplies the concrete injective
   marked-label bridge for `Proj K[X0,X1]`; `SourceStack.ConcretePolynomialSchemeSeparation`
-  packages the resulting concrete scheme affine map `x |-> [p(x):1]`.  What
+  packages the resulting concrete scheme affine map `x |-> [p(x):1]` and the
+  normalized Belyi critical-point markedness statement for `x |-> [B(x):1]`.  What
   remains is the rational-map and morphism packaging needed to apply those
   field facts to Belyi maps.
 

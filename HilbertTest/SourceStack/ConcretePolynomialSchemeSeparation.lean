@@ -151,6 +151,25 @@ theorem concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
     SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K
       (Polynomial.aeval x p)
 
+/-- Concrete scheme-carrier branch control for the normalized Belyi polynomial:
+every affine critical point maps to the marked scheme triple on `P^1`. -/
+theorem normalizedBelyiPolynomial_critical_concreteSchemePolynomialPointMap_mem_markedSchemePointSet
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    concreteSchemePolynomialPointMap K K
+        (PolynomialMaps.normalizedBelyiPolynomial K m n) x ∈
+      SchemeProjectiveLine.markedSchemePointSet K := by
+  have hvalue :
+      Polynomial.aeval x (PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 ∨
+        Polynomial.aeval x (PolynomialMaps.normalizedBelyiPolynomial K m n) = 1 :=
+    PolynomialMaps.normalizedBelyiPolynomial_critical_value_eq_zero_or_one
+      K m n hm hn hx
+  exact
+    (concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff K K
+      (PolynomialMaps.normalizedBelyiPolynomial K m n) x).2 hvalue
+
 theorem concreteSchemePolynomialTargetPoint_mem_markedSchemePointSet_iff
     (p : F[X]) (β : K) :
     concreteSchemePolynomialTargetPoint F K p β ∈

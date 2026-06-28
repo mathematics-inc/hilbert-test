@@ -11622,6 +11622,18 @@ theorem hilbert_concretePolynomialSchemeSeparation_pointMap_mem_markedSchemePoin
   exact SourceStack.ConcretePolynomialSchemeSeparation.concreteSchemePolynomialPointMap_mem_markedSchemePointSet_iff
     F K p x
 
+theorem hilbert_concretePolynomialSchemeSeparation_normalizedBelyiPolynomial_critical_pointMap_mem_markedSchemePointSet
+    [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    concreteSchemePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) x ∈
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.ConcretePolynomialSchemeSeparation.normalizedBelyiPolynomial_critical_concreteSchemePolynomialPointMap_mem_markedSchemePointSet
+      K m n hm hn hx
+
 theorem hilbert_concretePolynomialSchemeSeparation_targetPoint_mem_markedSchemePointSet_iff
     (p : F[X]) (β : K) :
     concreteSchemePolynomialTargetPoint F K p β ∈
