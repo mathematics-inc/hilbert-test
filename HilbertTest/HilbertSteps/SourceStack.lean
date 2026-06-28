@@ -673,6 +673,18 @@ theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_controls
     SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_controls
       D hS hT hdis
 
+theorem hilbert_schemeSectionControlled_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_controls_and_belyiOpen_controls
+      D hS hT hdis
+
 theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_inside_complement
     [Infinite K] {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
     ∃ s : V,

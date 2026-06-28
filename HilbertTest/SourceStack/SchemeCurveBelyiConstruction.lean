@@ -182,6 +182,31 @@ theorem exists_map_belyiOpen_controls
       (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence] using hopenS)⟩
 
+/-- Direct same-map finite disjoint-set conclusion for section-controlled
+finite marked Belyi data: the selected finite Belyi map satisfies the marked
+controls and its Belyi open contains `T` and avoids `S`. -/
+theorem exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_belyiOpen_controls
+        (K := K) (Φ := V) D.toFiniteMarkedBelyiExistence hS hT hdis with
+    ⟨s, hcontrols, hTopen, hopenS⟩
+  exact
+    ⟨s,
+      (by
+        rcases hcontrols with ⟨hSmark, hTavoid⟩
+        exact
+          ⟨(by simpa [toFiniteMarkedBelyiExistence] using hSmark),
+            (by simpa [toFiniteMarkedBelyiExistence] using hTavoid)⟩),
+      (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hopenS)⟩
+
 /-- Actual finite-map one-point Belyi-open consequence for
 section-controlled finite marked Belyi data. -/
 theorem exists_map_belyiOpen_inside_complement
