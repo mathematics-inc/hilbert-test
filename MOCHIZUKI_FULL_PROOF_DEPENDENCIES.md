@@ -213,7 +213,11 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   a named Lemma 2.4 replacement set `p(S) ∪ p(rootSet p')` with finiteness,
   inclusion, membership, monotonicity, nonmembership, separation-from-`p(S)`, and noncritical-value
   derivative-nonvanishing wrappers; also composition evaluation and chain-rule
-  derivative-nonvanishing wrappers.
+  derivative-nonvanishing wrappers.  It also checks the algebraic Belyi 1980
+  normalized polynomial `((m+n)^(m+n)/(m^m*n^n)) * X^m * (1-X)^n` over
+  arbitrary characteristic-zero fields: endpoint values, derivative
+  factorization, middle criticality, middle value `1`, critical-point
+  classification, and the critical-value containment in `{0,1}`.
 - `HilbertTest.SourceStack.PolynomialSeparation`: the packaged Lemma 2.4
   polynomial handoff: selected values outside the replacement set are separated
   from `S`, and every preimage of the selected value has nonzero derivative.

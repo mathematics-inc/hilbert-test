@@ -10481,6 +10481,111 @@ theorem hilbert_mochizukiPolynomial_derivative_aeval_eq_zero_imp
   exact SourceStack.PolynomialMaps.mochizukiPolynomial_derivative_aeval_eq_zero_imp
     K m n hm hn hx
 
+theorem hilbert_belyiAuxPolynomial_derivative_factor
+    (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (SourceStack.PolynomialMaps.belyiAuxPolynomial K m n).derivative =
+      Polynomial.X ^ (m - 1) * (Polynomial.C (1 : K) - Polynomial.X) ^ (n - 1) *
+        (Polynomial.C (m : K) - Polynomial.C ((m + n : ℕ) : K) * Polynomial.X) := by
+  exact SourceStack.PolynomialMaps.belyiAuxPolynomial_derivative_factor
+    K m n hm hn
+
+theorem hilbert_belyiAuxPolynomial_derivative_aeval
+    (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
+    Polynomial.aeval x (SourceStack.PolynomialMaps.belyiAuxPolynomial K m n).derivative =
+      x ^ (m - 1) * (1 - x) ^ (n - 1) *
+        ((m : K) - ((m + n : ℕ) : K) * x) := by
+  exact SourceStack.PolynomialMaps.belyiAuxPolynomial_derivative_aeval
+    K m n hm hn x
+
+theorem hilbert_belyiAuxPolynomial_derivative_aeval_middle_eq_zero
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (SourceStack.PolynomialMaps.belyiAuxPolynomial K m n).derivative = 0 := by
+  exact SourceStack.PolynomialMaps.belyiAuxPolynomial_derivative_aeval_middle_eq_zero
+    K m n hm hn
+
+theorem hilbert_belyiAuxPolynomial_aeval_middle_eq_power_product
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (SourceStack.PolynomialMaps.belyiAuxPolynomial K m n) =
+      ((m : K) / ((m + n : ℕ) : K)) ^ m *
+        ((n : K) / ((m + n : ℕ) : K)) ^ n := by
+  exact SourceStack.PolynomialMaps.belyiAuxPolynomial_aeval_middle_eq_power_product
+    K m n hm hn
+
+theorem hilbert_normalizedBelyiPolynomial_scale_ne_zero
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ((((m + n : ℕ) : K) ^ (m + n)) /
+        ((m : K) ^ m * (n : K) ^ n)) ≠ 0 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_scale_ne_zero
+    K m n hm hn
+
+theorem hilbert_normalizedBelyiPolynomial_aeval_zero_of_pos
+    (K : Type u) [Field K] (m n : ℕ) (hm : 0 < m) :
+    Polynomial.aeval (0 : K)
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_aeval_zero_of_pos
+    K m n hm
+
+theorem hilbert_normalizedBelyiPolynomial_aeval_one_of_pos
+    (K : Type u) [Field K] (m n : ℕ) (hn : 0 < n) :
+    Polynomial.aeval (1 : K)
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_aeval_one_of_pos
+    K m n hn
+
+theorem hilbert_normalizedBelyiPolynomial_derivative_aeval_middle_eq_zero
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_derivative_aeval_middle_eq_zero
+    K m n hm hn
+
+theorem hilbert_normalizedBelyiPolynomial_aeval_middle_eq_one
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 1 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_aeval_middle_eq_one
+    K m n hm hn
+
+theorem hilbert_normalizedBelyiPolynomial_derivative_aeval_eq_zero_imp
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : K) / ((m + n : ℕ) : K) := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_derivative_aeval_eq_zero_imp
+    K m n hm hn hx
+
+theorem hilbert_normalizedBelyiPolynomial_critical_value_eq_zero_or_one
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    Polynomial.aeval x (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 ∨
+      Polynomial.aeval x (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 1 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_critical_value_eq_zero_or_one
+    K m n hm hn hx
+
+theorem hilbert_normalizedBelyiPolynomial_basic_data
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval (0 : K)
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 ∧
+      Polynomial.aeval (1 : K)
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 0 ∧
+      Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+          (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0 ∧
+      Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+          (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) = 1 := by
+  exact SourceStack.PolynomialMaps.normalizedBelyiPolynomial_basic_data
+    K m n hm hn
+
 end PolynomialMaps
 
 namespace PolynomialSeparation

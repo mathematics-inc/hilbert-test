@@ -171,7 +171,12 @@ Formalization use:
 - Polynomial/rational functions whose critical values are controlled.
 - The explicit Belyi polynomial
   `(m+n)^(m+n)/(m^m*n^n) * t^m * (1 - t)^n`
-  for a normalized triple `{0, m/(m+n), 1}`.
+  for a normalized triple `{0, m/(m+n), 1}`.  This algebraic polynomial layer
+  is now checked in `HilbertTest.SourceStack.PolynomialMaps` over arbitrary
+  characteristic-zero fields, including endpoint values, derivative
+  factorization, middle criticality, middle value `1`, classification of
+  affine critical points, and the fact that every affine critical value is `0`
+  or `1`.
 - Galois/normal-field descent for algebraic points on `P^1`.  The pure
   field-theory facts are now checked in `HilbertTest.SourceStack.FieldTheory`;
   the remaining part is the geometric bridge from algebraic projective-line

@@ -588,6 +588,263 @@ theorem mochizukiPolynomial_derivative_aeval_eq_zero_imp
 
 end MochizukiLemma21
 
+section Belyi1980NormalizedPolynomial
+
+/-- Belyi's unscaled auxiliary polynomial `x^m * (1 - x)^n`, over an
+arbitrary field. -/
+def belyiAuxPolynomial (K : Type w) [Field K] (m n : ℕ) : K[X] :=
+  (Polynomial.X : K[X]) ^ m * (Polynomial.C (1 : K) - Polynomial.X) ^ n
+
+/-- Belyi's normalized auxiliary polynomial.  The scalar sends the middle
+critical value at `m/(m+n)` to `1`. -/
+def normalizedBelyiPolynomial (K : Type w) [Field K] (m n : ℕ) : K[X] :=
+  Polynomial.C
+      ((((m + n : ℕ) : K) ^ (m + n)) /
+        ((m : K) ^ m * (n : K) ^ n)) *
+    belyiAuxPolynomial K m n
+
+/-- Product-rule expansion for the derivative of Belyi's auxiliary polynomial
+`x^m * (1 - x)^n`. -/
+theorem belyiAuxPolynomial_derivative_expansion
+    (K : Type w) [Field K] (m n : ℕ) :
+    (belyiAuxPolynomial K m n).derivative =
+      (Polynomial.C (m : K) * Polynomial.X ^ (m - 1)) *
+          (Polynomial.C (1 : K) - Polynomial.X) ^ n -
+        Polynomial.X ^ m *
+          (Polynomial.C (n : K) *
+            (Polynomial.C (1 : K) - Polynomial.X) ^ (n - 1)) := by
+  rw [belyiAuxPolynomial, Polynomial.derivative_mul, Polynomial.derivative_X_pow,
+    Polynomial.derivative_pow, Polynomial.derivative_sub, Polynomial.derivative_C,
+    Polynomial.derivative_X]
+  ring
+
+/-- Factored derivative formula for Belyi's auxiliary polynomial. -/
+theorem belyiAuxPolynomial_derivative_factor
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    (belyiAuxPolynomial K m n).derivative =
+      Polynomial.X ^ (m - 1) * (Polynomial.C (1 : K) - Polynomial.X) ^ (n - 1) *
+        (Polynomial.C (m : K) - Polynomial.C ((m + n : ℕ) : K) * Polynomial.X) := by
+  let Y : K[X] := Polynomial.C (1 : K) - Polynomial.X
+  have hmX : (Polynomial.X : K[X]) ^ m = Polynomial.X ^ (m - 1) * Polynomial.X := by
+    nth_rewrite 1 [show m = (m - 1) + 1 by omega]
+    rw [pow_succ]
+  have hnY : Y ^ n = Y ^ (n - 1) * Y := by
+    nth_rewrite 1 [show n = (n - 1) + 1 by omega]
+    rw [pow_succ]
+  rw [belyiAuxPolynomial_derivative_expansion]
+  change Polynomial.C (m : K) * Polynomial.X ^ (m - 1) * Y ^ n -
+      Polynomial.X ^ m * (Polynomial.C (n : K) * Y ^ (n - 1)) =
+    Polynomial.X ^ (m - 1) * Y ^ (n - 1) *
+      (Polynomial.C (m : K) - Polynomial.C ((m + n : ℕ) : K) * Polynomial.X)
+  rw [hmX, hnY]
+  rw [Nat.cast_add, map_add]
+  dsimp [Y]
+  rw [Polynomial.C_1]
+  ring_nf
+
+/-- Evaluated derivative factorization for Belyi's auxiliary polynomial. -/
+theorem belyiAuxPolynomial_derivative_aeval
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) (hn : 0 < n) (x : K) :
+    Polynomial.aeval x (belyiAuxPolynomial K m n).derivative =
+      x ^ (m - 1) * (1 - x) ^ (n - 1) *
+        ((m : K) - ((m + n : ℕ) : K) * x) := by
+  rw [belyiAuxPolynomial_derivative_factor K m n hm hn]
+  simp [map_mul, map_sub]
+
+/-- Belyi's auxiliary polynomial sends `0` to `0` when `m > 0`. -/
+theorem belyiAuxPolynomial_aeval_zero_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) :
+    Polynomial.aeval (0 : K) (belyiAuxPolynomial K m n) = 0 := by
+  simp [belyiAuxPolynomial, zero_pow (Nat.ne_of_gt hm)]
+
+/-- Belyi's auxiliary polynomial sends `1` to `0` when `n > 0`. -/
+theorem belyiAuxPolynomial_aeval_one_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hn : 0 < n) :
+    Polynomial.aeval (1 : K) (belyiAuxPolynomial K m n) = 0 := by
+  simp [belyiAuxPolynomial, zero_pow (Nat.ne_of_gt hn)]
+
+/-- The middle point makes the derivative of Belyi's auxiliary polynomial
+vanish. -/
+theorem belyiAuxPolynomial_derivative_aeval_middle_eq_zero
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (belyiAuxPolynomial K m n).derivative = 0 := by
+  rw [belyiAuxPolynomial_derivative_aeval K m n hm hn]
+  have hden : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  have hlin :
+      (m : K) - ((m + n : ℕ) : K) *
+          ((m : K) / ((m + n : ℕ) : K)) = 0 := by
+    rw [Nat.cast_add] at hden ⊢
+    field_simp [hden]
+  rw [hlin, mul_zero]
+
+/-- Belyi's auxiliary polynomial has middle value
+`(m/(m+n))^m * (n/(m+n))^n`. -/
+theorem belyiAuxPolynomial_aeval_middle_eq_power_product
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K)) (belyiAuxPolynomial K m n) =
+      ((m : K) / ((m + n : ℕ) : K)) ^ m *
+        ((n : K) / ((m + n : ℕ) : K)) ^ n := by
+  have hden : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  have hsub : (1 : K) - (m : K) / ((m + n : ℕ) : K) =
+      (n : K) / ((m + n : ℕ) : K) := by
+    rw [Nat.cast_add] at hden ⊢
+    field_simp [hden]
+  rw [belyiAuxPolynomial, map_mul, map_pow, map_pow, Polynomial.aeval_X,
+    map_sub, Polynomial.aeval_C]
+  simp only [Polynomial.aeval_X, Polynomial.aeval_C, map_one]
+  rw [hsub]
+
+/-- The normalization scalar in Belyi's polynomial is nonzero. -/
+theorem normalizedBelyiPolynomial_scale_ne_zero
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    ((((m + n : ℕ) : K) ^ (m + n)) /
+        ((m : K) ^ m * (n : K) ^ n)) ≠ 0 := by
+  have hden : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  have hmne : (m : K) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hm
+  have hnne : (n : K) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hn
+  exact div_ne_zero (pow_ne_zero _ hden)
+    (mul_ne_zero (pow_ne_zero _ hmne) (pow_ne_zero _ hnne))
+
+/-- Belyi's normalized polynomial sends `0` to `0` when `m > 0`. -/
+theorem normalizedBelyiPolynomial_aeval_zero_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hm : 0 < m) :
+    Polynomial.aeval (0 : K) (normalizedBelyiPolynomial K m n) = 0 := by
+  rw [normalizedBelyiPolynomial, map_mul, Polynomial.aeval_C,
+    belyiAuxPolynomial_aeval_zero_of_pos K m n hm, mul_zero]
+
+/-- Belyi's normalized polynomial sends `1` to `0` when `n > 0`. -/
+theorem normalizedBelyiPolynomial_aeval_one_of_pos
+    (K : Type w) [Field K] (m n : ℕ) (hn : 0 < n) :
+    Polynomial.aeval (1 : K) (normalizedBelyiPolynomial K m n) = 0 := by
+  rw [normalizedBelyiPolynomial, map_mul, Polynomial.aeval_C,
+    belyiAuxPolynomial_aeval_one_of_pos K m n hn, mul_zero]
+
+/-- Derivative evaluation for Belyi's normalized polynomial is the nonzero
+normalization scalar times the auxiliary derivative. -/
+theorem normalizedBelyiPolynomial_derivative_aeval
+    (K : Type w) [Field K] (m n : ℕ) (x : K) :
+    Polynomial.aeval x (normalizedBelyiPolynomial K m n).derivative =
+      ((((m + n : ℕ) : K) ^ (m + n)) /
+          ((m : K) ^ m * (n : K) ^ n)) *
+        Polynomial.aeval x (belyiAuxPolynomial K m n).derivative := by
+  rw [normalizedBelyiPolynomial, Polynomial.derivative_mul, Polynomial.derivative_C]
+  simp [map_mul]
+
+/-- The middle point makes the derivative of Belyi's normalized polynomial
+vanish. -/
+theorem normalizedBelyiPolynomial_derivative_aeval_middle_eq_zero
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (normalizedBelyiPolynomial K m n).derivative = 0 := by
+  rw [normalizedBelyiPolynomial_derivative_aeval]
+  rw [belyiAuxPolynomial_derivative_aeval_middle_eq_zero K m n hm hn, mul_zero]
+
+/-- Belyi's normalized polynomial sends the middle critical point to `1`. -/
+theorem normalizedBelyiPolynomial_aeval_middle_eq_one
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+        (normalizedBelyiPolynomial K m n) = 1 := by
+  rw [normalizedBelyiPolynomial, map_mul, Polynomial.aeval_C,
+    belyiAuxPolynomial_aeval_middle_eq_power_product K m n hm hn]
+  change ((((m + n : ℕ) : K) ^ (m + n) /
+        ((m : K) ^ m * (n : K) ^ n)) *
+      (((m : K) / ((m + n : ℕ) : K)) ^ m *
+        ((n : K) / ((m + n : ℕ) : K)) ^ n) = 1)
+  have hden : ((m + n : ℕ) : K) ≠ 0 := by
+    exact_mod_cast (show m + n ≠ 0 by omega)
+  have hmne : (m : K) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hm
+  have hnne : (n : K) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt hn
+  rw [show ((m : K) / ((m + n : ℕ) : K)) ^ m =
+      (m : K) ^ m / ((m + n : ℕ) : K) ^ m by
+        exact div_pow (m : K) (((m + n : ℕ) : K)) m]
+  rw [show ((n : K) / ((m + n : ℕ) : K)) ^ n =
+      (n : K) ^ n / ((m + n : ℕ) : K) ^ n by
+        exact div_pow (n : K) (((m + n : ℕ) : K)) n]
+  rw [Nat.cast_add] at hden ⊢
+  rw [pow_add]
+  field_simp [hden, hmne, hnne, pow_ne_zero]
+
+/-- Every affine critical point of Belyi's auxiliary polynomial is `0`, `1`,
+or `m/(m+n)`. -/
+theorem belyiAuxPolynomial_derivative_aeval_eq_zero_imp
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (belyiAuxPolynomial K m n).derivative = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : K) / ((m + n : ℕ) : K) := by
+  rw [belyiAuxPolynomial_derivative_aeval K m n hm hn x] at hx
+  rcases mul_eq_zero.mp hx with hprod | hlin
+  · rcases mul_eq_zero.mp hprod with hx0 | hx1
+    · exact Or.inl (pow_eq_zero hx0)
+    · right
+      left
+      have h : (1 : K) - x = 0 := pow_eq_zero hx1
+      exact (sub_eq_zero.mp h).symm
+  · right
+    right
+    have hmn_ne : ((m + n : ℕ) : K) ≠ 0 := by
+      exact_mod_cast (show m + n ≠ 0 by omega)
+    have hlin' : ((m + n : ℕ) : K) * x = (m : K) := by
+      exact (sub_eq_zero.mp hlin).symm
+    rw [eq_div_iff hmn_ne]
+    simpa [mul_comm] using hlin'
+
+/-- Every affine critical point of Belyi's normalized polynomial is `0`, `1`,
+or `m/(m+n)`. -/
+theorem normalizedBelyiPolynomial_derivative_aeval_eq_zero_imp
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (normalizedBelyiPolynomial K m n).derivative = 0) :
+    x = 0 ∨ x = 1 ∨ x = (m : K) / ((m + n : ℕ) : K) := by
+  rw [normalizedBelyiPolynomial_derivative_aeval K m n x] at hx
+  rcases mul_eq_zero.mp hx with hscale | haux
+  · exact False.elim ((normalizedBelyiPolynomial_scale_ne_zero K m n hm hn) hscale)
+  · exact belyiAuxPolynomial_derivative_aeval_eq_zero_imp K m n hm hn haux
+
+/-- The critical values of Belyi's normalized polynomial are contained in the
+affine branch values `{0, 1}`. -/
+theorem normalizedBelyiPolynomial_critical_value_eq_zero_or_one
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (normalizedBelyiPolynomial K m n).derivative = 0) :
+    Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 0 ∨
+      Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 1 := by
+  rcases normalizedBelyiPolynomial_derivative_aeval_eq_zero_imp K m n hm hn hx with
+    rfl | rfl | rfl
+  · exact Or.inl (normalizedBelyiPolynomial_aeval_zero_of_pos K m n hm)
+  · exact Or.inl (normalizedBelyiPolynomial_aeval_one_of_pos K m n hn)
+  · exact Or.inr (normalizedBelyiPolynomial_aeval_middle_eq_one K m n hm hn)
+
+/-- Packaged algebraic data for Belyi's normalized polynomial: endpoints map
+to `0`, the middle point is critical, and the middle value is `1`. -/
+theorem normalizedBelyiPolynomial_basic_data
+    (K : Type w) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    Polynomial.aeval (0 : K) (normalizedBelyiPolynomial K m n) = 0 ∧
+      Polynomial.aeval (1 : K) (normalizedBelyiPolynomial K m n) = 0 ∧
+      Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+          (normalizedBelyiPolynomial K m n).derivative = 0 ∧
+      Polynomial.aeval ((m : K) / ((m + n : ℕ) : K))
+          (normalizedBelyiPolynomial K m n) = 1 := by
+  exact ⟨normalizedBelyiPolynomial_aeval_zero_of_pos K m n hm,
+    normalizedBelyiPolynomial_aeval_one_of_pos K m n hn,
+    normalizedBelyiPolynomial_derivative_aeval_middle_eq_zero K m n hm hn,
+    normalizedBelyiPolynomial_aeval_middle_eq_one K m n hm hn⟩
+
+end Belyi1980NormalizedPolynomial
+
 end PolynomialMaps
 end SourceStack
 end HilbertTest
