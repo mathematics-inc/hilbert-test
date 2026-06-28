@@ -225,7 +225,9 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
   projective-line handoff for `x |-> [p(x):1]`, including equality on the
   affine chart, branch-triple avoidance for selected targets with value neither
   `0` nor `1`, separation from the original finite set, and noncriticality over
-  the selected `P1` target.
+  the selected `P1` target.  It also lifts the normalized Belyi polynomial's
+  affine critical-value containment into finite and set-valued `P1` branch
+  membership for the map `x |-> [B(x):1]`.
 - `HilbertTest.SourceStack.PolynomialTargetAvoidance`: finite target-choice
   bookkeeping for Lemma 2.4.  It proves `replacementSet ∪ {0,1}` is finite,
   extracts a target outside it over an infinite field, and converts an avoiding

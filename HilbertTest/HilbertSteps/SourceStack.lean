@@ -10747,6 +10747,30 @@ theorem hilbert_p1PolynomialSeparation_exists_smaller_image_finset_of_mochizukiF
     SourceStack.P1PolynomialSeparation.exists_smaller_image_finset_of_mochizukiFourPoint_subset_maps_to_branch
       K m n hm hn S f hsubset hmap
 
+theorem hilbert_p1PolynomialSeparation_normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchFinset
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    affinePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) x ∈
+      SourceStack.ProjectiveLine.branchFinset K := by
+  exact
+    SourceStack.P1PolynomialSeparation.normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchFinset
+      K m n hm hn hx
+
+theorem hilbert_p1PolynomialSeparation_normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchSet
+    (K : Type u) [Field K] [CharZero K]
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x
+      (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n).derivative = 0) :
+    affinePolynomialPointMap K K
+        (SourceStack.PolynomialMaps.normalizedBelyiPolynomial K m n) x ∈
+      SourceStack.ProjectiveLine.branchSet K := by
+  exact
+    SourceStack.P1PolynomialSeparation.normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchSet
+      K m n hm hn hx
+
 variable {S : Set E} {β : E}
 variable (P : P1PolynomialSeparationStep F E S β)
 

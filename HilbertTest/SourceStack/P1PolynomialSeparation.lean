@@ -160,6 +160,35 @@ theorem exists_smaller_image_finset_of_mochizukiFourPoint_subset_maps_to_branch
     K (mochizukiRatio_ne_zero K m n hm hn)
     (mochizukiRatio_ne_one K m n hm hn) S f hsubset hmap
 
+/-- Projective-line branch control for the normalized Belyi polynomial:
+every affine critical point maps into the finite branch triple `{0,1,infinity}`. -/
+theorem normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchFinset
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (normalizedBelyiPolynomial K m n).derivative = 0) :
+    affinePolynomialPointMap K K (normalizedBelyiPolynomial K m n) x ∈
+      ProjectiveLine.branchFinset K := by
+  have hvalue :
+      Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 0 ∨
+        Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 1 :=
+    normalizedBelyiPolynomial_critical_value_eq_zero_or_one K m n hm hn hx
+  simpa [affinePolynomialPointMap] using
+    (ProjectiveLine.affinePoint_mem_branchFinset_iff K
+      (Polynomial.aeval x (normalizedBelyiPolynomial K m n))).2 hvalue
+
+/-- Set-valued branch-control form for the normalized Belyi polynomial. -/
+theorem normalizedBelyiPolynomial_critical_affinePolynomialPointMap_mem_branchSet
+    (m n : ℕ) (hm : 0 < m) (hn : 0 < n) {x : K}
+    (hx : Polynomial.aeval x (normalizedBelyiPolynomial K m n).derivative = 0) :
+    affinePolynomialPointMap K K (normalizedBelyiPolynomial K m n) x ∈
+      ProjectiveLine.branchSet K := by
+  have hvalue :
+      Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 0 ∨
+        Polynomial.aeval x (normalizedBelyiPolynomial K m n) = 1 :=
+    normalizedBelyiPolynomial_critical_value_eq_zero_or_one K m n hm hn hx
+  simpa [affinePolynomialPointMap] using
+    (ProjectiveLine.affinePoint_mem_branchSet_iff K
+      (Polynomial.aeval x (normalizedBelyiPolynomial K m n))).2 hvalue
+
 end MochizukiLemma21
 
 /-- A polynomial separation step whose selected affine target avoids the branch
