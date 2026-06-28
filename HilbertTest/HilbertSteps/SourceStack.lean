@@ -8439,6 +8439,26 @@ theorem hilbert_finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
     SourceStack.LocalFields.finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
       v
 
+theorem hilbert_finitePlace_adicCompletion_pi_compactExhaustion_exists_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K]
+    {κ : Type*} [Finite κ] (v : κ → HeightOneSpectrum (𝓞 K))
+    [∀ i, LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))] :
+    Nonempty (CompactExhaustion
+      ((i : κ) → IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))) := by
+  exact
+    SourceStack.LocalFields.finitePlace_adicCompletion_pi_compactExhaustion_exists_of_locallyCompact
+      v
+
+theorem hilbert_finitePlace_adicCompletion_pi_sigmaCompactSpace_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K]
+    {κ : Type*} [Finite κ] (v : κ → HeightOneSpectrum (𝓞 K))
+    [∀ i, LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))] :
+    SigmaCompactSpace
+      ((i : κ) → IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i)) := by
+  exact
+    SourceStack.LocalFields.finitePlace_adicCompletion_pi_sigmaCompactSpace_of_locallyCompact
+      v
+
 theorem hilbert_finitePlace_embedding_norm_def
     {K : Type*} [Field K] [NumberField K]
     (v : HeightOneSpectrum (𝓞 K)) (x : K) :
@@ -8568,6 +8588,18 @@ theorem hilbert_infinitePlace_completion_compactExhaustion_exists
     {K : Type*} [Field K] (v : NumberField.InfinitePlace K) :
     Nonempty (CompactExhaustion v.Completion) := by
   exact SourceStack.LocalFields.infinitePlace_completion_compactExhaustion_exists v
+
+theorem hilbert_infinitePlace_completion_pi_compactExhaustion_exists
+    {K : Type*} [Field K] {κ : Type*} [Finite κ]
+    (v : κ → NumberField.InfinitePlace K) :
+    Nonempty (CompactExhaustion ((i : κ) → (v i).Completion)) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_pi_compactExhaustion_exists v
+
+theorem hilbert_infinitePlace_completion_pi_sigmaCompactSpace
+    {K : Type*} [Field K] {κ : Type*} [Finite κ]
+    (v : κ → NumberField.InfinitePlace K) :
+    SigmaCompactSpace ((i : κ) → (v i).Completion) := by
+  exact SourceStack.LocalFields.infinitePlace_completion_pi_sigmaCompactSpace v
 
 theorem hilbert_infinitePlace_completion_isometryEquivComplex_exists
     {K : Type*} [Field K] {v : NumberField.InfinitePlace K}

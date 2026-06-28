@@ -4,6 +4,7 @@ import Mathlib.NumberTheory.NumberField.FinitePlaces
 import Mathlib.Data.Rat.Encodable
 import Mathlib.LinearAlgebra.Dimension.Free
 import Mathlib.Topology.Compactness.SigmaCompact
+import HilbertTest.SourceStack.Topology
 
 /-!
 Local-field compactness source wrappers available in pinned Mathlib.
@@ -146,6 +147,36 @@ theorem finitePlace_adicCompletion_sigmaCompactSpace_of_locallyCompact
       (IsDedekindDomain.HeightOneSpectrum.adicCompletion K v) :=
     finitePlace_adicCompletion_secondCountableTopology v
   infer_instance
+
+/-- Once local compactness is available at each finite place, a finite product
+of finite-place completions admits a compact exhaustion. -/
+theorem finitePlace_adicCompletion_pi_compactExhaustion_exists_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K]
+    {κ : Type*} [Finite κ] (v : κ → HeightOneSpectrum (𝓞 K))
+    [∀ i, LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))] :
+    Nonempty (CompactExhaustion
+      ((i : κ) → IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))) := by
+  haveI : ∀ i, SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i)) :=
+    fun i => finitePlace_adicCompletion_secondCountableTopology (v i)
+  exact
+    HilbertTest.SourceStack.compactExhaustion_pi_of_finite_locallyCompact_secondCountable
+      (fun i => IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))
+
+/-- Once local compactness is available at each finite place, a finite product
+of finite-place completions is sigma-compact. -/
+theorem finitePlace_adicCompletion_pi_sigmaCompactSpace_of_locallyCompact
+    {K : Type*} [Field K] [NumberField K]
+    {κ : Type*} [Finite κ] (v : κ → HeightOneSpectrum (𝓞 K))
+    [∀ i, LocallyCompactSpace (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))] :
+    SigmaCompactSpace
+      ((i : κ) → IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i)) := by
+  haveI : ∀ i, SecondCountableTopology
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i)) :=
+    fun i => finitePlace_adicCompletion_secondCountableTopology (v i)
+  exact
+    HilbertTest.SourceStack.sigmaCompact_pi_of_finite_locallyCompact_secondCountable
+      (fun i => IsDedekindDomain.HeightOneSpectrum.adicCompletion K (v i))
 
 /-- The canonical embedding of a number field into its finite-place completion
 has norm equal to the associated finite-place absolute value. -/
@@ -318,6 +349,33 @@ theorem infinitePlace_completion_compactExhaustion_exists
   haveI : SecondCountableTopology v.Completion :=
     infinitePlace_completion_secondCountableTopology v
   exact ⟨CompactExhaustion.choice v.Completion⟩
+
+/-- A finite product of infinite-place completions admits a compact
+exhaustion. -/
+theorem infinitePlace_completion_pi_compactExhaustion_exists
+    {K : Type*} [Field K] {κ : Type*} [Finite κ]
+    (v : κ → NumberField.InfinitePlace K) :
+    Nonempty (CompactExhaustion ((i : κ) → (v i).Completion)) := by
+  haveI : ∀ i, LocallyCompactSpace (v i).Completion :=
+    fun i => infinitePlace_completion_locallyCompactSpace (v i)
+  haveI : ∀ i, SecondCountableTopology (v i).Completion :=
+    fun i => infinitePlace_completion_secondCountableTopology (v i)
+  exact
+    HilbertTest.SourceStack.compactExhaustion_pi_of_finite_locallyCompact_secondCountable
+      (fun i => (v i).Completion)
+
+/-- A finite product of infinite-place completions is sigma-compact. -/
+theorem infinitePlace_completion_pi_sigmaCompactSpace
+    {K : Type*} [Field K] {κ : Type*} [Finite κ]
+    (v : κ → NumberField.InfinitePlace K) :
+    SigmaCompactSpace ((i : κ) → (v i).Completion) := by
+  haveI : ∀ i, LocallyCompactSpace (v i).Completion :=
+    fun i => infinitePlace_completion_locallyCompactSpace (v i)
+  haveI : ∀ i, SecondCountableTopology (v i).Completion :=
+    fun i => infinitePlace_completion_secondCountableTopology (v i)
+  exact
+    HilbertTest.SourceStack.sigmaCompact_pi_of_finite_locallyCompact_secondCountable
+      (fun i => (v i).Completion)
 
 /-- A complex infinite-place completion is isometric to `ℂ`. -/
 theorem infinitePlace_completion_isometryEquivComplex_exists
