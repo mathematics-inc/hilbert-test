@@ -628,6 +628,26 @@ theorem markedSchemeNoncritical_finite_subcover_on_complement_forall
   exact (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
     exists_scheme_for_finite_disjoint).finite_subcover_on_complement_forall (κ := κ) hS
 
+/-- Concrete coordinate-avoidance form of the scheme-carrier marked finite
+subcover over a fixed complement. -/
+theorem markedSchemeNoncritical_finite_subcover_on_complement_forall_avoidance
+    (κ : Type z) [Finite κ] [T1Space (P1 K)]
+    {S : Set X} (hS : S.Finite) [CompactSpace (κ → {x : X // x ∉ S})] :
+    ∃ t : Finset {φ : Φ //
+        (markedSchemeNoncriticalExistence K X Φ schemeMap continuous_schemeMap
+          exists_scheme_for_finite_disjoint).toBelyiCoverData.sendsSetToBranch S φ},
+      ∀ x : κ → {x : X // x ∉ S},
+        ∃ φ ∈ t, ∀ i, schemeMap φ.1 (x i).1 ∉ markedSchemePointSet K := by
+  rcases markedSchemeNoncritical_finite_subcover_on_complement_forall
+      K X Φ schemeMap continuous_schemeMap exists_scheme_for_finite_disjoint
+      κ hS with
+    ⟨t, ht⟩
+  refine ⟨t, ?_⟩
+  intro x
+  rcases ht x with ⟨φ, hφt, hxφ⟩
+  refine ⟨φ, hφt, ?_⟩
+  exact hxφ
+
 /-- Scheme-carrier marked noncritical compact-exhaustion cover bridge. -/
 theorem markedSchemeNoncritical_finite_compact_cover_by_belyiOpen_exhaustions
     [T1Space (P1 K)] [NonemptyOpenFiniteComplement X] [CompactSpace X]
