@@ -1373,6 +1373,11 @@ theorem schemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
       φ.hom.base x ∉ markedSchemePointSet K := by
   rfl
 
+theorem schemeBelyiMapMarkedCoverData_belyiOpen_carrier :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () =
+      {x : C | φ.hom.base x ∉ markedSchemePointSet K} := by
+  rfl
+
 theorem schemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
     (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () =
       (φ.belyiOpen : Set C) := by

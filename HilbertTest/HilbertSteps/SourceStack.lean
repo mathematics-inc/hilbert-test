@@ -8749,6 +8749,12 @@ theorem hilbert_schemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
   exact SourceStack.SchemeMarkedBelyi.schemeBelyiMapMarkedCoverData_mem_belyiOpen_iff
     K hmarkedOpen φ x
 
+theorem hilbert_schemeBelyiMapMarkedCoverData_belyiOpen_carrier :
+    (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () =
+      {x : C | φ.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeMarkedBelyi.schemeBelyiMapMarkedCoverData_belyiOpen_carrier
+    K hmarkedOpen φ
+
 theorem hilbert_schemeBelyiMapMarkedCoverData_belyiOpen_eq_schemeBelyi :
     (schemeBelyiMapMarkedCoverData K hmarkedOpen φ).belyiOpen () =
       (φ.belyiOpen : Set C) := by
