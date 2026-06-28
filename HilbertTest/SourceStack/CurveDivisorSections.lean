@@ -341,6 +341,62 @@ theorem exists_composedMap_belyiOpen_controls_for_sets_of_projectivePair_factory
     ⟨phi, composed, hhom, hTopen, hopenS⟩
   exact ⟨s1, hnc, phi, composed, hhom, hTopen, hopenS⟩
 
+/-- Combined composed-map form of the divisor-to-reduction bridge: the divisor
+source data produces an actual composed finite Belyi map with both marked
+controls and Belyi-open controls. -/
+theorem exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc phi,
+        ((F.map phi).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map phi).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∃ phi : Φ,
+        ∃ composed : SchemeBelyi.FiniteBelyiMap
+          (SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+          composed.hom = (mkPair s1 hnc).hom ≫ (F.map phi).hom ∧
+            ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+              ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+              T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  cases hsupport
+  rcases D.exists_second_section_no_common_zero hT with ⟨s1, hnc⟩
+  let P := mkPair s1 hnc
+  have himage :
+      ∀ x ∈ S, P.hom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+    intro x hxS
+    exact D.projectivePair_avoids_zeroPoint_off_support
+      P (hmk_eval s1 hnc) (hmk_section0 s1 hnc) x
+      ((Set.disjoint_left.mp hdis) hxS)
+  have htarget :
+      ∀ x ∈ D.support, P.hom.base x =
+        schemeCarrierPoint K MarkedPointLabel.zero := by
+    exact D.projectivePair_maps_support_to_zeroPoint
+      P (hmk_eval s1 hnc) (hmk_section0 s1 hnc)
+  letI : IsFinite P.hom := hmk_finite s1 hnc
+  letI : IsDominant P.hom := hmk_dominant s1 hnc
+  rcases
+      P1ReductionStep.exists_composedMap_controls_and_belyiOpen_controls_of_p1MapExistence_auxEtale
+        (K := K) (C := C) (S := S) (T := D.support)
+        F hS badValues hbad P.hom
+        (targetPoint := schemeCarrierPoint K MarkedPointLabel.zero)
+        himage htargetBad htarget (hAuxEtale s1 hnc) with
+    ⟨phi, composed, hhom, hcontrols, hTopen, hopenS⟩
+  exact ⟨s1, hnc, phi, composed, hhom, hcontrols, hTopen, hopenS⟩
+
 end DivisorZeroSectionData
 
 end SchemeSupport

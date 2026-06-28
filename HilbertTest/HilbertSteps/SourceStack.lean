@@ -4199,6 +4199,41 @@ theorem hilbert_divisorZeroSection_exists_composedMap_belyiOpen_controls_for_set
       D F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+open CategoryTheory in
+theorem hilbert_divisorZeroSection_exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+    [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V, ∃ hnc : HasNoCommonZero D.evalData D.zeroSection s1,
+      ∃ φ : Φ,
+        ∃ composed : SourceStack.SchemeBelyi.FiniteBelyiMap
+          (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+          composed.hom = (mkPair s1 hnc).hom ≫ (F.map φ).hom ∧
+            ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+              ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+              T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+      D F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
 end CurveDivisorSections
 
 namespace CurveCohomologySections
@@ -4491,6 +4526,43 @@ theorem hilbert_cohomologicalDivisor_exists_composedMap_belyiOpen_controls_for_s
       D F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
       hmk_finite hmk_dominant htargetBad hAuxEtale
 
+open CategoryTheory in
+theorem hilbert_cohomologicalDivisor_exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hsupport : D.evalSurjectivity.support = T)
+    (hdis : Disjoint S T)
+    (badValues : Set (P1 K)) (hbad : badValues.Finite)
+    (mkPair : ∀ s1 : V,
+      HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1 →
+        ProjectiveLineSectionPair K C V)
+    (hmk_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalSurjectivity.evalData)
+    (hmk_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection)
+    (hmk_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom)
+    (hmk_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom)
+    (htargetBad : schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues)
+    (hAuxEtale :
+      ∀ s1 hnc φ,
+        ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+            (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+          IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)) :
+    ∃ s1 : V,
+      ∃ hnc : HasNoCommonZero D.evalSurjectivity.evalData D.zeroSection s1,
+        ∃ φ : Φ,
+          ∃ composed : SourceStack.SchemeBelyi.FiniteBelyiMap
+            (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+            composed.hom = (mkPair s1 hnc).hom ≫ (F.map φ).hom ∧
+              ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                  (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.exists_composedMap_controls_and_belyiOpen_controls_for_sets_of_projectivePair_factory
+      D F hS hT hsupport hdis badValues hbad mkPair hmk_eval hmk_section0
+      hmk_finite hmk_dominant htargetBad hAuxEtale
+
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_p1ReductionExistence
     [Infinite K] {C : Scheme.{u}} {Φ : Type z}
     (F : FiniteMarkedBelyiExistence K Φ (P1 K))
@@ -4522,6 +4594,31 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_composedMap_belyiOpen_
                       (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_composedMap_belyiOpen_controls_for_finite_disjoint
+      D hS hT hdis
+
+open CategoryTheory in
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_composedMap_controls_and_belyiOpen_controls_for_finite_disjoint
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ∃ s1 : V,
+        ∃ hnc : HasNoCommonZero (D.divisor i).evalSurjectivity.evalData
+          (D.divisor i).zeroSection s1,
+          ∃ φ : Φ,
+            ∃ composed : SourceStack.SchemeBelyi.FiniteBelyiMap
+              (SourceStack.SchemeBelyi.markedBelyiTarget K F.hmarkedOpen) C,
+              i.1.1 = S ∧
+                i.1.2 = T ∧
+                  composed.hom = (D.mkPair i s1 hnc).hom ≫ (F.map φ).hom ∧
+                    ((∀ x ∈ S, composed.hom.base x ∈ markedSchemePointSet K) ∧
+                      ∀ x ∈ T, composed.hom.base x ∉ markedSchemePointSet K) ∧
+                      T ⊆ (composed.toBelyiMap.belyiOpen : Set C) ∧
+                        (composed.toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_composedMap_controls_and_belyiOpen_controls_for_finite_disjoint
       D hS hT hdis
 
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_finiteMarkedBelyiExistence
