@@ -4724,6 +4724,23 @@ theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_controls
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_belyiOpen_controls
       D hS hT hdis
 
+theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_controls_and_belyiOpen_controls
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+          markedSchemePointSet K) ∧
+        T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalP1ReductionSourceData.exists_map_controls_and_belyiOpen_controls
+      D hS hT hdis
+
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_inside_complement
     [Infinite K] {C : Scheme.{u}} {Φ : Type z}
     (F : FiniteMarkedBelyiExistence K Φ (P1 K))
@@ -9190,6 +9207,18 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_controls
       ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
   exact
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_belyiOpen_controls
+      K Φ F hS hT hdis
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_controls_and_belyiOpen_controls
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ φ : Φ,
+      ((∀ x ∈ S, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_controls_and_belyiOpen_controls
       K Φ F hS hT hdis
 
 theorem hilbert_finiteMarkedBelyiExistence_exists_map_belyiOpen_inside_complement

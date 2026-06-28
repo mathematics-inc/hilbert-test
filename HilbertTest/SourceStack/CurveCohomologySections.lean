@@ -736,6 +736,26 @@ theorem exists_map_belyiOpen_controls
       (K := K) (Φ := ReductionIndex C) D.toFiniteMarkedBelyiExistence
       hS hT hdis
 
+/-- Direct same-map finite disjoint-set consequence after choosing the
+cohomological reduction family: the selected finite Belyi map satisfies the
+marked controls and its Belyi open contains `T` and avoids `S`. -/
+theorem exists_map_controls_and_belyiOpen_controls
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+          markedSchemePointSet K) ∧
+        T ⊆ ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          ((D.toFiniteMarkedBelyiExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    FiniteMarkedBelyiExistence.exists_map_controls_and_belyiOpen_controls
+      (K := K) (Φ := ReductionIndex C) D.toFiniteMarkedBelyiExistence
+      hS hT hdis
+
 /-- Actual finite-map one-point Belyi-open consequence after choosing the
 cohomological reduction family. -/
 theorem exists_map_belyiOpen_inside_complement
