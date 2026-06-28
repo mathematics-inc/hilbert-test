@@ -398,11 +398,27 @@ theorem BelyiMap.mem_marked_belyiOpen_iff_ofT1
     x ∈ φ.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
   exact mem_markedBelyiTargetOfT1_branchOpen_iff K (φ.hom.base x)
 
+theorem BelyiMap.marked_belyiOpen_carrier_ofT1
+    [T1Space (P1 K)]
+    (φ : BelyiMap (markedBelyiTargetOfT1 K) X) :
+    (φ.belyiOpen : Set X) =
+      {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
+  ext x
+  exact BelyiMap.mem_marked_belyiOpen_iff_ofT1 φ x
+
 theorem FiniteBelyiMap.mem_marked_belyiOpen_iff_ofT1
     [T1Space (P1 K)]
     (φ : FiniteBelyiMap (markedBelyiTargetOfT1 K) X) (x : X) :
     x ∈ φ.toBelyiMap.belyiOpen ↔ φ.hom.base x ∉ markedSchemePointSet K := by
   exact mem_markedBelyiTargetOfT1_branchOpen_iff K (φ.hom.base x)
+
+theorem FiniteBelyiMap.marked_belyiOpen_carrier_ofT1
+    [T1Space (P1 K)]
+    (φ : FiniteBelyiMap (markedBelyiTargetOfT1 K) X) :
+    (φ.toBelyiMap.belyiOpen : Set X) =
+      {x : X | φ.hom.base x ∉ markedSchemePointSet K} := by
+  ext x
+  exact FiniteBelyiMap.mem_marked_belyiOpen_iff_ofT1 φ x
 
 end MarkedProjectiveLineTarget
 

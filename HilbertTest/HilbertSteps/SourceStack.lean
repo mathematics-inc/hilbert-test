@@ -6229,6 +6229,15 @@ theorem hilbert_schemeBelyi_mem_marked_belyiOpen_iff_ofT1
   exact SourceStack.SchemeBelyi.BelyiMap.mem_marked_belyiOpen_iff_ofT1
     φmarkedT1 x
 
+theorem hilbert_schemeBelyi_marked_belyiOpen_carrier_ofT1
+    [T1Space (P1 K)]
+    (φmarkedT1 : SourceStack.SchemeBelyi.BelyiMap
+      (SourceStack.SchemeBelyi.markedBelyiTargetOfT1 K) X) :
+    (φmarkedT1.belyiOpen : Set X) =
+      {x : X | φmarkedT1.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeBelyi.BelyiMap.marked_belyiOpen_carrier_ofT1
+    φmarkedT1
+
 theorem hilbert_schemeBelyi_finite_mem_marked_belyiOpen_iff_ofT1
     [T1Space (P1 K)]
     (ψmarkedT1 : SourceStack.SchemeBelyi.FiniteBelyiMap
@@ -6237,6 +6246,15 @@ theorem hilbert_schemeBelyi_finite_mem_marked_belyiOpen_iff_ofT1
       ψmarkedT1.hom.base x ∉ markedSchemePointSet K := by
   exact SourceStack.SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff_ofT1
     ψmarkedT1 x
+
+theorem hilbert_schemeBelyi_finite_marked_belyiOpen_carrier_ofT1
+    [T1Space (P1 K)]
+    (ψmarkedT1 : SourceStack.SchemeBelyi.FiniteBelyiMap
+      (SourceStack.SchemeBelyi.markedBelyiTargetOfT1 K) X) :
+    (ψmarkedT1.toBelyiMap.belyiOpen : Set X) =
+      {x : X | ψmarkedT1.hom.base x ∉ markedSchemePointSet K} := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.marked_belyiOpen_carrier_ofT1
+    ψmarkedT1
 
 end MarkedProjectiveLineTarget
 
