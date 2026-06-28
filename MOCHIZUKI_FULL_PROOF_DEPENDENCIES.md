@@ -97,7 +97,13 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.ComplexSeparation`: the finite complex-set
   separation step behind Mochizuki Lemma 2.3, including the reciprocal translate
   `z -> 1/(z - lambda)` and the rational-pole refinement when `beta` is
-  rational.
+  rational; it also checks the strengthened pole-avoidance variants that force
+  the distinguished point away from all three marked projective points.
+- `HilbertTest.SourceStack.ComplexSchemeSeparation`: transports the
+  strengthened Lemma 2.3 reciprocal-translate output to the concrete scheme
+  carrier of `P^1 = Proj K[X0,X1]`, proving marked-scheme-set avoidance for the
+  distinguished point and scheme-infinity avoidance for finite projective sets,
+  including the rational-pole variant.
 - `HilbertTest.SourceStack.AffineSpace`: Mathlib affine-space wrappers showing
   that global coordinate sections define morphisms to affine space, pull back
   coordinates as expected, satisfy extensionality, identify over-morphisms with
@@ -122,7 +128,8 @@ The repository already contains Lean-checked sublayers that Hilbert can target:
 - `HilbertTest.SourceStack.SchemeProjectiveLineTransform`: point-level
   transport of those reciprocal and affine-linear transformations to the
   scheme carrier through the concrete linear-to-scheme bridge, including the
-  expected formulas on affine points, poles, zero, and infinity.
+  expected formulas on affine points, poles, zero, and infinity, and the exact
+  marked-scheme-set criterion for reciprocal translates away from the pole.
 - `HilbertTest.SourceStack.ProjectiveSpectrum`: Mathlib `Proj` wrappers for
   projective basic opens, affine charts, affine-open chart ranges, affine
   basic opens, stalk localization, chart compatibility with the structure
@@ -551,10 +558,12 @@ Lean-facing declarations needed:
   projective morphism and ramification packaging remains.
 - Lemma 2.2 induction reducing finite rational sets.
 - Lemma 2.3: the analytic complex finite-set separation, reciprocal translate
-  estimate, rational-pole refinement, and linear-projectivization reciprocal
-  translate/affine-linear maps are checked in `SourceStack.ComplexSeparation`
-  and `SourceStack.ProjectiveLine`; still missing is the scheme-`P^1` morphism
-  packaging.
+  estimate, rational-pole refinement, strengthened marked-point avoidance,
+  linear-projectivization reciprocal translate/affine-linear maps, and concrete
+  scheme-carrier point transport are checked in `SourceStack.ComplexSeparation`,
+  `SourceStack.ProjectiveLine`, `SourceStack.SchemeProjectiveLineTransform`,
+  and `SourceStack.ComplexSchemeSeparation`; still missing is the full
+  scheme-`P^1` morphism packaging.
 - Lemma 2.4: Galois-stable induction on degree of algebraic points using minimal
   polynomials.  The underlying primitive-element, separability, normal/Galois,
   splitting, minimal-polynomial conjugacy, and derivative-root degree-drop facts

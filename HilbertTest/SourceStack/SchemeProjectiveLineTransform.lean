@@ -37,6 +37,97 @@ theorem schemeReciprocalTranslatePoint_affinePoint_of_ne
     ProjectiveLine.reciprocalTranslate_affinePoint_of_ne K lambda r hr,
     linearToSchemePoint_affinePoint]
 
+theorem sub_ne_one_of_ne_sub_one
+    (lambda r : K) (h : lambda ≠ r - 1) :
+    r - lambda ≠ 1 := by
+  intro hdiff
+  apply h
+  calc
+    lambda = r - 1 := by
+      rw [eq_sub_iff_add_eq]
+      rw [add_comm]
+      exact (sub_eq_iff_eq_add.mp hdiff).symm
+
+theorem inv_sub_eq_one_iff_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    (r - lambda)⁻¹ = (1 : K) ↔ r - lambda = 1 := by
+  constructor
+  · intro hinv
+    have h0 : r - lambda ≠ 0 := sub_ne_zero.mpr hr
+    have hmul := congrArg (fun x : K => (r - lambda) * x) hinv
+    have hrl : (1 : K) = r - lambda := by
+      simpa [h0] using hmul
+    exact hrl.symm
+  · intro h
+    rw [h]
+    simp
+
+theorem inv_sub_ne_one_of_ne_of_sub_ne_one
+    (lambda r : K) (hr : r ≠ lambda) (hr1 : r - lambda ≠ 1) :
+    (r - lambda)⁻¹ ≠ (1 : K) := by
+  intro hinv
+  exact hr1 ((inv_sub_eq_one_iff_of_ne K lambda r hr).1 hinv)
+
+theorem schemeReciprocalTranslatePoint_affinePoint_ne_zero
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.zeroPoint K := by
+  rw [schemeReciprocalTranslatePoint_affinePoint_of_ne K lambda r hr]
+  exact SchemeAffineLinePoints.affinePoint_ne_zero K
+    (inv_ne_zero (sub_ne_zero.mpr hr))
+
+theorem schemeReciprocalTranslatePoint_affinePoint_ne_one
+    (lambda r : K) (hr : r ≠ lambda) (hr1 : r - lambda ≠ 1) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.onePoint K := by
+  rw [schemeReciprocalTranslatePoint_affinePoint_of_ne K lambda r hr]
+  exact SchemeAffineLinePoints.affinePoint_ne_one K
+    (inv_sub_ne_one_of_ne_of_sub_ne_one K lambda r hr hr1)
+
+theorem schemeReciprocalTranslatePoint_affinePoint_ne_infinity
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ≠
+      SchemeProjectiveLine.infinityPoint K := by
+  rw [schemeReciprocalTranslatePoint_affinePoint_of_ne K lambda r hr]
+  exact SchemeAffineLinePoints.affinePoint_ne_infinity K _
+
+theorem schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePointSet_iff_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ∈
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+        r - lambda = 1 := by
+  rw [schemeReciprocalTranslatePoint_affinePoint_of_ne K lambda r hr]
+  rw [SchemeAffineLinePoints.affinePoint_mem_markedSchemePointSet_iff K]
+  constructor
+  · rintro (hzero | hone)
+    · exact False.elim ((inv_ne_zero (sub_ne_zero.mpr hr)) hzero)
+    · exact (inv_sub_eq_one_iff_of_ne K lambda r hr).1 hone
+  · intro hone
+    exact Or.inr ((inv_sub_eq_one_iff_of_ne K lambda r hr).2 hone)
+
+theorem schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet_iff_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ∉
+      SchemeProjectiveLine.markedSchemePointSet K ↔
+        r - lambda ≠ 1 := by
+  exact not_congr
+    (schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePointSet_iff_of_ne
+      K lambda r hr)
+
+theorem schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet
+    (lambda r : K) (hr : r ≠ lambda) (hr1 : r - lambda ≠ 1) :
+    schemeReciprocalTranslatePoint K lambda
+        (ProjectiveLine.affinePoint K r) ∉
+      SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    (schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet_iff_of_ne
+      K lambda r hr).2 hr1
+
 theorem schemeReciprocalTranslatePoint_affinePoint_pole
     (lambda : K) :
     schemeReciprocalTranslatePoint K lambda
@@ -52,6 +143,19 @@ theorem schemeReciprocalTranslatePoint_infinity
       SchemeProjectiveLine.zeroPoint K := by
   rw [schemeReciprocalTranslatePoint, ProjectiveLine.reciprocalTranslate_infinity,
     linearToSchemePoint_zero]
+
+theorem schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
+    (lambda : K) (p : ProjectiveLine.P1 K)
+    (h : ProjectiveLine.reciprocalTranslate K lambda p ≠
+      ProjectiveLine.infinity K) :
+    schemeReciprocalTranslatePoint K lambda p ≠
+      SchemeProjectiveLine.infinityPoint K := by
+  intro hp
+  have hscheme :
+      linearToSchemePoint K (ProjectiveLine.reciprocalTranslate K lambda p) =
+        linearToSchemePoint K (ProjectiveLine.infinity K) := by
+    simpa [schemeReciprocalTranslatePoint, linearToSchemePoint_infinity] using hp
+  exact h (linearToSchemePoint_injective K hscheme)
 
 /-- Scheme-carrier point map induced by the checked affine-linear map
 `x |-> a * x + b` on the linear projective line. -/

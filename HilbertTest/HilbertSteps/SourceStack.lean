@@ -8,6 +8,7 @@ import HilbertTest.SourceStack.ProjectiveSectionMaps
 import HilbertTest.SourceStack.CurveDivisorSections
 import HilbertTest.SourceStack.CurveCohomologySections
 import HilbertTest.SourceStack.ComplexSeparation
+import HilbertTest.SourceStack.ComplexSchemeSeparation
 import HilbertTest.SourceStack.AffineSpace
 import HilbertTest.SourceStack.ProjectiveLine
 import HilbertTest.SourceStack.ProjectiveSpectrum
@@ -4847,6 +4848,18 @@ theorem hilbert_exists_reciprocal_translate_separating_finset
           ‖SourceStack.reciprocalTranslate lam β‖ := by
   exact SourceStack.exists_reciprocal_translate_separating_finset S β C hC hβ
 
+theorem hilbert_exists_reciprocal_translate_separating_finset_avoid_one
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      (∀ α ∈ S, lam ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact SourceStack.exists_reciprocal_translate_separating_finset_avoid_one
+    S β C hC hβ
+
 theorem hilbert_exists_projective_reciprocalTranslate_separating_finset
     (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
     ∃ lam : ℂ,
@@ -4866,6 +4879,30 @@ theorem hilbert_exists_projective_reciprocalTranslate_separating_finset
   exact SourceStack.exists_projective_reciprocalTranslate_separating_finset
     S β C hC hβ
 
+theorem hilbert_exists_projective_reciprocalTranslate_separating_finset_avoid_marked
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.one ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+            (SourceStack.ProjectiveLine.affinePoint ℂ α) ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact SourceStack.exists_projective_reciprocalTranslate_separating_finset_avoid_marked
+    S β C hC hβ
+
 theorem hilbert_exists_rational_reciprocal_translate_separating_finset
     (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
     ∃ lam : ℚ,
@@ -4875,6 +4912,18 @@ theorem hilbert_exists_rational_reciprocal_translate_separating_finset
         C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
           ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
   exact SourceStack.exists_rational_reciprocal_translate_separating_finset S β C hC hβ
+
+theorem hilbert_exists_rational_reciprocal_translate_separating_finset_avoid_one
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      (∀ α ∈ S, (lam : ℂ) ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact SourceStack.exists_rational_reciprocal_translate_separating_finset_avoid_one
+    S β C hC hβ
 
 theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_finset
     (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
@@ -4895,6 +4944,31 @@ theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_finset
   exact SourceStack.exists_projective_rational_reciprocalTranslate_separating_finset
     S β C hC hβ
 
+theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_finset_avoid_marked
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.one ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+            (SourceStack.ProjectiveLine.affinePoint ℂ α) ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact
+    SourceStack.exists_projective_rational_reciprocalTranslate_separating_finset_avoid_marked
+      S β C hC hβ
+
 theorem hilbert_exists_projective_reciprocalTranslate_separating_projective_finset
     (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ)
     (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ β ∉ S) :
@@ -4913,6 +4987,31 @@ theorem hilbert_exists_projective_reciprocalTranslate_separating_projective_fins
           ‖SourceStack.reciprocalTranslate lam β‖ := by
   exact SourceStack.exists_projective_reciprocalTranslate_separating_projective_finset
     S β C hC hβ
+
+theorem hilbert_exists_projective_reciprocalTranslate_separating_projective_finset_avoid_marked
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.one ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ lam p ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact
+    SourceStack.exists_projective_reciprocalTranslate_separating_projective_finset_avoid_marked
+      S β C hC hβ
 
 theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_projective_finset
     (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
@@ -4933,7 +5032,71 @@ theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_projec
   exact SourceStack.exists_projective_rational_reciprocalTranslate_separating_projective_finset
     S β C hC hβ
 
+theorem hilbert_exists_projective_rational_reciprocalTranslate_separating_projective_finset_avoid_marked
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.zero ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.one ℂ ∧
+      SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        SourceStack.ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ) p ≠
+          SourceStack.ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact
+    SourceStack.exists_projective_rational_reciprocalTranslate_separating_projective_finset_avoid_marked
+      S β C hC hβ
+
 end ComplexSeparation
+
+section ComplexSchemeSeparation
+
+theorem hilbert_exists_schemeReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ lam
+          (SourceStack.ProjectiveLine.affinePoint ℂ β) ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ lam p ≠
+          SourceStack.SchemeProjectiveLine.infinityPoint ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate lam α‖ ≤
+          ‖SourceStack.reciprocalTranslate lam β‖ := by
+  exact
+    SourceStack.ComplexSchemeSeparation.exists_schemeReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+      S β C hC hβ
+
+theorem hilbert_exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+    (S : Finset (SourceStack.ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ)
+    (hC : 0 < C) (hβ : SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ (lam : ℂ)
+          (SourceStack.ProjectiveLine.affinePoint ℂ (β : ℂ)) ∉
+        SourceStack.SchemeProjectiveLine.markedSchemePointSet ℂ ∧
+      (∀ p ∈ S,
+        SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint ℂ
+            (lam : ℂ) p ≠
+          SourceStack.SchemeProjectiveLine.infinityPoint ℂ) ∧
+      ∀ α : ℂ, SourceStack.ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖SourceStack.reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖SourceStack.reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  exact
+    SourceStack.ComplexSchemeSeparation.exists_schemeRationalReciprocalTranslatePoint_separating_projective_finset_avoid_marked
+      S β C hC hβ
+
+end ComplexSchemeSeparation
 
 namespace AffineSpace
 
@@ -11028,6 +11191,50 @@ theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_of_ne
   exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_of_ne
     K lambda r hr
 
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_ne_zero
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.zeroPoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_ne_zero
+    K lambda r hr
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_ne_one
+    (lambda r : K) (hr : r ≠ lambda) (hr1 : r - lambda ≠ 1) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.onePoint K := by
+  exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_ne_one
+    K lambda r hr hr1
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_ne_infinity
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ≠
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_ne_infinity
+      K lambda r hr
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePointSet_iff_of_ne
+    (lambda r : K) (hr : r ≠ lambda) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ∈
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K ↔
+        r - lambda = 1 := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_mem_markedSchemePointSet_iff_of_ne
+      K lambda r hr
+
+theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet
+    (lambda r : K) (hr : r ≠ lambda) (hr1 : r - lambda ≠ 1) :
+    schemeReciprocalTranslatePoint K lambda
+        (SourceStack.ProjectiveLine.affinePoint K r) ∉
+      SourceStack.SchemeProjectiveLine.markedSchemePointSet K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_affinePoint_not_mem_markedSchemePointSet
+      K lambda r hr hr1
+
 theorem hilbert_schemeReciprocalTranslatePoint_affinePoint_pole
     (lambda : K) :
     schemeReciprocalTranslatePoint K lambda
@@ -11043,6 +11250,16 @@ theorem hilbert_schemeReciprocalTranslatePoint_infinity
       SourceStack.SchemeProjectiveLine.zeroPoint K := by
   exact SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_infinity
     K lambda
+
+theorem hilbert_schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
+    (lambda : K) (p : SourceStack.ProjectiveLine.P1 K)
+    (h : SourceStack.ProjectiveLine.reciprocalTranslate K lambda p ≠
+      SourceStack.ProjectiveLine.infinity K) :
+    schemeReciprocalTranslatePoint K lambda p ≠
+      SourceStack.SchemeProjectiveLine.infinityPoint K := by
+  exact
+    SourceStack.SchemeProjectiveLineTransform.schemeReciprocalTranslatePoint_ne_infinity_of_linear_ne_infinity
+      K lambda p h
 
 theorem hilbert_schemeAffineLinearPoint_affinePoint
     (a b : K) (ha : a ≠ 0) (r : K) :

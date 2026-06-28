@@ -122,6 +122,60 @@ theorem exists_reciprocal_translate_separating_finset
     simpa [mul_comm, mul_left_comm, mul_assoc] using hdist α hα
   simpa [reciprocalTranslate, norm_inv, div_eq_mul_inv] using hdiv
 
+theorem complex_ne_sub_one (β : ℂ) :
+    β ≠ β - 1 := by
+  intro h
+  have : (1 : ℂ) = 0 := by
+    calc
+      (1 : ℂ) = β - (β - 1) := by ring
+      _ = β - β := by rw [← h]
+      _ = 0 := by ring
+  exact one_ne_zero this
+
+theorem complex_sub_ne_one_of_ne_sub_one
+    (lambda β : ℂ) (h : lambda ≠ β - 1) :
+    β - lambda ≠ 1 := by
+  intro hdiff
+  apply h
+  calc
+    lambda = β - 1 := by
+      rw [eq_sub_iff_add_eq]
+      rw [add_comm]
+      exact (sub_eq_iff_eq_add.mp hdiff).symm
+
+theorem complex_inv_sub_ne_one_of_ne_of_sub_ne_one
+    (lambda β : ℂ) (hβlam : β ≠ lambda) (hsub : β - lambda ≠ 1) :
+    (β - lambda)⁻¹ ≠ 1 := by
+  intro hinv
+  have h0 : β - lambda ≠ 0 := sub_ne_zero.mpr hβlam
+  have hmul := congrArg (fun x : ℂ => (β - lambda) * x) hinv
+  have hβlam_eq : (1 : ℂ) = β - lambda := by
+    simpa [h0] using hmul
+  exact hsub hβlam_eq.symm
+
+/-- Strengthened reciprocal-separation step: the pole also avoids `β - 1`, so
+the projective image of `β` avoids the marked point `1`. -/
+theorem exists_reciprocal_translate_separating_finset_avoid_one
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      (∀ α ∈ S, lam ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate lam α‖ ≤ ‖reciprocalTranslate lam β‖ := by
+  classical
+  have hβforbidden : β ∉ insert (β - 1) S := by
+    simp [hβ, complex_ne_sub_one β]
+  rcases exists_reciprocal_translate_separating_finset
+      (insert (β - 1) S) β C hC hβforbidden with
+    ⟨lam, hlamβ, hlamForbidden, hsepForbidden⟩
+  refine ⟨lam, hlamβ, ?_, ?_, ?_⟩
+  · exact hlamForbidden (β - 1) (by simp)
+  · intro α hα
+    exact hlamForbidden α (by simp [hα])
+  · intro α hα
+    exact hsepForbidden α (by simp [hα])
+
 /-- Projective-line form of Mochizuki Lemma 2.3 over `ℂ`: the chosen
 reciprocal translate sends `β` to an affine point different from `0` and
 `∞`, sends every point of `S` away from `∞`, and satisfies the same norm
@@ -145,6 +199,44 @@ theorem exists_projective_reciprocalTranslate_separating_finset
       (Ne.symm hlamβ)]
     exact ProjectiveLine.affinePoint_ne_zero ℂ
       (inv_ne_zero (sub_ne_zero.mpr (Ne.symm hlamβ)))
+  · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      lam β (Ne.symm hlamβ)
+  · intro α hα
+    exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      lam α (Ne.symm (hlamS α hα))
+
+/-- Strengthened projective-line form of Mochizuki Lemma 2.3 over `ℂ`: choose
+the pole so that `β` maps away from all three marked points `0`, `1`, and
+`∞`. -/
+theorem exists_projective_reciprocalTranslate_separating_finset_avoid_marked
+    (S : Finset ℂ) (β : ℂ) (C : ℝ) (hC : 0 < C) (hβ : β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.one ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ α) ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate lam α‖ ≤ ‖reciprocalTranslate lam β‖ := by
+  rcases exists_reciprocal_translate_separating_finset_avoid_one
+      S β C hC hβ with
+    ⟨lam, hlamβ, hlamβone, hlamS, hsep⟩
+  refine ⟨lam, hlamβ, hlamβone, ?_, ?_, ?_, ?_, hsep⟩
+  · rw [ProjectiveLine.reciprocalTranslate_affinePoint_of_ne ℂ lam β
+      (Ne.symm hlamβ)]
+    exact ProjectiveLine.affinePoint_ne_zero ℂ
+      (inv_ne_zero (sub_ne_zero.mpr (Ne.symm hlamβ)))
+  · rw [ProjectiveLine.reciprocalTranslate_affinePoint_of_ne ℂ lam β
+      (Ne.symm hlamβ)]
+    exact ProjectiveLine.affinePoint_ne_one ℂ
+      (complex_inv_sub_ne_one_of_ne_of_sub_ne_one lam β (Ne.symm hlamβ)
+        (complex_sub_ne_one_of_ne_sub_one lam β hlamβone))
   · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
       lam β (Ne.symm hlamβ)
   · intro α hα
@@ -266,6 +358,74 @@ theorem exists_projective_rational_reciprocalTranslate_separating_finset
     exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
       (lam : ℂ) α (Ne.symm (hlamS α hα))
 
+/-- Rational strengthened reciprocal-separation step: if `β` is rational, the
+pole may be chosen rational while also avoiding `β - 1`. -/
+theorem exists_rational_reciprocal_translate_separating_finset_avoid_one
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      (∀ α ∈ S, (lam : ℂ) ≠ α) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  classical
+  have hβforbidden : (β : ℂ) ∉ insert ((β : ℂ) - 1) S := by
+    simp [hβ, complex_ne_sub_one (β : ℂ)]
+  rcases exists_rational_reciprocal_translate_separating_finset
+      (insert ((β : ℂ) - 1) S) β C hC hβforbidden with
+    ⟨lam, hlamβ, hlamForbidden, hsepForbidden⟩
+  refine ⟨lam, hlamβ, ?_, ?_, ?_⟩
+  · exact hlamForbidden ((β : ℂ) - 1) (by simp)
+  · intro α hα
+    exact hlamForbidden α (by simp [hα])
+  · intro α hα
+    exact hsepForbidden α (by simp [hα])
+
+/-- Rational strengthened projective-line form of Mochizuki Lemma 2.3: if `β`
+is rational, choose a rational pole so `β` maps away from all three marked
+points `0`, `1`, and `∞`. -/
+theorem exists_projective_rational_reciprocalTranslate_separating_finset_avoid_marked
+    (S : Finset ℂ) (β : ℚ) (C : ℝ) (hC : 0 < C) (hβ : (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.one ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ α ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+            (ProjectiveLine.affinePoint ℂ α) ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α ∈ S,
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  rcases exists_rational_reciprocal_translate_separating_finset_avoid_one
+      S β C hC hβ with
+    ⟨lam, hlamβ, hlamβone, hlamS, hsep⟩
+  refine ⟨lam, hlamβ, hlamβone, ?_, ?_, ?_, ?_, hsep⟩
+  · rw [ProjectiveLine.reciprocalTranslate_affinePoint_of_ne ℂ (lam : ℂ) (β : ℂ)
+      (Ne.symm hlamβ)]
+    exact ProjectiveLine.affinePoint_ne_zero ℂ
+      (inv_ne_zero (sub_ne_zero.mpr (Ne.symm hlamβ)))
+  · rw [ProjectiveLine.reciprocalTranslate_affinePoint_of_ne ℂ (lam : ℂ) (β : ℂ)
+      (Ne.symm hlamβ)]
+    exact ProjectiveLine.affinePoint_ne_one ℂ
+      (complex_inv_sub_ne_one_of_ne_of_sub_ne_one (lam : ℂ) (β : ℂ)
+        (Ne.symm hlamβ)
+        (complex_sub_ne_one_of_ne_sub_one (lam : ℂ) (β : ℂ) hlamβone))
+  · exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      (lam : ℂ) (β : ℂ) (Ne.symm hlamβ)
+  · intro α hα
+    exact ProjectiveLine.reciprocalTranslate_affinePoint_ne_infinity ℂ
+      (lam : ℂ) α (Ne.symm (hlamS α hα))
+
 /-- Projective finite-set form of Mochizuki Lemma 2.3 over `ℂ`: a finite set
 of projective points may contain `∞`; the reciprocal translate sends `∞` to
 `0`, sends every point of the finite set away from `∞`, and satisfies the
@@ -300,6 +460,70 @@ theorem exists_projective_reciprocalTranslate_separating_projective_finset
   rcases exists_projective_reciprocalTranslate_separating_finset Saff β C hC hβaff with
     ⟨lam, hβzero, hβinf, hSaff_inf, hsep⟩
   refine ⟨lam, hβzero, hβinf, ?_, ?_⟩
+  · intro p hpS
+    by_cases hpinf : p = ProjectiveLine.infinity ℂ
+    · rw [hpinf, ProjectiveLine.reciprocalTranslate_infinity]
+      exact ProjectiveLine.zero_ne_infinity ℂ
+    · have hpfilter :
+          p ∈ S.filter (fun q => q ≠ ProjectiveLine.infinity ℂ) := by
+        exact Finset.mem_filter.mpr ⟨hpS, hpinf⟩
+      have hpcoord_mem : ProjectiveLine.affineCoordOrZero ℂ p ∈ Saff := by
+        exact Finset.mem_image.mpr ⟨p, hpfilter, rfl⟩
+      have hp_aff :
+          ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+        ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpinf
+      have hnot := hSaff_inf (ProjectiveLine.affineCoordOrZero ℂ p) hpcoord_mem
+      rwa [hp_aff] at hnot
+  · intro α hαS
+    have hneinf : ProjectiveLine.affinePoint ℂ α ≠ ProjectiveLine.infinity ℂ :=
+      ProjectiveLine.affinePoint_ne_infinity ℂ α
+    have hfilter :
+        ProjectiveLine.affinePoint ℂ α ∈
+          S.filter (fun p => p ≠ ProjectiveLine.infinity ℂ) := by
+      exact Finset.mem_filter.mpr ⟨hαS, hneinf⟩
+    have hαmem : α ∈ Saff := by
+      refine Finset.mem_image.mpr ⟨ProjectiveLine.affinePoint ℂ α, hfilter, ?_⟩
+      exact ProjectiveLine.affineCoordOrZero_affinePoint ℂ α
+    exact hsep α hαmem
+
+/-- Strengthened projective finite-set form of Mochizuki Lemma 2.3: the finite
+set may contain `∞`, and the chosen reciprocal translate sends `β` away from
+all three marked projective points. -/
+theorem exists_projective_reciprocalTranslate_separating_projective_finset_avoid_marked
+    (S : Finset (ProjectiveLine.P1 ℂ)) (β : ℂ) (C : ℝ) (hC : 0 < C)
+    (hβ : ProjectiveLine.affinePoint ℂ β ∉ S) :
+    ∃ lam : ℂ,
+      lam ≠ β ∧
+      lam ≠ β - 1 ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.one ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ lam (ProjectiveLine.affinePoint ℂ β) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ lam p ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖reciprocalTranslate lam α‖ ≤ ‖reciprocalTranslate lam β‖ := by
+  classical
+  let Saff : Finset ℂ :=
+    (S.filter fun p => p ≠ ProjectiveLine.infinity ℂ).image
+      (ProjectiveLine.affineCoordOrZero ℂ)
+  have hβaff : β ∉ Saff := by
+    intro hβmem
+    rcases Finset.mem_image.mp hβmem with ⟨p, hpfilter, hpcoord⟩
+    rcases Finset.mem_filter.mp hpfilter with ⟨hpS, hpne⟩
+    have hp_aff :
+        ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+      ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpne
+    have hβp : ProjectiveLine.affinePoint ℂ β = p := by
+      simpa [hpcoord] using hp_aff
+    exact hβ (by simpa [hβp] using hpS)
+  rcases exists_projective_reciprocalTranslate_separating_finset_avoid_marked
+      Saff β C hC hβaff with
+    ⟨lam, hlamβ, hlamβone, hβzero, hβone, hβinf, hSaff_inf, hsep⟩
+  refine ⟨lam, hlamβ, hlamβone, hβzero, hβone, hβinf, ?_, ?_⟩
   · intro p hpS
     by_cases hpinf : p = ProjectiveLine.infinity ℂ
     · rw [hpinf, ProjectiveLine.reciprocalTranslate_infinity]
@@ -364,6 +588,74 @@ theorem exists_projective_rational_reciprocalTranslate_separating_projective_fin
       Saff β C hC hβaff with
     ⟨lam, hβzero, hβinf, hSaff_inf, hsep⟩
   refine ⟨lam, hβzero, hβinf, ?_, ?_⟩
+  · intro p hpS
+    by_cases hpinf : p = ProjectiveLine.infinity ℂ
+    · rw [hpinf, ProjectiveLine.reciprocalTranslate_infinity]
+      exact ProjectiveLine.zero_ne_infinity ℂ
+    · have hpfilter :
+          p ∈ S.filter (fun q => q ≠ ProjectiveLine.infinity ℂ) := by
+        exact Finset.mem_filter.mpr ⟨hpS, hpinf⟩
+      have hpcoord_mem : ProjectiveLine.affineCoordOrZero ℂ p ∈ Saff := by
+        exact Finset.mem_image.mpr ⟨p, hpfilter, rfl⟩
+      have hp_aff :
+          ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+        ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpinf
+      have hnot := hSaff_inf (ProjectiveLine.affineCoordOrZero ℂ p) hpcoord_mem
+      rwa [hp_aff] at hnot
+  · intro α hαS
+    have hneinf : ProjectiveLine.affinePoint ℂ α ≠ ProjectiveLine.infinity ℂ :=
+      ProjectiveLine.affinePoint_ne_infinity ℂ α
+    have hfilter :
+        ProjectiveLine.affinePoint ℂ α ∈
+          S.filter (fun p => p ≠ ProjectiveLine.infinity ℂ) := by
+      exact Finset.mem_filter.mpr ⟨hαS, hneinf⟩
+    have hαmem : α ∈ Saff := by
+      refine Finset.mem_image.mpr ⟨ProjectiveLine.affinePoint ℂ α, hfilter, ?_⟩
+      exact ProjectiveLine.affineCoordOrZero_affinePoint ℂ α
+    exact hsep α hαmem
+
+/-- Strengthened rational projective finite-set form of Mochizuki Lemma 2.3:
+if the distinguished affine point is rational, choose a rational pole sending it
+away from all three marked projective points. -/
+theorem exists_projective_rational_reciprocalTranslate_separating_projective_finset_avoid_marked
+    (S : Finset (ProjectiveLine.P1 ℂ)) (β : ℚ) (C : ℝ) (hC : 0 < C)
+    (hβ : ProjectiveLine.affinePoint ℂ (β : ℂ) ∉ S) :
+    ∃ lam : ℚ,
+      (lam : ℂ) ≠ (β : ℂ) ∧
+      (lam : ℂ) ≠ (β : ℂ) - 1 ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.zero ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.one ℂ ∧
+      ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ)
+          (ProjectiveLine.affinePoint ℂ (β : ℂ)) ≠
+        ProjectiveLine.infinity ℂ ∧
+      (∀ p ∈ S,
+        ProjectiveLine.reciprocalTranslate ℂ (lam : ℂ) p ≠
+          ProjectiveLine.infinity ℂ) ∧
+      ∀ α : ℂ, ProjectiveLine.affinePoint ℂ α ∈ S →
+        C * ‖reciprocalTranslate (lam : ℂ) α‖ ≤
+          ‖reciprocalTranslate (lam : ℂ) (β : ℂ)‖ := by
+  classical
+  let Saff : Finset ℂ :=
+    (S.filter fun p => p ≠ ProjectiveLine.infinity ℂ).image
+      (ProjectiveLine.affineCoordOrZero ℂ)
+  have hβaff : (β : ℂ) ∉ Saff := by
+    intro hβmem
+    rcases Finset.mem_image.mp hβmem with ⟨p, hpfilter, hpcoord⟩
+    rcases Finset.mem_filter.mp hpfilter with ⟨hpS, hpne⟩
+    have hp_aff :
+        ProjectiveLine.affinePoint ℂ (ProjectiveLine.affineCoordOrZero ℂ p) = p :=
+      ProjectiveLine.affinePoint_affineCoordOrZero_of_ne_infinity ℂ hpne
+    have hβp : ProjectiveLine.affinePoint ℂ (β : ℂ) = p := by
+      simpa [hpcoord] using hp_aff
+    exact hβ (by simpa [hβp] using hpS)
+  rcases exists_projective_rational_reciprocalTranslate_separating_finset_avoid_marked
+      Saff β C hC hβaff with
+    ⟨lam, hlamβ, hlamβone, hβzero, hβone, hβinf, hSaff_inf, hsep⟩
+  refine ⟨lam, hlamβ, hlamβone, hβzero, hβone, hβinf, ?_, ?_⟩
   · intro p hpS
     by_cases hpinf : p = ProjectiveLine.infinity ℂ
     · rw [hpinf, ProjectiveLine.reciprocalTranslate_infinity]
