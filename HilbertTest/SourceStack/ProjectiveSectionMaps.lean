@@ -1506,6 +1506,27 @@ theorem exists_for_finite_disjoint
   exact F.toSectionControlledFiniteMarkedBelyiData.exists_for_finite_disjoint
     hS hT hdis
 
+/-- Direct Belyi-open form of the finite disjoint-set conclusion: the selected
+finite Belyi map has Belyi open containing `T` and avoiding `S`. -/
+theorem exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases F.exists_for_finite_disjoint hS hT hdis with ⟨s, hSmark, hTavoid⟩
+  refine ⟨s, ?_, ?_⟩
+  · intro x hxT
+    exact
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).2
+        (hTavoid x hxT)
+  · intro x hxOpen hxS
+    have hxNotMarked :
+        (F.map s).hom.base x ∉ markedSchemePointSet K :=
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).1 hxOpen
+    exact hxNotMarked (hSmark x hxS)
+
 /-- Corollary 1.2-style one-point open consequence of the projective-section
 finite marked family. -/
 theorem exists_belyiOpen_inside_complement

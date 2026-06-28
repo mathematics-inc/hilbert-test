@@ -2471,6 +2471,15 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_for_finite_disjoint
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_for_finite_disjoint
     F hS hT hdis
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_controls
+      F hS hT hdis
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
