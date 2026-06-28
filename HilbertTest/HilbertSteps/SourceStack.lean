@@ -629,6 +629,115 @@ theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_map_apply
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toFiniteMarkedBelyiExistence_map_apply
     D s
 
+theorem hilbert_schemeSectionControlled_map_finite_hom
+    (s : V) :
+    IsFinite (D.map s).hom := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_finite_hom
+    D s
+
+theorem hilbert_schemeSectionControlled_map_isDominant_hom
+    (s : V) :
+    IsDominant (D.map s).hom := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isDominant_hom
+    D s
+
+theorem hilbert_schemeSectionControlled_map_denseRange_hom
+    (s : V) :
+    DenseRange (D.map s).hom.base := by
+  exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_denseRange_hom
+    D s
+
+theorem hilbert_schemeSectionControlled_map_isEtale_restrict_branchOpen
+    (s : V) :
+    IsEtale ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isEtale_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isFinite_restrict_branchOpen
+    (s : V) :
+    IsFinite ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isFinite_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isAffineHom_restrict_branchOpen
+    (s : V) :
+    IsAffineHom ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isAffineHom_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isIntegralHom_restrict_branchOpen
+    (s : V) :
+    IsIntegralHom ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isIntegralHom_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_locallyOfFiniteType_restrict_branchOpen
+    (s : V) :
+    LocallyOfFiniteType ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_locallyOfFiniteType_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isSeparated_restrict_branchOpen
+    (s : V) :
+    IsSeparated ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isSeparated_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_quasiCompact_restrict_branchOpen
+    (s : V) :
+    QuasiCompact ((D.map s).hom ∣_
+      (SourceStack.SchemeBelyi.markedBelyiTarget K D.hmarkedOpen).branchOpen) := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_quasiCompact_restrict_branchOpen
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isAffineHom_hom
+    (s : V) :
+    IsAffineHom (D.map s).hom := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isAffineHom_hom
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isIntegralHom_hom
+    (s : V) :
+    IsIntegralHom (D.map s).hom := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isIntegralHom_hom
+      D s
+
+theorem hilbert_schemeSectionControlled_map_locallyOfFiniteType_hom
+    (s : V) :
+    LocallyOfFiniteType (D.map s).hom := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_locallyOfFiniteType_hom
+      D s
+
+theorem hilbert_schemeSectionControlled_map_isSeparated_hom
+    (s : V) :
+    IsSeparated (D.map s).hom := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_isSeparated_hom
+      D s
+
+theorem hilbert_schemeSectionControlled_map_quasiCompact_hom
+    (s : V) :
+    QuasiCompact (D.map s).hom := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.map_quasiCompact_hom
+      D s
+
 theorem hilbert_schemeSectionControlled_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
     x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
