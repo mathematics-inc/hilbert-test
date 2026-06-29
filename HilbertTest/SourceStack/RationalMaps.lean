@@ -283,6 +283,23 @@ theorem rationalMap_compHom_isOver
     (f.compHom g).IsOver S := by
   infer_instance
 
+/-- Right-composition of a rational map composes its induced function-field
+morphism with the target morphism. -/
+theorem rationalMap_fromFunctionField_compHom
+    [IrreducibleSpace X] {Z : Scheme.{u}} (f : X ⤏ Y) (g : Y ⟶ Z) :
+    (f.compHom g).fromFunctionField = f.fromFunctionField ≫ g := by
+  obtain ⟨f, rfl⟩ := f.exists_rep
+  exact Scheme.PartialMap.fromSpecStalkOfMem_compHom f g _ _
+
+/-- If a rational map is represented by a partial map, then composing the
+rational-map class on the right composes the representative's function-field
+morphism. -/
+theorem rationalMap_fromFunctionField_toRationalMap_compHom
+    [IrreducibleSpace X] {Z : Scheme.{u}} (f : X.PartialMap Y) (g : Y ⟶ Z) :
+    (f.toRationalMap.compHom g).fromFunctionField = f.fromFunctionField ≫ g := by
+  rw [← Scheme.RationalMap.compHom_toRationalMap]
+  exact Scheme.PartialMap.fromSpecStalkOfMem_compHom f g _ _
+
 /-- A rational map is over the base exactly when composing it with the target
 structure morphism gives the source structure morphism as a rational map. -/
 theorem rationalMap_isOver_iff
@@ -548,6 +565,23 @@ theorem p1PartialMap_fromFunctionField_compHom
     {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
     (f.compHom g).fromFunctionField = f.fromFunctionField ≫ g :=
   Scheme.PartialMap.fromSpecStalkOfMem_compHom f g _ _
+
+/-- Right-composition of a rational map to `P1 K` composes its induced
+function-field morphism with the target morphism. -/
+theorem p1RationalMap_fromFunctionField_compHom
+    [IrreducibleSpace X]
+    {Z : Scheme.{u}} (f : X ⤏ P1 K) (g : P1 K ⟶ Z) :
+    (f.compHom g).fromFunctionField = f.fromFunctionField ≫ g :=
+  rationalMap_fromFunctionField_compHom f g
+
+/-- If a rational map to `P1 K` is represented by a partial map, then composing
+the rational-map class on the right composes the representative's
+function-field morphism. -/
+theorem p1RationalMap_fromFunctionField_toRationalMap_compHom
+    [IrreducibleSpace X]
+    {Z : Scheme.{u}} (f : X.PartialMap (P1 K)) (g : P1 K ⟶ Z) :
+    (f.toRationalMap.compHom g).fromFunctionField = f.fromFunctionField ≫ g :=
+  rationalMap_fromFunctionField_toRationalMap_compHom f g
 
 /-- The function-field map associated to a partial map to `P1 K` agrees with
 the one associated to its rational-map class. -/
