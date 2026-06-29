@@ -215,6 +215,196 @@ theorem standardChartCoordinateSection_apply
     (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
     standardChartCoordinateSection K φ = φ (standardChartCoordinate K c) := rfl
 
+section ChartCoordinateRingMap
+
+variable {R : Type u} [CommRing R] [Algebra K R]
+
+/-- The polynomial-coordinate evaluation attached to a standard affine chart.
+On the `X₀ ≠ 0` chart this sends `(X₀, X₁)` to `(1, t)`, and on the
+`X₁ ≠ 0` chart it sends `(X₀, X₁)` to `(t, 1)`. -/
+def standardChartCoordinateValue (c : StandardAffineChart) (t : R) : Fin 2 → R :=
+  match c with
+  | StandardAffineChart.x0 => fun i => if i = 0 then 1 else t
+  | StandardAffineChart.x1 => fun i => if i = 0 then t else 1
+
+@[simp]
+theorem standardChartCoordinateValue_x0_zero (t : R) :
+    standardChartCoordinateValue StandardAffineChart.x0 t 0 = 1 := by
+  simp [standardChartCoordinateValue]
+
+@[simp]
+theorem standardChartCoordinateValue_x0_one (t : R) :
+    standardChartCoordinateValue StandardAffineChart.x0 t 1 = t := by
+  simp [standardChartCoordinateValue]
+
+@[simp]
+theorem standardChartCoordinateValue_x1_zero (t : R) :
+    standardChartCoordinateValue StandardAffineChart.x1 t 0 = t := by
+  simp [standardChartCoordinateValue]
+
+@[simp]
+theorem standardChartCoordinateValue_x1_one (t : R) :
+    standardChartCoordinateValue StandardAffineChart.x1 t 1 = 1 := by
+  simp [standardChartCoordinateValue]
+
+/-- The homogeneous-coordinate polynomial evaluation defining a standard affine
+chart from an affine coordinate value. -/
+def standardChartPolynomialEval (c : StandardAffineChart) (t : R) :
+    CoordinateRing K →ₐ[K] R :=
+  MvPolynomial.aeval (standardChartCoordinateValue c t)
+
+@[simp]
+theorem standardChartPolynomialEval_x0_X0 (t : R) :
+    standardChartPolynomialEval K StandardAffineChart.x0 t (X0 K) = 1 := by
+  simp [standardChartPolynomialEval, X0]
+
+@[simp]
+theorem standardChartPolynomialEval_x0_X1 (t : R) :
+    standardChartPolynomialEval K StandardAffineChart.x0 t (X1 K) = t := by
+  simp [standardChartPolynomialEval, X1]
+
+@[simp]
+theorem standardChartPolynomialEval_x1_X0 (t : R) :
+    standardChartPolynomialEval K StandardAffineChart.x1 t (X0 K) = t := by
+  simp [standardChartPolynomialEval, X0]
+
+@[simp]
+theorem standardChartPolynomialEval_x1_X1 (t : R) :
+    standardChartPolynomialEval K StandardAffineChart.x1 t (X1 K) = 1 := by
+  simp [standardChartPolynomialEval, X1]
+
+/-- The homogeneous denominator inverted by a standard affine chart. -/
+def standardChartDenominator : StandardAffineChart → CoordinateRing K
+  | StandardAffineChart.x0 => X0 K
+  | StandardAffineChart.x1 => X1 K
+
+/-- The numerator of the affine coordinate on a standard affine chart. -/
+def standardChartNumerator : StandardAffineChart → CoordinateRing K
+  | StandardAffineChart.x0 => X1 K
+  | StandardAffineChart.x1 => X0 K
+
+@[simp]
+theorem standardChartDenominator_x0 :
+    standardChartDenominator K StandardAffineChart.x0 = X0 K := rfl
+
+@[simp]
+theorem standardChartDenominator_x1 :
+    standardChartDenominator K StandardAffineChart.x1 = X1 K := rfl
+
+@[simp]
+theorem standardChartNumerator_x0 :
+    standardChartNumerator K StandardAffineChart.x0 = X1 K := rfl
+
+@[simp]
+theorem standardChartNumerator_x1 :
+    standardChartNumerator K StandardAffineChart.x1 = X0 K := rfl
+
+/-- The polynomial evaluation sends the chart denominator to a unit. -/
+theorem standardChartPolynomialEval_denominator_isUnit
+    (c : StandardAffineChart) (t : R) :
+    IsUnit (standardChartPolynomialEval K c t (standardChartDenominator K c)) := by
+  cases c <;> simp [standardChartDenominator]
+
+/-- The polynomial evaluation sends the chart numerator to the chosen affine
+coordinate value. -/
+theorem standardChartPolynomialEval_numerator
+    (c : StandardAffineChart) (t : R) :
+    standardChartPolynomialEval K c t (standardChartNumerator K c) = t := by
+  cases c <;> simp [standardChartNumerator]
+
+/-- The full localization map induced by the chart-coordinate polynomial
+evaluation. -/
+noncomputable def standardChartFullLocalizationRingHom
+    (c : StandardAffineChart) (t : R) :
+    Localization.Away (standardChartDenominator K c) →+* R :=
+  IsLocalization.lift
+    (M := Submonoid.powers (standardChartDenominator K c))
+    (S := Localization.Away (standardChartDenominator K c))
+    (g := (standardChartPolynomialEval K c t).toRingHom)
+    (by
+      intro y
+      rcases y with ⟨y, n, rfl⟩
+      simpa using (standardChartPolynomialEval_denominator_isUnit K c t).pow n)
+
+/-- A standard affine coordinate value determines a map out of the
+scheme-theoretic standard chart ring. -/
+noncomputable def standardChartRingHomOfCoordinate
+    (c : StandardAffineChart) (t : R) :
+    standardChartRing K c →+* R :=
+  match c with
+  | StandardAffineChart.x0 =>
+      (standardChartFullLocalizationRingHom K StandardAffineChart.x0 t).comp
+        (algebraMap (standardChartRing K StandardAffineChart.x0) (Localization.Away (X0 K)))
+  | StandardAffineChart.x1 =>
+      (standardChartFullLocalizationRingHom K StandardAffineChart.x1 t).comp
+        (algebraMap (standardChartRing K StandardAffineChart.x1) (Localization.Away (X1 K)))
+
+/-- Categorical form of `standardChartRingHomOfCoordinate`. -/
+noncomputable def standardChartRingCatHomOfCoordinate
+    (c : StandardAffineChart) (t : R) :
+    CommRingCat.of (standardChartRing K c) ⟶ CommRingCat.of R :=
+  CommRingCat.ofHom (standardChartRingHomOfCoordinate K c t)
+
+/-- Categorical chart-ring map from an affine coordinate value, taking the
+target `K`-algebra structure as explicit data.  This is convenient for local
+section rings whose algebra structures depend on an open-cover index. -/
+noncomputable def standardChartRingCatHomOfCoordinateOfAlgebra
+    {R : Type u} [CommRing R] (c : StandardAffineChart)
+    (hAlg : Algebra K R) (t : R) :
+    CommRingCat.of (standardChartRing K c) ⟶ CommRingCat.of R := by
+  letI : Algebra K R := hAlg
+  exact standardChartRingCatHomOfCoordinate K c t
+
+/-- The chart ring map constructed from an affine coordinate value pulls back
+the distinguished chart coordinate to that value. -/
+theorem standardChartRingHomOfCoordinate_coordinate
+    (c : StandardAffineChart) (t : R) :
+    standardChartRingHomOfCoordinate K c t (standardChartCoordinate K c) = t := by
+  cases c
+  · change standardChartFullLocalizationRingHom K StandardAffineChart.x0 t
+        (algebraMap (standardChartRing K StandardAffineChart.x0)
+          (Localization.Away (X0 K))
+          (Away.mk (grading K) (x0_mem_degree_one K) 1 (X1 K)
+            (by simpa using x1_mem_degree_one K))) = t
+    rw [HomogeneousLocalization.algebraMap_apply,
+      HomogeneousLocalization.Away.val_mk, Localization.mk_eq_mk']
+    dsimp [standardChartFullLocalizationRingHom]
+    rw [IsLocalization.lift_mk'_spec]
+    simp [standardChartFullLocalizationRingHom, standardChartDenominator,
+      standardChartNumerator]
+  · change standardChartFullLocalizationRingHom K StandardAffineChart.x1 t
+        (algebraMap (standardChartRing K StandardAffineChart.x1)
+          (Localization.Away (X1 K))
+          (Away.mk (grading K) (x1_mem_degree_one K) 1 (X0 K)
+            (by simpa using x0_mem_degree_one K))) = t
+    rw [HomogeneousLocalization.algebraMap_apply,
+      HomogeneousLocalization.Away.val_mk, Localization.mk_eq_mk']
+    dsimp [standardChartFullLocalizationRingHom]
+    rw [IsLocalization.lift_mk'_spec]
+    simp [standardChartFullLocalizationRingHom, standardChartDenominator,
+      standardChartNumerator]
+
+/-- The explicit-algebra chart-ring map sends the distinguished coordinate to
+the chosen affine coordinate value. -/
+theorem standardChartRingCatHomOfCoordinateOfAlgebra_apply_coordinate
+    {R : Type u} [CommRing R] (c : StandardAffineChart)
+    (hAlg : Algebra K R) (t : R) :
+    standardChartRingCatHomOfCoordinateOfAlgebra K c hAlg t
+      (standardChartCoordinate K c) = t := by
+  letI : Algebra K R := hAlg
+  simpa [standardChartRingCatHomOfCoordinateOfAlgebra,
+    standardChartRingCatHomOfCoordinate] using
+    standardChartRingHomOfCoordinate_coordinate K c t
+
+/-- Categorical version of the coordinate pullback identity. -/
+theorem standardChartRingCatHomOfCoordinate_coordinate
+    {X : Scheme.{u}} [Algebra K Γ(X, ⊤)] (c : StandardAffineChart) (t : Γ(X, ⊤)) :
+    standardChartCoordinateSection K (standardChartRingCatHomOfCoordinate K c t) = t := by
+  simpa [standardChartCoordinateSection, standardChartRingCatHomOfCoordinate] using
+    standardChartRingHomOfCoordinate_coordinate K c t
+
+end ChartCoordinateRingMap
+
 theorem basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =
       Proj.basicOpen (grading K) (X0 K) ⊓ Proj.basicOpen (grading K) (X1 K) := by

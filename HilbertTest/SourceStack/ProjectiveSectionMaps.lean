@@ -679,6 +679,164 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end SectionRatioProjectiveLineSectionData
 
+/-- Section-ratio data in which the standard-chart coordinate-ring maps are
+constructed from the named regular ratios.  Compared with
+`SectionRatioProjectiveLineSectionData`, this removes `localChartRingHom` and
+`localChartCoordinate_eq_ratio` as primitive fields: once each local section
+ring is a `K`-algebra, the standard affine chart ring maps are built by
+localizing the homogeneous-coordinate evaluation `(X₀, X₁) = (1, r)` or
+`(r, 1)`. -/
+structure CoordinateSectionRatioProjectiveLineSectionData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  cover : C.OpenCover
+  chart : cover.J → StandardAffineChart
+  localSectionAlgebra : ∀ i : cover.J, Algebra K Γ(cover.obj i, ⊤)
+  localSectionRatio : ∀ i : cover.J, Γ(cover.obj i, ⊤)
+  local_compat :
+    ∀ i j : cover.J,
+      (pullback.fst (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K
+            (standardChartRingCatHomOfCoordinateOfAlgebra K (chart i)
+              (localSectionAlgebra i) (localSectionRatio i))) ≫
+            standardChartMap K (chart i) =
+        (pullback.snd (cover.map i) (cover.map j) ≫
+          standardChartHomOfRingHom K
+            (standardChartRingCatHomOfCoordinateOfAlgebra K (chart j)
+              (localSectionAlgebra j) (localSectionRatio j))) ≫
+            standardChartMap K (chart j)
+  local_zero_of_section0_vanishes :
+    ∀ i (x : cover.obj i),
+      evalData.eval ((cover.map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K
+          (standardChartRingCatHomOfCoordinateOfAlgebra K (chart i)
+            (localSectionAlgebra i) (localSectionRatio i))).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : cover.obj i),
+      (standardChartToP1HomOfRingHom K
+          (standardChartRingCatHomOfCoordinateOfAlgebra K (chart i)
+            (localSectionAlgebra i) (localSectionRatio i))).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval ((cover.map i).base x) section0 = 0
+
+namespace CoordinateSectionRatioProjectiveLineSectionData
+
+variable {C : Scheme.{u}}
+variable (D : CoordinateSectionRatioProjectiveLineSectionData K C V)
+
+/-- The chart coordinate-ring map built from the named local section ratio. -/
+noncomputable def localChartRingHom (i : D.cover.J) :
+    CommRingCat.of (standardChartRing K (D.chart i)) ⟶ Γ(D.cover.obj i, ⊤) :=
+  standardChartRingCatHomOfCoordinateOfAlgebra K (D.chart i)
+    (D.localSectionAlgebra i) (D.localSectionRatio i)
+
+/-- The pulled-back affine coordinate on a local chart, built from the named
+local section ratio. -/
+noncomputable def localCoordinate (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  standardChartCoordinateSection K (D.localChartRingHom i)
+
+/-- The constructed chart-ring map pulls the distinguished coordinate back to
+the supplied local section ratio. -/
+theorem localCoordinate_eq_ratio (i : D.cover.J) :
+    D.localCoordinate i = D.localSectionRatio i := by
+  change D.localChartRingHom i (standardChartCoordinate K (D.chart i)) =
+    D.localSectionRatio i
+  exact standardChartRingCatHomOfCoordinateOfAlgebra_apply_coordinate K (D.chart i)
+    (D.localSectionAlgebra i) (D.localSectionRatio i)
+
+/-- Expanded coordinate-ratio identity for the constructed local chart-ring
+map. -/
+theorem localChartRingHom_coordinate_eq_ratio (i : D.cover.J) :
+    D.localChartRingHom i (standardChartCoordinate K (D.chart i)) =
+      D.localSectionRatio i := by
+  simpa [localCoordinate, standardChartCoordinateSection] using
+    D.localCoordinate_eq_ratio i
+
+/-- Forget that the local chart-ring maps were constructed from ratios. -/
+noncomputable def toSectionRatioProjectiveLineSectionData :
+    SectionRatioProjectiveLineSectionData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.cover
+  chart := D.chart
+  localSectionRatio := D.localSectionRatio
+  localChartRingHom := D.localChartRingHom
+  localChartCoordinate_eq_ratio := D.localCoordinate_eq_ratio
+  local_compat := D.local_compat
+  local_zero_of_section0_vanishes := D.local_zero_of_section0_vanishes
+  local_section0_vanishes_of_zero := D.local_section0_vanishes_of_zero
+
+/-- The local map to `P1` obtained from a constructed section-ratio chart ring
+map. -/
+noncomputable def localHom (i : D.cover.J) : D.cover.obj i ⟶ P1 K :=
+  D.toSectionRatioProjectiveLineSectionData.localHom i
+
+/-- The global projective-line morphism obtained by gluing the constructed
+section-ratio chart maps. -/
+noncomputable def globalHom : C ⟶ P1 K :=
+  D.toSectionRatioProjectiveLineSectionData.globalHom
+
+theorem toSectionRatioProjectiveLineSectionData_globalHom :
+    D.toSectionRatioProjectiveLineSectionData.globalHom = D.globalHom := rfl
+
+@[reassoc]
+theorem cover_map_globalHom (i : D.cover.J) :
+    D.cover.map i ≫ D.globalHom = D.localHom i := by
+  exact D.toSectionRatioProjectiveLineSectionData.cover_map_globalHom i
+
+theorem globalHom_base_of_cover (i : D.cover.J) (x : D.cover.obj i) :
+    D.globalHom.base ((D.cover.map i).base x) = (D.localHom i).base x := by
+  exact D.toSectionRatioProjectiveLineSectionData.globalHom_base_of_cover i x
+
+theorem global_zero_of_section0_vanishes
+    (x : C) (hx : D.evalData.eval x D.section0 = 0) :
+    D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toSectionRatioProjectiveLineSectionData.global_zero_of_section0_vanishes x hx
+
+theorem section0_vanishes_of_global_zero
+    (x : C)
+    (hx : D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero) :
+    D.evalData.eval x D.section0 = 0 := by
+  exact D.toSectionRatioProjectiveLineSectionData.section0_vanishes_of_global_zero x hx
+
+/-- The first section vanishes exactly on the zero fiber of the constructed
+section-ratio projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toSectionRatioProjectiveLineSectionData.section0_vanishes_iff_globalHom_eq_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+constructed section-ratio projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toSectionRatioProjectiveLineSectionData.section0_nonzero_iff_globalHom_ne_zero x
+
+noncomputable def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toSectionRatioProjectiveLineSectionData_toProjectiveLineSectionPair :
+    D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end CoordinateSectionRatioProjectiveLineSectionData
+
 /-- Choice of denominator in a local trivialization of the two selected
 sections.  If `section0` is the nonvanishing denominator, the point lands in
 the `X0 ≠ 0` chart with affine coordinate `s1/s0`; if `section1` is the

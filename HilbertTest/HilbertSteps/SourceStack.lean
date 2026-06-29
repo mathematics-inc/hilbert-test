@@ -2791,6 +2791,72 @@ theorem hilbert_sectionRatioProjectiveLineSectionData_toProjectiveLineSectionPai
   exact SourceStack.ProjectiveSectionMaps.SectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     SRD hx
 
+variable (CRD : CoordinateSectionRatioProjectiveLineSectionData K C V)
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_localCoordinate_eq_ratio
+    (i : CRD.cover.J) :
+    CRD.localCoordinate i = CRD.localSectionRatio i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.localCoordinate_eq_ratio
+      CRD i
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_localChartRingHom_coordinate_eq_ratio
+    (i : CRD.cover.J) :
+    CRD.localChartRingHom i (standardChartCoordinate K (CRD.chart i)) =
+      CRD.localSectionRatio i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.localChartRingHom_coordinate_eq_ratio
+      CRD i
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_toSectionRatioProjectiveLineSectionData_globalHom :
+    CRD.toSectionRatioProjectiveLineSectionData.globalHom = CRD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.toSectionRatioProjectiveLineSectionData_globalHom
+      CRD
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_cover_map_globalHom
+    (i : CRD.cover.J) :
+    CRD.cover.map i ≫ CRD.globalHom = CRD.localHom i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.cover_map_globalHom
+      CRD i
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_globalHom_base_of_cover
+    (i : CRD.cover.J) (x : CRD.cover.obj i) :
+    CRD.globalHom.base ((CRD.cover.map i).base x) = (CRD.localHom i).base x := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.globalHom_base_of_cover
+      CRD i x
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    CRD.evalData.eval x CRD.section0 = 0 ↔
+      CRD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.section0_vanishes_iff_globalHom_eq_zero
+      CRD x
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    CRD.evalData.eval x CRD.section0 ≠ 0 ↔
+      CRD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.section0_nonzero_iff_globalHom_ne_zero
+      CRD x
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_toProjectiveLineSectionPair_hom :
+    CRD.toProjectiveLineSectionPair.hom = CRD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair_hom
+      CRD
+
+theorem hilbert_coordinateSectionRatioProjectiveLineSectionData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : CRD.evalData.eval x CRD.section0 = 0) :
+    CRD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.ProjectiveSectionMaps.CoordinateSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+      CRD hx
+
 theorem hilbert_localSectionRatioChart_toStandardAffineChart_section0 :
     LocalSectionRatioChart.toStandardAffineChart LocalSectionRatioChart.section0 =
       StandardAffineChart.x0 := by
@@ -11242,6 +11308,33 @@ theorem hilbert_standardChartCoordinateSection_apply
     (φ : CommRingCat.of (standardChartRing K c) ⟶ Γ(X, ⊤)) :
     standardChartCoordinateSection K φ = φ (standardChartCoordinate K c) := by
   exact SourceStack.SchemeProjectiveLine.standardChartCoordinateSection_apply K φ
+
+theorem hilbert_standardChartPolynomialEval_denominator_isUnit
+    {R : Type u} [CommRing R] [Algebra K R]
+    (c : StandardAffineChart) (t : R) :
+    IsUnit (standardChartPolynomialEval K c t (standardChartDenominator K c)) := by
+  exact SourceStack.SchemeProjectiveLine.standardChartPolynomialEval_denominator_isUnit K c t
+
+theorem hilbert_standardChartPolynomialEval_numerator
+    {R : Type u} [CommRing R] [Algebra K R]
+    (c : StandardAffineChart) (t : R) :
+    standardChartPolynomialEval K c t (standardChartNumerator K c) = t := by
+  exact SourceStack.SchemeProjectiveLine.standardChartPolynomialEval_numerator K c t
+
+theorem hilbert_standardChartRingHomOfCoordinate_coordinate
+    {R : Type u} [CommRing R] [Algebra K R]
+    (c : StandardAffineChart) (t : R) :
+    standardChartRingHomOfCoordinate K c t (standardChartCoordinate K c) = t := by
+  exact SourceStack.SchemeProjectiveLine.standardChartRingHomOfCoordinate_coordinate K c t
+
+theorem hilbert_standardChartRingCatHomOfCoordinateOfAlgebra_apply_coordinate
+    {R : Type u} [CommRing R]
+    (c : StandardAffineChart) (hAlg : Algebra K R) (t : R) :
+    standardChartRingCatHomOfCoordinateOfAlgebra K c hAlg t
+      (standardChartCoordinate K c) = t := by
+  exact
+    SourceStack.SchemeProjectiveLine.standardChartRingCatHomOfCoordinateOfAlgebra_apply_coordinate
+      K c hAlg t
 
 theorem hilbert_basicOpen_x0x1_eq_inf :
     Proj.basicOpen (grading K) (X0 K * X1 K) =
