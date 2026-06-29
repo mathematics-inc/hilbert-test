@@ -145,6 +145,79 @@ theorem projectivePair_maps_support_to_marked
   rw [D.projectivePair_maps_support_to_zeroPoint P heval hsection0 x hx]
   exact schemeCarrierPoint_mem_markedSchemePointSet K MarkedPointLabel.zero
 
+/-- If the canonical two-section finite marked family uses the divisor
+evaluation data, then the finite marked Belyi map attached to the divisor
+zero-section sends the divisor support to the marked branch set. -/
+theorem twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ∀ x ∈ D.support, (F.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  intro x hx
+  have hxD : D.evalData.eval x D.zeroSection = 0 :=
+    (D.zeroSection_hasZeroSet x).2 hx
+  have hxF_evalData :
+      F.evalPackage.toEvaluationData.eval x D.zeroSection = 0 := by
+    simpa [heval] using hxD
+  have hxF : F.evalPackage.eval x D.zeroSection = 0 := by
+    simpa [CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.toEvaluationData]
+      using hxF_evalData
+  exact F.eval_zero_to_marked D.zeroSection hxF
+
+/-- If the canonical two-section finite marked family uses the divisor
+evaluation data, then the finite marked Belyi map attached to the divisor
+zero-section avoids the marked branch set away from the divisor support. -/
+theorem twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ∀ x ∉ D.support, (F.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  intro x hx
+  have hxD : D.evalData.eval x D.zeroSection ≠ 0 :=
+    (D.zeroSection_eval_ne_zero_iff_not_mem_support x).2 hx
+  have hxF_evalData :
+      F.evalPackage.toEvaluationData.eval x D.zeroSection ≠ 0 := by
+    simpa [heval] using hxD
+  have hxF : F.evalPackage.eval x D.zeroSection ≠ 0 := by
+    simpa [CurveRiemannRoch.RiemannRochFiniteEvaluationPackage.toEvaluationData]
+      using hxF_evalData
+  exact F.eval_nonzero_avoids_marked D.zeroSection hxF
+
+/-- For the finite marked Belyi map attached to the divisor zero-section, the
+source Belyi open is exactly the complement of the divisor support. -/
+theorem twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) (x : C) :
+    x ∈ ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.support := by
+  constructor
+  · intro hxOpen hxSupport
+    have hxNotMarked :
+        (F.map D.zeroSection).hom.base x ∉ markedSchemePointSet K :=
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map D.zeroSection) x).1 hxOpen
+    exact hxNotMarked
+      (D.twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+        F heval x hxSupport)
+  · intro hxSupport
+    exact
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map D.zeroSection) x).2
+        (D.twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+          F heval x hxSupport)
+
+/-- Set equality form of the zero-section Belyi-open computation. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = D.supportᶜ := by
+  ext x
+  exact D.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff F heval x
+
+/-- The zero-section finite marked Belyi open is open. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
+    IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) :=
+  (F.map D.zeroSection).toBelyiMap.belyiOpen.2
+
 /-- A projective-line section pair whose first section is the divisor
 zero-section supplies the auxiliary reduction data for the pair
 `S, D.support`, provided the remaining finite/dominant/étale source-material

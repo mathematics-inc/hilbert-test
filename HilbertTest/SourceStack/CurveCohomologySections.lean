@@ -301,6 +301,63 @@ theorem projectivePair_maps_support_to_marked
     exact (D.zeroSection_hasZeroSet x).2 hx
   exact P.maps_section0_zero_to_marked hzero
 
+/-- If the canonical two-section finite marked family uses the cohomological
+divisor evaluation data, then the finite marked Belyi map attached to the
+cohomological zero-section sends the divisor support to the marked branch set. -/
+theorem twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ∀ x ∈ D.evalSurjectivity.support,
+      (F.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+      F heval
+
+/-- If the canonical two-section finite marked family uses the cohomological
+divisor evaluation data, then the finite marked Belyi map attached to the
+cohomological zero-section avoids the marked branch set off the support. -/
+theorem twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ∀ x ∉ D.evalSurjectivity.support,
+      (F.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+      F heval
+
+/-- For the finite marked Belyi map attached to the cohomological zero-section,
+the source Belyi open is exactly the complement of the divisor support. -/
+theorem twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) (x : C) :
+    x ∈ ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.evalSurjectivity.support := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+      F heval x
+
+/-- Set equality form of the cohomological zero-section Belyi-open
+computation. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+      F heval
+
+/-- The cohomological zero-section finite marked Belyi open is open. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
+    IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) :=
+  D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen F
+
 /-- A projective-line section pair whose first section is the cohomological
 divisor zero-section supplies the auxiliary reduction data for the pair
 `S, D.evalSurjectivity.support`, once the remaining finite/dominant/étale

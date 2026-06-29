@@ -5464,6 +5464,53 @@ theorem hilbert_divisorZeroSection_projectivePair_maps_support_to_marked
     D P heval hsection0
 
 open SourceStack.SchemeProjectiveLine in
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ∀ x ∈ D.support, (F.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+      D F heval
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ∀ x ∉ D.support, (F.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+      D F heval
+
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) (x : C) :
+    x ∈ ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.support := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+      D F heval x
+
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = D.supportᶜ := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+      D F heval
+
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
+    IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+      D F
+
+open SourceStack.SchemeProjectiveLine in
 theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_marked
     [Infinite K] {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
     (hsupport : D.support.Finite)
@@ -6014,6 +6061,56 @@ theorem hilbert_cohomologicalDivisor_projectivePair_maps_support_to_marked
     ∀ x ∈ D.evalSurjectivity.support, P.hom.base x ∈ markedSchemePointSet K := by
   exact SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.projectivePair_maps_support_to_marked
     D P heval hsection0
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ∀ x ∈ D.evalSurjectivity.support,
+      (F.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+      D F heval
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ∀ x ∉ D.evalSurjectivity.support,
+      (F.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+      D F heval
+
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) (x : C) :
+    x ∈ ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.evalSurjectivity.support := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+      D F heval x
+
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
+      D F heval
+
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
+    IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
+      D F
 
 open SourceStack.SchemeProjectiveLine in
 theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_marked
