@@ -886,6 +886,34 @@ theorem hilbert_schemeSectionControlled_exists_map_belyiOpen_containing_finite_i
     SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       D hU hUcompl hT hTsub
 
+theorem hilbert_schemeSectionControlled_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      D hU hUcompl hT hTsub
+
+theorem hilbert_schemeSectionControlled_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub
+
 theorem hilbert_schemeSectionControlled_exists_for_finite_disjoint_subtype_sets
     [Infinite K] (U : Set C) {S T : Set U}
     (hS : S.Finite) (hT : T.Finite) (hdis : Disjoint S T) :

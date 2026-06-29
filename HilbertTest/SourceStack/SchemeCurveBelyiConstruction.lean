@@ -410,6 +410,52 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
 
+/-- Actual finite-map finite-complement-open consequence retaining marked
+controls for section-controlled finite marked Belyi data. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+        K V D.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub with
+    ⟨s, hcontrols, hopen, hTopen, hsub⟩
+  exact
+    ⟨s,
+      (by simpa [toFiniteMarkedBelyiExistence] using hcontrols),
+      (by simpa [toFiniteMarkedBelyiExistence] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
+
+/-- Actual finite-map nonempty-open finite-complement consequence retaining
+marked controls for section-controlled finite marked Belyi data. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+        K V D.toFiniteMarkedBelyiExistence hU hUne hT hTsub with
+    ⟨s, hcontrols, hopen, hTopen, hsub⟩
+  exact
+    ⟨s,
+      (by simpa [toFiniteMarkedBelyiExistence] using hcontrols),
+      (by simpa [toFiniteMarkedBelyiExistence] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence] using hsub)⟩
+
 /-- Direct finite disjoint-set conclusion after restricting the source of
 scheme-level section-controlled finite marked Belyi data to a subtype. -/
 theorem exists_for_finite_disjoint_subtype_sets
