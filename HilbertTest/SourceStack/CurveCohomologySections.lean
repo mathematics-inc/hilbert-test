@@ -336,6 +336,65 @@ theorem twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containi
     E.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
       F heval hU (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub
 
+/-- Package the cohomological restricted-surjectivity handoff to a canonical
+two-section finite marked Belyi family as the paper-facing finite marked Belyi
+existence interface. -/
+noncomputable def twoSectionBezoutFamily_toFiniteMarkedBelyiExistence
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage) :
+    FiniteMarkedBelyiExistence K V C where
+  hmarkedOpen := F.hmarkedOpen
+  map := F.map
+  exists_for_finite_disjoint := by
+    intro S T hS hT hdis
+    exact E.twoSectionBezoutFamily_exists_for_finite_disjoint
+      F heval hS hT hdis
+
+theorem twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_hmarkedOpen
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage) :
+    (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval).hmarkedOpen =
+      F.hmarkedOpen := rfl
+
+theorem twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_map_apply
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    (s : V) :
+    (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval).map s =
+      F.map s := rfl
+
+theorem twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval)).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_mem_belyiOpen_iff
+      K V (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval) s x
+
+theorem twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval)).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K V (E.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval) s
+
 end SchemeSupport
 
 end RestrictedEvaluationSurjectivityData

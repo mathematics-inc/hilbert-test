@@ -6092,6 +6092,56 @@ theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_exists_m
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       RE F heval hU hUne hT hTsub
 
+theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}}
+    (RE : RestrictedEvaluationSurjectivityData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = RE.toRiemannRochFiniteEvaluationPackage) :
+    (RE.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval).hmarkedOpen =
+      F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_hmarkedOpen
+      RE F heval
+
+theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] {C : Scheme.{u}}
+    (RE : RestrictedEvaluationSurjectivityData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = RE.toRiemannRochFiniteEvaluationPackage)
+    (s : V) :
+    (RE.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval).map s =
+      F.map s := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_map_apply
+      RE F heval s
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] {C : Scheme.{u}}
+    (RE : RestrictedEvaluationSurjectivityData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = RE.toRiemannRochFiniteEvaluationPackage)
+    (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      (RE.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval)).toBelyiCoverData.belyiOpen s ↔
+      (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      RE F heval s x
+
+theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] {C : Scheme.{u}}
+    (RE : RestrictedEvaluationSurjectivityData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = RE.toRiemannRochFiniteEvaluationPackage)
+    (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      (RE.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence F heval)).toBelyiCoverData.belyiOpen s =
+      ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      RE F heval s
+
 variable (D : CohomologicalDivisorSectionData K X V)
 
 theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
