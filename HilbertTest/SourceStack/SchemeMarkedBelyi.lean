@@ -898,6 +898,13 @@ theorem rationalMapMarkedCoverData_branch
     [IsReduced C] (f : C ⤏ P1 K) :
     (rationalMapMarkedCoverData K f).branch = markedSchemePointSet K := rfl
 
+/-- Rational-map marked cover data is the partial-map marked cover data of the
+canonical partial-map representative. -/
+theorem rationalMapMarkedCoverData_eq_partialMapMarkedCoverData
+    [IsReduced C] (f : C ⤏ P1 K) :
+    rationalMapMarkedCoverData K f = partialMapMarkedCoverData K f.toPartialMap :=
+  rfl
+
 theorem rationalMapMarkedCoverData_branch_finite
     [IsReduced C] (f : C ⤏ P1 K) :
     (rationalMapMarkedCoverData K f).branch.Finite := by

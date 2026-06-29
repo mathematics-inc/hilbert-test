@@ -57,6 +57,13 @@ theorem rationalMap_toRationalMap_toPartialMap
     f.toPartialMap.toRationalMap = f :=
   f.toRationalMap_toPartialMap
 
+/-- The canonical partial-map representative of a rational map is defined on
+the rational map's domain of definition. -/
+theorem rationalMap_toPartialMap_domain
+    [IsReduced X] [Y.IsSeparated] (f : X ⤏ Y) :
+    f.toPartialMap.domain = f.domain :=
+  rfl
+
 /-- Restricting a partial map to a smaller dense open does not change its
 induced map from the function field. -/
 theorem partialMap_fromFunctionField_restrict
@@ -218,6 +225,13 @@ theorem p1RationalMap_toRationalMap_toPartialMap
     [IsReduced X] (f : X ⤏ P1 K) :
     f.toPartialMap.toRationalMap = f :=
   rationalMap_toRationalMap_toPartialMap f
+
+/-- The canonical partial-map representative of a rational map to `P1 K` is
+defined on the rational map's domain of definition. -/
+theorem p1RationalMap_toPartialMap_domain
+    [IsReduced X] (f : X ⤏ P1 K) :
+    f.toPartialMap.domain = f.domain :=
+  rationalMap_toPartialMap_domain f
 
 /-- Restricting a partial map to `P1 K` to a smaller dense open does not change
 its induced map from the function field. -/
