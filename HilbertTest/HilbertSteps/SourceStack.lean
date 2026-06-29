@@ -3786,6 +3786,34 @@ theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_belyiO
     SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       TF hU hUcompl hT hTsub
 
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (TF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      TF hU hUcompl hT hTsub
+
+theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (TF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      TF hU hUne hT hTsub
+
 theorem hilbert_trivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :
@@ -4304,6 +4332,34 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_
   exact
     SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       ITF hU hUcompl hT hTsub
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (ITF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      ITF hU hUcompl hT hTsub
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (ITF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (ITF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((ITF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((ITF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      ITF hU hUne hT hTsub
 
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
@@ -4831,6 +4887,34 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_b
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       TSF hU hUcompl hT hTsub
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (TSF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      TSF hU hUcompl hT hTsub
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (TSF.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (TSF.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((TSF.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((TSF.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      TSF hU hUne hT hTsub
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]

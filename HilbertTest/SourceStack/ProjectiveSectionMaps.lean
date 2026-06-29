@@ -2303,6 +2303,38 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
     F.toProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       hU hUcompl hT hTsub
 
+/-- Actual finite-map finite-complement-open consequence retaining marked
+controls for concrete trivialized-ratio finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU hUcompl hT hTsub
+
+/-- Actual finite-map nonempty-open finite-complement consequence retaining
+marked controls for concrete trivialized-ratio finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
+
 /-- Direct one-point Belyi-open consequence for concrete trivialized-ratio
 finite marked families. -/
 theorem exists_belyiOpen_inside_complement
@@ -2879,6 +2911,38 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
   exact
     F.toProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       hU hUcompl hT hTsub
+
+/-- Actual finite-map finite-complement-open consequence retaining marked
+controls for denominator-is-unit trivialized finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU hUcompl hT hTsub
+
+/-- Actual finite-map nonempty-open finite-complement consequence retaining
+marked controls for denominator-is-unit trivialized finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
 
 /-- Direct one-point Belyi-open consequence for denominator-is-unit
 trivialized finite marked families. -/
@@ -3467,6 +3531,38 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
   exact
     IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       F.isUnitFamily hU hUcompl hT hTsub
+
+/-- Actual finite-map finite-complement-open consequence retaining marked
+controls for canonical two-section Bezout finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      F.isUnitFamily hU hUcompl hT hTsub
+
+/-- Actual finite-map nonempty-open finite-complement consequence retaining
+marked controls for canonical two-section Bezout finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      F.isUnitFamily hU hUne hT hTsub
 
 /-- Direct one-point Belyi-open consequence for canonical two-section Bezout
 finite marked families. -/
