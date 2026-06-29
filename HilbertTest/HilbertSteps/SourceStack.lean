@@ -3251,6 +3251,34 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_belyiOpen_contain
     SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       F hU hUcompl hT hTsub
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      F hU hUcompl hT hTsub
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [SourceStack.NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      F hU hUne hT hTsub
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_exists_belyiOpen_inside_complement
     [Infinite K] [T1Space (P1 K)]
     {A : Set C} (hA : A.Finite) {x : C} (hxA : x ∉ A) :

@@ -1695,6 +1695,38 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
     F.toSectionControlledFiniteMarkedBelyiData.exists_map_belyiOpen_containing_finite_inside_open_of_finite_complement
       hU hUcompl hT hTsub
 
+/-- Actual finite-map finite-complement-open consequence retaining marked
+controls for projective-section finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU hUcompl hT hTsub
+
+/-- Actual finite-map nonempty-open finite-complement consequence retaining
+marked controls for projective-section finite marked families. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    F.toSectionControlledFiniteMarkedBelyiData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
+
 /-- Corollary 1.2-style one-point open consequence of the projective-section
 finite marked family. -/
 theorem exists_belyiOpen_inside_complement
