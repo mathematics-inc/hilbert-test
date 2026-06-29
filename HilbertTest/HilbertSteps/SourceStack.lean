@@ -5090,6 +5090,84 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofSectionCon
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_trivialized_eq_lifted
       SCD twoSection hmap heval s
 
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofFiniteDominantEtaleTwoSection_twoSection
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        evalPackage.eval x s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked).twoSection = twoSection := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection_twoSection
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofFiniteDominantEtaleTwoSection_map_hom
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        evalPackage.eval x s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K)
+    (s : V) :
+    ((TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked).map s).hom = (twoSection s).globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection_map_hom
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofFiniteDominantEtaleTwoSection_trivialized_eq_lifted
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        evalPackage.eval x s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked).trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSection_trivialized_eq_lifted
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale heval
+      nonzero_avoids_marked s
+
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
     TSF.evalPackage = TSF.isUnitFamily.evalPackage := by
   rfl
