@@ -3170,6 +3170,19 @@ theorem hilbert_twoSectionLocal_denominator_isUnit_lifted
   exact SourceStack.ProjectiveSectionMaps.twoSectionLocal_denominator_isUnit_lifted
     C s0 s1 a b h i
 
+theorem hilbert_twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1)
+    (localSectionAlgebra :
+      ∀ i : Fin 2, Algebra K Γ((twoSectionBezoutCover C s0 s1 a b h).obj i, ⊤))
+    (i : Fin 2) :
+    standardChartCoordinateSection K
+        (twoSectionLocalChartRingHomOfAlgebra K C s0 s1 a b h localSectionAlgebra i) =
+      twoSectionLocalUnitRatio C s0 s1 a b h i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio
+      K C s0 s1 a b h localSectionAlgebra i
+
 variable (TSD : TwoSectionBezoutTrivializedIsUnitData K C V)
 
 theorem hilbert_twoSectionBezoutTrivializedIsUnitData_cover :
@@ -3352,6 +3365,89 @@ theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPai
       markedSchemePointSet K := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
     TSD hx
+
+variable (CTSD : TwoSectionBezoutConstructedTrivializedIsUnitData K C V)
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_localChartRingHom
+    (i : (TwoSectionBezoutConstructedTrivializedIsUnitData.cover CTSD).J) :
+    TwoSectionBezoutConstructedTrivializedIsUnitData.localChartRingHom CTSD i =
+      twoSectionLocalChartRingHomOfAlgebra K C CTSD.globalSection0 CTSD.globalSection1
+        CTSD.bezoutCoeff0 CTSD.bezoutCoeff1 CTSD.bezout
+        CTSD.localSectionAlgebra i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_localChartCoordinate_eq_unitRatio
+    (i : (TwoSectionBezoutConstructedTrivializedIsUnitData.cover CTSD).J) :
+    standardChartCoordinateSection K
+        (TwoSectionBezoutConstructedTrivializedIsUnitData.localChartRingHom CTSD i) =
+      LocalSectionRatioChart.unitRatio
+        (TwoSectionBezoutConstructedTrivializedIsUnitData.ratioChart CTSD i)
+        (TwoSectionBezoutConstructedTrivializedIsUnitData.localSection0 CTSD i)
+        (TwoSectionBezoutConstructedTrivializedIsUnitData.localSection1 CTSD i)
+        ((TwoSectionBezoutConstructedTrivializedIsUnitData.denominator_isUnit CTSD i).unit) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.localChartCoordinate_eq_unitRatio
+      CTSD i
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toTwoSectionBezoutTrivializedIsUnitData_globalHom :
+    CTSD.toTwoSectionBezoutTrivializedIsUnitData.globalHom = CTSD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toTwoSectionBezoutTrivializedIsUnitData_globalHom
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toTwoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair :
+    CTSD.toTwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair =
+      CTSD.toProjectiveLineSectionPair := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toTwoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair_hom :
+    CTSD.toProjectiveLineSectionPair.hom = CTSD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_hom
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair_evalData :
+    CTSD.toProjectiveLineSectionPair.evalData = CTSD.evalData := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_evalData
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair_section0 :
+    CTSD.toProjectiveLineSectionPair.section0 = CTSD.section0 := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_section0
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair_section1 :
+    CTSD.toProjectiveLineSectionPair.section1 = CTSD.section1 := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_section1
+      CTSD
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    CTSD.evalData.eval x CTSD.section0 = 0 ↔
+      CTSD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.section0_vanishes_iff_globalHom_eq_zero
+      CTSD x
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    CTSD.evalData.eval x CTSD.section0 ≠ 0 ↔
+      CTSD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.section0_nonzero_iff_globalHom_ne_zero
+      CTSD x
+
+theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : CTSD.evalData.eval x CTSD.section0 = 0) :
+    CTSD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+      CTSD hx
 
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
