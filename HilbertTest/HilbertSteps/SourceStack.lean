@@ -7423,6 +7423,15 @@ theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFin
     SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
       D
 
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.family.map s := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_map_apply
+      D s
+
 theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_map_hom
     [Infinite K] {C : Scheme.{u}}
     (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
@@ -7465,6 +7474,16 @@ theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_mem_b
   exact
     SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.mem_belyiOpen_iff
       D s x
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_belyiOpen_eq_schemeBelyi
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    D.belyiOpen s =
+      ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.belyiOpen_eq_schemeBelyi
+      D s
 
 theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
     [Infinite K] [T1Space (P1 K)]
@@ -7605,6 +7624,79 @@ theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpe
   exact
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
       D F heval hsupport
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_maps_support_to_marked
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ∀ x ∈ D.evalSurjectivity.support,
+      (S.family.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_maps_support_to_marked
+      D S heval
+
+open SourceStack.SchemeProjectiveLine in
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_avoids_marked_off_support
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ∀ x ∉ D.evalSurjectivity.support,
+      (S.family.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_avoids_marked_off_support
+      D S heval
+
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_mem_belyiOpen_iff
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) (x : C) :
+    x ∈ ((S.family.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.evalSurjectivity.support := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_mem_belyiOpen_iff
+      D S heval x
+
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_belyiOpen_eq_support_compl
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ((S.family.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_belyiOpen_eq_support_compl
+      D S heval
+
+theorem hilbert_cohomologicalDivisor_structuredSource_toFiniteMarkedBelyiExistence_zeroSection_belyiOpen_eq_support_compl
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ((S.toFiniteMarkedBelyiExistence.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_toFiniteMarkedBelyiExistence_zeroSection_belyiOpen_eq_support_compl
+      D S heval
+
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_named_belyiOpen_eq_support_compl
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    S.belyiOpen D.zeroSection = D.evalSurjectivity.supportᶜ := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_named_belyiOpen_eq_support_compl
+      D S heval
 
 theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)

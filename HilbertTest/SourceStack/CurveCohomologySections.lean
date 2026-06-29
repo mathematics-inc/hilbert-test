@@ -1253,6 +1253,16 @@ theorem toFiniteMarkedBelyiExistence_hmarkedOpen
           D.toCohomologicalTwoSectionFiniteMarkedSourceData
     _ = D.hmarkedOpen := D.family_hmarkedOpen
 
+theorem toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.family.map s := by
+  change
+    D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s =
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s
+  exact
+    CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_apply
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData s
+
 theorem toFiniteMarkedBelyiExistence_map_hom
     [Infinite K] (s : V) :
     (D.toFiniteMarkedBelyiExistence.map s).hom =
@@ -1308,6 +1318,14 @@ theorem mem_belyiOpen_iff
     x ∈ D.belyiOpen s ↔
       (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
   exact D.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff s x
+
+theorem belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    D.belyiOpen s =
+      ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K V D.toFiniteMarkedBelyiExistence s
 
 theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
     [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
@@ -1492,6 +1510,100 @@ theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
   exact
     D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
       F heval hsupport
+
+/-- Structured cohomological source form: the zero-section map sends the
+cohomological divisor support to the marked branch set. -/
+theorem structuredSource_zeroSection_maps_support_to_marked
+    (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ∀ x ∈ D.evalSurjectivity.support,
+      (S.family.map D.zeroSection).hom.base x ∈ markedSchemePointSet K := by
+  have hfamilyEval :
+      S.family.evalPackage.toEvaluationData = D.evalSurjectivity.evalData := by
+    rw [S.family_evalPackage]
+    exact heval
+  exact D.twoSectionBezoutFamily_zeroSection_maps_support_to_marked
+    S.family hfamilyEval
+
+/-- Structured cohomological source form: the zero-section map avoids the
+marked branch set off the cohomological divisor support. -/
+theorem structuredSource_zeroSection_avoids_marked_off_support
+    (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ∀ x ∉ D.evalSurjectivity.support,
+      (S.family.map D.zeroSection).hom.base x ∉ markedSchemePointSet K := by
+  have hfamilyEval :
+      S.family.evalPackage.toEvaluationData = D.evalSurjectivity.evalData := by
+    rw [S.family_evalPackage]
+    exact heval
+  exact D.twoSectionBezoutFamily_zeroSection_avoids_marked_off_support
+    S.family hfamilyEval
+
+/-- Structured cohomological source form: membership in the zero-section
+Belyi open is exactly avoidance of the cohomological divisor support. -/
+theorem structuredSource_zeroSection_mem_belyiOpen_iff
+    (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) (x : C) :
+    x ∈ ((S.family.map D.zeroSection).toBelyiMap.belyiOpen : Set C) ↔
+      x ∉ D.evalSurjectivity.support := by
+  have hfamilyEval :
+      S.family.evalPackage.toEvaluationData = D.evalSurjectivity.evalData := by
+    rw [S.family_evalPackage]
+    exact heval
+  exact D.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff
+    S.family hfamilyEval x
+
+/-- Structured cohomological source form: the zero-section Belyi open is the
+complement of the cohomological divisor support. -/
+theorem structuredSource_zeroSection_belyiOpen_eq_support_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ((S.family.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  ext x
+  exact D.structuredSource_zeroSection_mem_belyiOpen_iff S heval x
+
+/-- Packaged structured source form: the zero-section Belyi open from the
+finite marked Belyi existence package is the complement of the cohomological
+divisor support. -/
+theorem structuredSource_toFiniteMarkedBelyiExistence_zeroSection_belyiOpen_eq_support_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K]
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    ((S.toFiniteMarkedBelyiExistence.map D.zeroSection).toBelyiMap.belyiOpen : Set C) =
+      D.evalSurjectivity.supportᶜ := by
+  rw [S.toFiniteMarkedBelyiExistence_map_apply D.zeroSection]
+  exact D.structuredSource_zeroSection_belyiOpen_eq_support_compl S heval
+
+/-- Named-open structured source form: the zero-section noncritical Belyi open
+is the complement of the cohomological divisor support. -/
+theorem structuredSource_zeroSection_named_belyiOpen_eq_support_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K]
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData) :
+    S.belyiOpen D.zeroSection = D.evalSurjectivity.supportᶜ := by
+  rw [S.belyiOpen_eq_schemeBelyi D.zeroSection]
+  exact
+    D.structuredSource_toFiniteMarkedBelyiExistence_zeroSection_belyiOpen_eq_support_compl
+      S heval
 
 /-- The cohomological zero-section finite marked Belyi open is open. -/
 theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
