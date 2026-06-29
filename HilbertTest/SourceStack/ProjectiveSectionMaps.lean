@@ -3966,6 +3966,103 @@ theorem ofFiniteDominantEtaleTwoSection_trivialized_eq_lifted
       hFinite hDominant hEtale heval nonzero_avoids_marked).trivialized s =
       (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := rfl
 
+/-- Variant of `ofFiniteDominantEtaleTwoSection` where the pointwise
+evaluation compatibility is derived from the fact that the two-section package
+uses the evaluation package's evaluation data and takes its first section to be
+the section index. -/
+def ofFiniteDominantEtaleTwoSectionAligned
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K) :
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V :=
+  ofFiniteDominantEtaleTwoSection evalPackage hmarkedOpen twoSection
+    hFinite hDominant hEtale
+    (by
+      intro s x
+      rw [hevalData s, hsection0 s]
+      rfl)
+    nonzero_avoids_marked
+
+@[simp]
+theorem ofFiniteDominantEtaleTwoSectionAligned_twoSection
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K) :
+    (ofFiniteDominantEtaleTwoSectionAligned evalPackage hmarkedOpen twoSection
+      hFinite hDominant hEtale hevalData hsection0 nonzero_avoids_marked).twoSection =
+      twoSection := rfl
+
+@[simp]
+theorem ofFiniteDominantEtaleTwoSectionAligned_map_hom
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K)
+    (s : V) :
+    ((ofFiniteDominantEtaleTwoSectionAligned evalPackage hmarkedOpen twoSection
+      hFinite hDominant hEtale hevalData hsection0 nonzero_avoids_marked).map s).hom =
+      (twoSection s).globalHom := rfl
+
+theorem ofFiniteDominantEtaleTwoSectionAligned_trivialized_eq_lifted
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K)
+    (s : V) :
+    (ofFiniteDominantEtaleTwoSectionAligned evalPackage hmarkedOpen twoSection
+      hFinite hDominant hEtale hevalData hsection0 nonzero_avoids_marked).trivialized s =
+      (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := rfl
+
 theorem trivialized_evalData_eq_spec (s : V) :
     (F.trivialized s).evalData = (F.twoSection s).evalData :=
   F.trivialized_evalData_eq s
