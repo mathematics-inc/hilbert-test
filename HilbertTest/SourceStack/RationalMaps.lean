@@ -21,6 +21,44 @@ universe u
 
 variable {X Y : Scheme.{u}}
 
+/-- The partial map associated to an honest morphism is defined on all of the
+source. -/
+theorem hom_toPartialMap_domain
+    (f : X ⟶ Y) :
+    f.toPartialMap.domain = ⊤ :=
+  rfl
+
+/-- The morphism underlying the partial map associated to an honest morphism is
+the top-open identification followed by the original morphism. -/
+theorem hom_toPartialMap_hom
+    (f : X ⟶ Y) :
+    f.toPartialMap.hom = X.topIso.hom ≫ f :=
+  rfl
+
+/-- On any stalk, the partial map associated to an honest morphism restricts to
+the canonical stalk-spectrum map followed by the original morphism. -/
+theorem hom_toPartialMap_fromSpecStalkOfMem
+    (f : X ⟶ Y) (x : X) :
+    f.toPartialMap.fromSpecStalkOfMem (x := x) trivial =
+      X.fromSpecStalk x ≫ f :=
+  Scheme.PartialMap.fromSpecStalkOfMem_toPartialMap f x
+
+/-- On the function field, the partial map associated to an honest morphism is
+the canonical generic stalk-spectrum map followed by the original morphism. -/
+theorem hom_toPartialMap_fromFunctionField
+    [IrreducibleSpace X] (f : X ⟶ Y) :
+    f.toPartialMap.fromFunctionField = X.fromSpecStalk _ ≫ f := by
+  unfold Scheme.PartialMap.fromFunctionField
+  rw [Scheme.PartialMap.fromSpecStalkOfMem_toPartialMap]
+
+/-- On the function field, the rational map associated to an honest morphism is
+the canonical generic stalk-spectrum map followed by the original morphism. -/
+theorem hom_toRationalMap_fromFunctionField
+    [IrreducibleSpace X] (f : X ⟶ Y) :
+    f.toRationalMap.fromFunctionField = X.fromSpecStalk _ ≫ f := by
+  rw [Scheme.RationalMap.fromFunctionField_toRationalMap]
+  exact hom_toPartialMap_fromFunctionField f
+
 /-- Every rational map has a partial-map representative. -/
 theorem partialMap_toRationalMap_surjective :
     Function.Surjective (@Scheme.PartialMap.toRationalMap X Y) :=
@@ -192,6 +230,29 @@ open SchemeProjectiveLine
 
 variable (K : Type u) [CommRing K]
 variable {X : Scheme.{u}}
+
+/-- The partial map associated to an honest morphism to `P1 K` is defined on
+all of the source. -/
+theorem p1Hom_toPartialMap_domain
+    (f : X ⟶ P1 K) :
+    f.toPartialMap.domain = ⊤ :=
+  hom_toPartialMap_domain f
+
+/-- On the function field, the partial map associated to an honest morphism to
+`P1 K` is the canonical generic stalk-spectrum map followed by the original
+morphism. -/
+theorem p1Hom_toPartialMap_fromFunctionField
+    [IrreducibleSpace X] (f : X ⟶ P1 K) :
+    f.toPartialMap.fromFunctionField = X.fromSpecStalk _ ≫ f :=
+  hom_toPartialMap_fromFunctionField f
+
+/-- On the function field, the rational map associated to an honest morphism to
+`P1 K` is the canonical generic stalk-spectrum map followed by the original
+morphism. -/
+theorem p1Hom_toRationalMap_fromFunctionField
+    [IrreducibleSpace X] (f : X ⟶ P1 K) :
+    f.toRationalMap.fromFunctionField = X.fromSpecStalk _ ≫ f :=
+  hom_toRationalMap_fromFunctionField f
 
 /-- A rational map to the scheme-theoretic projective line has a partial-map
 representative. -/
