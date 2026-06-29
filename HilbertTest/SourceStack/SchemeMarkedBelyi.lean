@@ -2017,6 +2017,43 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComp
     (toMarkedNoncriticalExistence K Φ F).exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       hV hVne hT hTsub
 
+/-- Actual finite-map finite-complement-open version retaining marked controls:
+if `T` lies in an open with finite complement, a selected finite marked Belyi
+map sends the complement to the marked set, avoids the marked set on `T`, and
+has source Belyi open containing `T` inside the original open. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {V T : Set C} (_hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      ((∀ x ∈ Vᶜ, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  have hdis : Disjoint Vᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxV hxT
+    exact hxV (hTsub hxT)
+  rcases exists_map_controls_and_isOpen_belyiOpen_controls
+      K Φ F hVcompl hT hdis with ⟨φ, hcontrols, hopen, hTopen, hopenS⟩
+  exact ⟨φ, hcontrols, hopen, hTopen, by simpa using hopenS⟩
+
+/-- Actual finite-map nonempty-open finite-complement version retaining marked
+controls. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {V T : Set C} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      ((∀ x ∈ Vᶜ, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact
+    exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      K Φ F hV (finite_compl_of_isOpen_nonempty hV hVne) hT hTsub
+
 theorem pointwise_cover_complement
     (κ : Type z) [Finite κ] {S : Set C} (hS : S.Finite)
     (x : κ → {x : C // x ∉ S}) :

@@ -11983,6 +11983,33 @@ theorem hilbert_finiteMarkedBelyiExistence_exists_belyiOpen_containing_finite_in
     SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       K Φ F hV hVne hT hTsub
 
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {V T : Set C} (hV : IsOpen V) (hVcompl : Vᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      ((∀ x ∈ Vᶜ, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      K Φ F hV hVcompl hT hTsub
+
+theorem hilbert_finiteMarkedBelyiExistence_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [SourceStack.NonemptyOpenFiniteComplement C]
+    {V T : Set C} (hV : IsOpen V) (hVne : V.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ V) :
+    ∃ φ : Φ,
+      ((∀ x ∈ Vᶜ, (F.map φ).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map φ).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map φ).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map φ).toBelyiMap.belyiOpen : Set C) ⊆ V := by
+  exact
+    SourceStack.SchemeMarkedBelyi.FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      K Φ F hV hVne hT hTsub
+
 theorem hilbert_finiteMarkedBelyiExistence_pointwise_cover_complement
     (κ : Type*) [Finite κ] {S : Set C} (hS : S.Finite)
     (x : κ → {x : C // x ∉ S}) :
