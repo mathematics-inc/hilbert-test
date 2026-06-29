@@ -1629,6 +1629,15 @@ theorem toTrivializedIsUnitSectionRatioDataLifted_toProjectiveLineSectionPair :
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
 
+theorem toProjectiveLineSectionPair_evalData :
+    D.toProjectiveLineSectionPair.evalData = D.evalData := rfl
+
+theorem toProjectiveLineSectionPair_section0 :
+    D.toProjectiveLineSectionPair.section0 = D.section0 := rfl
+
+theorem toProjectiveLineSectionPair_section1 :
+    D.toProjectiveLineSectionPair.section1 = D.section1 := rfl
+
 /-- The first section vanishes exactly on the zero fiber of the two-section
 Bezout projective-line morphism. -/
 theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
@@ -3517,6 +3526,8 @@ structure TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
     ∀ s : V, (isUnitFamily.trivialized s).section0 = (twoSection s).section0
   trivialized_section1_eq :
     ∀ s : V, (isUnitFamily.trivialized s).section1 = (twoSection s).section1
+  trivialized_globalHom_eq :
+    ∀ s : V, (isUnitFamily.trivialized s).globalHom = (twoSection s).globalHom
 
 namespace TwoSectionBezoutProjectiveSectionFiniteMarkedFamily
 
@@ -3555,6 +3566,10 @@ theorem trivialized_section1_eq_spec (s : V) :
     (F.trivialized s).section1 = (F.twoSection s).section1 :=
   F.trivialized_section1_eq s
 
+theorem trivialized_globalHom_eq_spec (s : V) :
+    (F.trivialized s).globalHom = (F.twoSection s).globalHom :=
+  F.trivialized_globalHom_eq s
+
 /-- Forget the canonical two-section package to the denominator-is-unit finite
 marked family interface. -/
 def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
@@ -3564,6 +3579,57 @@ def toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily :
 theorem toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
+
+/-- The projective-section pair supplied by the canonical two-section Bezout
+package. -/
+def twoSectionPair (s : V) : ProjectiveLineSectionPair K C V :=
+  (F.twoSection s).toProjectiveLineSectionPair
+
+theorem twoSectionPair_hom (s : V) :
+    (F.twoSectionPair s).hom = (F.twoSection s).globalHom := rfl
+
+/-- The finite marked map has the same underlying point map as the canonical
+two-section global morphism. -/
+theorem map_base_eq_twoSection_globalHom (s : V) (x : C) :
+    (F.map s).hom.base x = (F.twoSection s).globalHom.base x := by
+  calc
+    (F.map s).hom.base x = (F.trivialized s).globalHom.base x :=
+      F.isUnitFamily.map_base_eq_globalHom s x
+    _ = (F.twoSection s).globalHom.base x := by
+      rw [F.trivialized_globalHom_eq_spec s]
+
+/-- The finite marked map has the same underlying point map as the canonical
+two-section projective-section pair. -/
+theorem map_base_eq_twoSectionPair (s : V) (x : C) :
+    (F.map s).hom.base x = (F.twoSectionPair s).hom.base x := by
+  rw [F.twoSectionPair_hom s]
+  exact F.map_base_eq_twoSection_globalHom s x
+
+theorem twoSectionPair_section0_eval_eq_index (s : V) (x : C) :
+    (F.twoSectionPair s).evalData.eval x (F.twoSectionPair s).section0 =
+      F.evalPackage.eval x s := by
+  change (F.twoSection s).evalData.eval x (F.twoSection s).section0 =
+    F.evalPackage.eval x s
+  rw [← F.trivialized_evalData_eq_spec s, ← F.trivialized_section0_eq_spec s]
+  exact F.isUnitFamily.trivialized_section0_eval_eq_index s x
+
+/-- Forget the finite marked family through the canonical two-section
+projective-section pairs. -/
+def toProjectiveSectionFiniteMarkedFamilyViaTwoSection :
+    ProjectiveSectionFiniteMarkedFamily K C V where
+  evalPackage := F.evalPackage
+  hmarkedOpen := F.hmarkedOpen
+  pair := F.twoSectionPair
+  map := F.map
+  map_base_eq_pair := F.map_base_eq_twoSectionPair
+  pair_section0_eval_eq_index := F.twoSectionPair_section0_eval_eq_index
+  nonzero_avoids_marked := by
+    intro T s hs
+    exact F.isUnitFamily.nonzero_avoids_marked hs
+
+theorem toProjectiveSectionFiniteMarkedFamilyViaTwoSection_map_apply
+    (s : V) :
+    F.toProjectiveSectionFiniteMarkedFamilyViaTwoSection.map s = F.map s := rfl
 
 /-- Each canonical two-section finite marked family map is finite. -/
 theorem map_finite_hom

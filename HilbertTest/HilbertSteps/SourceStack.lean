@@ -3133,6 +3133,24 @@ theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPai
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_hom
     TSD
 
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair_evalData :
+    (TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD).evalData =
+      TSD.evalData := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_evalData
+    TSD
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair_section0 :
+    (TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD).section0 =
+      TSD.section0 := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_section0
+    TSD
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair_section1 :
+    (TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD).section1 =
+      TSD.section1 := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_section1
+    TSD
+
 theorem hilbert_twoSectionBezoutTrivializedIsUnitData_section0_vanishes_iff_globalHom_eq_zero
     (x : C) :
     TSD.evalData.eval x TSD.section0 = 0 ↔
@@ -4788,10 +4806,52 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized_
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.trivialized_section1_eq_spec
     TSF s
 
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_trivialized_globalHom_eq_spec
+    (s : V) :
+    (TSF.trivialized s).globalHom = (TSF.twoSection s).globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.trivialized_globalHom_eq_spec
+    TSF s
+
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toIsUnit_map_apply
     (s : V) :
     TSF.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily.map s = TSF.map s := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toIsUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_apply
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_twoSectionPair
+    (s : V) :
+    TSF.twoSectionPair s = (TSF.twoSection s).toProjectiveLineSectionPair := by
+  rfl
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_twoSectionPair_hom
+    (s : V) :
+    (TSF.twoSectionPair s).hom = (TSF.twoSection s).globalHom := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.twoSectionPair_hom
+    TSF s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_base_eq_twoSection_globalHom
+    (s : V) (x : C) :
+    (TSF.map s).hom.base x = (TSF.twoSection s).globalHom.base x := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_base_eq_twoSection_globalHom
+    TSF s x
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_base_eq_twoSectionPair
+    (s : V) (x : C) :
+    (TSF.map s).hom.base x = (TSF.twoSectionPair s).hom.base x := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.map_base_eq_twoSectionPair
+    TSF s x
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_twoSectionPair_section0_eval_eq_index
+    (s : V) (x : C) :
+    (TSF.twoSectionPair s).evalData.eval x (TSF.twoSectionPair s).section0 =
+      TSF.evalPackage.eval x s := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.twoSectionPair_section0_eval_eq_index
+    TSF s x
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_toProjectiveSectionFiniteMarkedFamilyViaTwoSection_map_apply
+    (s : V) :
+    TSF.toProjectiveSectionFiniteMarkedFamilyViaTwoSection.map s = TSF.map s := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamilyViaTwoSection_map_apply
     TSF s
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_map_finite_hom
