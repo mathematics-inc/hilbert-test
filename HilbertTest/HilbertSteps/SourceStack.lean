@@ -629,6 +629,86 @@ variable {C : Scheme.{u}}
 variable {V : Type w} [AddCommGroup V] [Module K V]
 variable (D : SectionControlledFiniteMarkedBelyiData K C V)
 
+theorem hilbert_schemeSectionControlled_ofFiniteDominantEtaleHomFamily_evalPackage
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K) :
+    (SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked).evalPackage =
+      evalPackage := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily_evalPackage
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked
+
+theorem hilbert_schemeSectionControlled_ofFiniteDominantEtaleHomFamily_map_hom
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K)
+    (s : V) :
+    ((SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked).map s).hom =
+      hom s := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily_map_hom
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked s
+
+theorem hilbert_schemeSectionControlled_ofFiniteDominantEtaleHomFamily_map_base
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K)
+    (s : V) (x : C) :
+    ((SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked).map s).hom.base x =
+      (hom s).base x := by
+  exact
+    SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.ofFiniteDominantEtaleHomFamily_map_base
+      evalPackage hmarkedOpen hom hFinite hDominant hEtale
+      sends_vanishing_to_marked nonzero_avoids_marked s x
+
 theorem hilbert_schemeSectionControlled_toSectionControlledBelyiData_branch :
     D.toSectionControlledBelyiData.branch = markedSchemePointSet K := by
   exact SourceStack.SchemeCurveBelyiConstruction.SectionControlledFiniteMarkedBelyiData.toSectionControlledBelyiData_branch
@@ -1212,6 +1292,39 @@ theorem hilbert_schemeSectionControlled_finite_compact_coordinate_sets_of_belyiO
       D G hG A hGA
 
 end SchemeCurveBelyiConstruction
+
+namespace SchemeBelyi
+
+open SourceStack.SchemeBelyi
+
+universe u
+
+variable {X P : Scheme.{u}} {T : BelyiTarget P}
+
+theorem hilbert_belyiMap_ofHom_hom
+    (hom : X ⟶ P) (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (BelyiMap.ofHom (T := T) hom hDominant hEtale).hom = hom := by
+  exact SourceStack.SchemeBelyi.BelyiMap.ofHom_hom hom hDominant hEtale
+
+theorem hilbert_finiteBelyiMap_ofHom_hom
+    (hom : X ⟶ P) (hFinite : IsFinite hom)
+    (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (FiniteBelyiMap.ofHom (T := T) hom hFinite hDominant hEtale).hom = hom := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.ofHom_hom
+    hom hFinite hDominant hEtale
+
+theorem hilbert_finiteBelyiMap_ofHom_toBelyiMap
+    (hom : X ⟶ P) (hFinite : IsFinite hom)
+    (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (FiniteBelyiMap.ofHom (T := T) hom hFinite hDominant hEtale).toBelyiMap =
+      BelyiMap.ofHom (T := T) hom hDominant hEtale := by
+  exact SourceStack.SchemeBelyi.FiniteBelyiMap.ofHom_toBelyiMap
+    hom hFinite hDominant hEtale
+
+end SchemeBelyi
 
 namespace BelyiReduction
 

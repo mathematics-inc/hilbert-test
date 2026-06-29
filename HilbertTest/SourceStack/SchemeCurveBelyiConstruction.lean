@@ -53,6 +53,108 @@ variable {C : Scheme.{u}}
 variable {V : Type w} [AddCommGroup V] [Module K V]
 variable (D : SectionControlledFiniteMarkedBelyiData K C V)
 
+/-- Build section-controlled finite marked Belyi data from an ordinary family
+of morphisms to `P1 K`, once finiteness, dominance, etaleness over the marked
+branch-complement, and the section-evaluation branch controls have been
+proved. -/
+def ofFiniteDominantEtaleHomFamily
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K) :
+    SectionControlledFiniteMarkedBelyiData K C V where
+  evalPackage := evalPackage
+  hmarkedOpen := hmarkedOpen
+  map := fun s =>
+    SchemeBelyi.FiniteBelyiMap.ofHom
+      (T := SchemeBelyi.markedBelyiTarget K hmarkedOpen)
+      (hom s) (hFinite s) (hDominant s) (hEtale s)
+  sends_vanishing_to_marked := by
+    intro S s hs x hx
+    exact sends_vanishing_to_marked hs x hx
+  nonzero_avoids_marked := by
+    intro T s hs x hx
+    exact nonzero_avoids_marked hs x hx
+
+@[simp]
+theorem ofFiniteDominantEtaleHomFamily_evalPackage
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K) :
+    (ofFiniteDominantEtaleHomFamily evalPackage hmarkedOpen hom hFinite
+      hDominant hEtale sends_vanishing_to_marked nonzero_avoids_marked).evalPackage =
+      evalPackage := rfl
+
+@[simp]
+theorem ofFiniteDominantEtaleHomFamily_map_hom
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K)
+    (s : V) :
+    ((ofFiniteDominantEtaleHomFamily evalPackage hmarkedOpen hom hFinite
+      hDominant hEtale sends_vanishing_to_marked nonzero_avoids_marked).map s).hom =
+      hom s := rfl
+
+theorem ofFiniteDominantEtaleHomFamily_map_base
+    (evalPackage : RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (hom : V → (C ⟶ P1 K))
+    (hFinite : ∀ s : V, IsFinite (hom s))
+    (hDominant : ∀ s : V, IsDominant (hom s))
+    (hEtale :
+      ∀ s : V, IsEtale
+        ((hom s) ∣_ (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (sends_vanishing_to_marked :
+      ∀ {S : Set C} {s : V},
+        evalPackage.toEvaluationData.vanishesOnSet S s →
+          ∀ x ∈ S, (hom s).base x ∈ markedSchemePointSet K)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (hom s).base x ∉ markedSchemePointSet K)
+    (s : V) (x : C) :
+    ((ofFiniteDominantEtaleHomFamily evalPackage hmarkedOpen hom hFinite
+      hDominant hEtale sends_vanishing_to_marked nonzero_avoids_marked).map s).hom.base x =
+      (hom s).base x := rfl
+
 /-- Forget scheme-level finite marked Belyi data to the topological
 section-controlled interface. -/
 def toSectionControlledBelyiData :

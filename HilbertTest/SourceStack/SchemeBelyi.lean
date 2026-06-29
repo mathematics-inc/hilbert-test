@@ -48,6 +48,20 @@ namespace BelyiMap
 
 variable {X P : Scheme.{u}} {T : BelyiTarget P} (φ : BelyiMap T X)
 
+/-- Build a scheme-level Belyi map from an ordinary morphism once dominance
+and etaleness over the branch-complement open have been proved. -/
+def ofHom (hom : X ⟶ P) (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    BelyiMap T X where
+  hom := hom
+  dominant := hDominant
+  etale_on_branchOpen := hEtale
+
+@[simp]
+theorem ofHom_hom (hom : X ⟶ P) (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (ofHom (T := T) hom hDominant hEtale).hom = hom := rfl
+
 /-- The Belyi open of the source is the preimage of the target branch-complement
 open. -/
 def belyiOpen : X.Opens :=
@@ -95,6 +109,31 @@ end BelyiMap
 namespace FiniteBelyiMap
 
 variable {X P : Scheme.{u}} {T : BelyiTarget P} (φ : FiniteBelyiMap T X)
+
+/-- Build a finite scheme-level Belyi map from an ordinary morphism once
+finiteness, dominance, and etaleness over the branch-complement open have been
+proved. -/
+def ofHom (hom : X ⟶ P) (hFinite : IsFinite hom)
+    (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    FiniteBelyiMap T X where
+  hom := hom
+  dominant := hDominant
+  etale_on_branchOpen := hEtale
+  finite_hom := hFinite
+
+@[simp]
+theorem ofHom_hom (hom : X ⟶ P) (hFinite : IsFinite hom)
+    (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (ofHom (T := T) hom hFinite hDominant hEtale).hom = hom := rfl
+
+@[simp]
+theorem ofHom_toBelyiMap (hom : X ⟶ P) (hFinite : IsFinite hom)
+    (hDominant : IsDominant hom)
+    (hEtale : IsEtale (hom ∣_ T.branchOpen)) :
+    (ofHom (T := T) hom hFinite hDominant hEtale).toBelyiMap =
+      BelyiMap.ofHom (T := T) hom hDominant hEtale := rfl
 
 theorem toBelyiMap_hom :
     φ.toBelyiMap.hom = φ.hom := rfl
