@@ -224,6 +224,60 @@ theorem rationalMap_equivFunctionFieldOver_right_inv
         ((rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).symm f) = f :=
   (rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).right_inv f
 
+/-- A partial map is over the base exactly when its right-composition with
+the target structure morphism agrees with the source structure morphism on
+the dense domain. -/
+theorem partialMap_isOver_iff
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] {f : X.PartialMap Y} :
+    f.IsOver S ↔ (f.compHom (Y ↘ S)).hom = f.domain.ι ≫ X ↘ S :=
+  Scheme.PartialMap.isOver_iff
+
+/-- Equivalent partial-map-over-base criterion as equality with the restricted
+source structure morphism. -/
+theorem partialMap_isOver_iff_eq_restrict
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] {f : X.PartialMap Y} :
+    f.IsOver S ↔
+      f.compHom (Y ↘ S) = (X ↘ S).toPartialMap.restrict _ f.dense_domain (by simp) :=
+  Scheme.PartialMap.isOver_iff_eq_restrict
+
+/-- A rational map over the base has a partial-map representative over the
+same base. -/
+theorem rationalMap_exists_partialMap_over
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] (f : X ⤏ Y) [f.IsOver S] :
+    ∃ g : X.PartialMap Y, g.IsOver S ∧ g.toRationalMap = f :=
+  Scheme.RationalMap.exists_partialMap_over S f
+
+/-- If a partial map represents an over rational map, then some restriction of
+the partial map is itself over the base. -/
+theorem partialMap_exists_restrict_isOver
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] (f : X.PartialMap Y)
+    [f.toRationalMap.IsOver S] :
+    ∃ U hU hU', (f.restrict U hU hU').IsOver S :=
+  Scheme.PartialMap.exists_restrict_isOver S f
+
+/-- A rational map is over the base exactly when composing it with the target
+structure morphism gives the source structure morphism as a rational map. -/
+theorem rationalMap_isOver_iff
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] {f : X ⤏ Y} :
+    f.IsOver S ↔ f.compHom (Y ↘ S) = (X ↘ S).toRationalMap :=
+  Scheme.RationalMap.isOver_iff
+
+/-- For a reduced source and separated base, a partial map is over the base
+exactly when its rational-map class is over the base. -/
+theorem partialMap_isOver_toRationalMap_iff_of_isSeparated
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] [IsReduced X] [S.IsSeparated]
+    {f : X.PartialMap Y} :
+    f.toRationalMap.IsOver S ↔ f.IsOver S :=
+  Scheme.PartialMap.isOver_toRationalMap_iff_of_isSeparated
+
+/-- The canonical partial-map representative of an over rational map is over
+the base when the source is reduced and the target/base are separated. -/
+theorem rationalMap_toPartialMap_isOver
+    {S : Scheme.{u}} [IsReduced X] [Y.IsSeparated] [S.IsSeparated]
+    [X.Over S] [Y.Over S] (f : X ⤏ Y) [f.IsOver S] :
+    f.toPartialMap.IsOver S := by
+  infer_instance
+
 section SchemeProjectiveLineTarget
 
 open SchemeProjectiveLine
