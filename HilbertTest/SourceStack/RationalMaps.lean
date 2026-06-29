@@ -90,6 +90,95 @@ theorem rationalMap_fromFunctionField_ofFunctionField
     (Scheme.RationalMap.ofFunctionField sX sY f h).fromFunctionField = f :=
   Scheme.RationalMap.fromFunctionField_ofFunctionField sX sY f h
 
+/-- The function-field spreading construction lies over the chosen base. -/
+theorem rationalMap_ofFunctionField_compHom
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : Spec X.functionField ⟶ Y)
+    (h : f ≫ sY = X.fromSpecStalk _ ≫ sX) :
+    (Scheme.RationalMap.ofFunctionField sX sY f h).compHom sY =
+      sX.toRationalMap :=
+  (Scheme.RationalMap.equivFunctionField sX sY ⟨f, h⟩).2
+
+/-- The Mathlib equivalence between base-compatible maps from the function
+field and base-compatible rational maps. -/
+noncomputable def rationalMap_equivFunctionField
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY] :
+    { f : Spec X.functionField ⟶ Y // f ≫ sY = X.fromSpecStalk _ ≫ sX } ≃
+      { f : X ⤏ Y // f.compHom sY = sX.toRationalMap } :=
+  Scheme.RationalMap.equivFunctionField sX sY
+
+/-- Applying the function-field/rational-map equivalence is the usual
+spreading construction. -/
+theorem rationalMap_equivFunctionField_apply
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : Spec X.functionField ⟶ Y)
+    (h : f ≫ sY = X.fromSpecStalk _ ≫ sX) :
+    ((rationalMap_equivFunctionField sX sY) ⟨f, h⟩).1 =
+      Scheme.RationalMap.ofFunctionField sX sY f h :=
+  rfl
+
+/-- Applying the inverse function-field/rational-map equivalence takes a
+rational map to its map from the function field. -/
+theorem rationalMap_equivFunctionField_symm_apply
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : X ⤏ Y)
+    (h : f.compHom sY = sX.toRationalMap) :
+    ((rationalMap_equivFunctionField sX sY).symm ⟨f, h⟩).1 =
+      f.fromFunctionField :=
+  rfl
+
+/-- The function-field/rational-map equivalence is left-inverse to its
+inverse on function-field morphisms. -/
+theorem rationalMap_equivFunctionField_left_inv
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : { f : Spec X.functionField ⟶ Y // f ≫ sY = X.fromSpecStalk _ ≫ sX }) :
+    (rationalMap_equivFunctionField sX sY).symm
+        ((rationalMap_equivFunctionField sX sY) f) = f :=
+  (rationalMap_equivFunctionField sX sY).left_inv f
+
+/-- The function-field/rational-map equivalence is right-inverse to its
+inverse on rational maps. -/
+theorem rationalMap_equivFunctionField_right_inv
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    [IsIntegral X] [LocallyOfFiniteType sY]
+    (f : { f : X ⤏ Y // f.compHom sY = sX.toRationalMap }) :
+    (rationalMap_equivFunctionField sX sY)
+        ((rationalMap_equivFunctionField sX sY).symm f) = f :=
+  (rationalMap_equivFunctionField sX sY).right_inv f
+
+/-- Over-scheme form of the function-field/rational-map equivalence. -/
+noncomputable def rationalMap_equivFunctionFieldOver
+    {S : Scheme.{u}} [X.Over S] [Y.Over S]
+    [IsIntegral X] [LocallyOfFiniteType (Y ↘ S)] :
+    { f : Spec X.functionField ⟶ Y // f.IsOver S } ≃
+      { f : X ⤏ Y // f.IsOver S } :=
+  Scheme.RationalMap.equivFunctionFieldOver (X := X) (Y := Y) (S := S)
+
+/-- The over-scheme function-field/rational-map equivalence is left-inverse to
+its inverse on over-morphisms from the function field. -/
+theorem rationalMap_equivFunctionFieldOver_left_inv
+    {S : Scheme.{u}} [X.Over S] [Y.Over S]
+    [IsIntegral X] [LocallyOfFiniteType (Y ↘ S)]
+    (f : { f : Spec X.functionField ⟶ Y // f.IsOver S }) :
+    (rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).symm
+        ((rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)) f) = f :=
+  (rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).left_inv f
+
+/-- The over-scheme function-field/rational-map equivalence is right-inverse to
+its inverse on over-rational maps. -/
+theorem rationalMap_equivFunctionFieldOver_right_inv
+    {S : Scheme.{u}} [X.Over S] [Y.Over S]
+    [IsIntegral X] [LocallyOfFiniteType (Y ↘ S)]
+    (f : { f : X ⤏ Y // f.IsOver S }) :
+    (rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S))
+        ((rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).symm f) = f :=
+  (rationalMap_equivFunctionFieldOver (X := X) (Y := Y) (S := S)).right_inv f
+
 section SchemeProjectiveLineTarget
 
 open SchemeProjectiveLine
