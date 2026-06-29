@@ -3469,6 +3469,88 @@ theorem hilbert_twoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLin
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
       CTSD hx
 
+variable (STSD : TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_localSectionAlgebra
+    (i : (TwoSectionBezoutStructuredTrivializedIsUnitData.cover STSD).J) :
+    TwoSectionBezoutStructuredTrivializedIsUnitData.localSectionAlgebra STSD i =
+      twoSectionBezoutLocalSectionAlgebraOfStructure K C STSD.structureMap
+        STSD.globalSection0 STSD.globalSection1 STSD.bezoutCoeff0
+        STSD.bezoutCoeff1 STSD.bezout i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_localChartRingHom
+    (i : (TwoSectionBezoutStructuredTrivializedIsUnitData.cover STSD).J) :
+    TwoSectionBezoutStructuredTrivializedIsUnitData.localChartRingHom STSD i =
+      twoSectionLocalChartRingHomOfAlgebra K C STSD.globalSection0 STSD.globalSection1
+        STSD.bezoutCoeff0 STSD.bezoutCoeff1 STSD.bezout
+        (TwoSectionBezoutStructuredTrivializedIsUnitData.localSectionAlgebra STSD) i := by
+  rfl
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_localChartCoordinate_eq_unitRatio
+    (i : (TwoSectionBezoutStructuredTrivializedIsUnitData.cover STSD).J) :
+    standardChartCoordinateSection K
+        (TwoSectionBezoutStructuredTrivializedIsUnitData.localChartRingHom STSD i) =
+      LocalSectionRatioChart.unitRatio
+        (TwoSectionBezoutStructuredTrivializedIsUnitData.ratioChart STSD i)
+        (TwoSectionBezoutStructuredTrivializedIsUnitData.localSection0 STSD i)
+        (TwoSectionBezoutStructuredTrivializedIsUnitData.localSection1 STSD i)
+        ((TwoSectionBezoutStructuredTrivializedIsUnitData.denominator_isUnit STSD i).unit) := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.localChartCoordinate_eq_unitRatio
+      STSD i
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_toTwoSectionBezoutConstructedTrivializedIsUnitData_localSectionAlgebra
+    (i : (TwoSectionBezoutStructuredTrivializedIsUnitData.cover STSD).J) :
+    (STSD.toTwoSectionBezoutConstructedTrivializedIsUnitData).localSectionAlgebra i =
+      STSD.localSectionAlgebra i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.toTwoSectionBezoutConstructedTrivializedIsUnitData_localSectionAlgebra
+      STSD i
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_toTwoSectionBezoutConstructedTrivializedIsUnitData_globalHom :
+    STSD.toTwoSectionBezoutConstructedTrivializedIsUnitData.globalHom =
+      STSD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.toTwoSectionBezoutConstructedTrivializedIsUnitData_globalHom
+      STSD
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_toTwoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair :
+    STSD.toTwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair =
+      STSD.toProjectiveLineSectionPair := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.toTwoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair
+      STSD
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_toProjectiveLineSectionPair_hom :
+    STSD.toProjectiveLineSectionPair.hom = STSD.globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.toProjectiveLineSectionPair_hom
+      STSD
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    STSD.evalData.eval x STSD.section0 = 0 ↔
+      STSD.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.section0_vanishes_iff_globalHom_eq_zero
+      STSD x
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    STSD.evalData.eval x STSD.section0 ≠ 0 ↔
+      STSD.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.section0_nonzero_iff_globalHom_ne_zero
+      STSD x
+
+theorem hilbert_twoSectionBezoutStructuredTrivializedIsUnitData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : STSD.evalData.eval x STSD.section0 = 0) :
+    STSD.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutStructuredTrivializedIsUnitData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+      STSD hx
+
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
 theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_apply
@@ -7207,6 +7289,92 @@ theorem hilbert_cohomologicalConstructedFiniteDominantEtaleTwoSectionSource_exis
             D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_constructedTwoSection_globalHom
+    {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    (D.constructedTwoSection s).globalHom = (D.twoSection s).globalHom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.constructedTwoSection_globalHom
+      D s
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_family_map_hom
+    {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    (D.family.map s).hom = (D.twoSection s).globalHom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.family_map_hom
+      D s
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_map_hom
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    (D.toFiniteMarkedBelyiExistence.map s).hom =
+      (D.twoSection s).globalHom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_map_hom
+      D s
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      D s x
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_exists_twoSection_controls_for_finite_disjoint
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      (∀ x ∈ S, (D.twoSection s).globalHom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.exists_twoSection_controls_for_finite_disjoint
+      D hS hT hdis
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_mem_belyiOpen_iff
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) (x : C) :
+    x ∈ D.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.mem_belyiOpen_iff
+      D s x
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       D hU hUne hT hTsub
 
 variable (D : CohomologicalDivisorSectionData K X V)

@@ -2108,6 +2108,221 @@ theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
 
 end TwoSectionBezoutConstructedTrivializedIsUnitData
 
+/-- Canonical two-basic-open section data where the local chart-ring maps are
+constructed from the canonical unit ratios and the local `K`-algebra
+structures are induced by a single structure morphism `C ⟶ Spec K`.  Compared
+with `TwoSectionBezoutConstructedTrivializedIsUnitData`, this removes the
+local algebra structures as independent fields. -/
+structure TwoSectionBezoutStructuredTrivializedIsUnitData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  evalData : RRSectionEvaluationData K C V
+  section0 : V
+  section1 : V
+  no_common_zero : HasNoCommonZero evalData section0 section1
+  structureMap : C ⟶ Spec (CommRingCat.of K)
+  globalSection0 : Γ(C, ⊤)
+  globalSection1 : Γ(C, ⊤)
+  bezoutCoeff0 : Γ(C, ⊤)
+  bezoutCoeff1 : Γ(C, ⊤)
+  bezout :
+    bezoutCoeff0 * globalSection0 + bezoutCoeff1 * globalSection1 = 1
+  local_compat :
+    ∀ i j : Fin 2,
+      (pullback.fst
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map i)
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map j) ≫
+          standardChartHomOfRingHom K
+            (twoSectionLocalChartRingHomOfAlgebra K C globalSection0 globalSection1
+              bezoutCoeff0 bezoutCoeff1 bezout
+              (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap
+                globalSection0 globalSection1 bezoutCoeff0 bezoutCoeff1 bezout) i)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart i)) =
+        (pullback.snd
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map i)
+          ((twoSectionBezoutCover C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout).map j) ≫
+          standardChartHomOfRingHom K
+            (twoSectionLocalChartRingHomOfAlgebra K C globalSection0 globalSection1
+              bezoutCoeff0 bezoutCoeff1 bezout
+              (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap
+                globalSection0 globalSection1 bezoutCoeff0 bezoutCoeff1 bezout) j)) ≫
+            standardChartMap K
+              (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart j))
+  local_zero_of_section0_vanishes :
+    ∀ i (x : (twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).obj i),
+      evalData.eval (((twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).map i).base x) section0 = 0 →
+        (standardChartToP1HomOfRingHom K
+          (twoSectionLocalChartRingHomOfAlgebra K C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout
+            (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap
+              globalSection0 globalSection1 bezoutCoeff0 bezoutCoeff1 bezout) i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero
+  local_section0_vanishes_of_zero :
+    ∀ i (x : (twoSectionBezoutCover C globalSection0 globalSection1
+        bezoutCoeff0 bezoutCoeff1 bezout).obj i),
+      (standardChartToP1HomOfRingHom K
+          (twoSectionLocalChartRingHomOfAlgebra K C globalSection0 globalSection1
+            bezoutCoeff0 bezoutCoeff1 bezout
+            (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap
+              globalSection0 globalSection1 bezoutCoeff0 bezoutCoeff1 bezout) i)).base x =
+          schemeCarrierPoint K MarkedPointLabel.zero →
+        evalData.eval (((twoSectionBezoutCover C globalSection0 globalSection1
+          bezoutCoeff0 bezoutCoeff1 bezout).map i).base x) section0 = 0
+
+namespace TwoSectionBezoutStructuredTrivializedIsUnitData
+
+variable {C : Scheme.{u}}
+variable (D : TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+
+/-- The canonical two-basic-open cover of the two chosen global functions. -/
+def cover : C.OpenCover :=
+  twoSectionBezoutCover C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout
+
+/-- The chart selected on each member of the two-basic-open cover. -/
+def ratioChart : D.cover.J → LocalSectionRatioChart :=
+  twoSectionRatioChart
+
+/-- The first local section representative on each canonical basic open. -/
+def localSection0 (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalSection0 C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The second local section representative on each canonical basic open. -/
+def localSection1 (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalSection1 C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The selected denominator is a unit on each canonical basic open. -/
+theorem denominator_isUnit (i : D.cover.J) :
+    IsUnit (LocalSectionRatioChart.denominator (D.ratioChart i)
+      (D.localSection0 i) (D.localSection1 i)) := by
+  exact twoSectionLocal_denominator_isUnit C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The local `K`-algebra structure induced by the structure morphism on each
+canonical basic open. -/
+noncomputable def localSectionAlgebra (i : D.cover.J) :
+    Algebra K Γ(D.cover.obj i, ⊤) :=
+  twoSectionBezoutLocalSectionAlgebraOfStructure K C D.structureMap
+    D.globalSection0 D.globalSection1 D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The canonical unit ratio on a basic open. -/
+noncomputable def localSectionRatio (i : D.cover.J) : Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalUnitRatio C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The constructed chart coordinate-ring map on a canonical basic open. -/
+noncomputable def localChartRingHom (i : D.cover.J) :
+    CommRingCat.of
+      (standardChartRing K
+        (LocalSectionRatioChart.toStandardAffineChart (D.ratioChart i))) ⟶
+      Γ(D.cover.obj i, ⊤) :=
+  twoSectionLocalChartRingHomOfAlgebra K C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout D.localSectionAlgebra i
+
+/-- The constructed chart-ring map pulls back the distinguished affine
+coordinate to the canonical unit ratio. -/
+theorem localChartCoordinate_eq_unitRatio (i : D.cover.J) :
+    standardChartCoordinateSection K (D.localChartRingHom i) =
+      LocalSectionRatioChart.unitRatio (D.ratioChart i)
+        (D.localSection0 i) (D.localSection1 i) ((D.denominator_isUnit i).unit) := by
+  simpa [localChartRingHom, localSectionAlgebra, localSectionRatio,
+    twoSectionLocalUnitRatio, ratioChart, localSection0, localSection1,
+    denominator_isUnit] using
+    twoSectionLocalChartRingHomOfStructure_coordinate_eq_unitRatio K C
+      D.structureMap D.globalSection0 D.globalSection1 D.bezoutCoeff0
+      D.bezoutCoeff1 D.bezout i
+
+/-- Forget the structure morphism source of the local `K`-algebras to the
+constructed two-section Bezout package. -/
+noncomputable def toTwoSectionBezoutConstructedTrivializedIsUnitData :
+    TwoSectionBezoutConstructedTrivializedIsUnitData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  globalSection0 := D.globalSection0
+  globalSection1 := D.globalSection1
+  bezoutCoeff0 := D.bezoutCoeff0
+  bezoutCoeff1 := D.bezoutCoeff1
+  bezout := D.bezout
+  localSectionAlgebra := D.localSectionAlgebra
+  local_compat := by
+    intro i j
+    simpa [localSectionAlgebra] using D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    simpa [localSectionAlgebra] using D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    exact D.local_section0_vanishes_of_zero i x (by
+      simpa [localSectionAlgebra] using hx)
+
+theorem toTwoSectionBezoutConstructedTrivializedIsUnitData_localSectionAlgebra
+    (i : D.cover.J) :
+    (D.toTwoSectionBezoutConstructedTrivializedIsUnitData).localSectionAlgebra i =
+      D.localSectionAlgebra i := rfl
+
+/-- The global projective-line morphism assembled from structured two-section
+Bezout data. -/
+noncomputable def globalHom : C ⟶ P1 K :=
+  D.toTwoSectionBezoutConstructedTrivializedIsUnitData.globalHom
+
+theorem toTwoSectionBezoutConstructedTrivializedIsUnitData_globalHom :
+    D.toTwoSectionBezoutConstructedTrivializedIsUnitData.globalHom = D.globalHom := rfl
+
+/-- The projective-section pair extracted from structured two-section Bezout
+data. -/
+noncomputable def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toTwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair
+
+theorem toTwoSectionBezoutConstructedTrivializedIsUnitData_toProjectiveLineSectionPair :
+    D.toTwoSectionBezoutConstructedTrivializedIsUnitData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+theorem toProjectiveLineSectionPair_evalData :
+    D.toProjectiveLineSectionPair.evalData = D.evalData := rfl
+
+theorem toProjectiveLineSectionPair_section0 :
+    D.toProjectiveLineSectionPair.section0 = D.section0 := rfl
+
+theorem toProjectiveLineSectionPair_section1 :
+    D.toProjectiveLineSectionPair.section1 = D.section1 := rfl
+
+/-- The first section vanishes exactly on the zero fiber of the structured
+two-section Bezout projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toTwoSectionBezoutConstructedTrivializedIsUnitData.section0_vanishes_iff_globalHom_eq_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+structured two-section Bezout projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact
+    D.toTwoSectionBezoutConstructedTrivializedIsUnitData.section0_nonzero_iff_globalHom_ne_zero x
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
+
+end TwoSectionBezoutStructuredTrivializedIsUnitData
+
 /-- Finite marked Belyi maps obtained from projective-section pairs.  The
 fields split the proof passage into: section evaluations, the projective
 section map, the finite marked Belyi refinement, and the remaining branch

@@ -1124,6 +1124,158 @@ theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComp
 
 end CohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData
 
+/-- Cohomological source package whose two-section maps use local chart-ring
+maps constructed from canonical unit ratios, with the local `K`-algebra
+structures induced by structure morphisms to `Spec K`.  Compared with
+`CohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData`, this
+removes the local algebra structures from the source data. -/
+structure CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  restricted : RestrictedEvaluationSurjectivityData K C V
+  hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ
+  twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V
+  hFinite : ∀ s : V, IsFinite (twoSection s).globalHom
+  hDominant : ∀ s : V, IsDominant (twoSection s).globalHom
+  hEtale :
+    ∀ s : V, IsEtale
+      (((twoSection s).globalHom) ∣_
+        (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen)
+  evalData_eq :
+    ∀ s : V,
+      (twoSection s).evalData =
+        restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData
+  section0_eq : ∀ s : V, (twoSection s).section0 = s
+  nonzero_avoids_marked :
+    ∀ {T : Set C} {s : V},
+      restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData.nonzeroOnSet T s →
+        ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K
+
+namespace CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData
+
+variable (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+
+/-- The constructed two-section package obtained by forgetting that the local
+`K`-algebra structures came from a structure morphism. -/
+noncomputable def constructedTwoSection (s : V) :
+    TwoSectionBezoutConstructedTrivializedIsUnitData K C V :=
+  (D.twoSection s).toTwoSectionBezoutConstructedTrivializedIsUnitData
+
+theorem constructedTwoSection_globalHom (s : V) :
+    (D.constructedTwoSection s).globalHom = (D.twoSection s).globalHom := rfl
+
+theorem constructedTwoSection_evalData (s : V) :
+    (D.constructedTwoSection s).evalData = (D.twoSection s).evalData := rfl
+
+theorem constructedTwoSection_section0 (s : V) :
+    (D.constructedTwoSection s).section0 = (D.twoSection s).section0 := rfl
+
+/-- Forget structure-morphism-induced local algebras to the constructed
+finite/dominant/étale cohomological source package. -/
+noncomputable def toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData :
+    CohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData K C V where
+  restricted := D.restricted
+  hmarkedOpen := D.hmarkedOpen
+  twoSection := D.constructedTwoSection
+  hFinite := by
+    intro s
+    simpa [constructedTwoSection] using D.hFinite s
+  hDominant := by
+    intro s
+    simpa [constructedTwoSection] using D.hDominant s
+  hEtale := by
+    intro s
+    simpa [constructedTwoSection] using D.hEtale s
+  evalData_eq := by
+    intro s
+    simpa [constructedTwoSection] using D.evalData_eq s
+  section0_eq := by
+    intro s
+    simpa [constructedTwoSection] using D.section0_eq s
+  nonzero_avoids_marked := by
+    intro T s hT x hx
+    simpa [constructedTwoSection] using D.nonzero_avoids_marked hT x hx
+
+/-- The finite marked two-section family obtained from structured local chart
+maps. -/
+noncomputable def family : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V :=
+  D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.family
+
+theorem family_map_hom (s : V) :
+    (D.family.map s).hom = (D.twoSection s).globalHom := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.family_map_hom s
+
+/-- The paper-facing finite marked Belyi family obtained from the structured
+finite/dominant/étale cohomological source package. -/
+noncomputable def toFiniteMarkedBelyiExistence
+    [Infinite K] : FiniteMarkedBelyiExistence K V C :=
+  D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence
+
+theorem toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+
+theorem toFiniteMarkedBelyiExistence_map_hom
+    [Infinite K] (s : V) :
+    (D.toFiniteMarkedBelyiExistence.map s).hom =
+      (D.twoSection s).globalHom := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_map_hom s
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      s x
+
+/-- Direct structured two-section form of the finite disjoint-set conclusion. -/
+theorem exists_twoSection_controls_for_finite_disjoint
+    [Infinite K]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      (∀ x ∈ S, (D.twoSection s).globalHom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.exists_twoSection_controls_for_finite_disjoint
+      hS hT hdis
+
+/-- The Belyi open attached to a structured finite/dominant/étale two-section
+source parameter. -/
+def belyiOpen
+    [Infinite K] (s : V) : Set C :=
+  ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+    D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)
+
+theorem mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ D.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact D.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff s x
+
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    D.toCohomologicalConstructedFiniteDominantEtaleTwoSectionSourceData.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
+
+end CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData
+
 end SchemeTwoSectionSource
 
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
