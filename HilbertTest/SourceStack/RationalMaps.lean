@@ -71,6 +71,30 @@ theorem hom_toRationalMap_fromFunctionField
   rw [Scheme.RationalMap.fromFunctionField_toRationalMap]
   exact hom_toPartialMap_fromFunctionField f
 
+/-- Right-composition of the partial map associated to an honest morphism is
+the partial map associated to the composite honest morphism. -/
+theorem hom_toPartialMap_compHom
+    {Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    f.toPartialMap.compHom g = (f ≫ g).toPartialMap := by
+  rfl
+
+/-- Right-composition of the rational map associated to an honest morphism is
+the rational map associated to the composite honest morphism. -/
+theorem hom_toRationalMap_compHom
+    {Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    f.toRationalMap.compHom g = (f ≫ g).toRationalMap := by
+  rw [← Scheme.RationalMap.compHom_toRationalMap]
+  rfl
+
+/-- On the function field, composing the rational map attached to an honest
+morphism composes the generic-stalk map with both honest morphisms. -/
+theorem hom_toRationalMap_fromFunctionField_compHom
+    [IrreducibleSpace X] {Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    (f.toRationalMap.compHom g).fromFunctionField =
+      X.fromSpecStalk _ ≫ f ≫ g := by
+  rw [hom_toRationalMap_compHom]
+  exact hom_toRationalMap_fromFunctionField (f ≫ g)
+
 /-- Every rational map has a partial-map representative. -/
 theorem partialMap_toRationalMap_surjective :
     Function.Surjective (@Scheme.PartialMap.toRationalMap X Y) :=
@@ -368,6 +392,29 @@ theorem p1Hom_toRationalMap_fromFunctionField
     [IrreducibleSpace X] (f : X ⟶ P1 K) :
     f.toRationalMap.fromFunctionField = X.fromSpecStalk _ ≫ f :=
   hom_toRationalMap_fromFunctionField f
+
+/-- Right-composition of the partial map associated to an honest morphism to
+`P1 K` is the partial map associated to the composite honest morphism. -/
+theorem p1Hom_toPartialMap_compHom
+    {Z : Scheme.{u}} (f : X ⟶ P1 K) (g : P1 K ⟶ Z) :
+    f.toPartialMap.compHom g = (f ≫ g).toPartialMap :=
+  hom_toPartialMap_compHom f g
+
+/-- Right-composition of the rational map associated to an honest morphism to
+`P1 K` is the rational map associated to the composite honest morphism. -/
+theorem p1Hom_toRationalMap_compHom
+    {Z : Scheme.{u}} (f : X ⟶ P1 K) (g : P1 K ⟶ Z) :
+    f.toRationalMap.compHom g = (f ≫ g).toRationalMap :=
+  hom_toRationalMap_compHom f g
+
+/-- On the function field, composing the rational map attached to an honest
+morphism to `P1 K` composes the generic-stalk map with both honest morphisms. -/
+theorem p1Hom_toRationalMap_fromFunctionField_compHom
+    [IrreducibleSpace X]
+    {Z : Scheme.{u}} (f : X ⟶ P1 K) (g : P1 K ⟶ Z) :
+    (f.toRationalMap.compHom g).fromFunctionField =
+      X.fromSpecStalk _ ≫ f ≫ g :=
+  hom_toRationalMap_fromFunctionField_compHom f g
 
 /-- A rational map to the scheme-theoretic projective line has a partial-map
 representative. -/
