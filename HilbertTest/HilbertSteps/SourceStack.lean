@@ -3183,6 +3183,26 @@ theorem hilbert_twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio
     SourceStack.ProjectiveSectionMaps.twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio
       K C s0 s1 a b h localSectionAlgebra i
 
+theorem hilbert_twoSectionBezoutLocalSectionAlgebraOfStructure_eq
+    (C : Scheme.{u}) (structureMap : C ⟶ Spec (CommRingCat.of K))
+    (s0 s1 a b : Γ(C, ⊤)) (h : a * s0 + b * s1 = 1) :
+    twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap s0 s1 a b h =
+      openCoverLocalSectionAlgebra K (twoSectionBezoutCover C s0 s1 a b h)
+        structureMap := by
+  rfl
+
+theorem hilbert_twoSectionLocalChartRingHomOfStructure_coordinate_eq_unitRatio
+    (C : Scheme.{u}) (structureMap : C ⟶ Spec (CommRingCat.of K))
+    (s0 s1 a b : Γ(C, ⊤)) (h : a * s0 + b * s1 = 1)
+    (i : Fin 2) :
+    standardChartCoordinateSection K
+        (twoSectionLocalChartRingHomOfAlgebra K C s0 s1 a b h
+          (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap s0 s1 a b h) i) =
+      twoSectionLocalUnitRatio C s0 s1 a b h i := by
+  exact
+    SourceStack.ProjectiveSectionMaps.twoSectionLocalChartRingHomOfStructure_coordinate_eq_unitRatio
+      K C structureMap s0 s1 a b h i
+
 variable (TSD : TwoSectionBezoutTrivializedIsUnitData K C V)
 
 theorem hilbert_twoSectionBezoutTrivializedIsUnitData_cover :

@@ -35,6 +35,30 @@ variable {K : Type u} [Field K]
 variable {X : Type v}
 variable {V : Type w} [AddCommGroup V] [Module K V]
 
+/-- A structure morphism `X ⟶ Spec K` induces the usual `K`-algebra structure
+on the global sections of `X`. -/
+noncomputable def schemeStructureAlgebra
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (structureMap : X ⟶ Spec (CommRingCat.of K)) :
+    Algebra K Γ(X, ⊤) :=
+  ((Scheme.ΓSpecIso (CommRingCat.of K)).inv ≫ structureMap.appTop).hom.toAlgebra
+
+theorem schemeStructureAlgebra_algebraMap
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (structureMap : X ⟶ Spec (CommRingCat.of K)) :
+    @algebraMap K Γ(X, ⊤) _ _
+      (schemeStructureAlgebra K X structureMap) =
+        ((Scheme.ΓSpecIso (CommRingCat.of K)).inv ≫ structureMap.appTop).hom := rfl
+
+/-- A structure morphism on a scheme supplies `K`-algebra structures on all
+members of an open cover by composing their cover maps with the structure
+morphism. -/
+noncomputable def openCoverLocalSectionAlgebra
+    (K : Type u) [Field K] {C : Scheme.{u}}
+    (cover : C.OpenCover) (structureMap : C ⟶ Spec (CommRingCat.of K)) :
+    ∀ i : cover.J, Algebra K Γ(cover.obj i, ⊤) :=
+  fun i => schemeStructureAlgebra K (cover.obj i) (cover.map i ≫ structureMap)
+
 /-- Two sections have no common basepoint if at every point at least one
 evaluation is nonzero. -/
 def HasNoCommonZero
@@ -1522,6 +1546,16 @@ theorem twoSectionLocal_denominator_isUnit_lifted
     twoElementFamilyLifted] using
       twoSectionLocal_denominator_isUnit C s0 s1 a b h i
 
+/-- The local `K`-algebra structures on the canonical two-section Bezout cover
+induced by a structure morphism `C ⟶ Spec K`. -/
+noncomputable def twoSectionBezoutLocalSectionAlgebraOfStructure
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (structureMap : C ⟶ Spec (CommRingCat.of K))
+    (s0 s1 a b : Γ(C, ⊤)) (h : a * s0 + b * s1 = 1) :
+    ∀ i : Fin 2,
+      Algebra K Γ((twoSectionBezoutCover C s0 s1 a b h).obj i, ⊤) :=
+  openCoverLocalSectionAlgebra K (twoSectionBezoutCover C s0 s1 a b h) structureMap
+
 /-- The canonical regular affine coordinate on a member of the two-section
 Bezout cover, obtained by dividing the selected numerator by the selected
 unit denominator. -/
@@ -1571,6 +1605,21 @@ theorem twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio
   exact standardChartRingCatHomOfCoordinateOfAlgebra_apply_coordinate K
     (LocalSectionRatioChart.toStandardAffineChart (twoSectionRatioChart i))
     (localSectionAlgebra i) (twoSectionLocalUnitRatio C s0 s1 a b h i)
+
+/-- Specialization of the constructed local chart-ring map to the local
+`K`-algebras induced by a structure morphism `C ⟶ Spec K`. -/
+theorem twoSectionLocalChartRingHomOfStructure_coordinate_eq_unitRatio
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (structureMap : C ⟶ Spec (CommRingCat.of K))
+    (s0 s1 a b : Γ(C, ⊤)) (h : a * s0 + b * s1 = 1)
+    (i : Fin 2) :
+    standardChartCoordinateSection K
+        (twoSectionLocalChartRingHomOfAlgebra K C s0 s1 a b h
+          (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap s0 s1 a b h) i) =
+      twoSectionLocalUnitRatio C s0 s1 a b h i := by
+  exact
+    twoSectionLocalChartRingHomOfAlgebra_coordinate_eq_unitRatio K C s0 s1 a b h
+      (twoSectionBezoutLocalSectionAlgebraOfStructure K C structureMap s0 s1 a b h) i
 
 /-- Canonical two-basic-open version of the denominator-is-unit
 projective-section package.  It fixes the cover, chart choices, and local
