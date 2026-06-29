@@ -3554,6 +3554,69 @@ two-section package. -/
 def trivialized (s : V) : TrivializedIsUnitSectionRatioData K C V :=
   F.isUnitFamily.trivialized s
 
+/-- Build the canonical two-section finite marked family when the finite
+marked is-unit family uses exactly the universe-lifted trivialization coming
+from the Bezout two-section construction.  This collapses the compatibility
+obligation to a single equality of local projective-line data. -/
+def ofTrivializedLiftedEq
+    (isUnitFamily : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, isUnitFamily.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted) :
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V where
+  isUnitFamily := isUnitFamily
+  twoSection := twoSection
+  trivialized_evalData_eq := by
+    intro s
+    rw [htrivialized s]
+    rfl
+  trivialized_section0_eq := by
+    intro s
+    rw [htrivialized s]
+    rfl
+  trivialized_section1_eq := by
+    intro s
+    rw [htrivialized s]
+    rfl
+  trivialized_globalHom_eq := by
+    intro s
+    rw [htrivialized s]
+    exact
+      TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted_globalHom
+        (D := twoSection s)
+
+@[simp]
+theorem ofTrivializedLiftedEq_isUnitFamily
+    (isUnitFamily : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, isUnitFamily.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted) :
+    (ofTrivializedLiftedEq isUnitFamily twoSection htrivialized).isUnitFamily =
+      isUnitFamily := rfl
+
+@[simp]
+theorem ofTrivializedLiftedEq_twoSection
+    (isUnitFamily : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, isUnitFamily.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted) :
+    (ofTrivializedLiftedEq isUnitFamily twoSection htrivialized).twoSection =
+      twoSection := rfl
+
+theorem ofTrivializedLiftedEq_trivialized_eq
+    (isUnitFamily : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, isUnitFamily.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted)
+    (s : V) :
+    (ofTrivializedLiftedEq isUnitFamily twoSection htrivialized).trivialized s =
+      (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact htrivialized s
+
 theorem trivialized_evalData_eq_spec (s : V) :
     (F.trivialized s).evalData = (F.twoSection s).evalData :=
   F.trivialized_evalData_eq s

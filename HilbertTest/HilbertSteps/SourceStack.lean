@@ -4779,6 +4779,44 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_finite_comp
 
 variable (TSF : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
 
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofTrivializedLiftedEq_isUnitFamily
+    (ITF : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, ITF.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq
+      ITF twoSection htrivialized).isUnitFamily = ITF := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq_isUnitFamily
+      ITF twoSection htrivialized
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofTrivializedLiftedEq_twoSection
+    (ITF : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, ITF.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq
+      ITF twoSection htrivialized).twoSection = twoSection := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq_twoSection
+      ITF twoSection htrivialized
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofTrivializedLiftedEq_trivialized_eq
+    (ITF : IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (htrivialized :
+      ∀ s : V, ITF.trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq
+      ITF twoSection htrivialized).trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq_trivialized_eq
+      ITF twoSection htrivialized s
+
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
     TSF.evalPackage = TSF.isUnitFamily.evalPackage := by
   rfl
