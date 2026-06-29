@@ -5502,6 +5502,16 @@ theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_
     SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
       D F heval
 
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData)
+    {U : Set C} (hsupport : D.support = Uᶜ) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = U := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+      D F heval hsupport
+
 theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
     (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
@@ -5509,6 +5519,16 @@ theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_zeroSection_belyiOpen_
   exact
     SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
       D F
+
+theorem hilbert_divisorZeroSection_twoSectionBezoutFamily_isOpen_of_support_eq_compl
+    {C : Scheme.{u}} (D : DivisorZeroSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData)
+    {U : Set C} (hsupport : D.support = Uᶜ) :
+    IsOpen U := by
+  exact
+    SourceStack.CurveDivisorSections.DivisorZeroSectionData.twoSectionBezoutFamily_isOpen_of_support_eq_compl
+      D F heval hsupport
 
 open SourceStack.SchemeProjectiveLine in
 theorem hilbert_divisorZeroSection_exists_projectivePair_maps_support_to_marked
@@ -6104,6 +6124,16 @@ theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpe
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
       D F heval
 
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+      D F heval hsupport
+
 theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
     (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
@@ -6111,6 +6141,16 @@ theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpe
   exact
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
       D F
+
+theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_isOpen_of_support_eq_compl
+    {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    IsOpen U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.twoSectionBezoutFamily_isOpen_of_support_eq_compl
+      D F heval hsupport
 
 open SourceStack.SchemeProjectiveLine in
 theorem hilbert_cohomologicalDivisor_exists_projectivePair_maps_support_to_marked

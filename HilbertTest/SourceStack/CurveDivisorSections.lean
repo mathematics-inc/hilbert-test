@@ -212,11 +212,32 @@ theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
   ext x
   exact D.twoSectionBezoutFamily_zeroSection_mem_belyiOpen_iff F heval x
 
+/-- If the divisor support is the complement of a prescribed set `U`, then the
+zero-section finite marked Belyi open is exactly `U`. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData)
+    {U : Set C} (hsupport : D.support = Uᶜ) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = U := by
+  simpa [hsupport] using
+    D.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl F heval
+
 /-- The zero-section finite marked Belyi open is open. -/
 theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
     IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) :=
   (F.map D.zeroSection).toBelyiMap.belyiOpen.2
+
+/-- If the divisor support is the complement of `U`, then `U` is open because
+it is realized as the source Belyi open of the zero-section finite marked map. -/
+theorem twoSectionBezoutFamily_isOpen_of_support_eq_compl
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalData)
+    {U : Set C} (hsupport : D.support = Uᶜ) :
+    IsOpen U := by
+  rw [← D.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+    F heval hsupport]
+  exact D.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen F
 
 /-- A projective-line section pair whose first section is the divisor
 zero-section supplies the auxiliary reduction data for the pair

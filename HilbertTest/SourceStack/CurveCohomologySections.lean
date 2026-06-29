@@ -351,12 +351,36 @@ theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
     D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_support_compl
       F heval
 
+/-- If the cohomological divisor support is the complement of a prescribed set
+`U`, then the zero-section finite marked Belyi open is exactly `U`. -/
+theorem twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) = U := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_eq_of_support_eq_compl
+      F heval hsupport
+
 /-- The cohomological zero-section finite marked Belyi open is open. -/
 theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     (D : CohomologicalDivisorSectionData K C V)
     (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :
     IsOpen ((F.map D.zeroSection).toBelyiMap.belyiOpen : Set C) :=
   D.toDivisorZeroSectionData.twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen F
+
+/-- If the cohomological divisor support is the complement of `U`, then `U` is
+open because it is the zero-section finite marked Belyi open. -/
+theorem twoSectionBezoutFamily_isOpen_of_support_eq_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage.toEvaluationData = D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    IsOpen U := by
+  exact
+    D.toDivisorZeroSectionData.twoSectionBezoutFamily_isOpen_of_support_eq_compl
+      F heval hsupport
 
 /-- A projective-line section pair whose first section is the cohomological
 divisor zero-section supplies the auxiliary reduction data for the pair
