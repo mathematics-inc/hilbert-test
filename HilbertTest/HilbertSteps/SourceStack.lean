@@ -4257,6 +4257,44 @@ theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_toProjectiv
   exact SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.toProjectiveSectionFiniteMarkedFamily_map_apply
     ITF s
 
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_evalPackage
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (trivialized s).toProjectiveLineSectionPair) :
+    (IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF trivialized hpair).evalPackage = PF.evalPackage := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_evalPackage
+      PF trivialized hpair
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_trivialized
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (trivialized s).toProjectiveLineSectionPair)
+    (s : V) :
+    (IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF trivialized hpair).trivialized s = trivialized s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_trivialized
+      PF trivialized hpair s
+
+theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_map_apply
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (trivialized s).toProjectiveLineSectionPair)
+    (s : V) :
+    (IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF trivialized hpair).map s = PF.map s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_map_apply
+      PF trivialized hpair s
+
 theorem hilbert_isUnitTrivializedProjectiveSectionFiniteMarkedFamily_map_finite_hom
     (s : V) :
     IsFinite (ITF.map s).hom := by
@@ -4816,6 +4854,45 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofTrivialize
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofTrivializedLiftedEq_trivialized_eq
       ITF twoSection htrivialized s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_twoSection
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (twoSection s).toProjectiveLineSectionPair) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF twoSection hpair).twoSection = twoSection := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_twoSection
+      PF twoSection hpair
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_map_apply
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (twoSection s).toProjectiveLineSectionPair)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF twoSection hpair).map s = PF.map s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_map_apply
+      PF twoSection hpair s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofProjectiveSectionFiniteMarkedFamily_trivialized_eq_lifted
+    (PF : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, PF.pair s =
+        (twoSection s).toProjectiveLineSectionPair)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      PF twoSection hpair).trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_trivialized_eq_lifted
+      PF twoSection hpair s
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
     TSF.evalPackage = TSF.isUnitFamily.evalPackage := by

@@ -2958,6 +2958,70 @@ theorem toProjectiveSectionFiniteMarkedFamily_map_apply
     (s : V) :
     F.toProjectiveSectionFiniteMarkedFamily.map s = F.map s := rfl
 
+/-- Build the denominator-is-unit finite marked family from the more primitive
+projective-section finite marked family, once the supplied trivialized local
+data is known to induce the same projective-line section pair. -/
+def ofProjectiveSectionFiniteMarkedFamily
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (trivialized s).toProjectiveLineSectionPair) :
+    IsUnitTrivializedProjectiveSectionFiniteMarkedFamily K C V where
+  evalPackage := projectiveFamily.evalPackage
+  hmarkedOpen := projectiveFamily.hmarkedOpen
+  trivialized := trivialized
+  map := projectiveFamily.map
+  map_base_eq_globalHom := by
+    intro s x
+    calc
+      (projectiveFamily.map s).hom.base x =
+          (projectiveFamily.pair s).hom.base x :=
+        projectiveFamily.map_base_eq_pair s x
+      _ = ((trivialized s).toProjectiveLineSectionPair).hom.base x := by
+        rw [hpair s]
+      _ = (trivialized s).globalHom.base x := rfl
+  trivialized_section0_eval_eq_index := by
+    intro s x
+    have h := projectiveFamily.pair_section0_eval_eq_index s x
+    rw [hpair s] at h
+    exact h
+  nonzero_avoids_marked := by
+    intro T s hs
+    exact projectiveFamily.nonzero_avoids_marked hs
+
+@[simp]
+theorem ofProjectiveSectionFiniteMarkedFamily_evalPackage
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (trivialized s).toProjectiveLineSectionPair) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily trivialized hpair).evalPackage =
+      projectiveFamily.evalPackage := rfl
+
+@[simp]
+theorem ofProjectiveSectionFiniteMarkedFamily_trivialized
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (trivialized s).toProjectiveLineSectionPair)
+    (s : V) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily trivialized hpair).trivialized s =
+      trivialized s := rfl
+
+@[simp]
+theorem ofProjectiveSectionFiniteMarkedFamily_map_apply
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (trivialized : V → TrivializedIsUnitSectionRatioData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (trivialized s).toProjectiveLineSectionPair)
+    (s : V) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily trivialized hpair).map s =
+      projectiveFamily.map s := rfl
+
 /-- Each denominator-is-unit finite marked family map is finite. -/
 theorem map_finite_hom
     (s : V) :
@@ -3616,6 +3680,65 @@ theorem ofTrivializedLiftedEq_trivialized_eq
     (ofTrivializedLiftedEq isUnitFamily twoSection htrivialized).trivialized s =
       (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
   exact htrivialized s
+
+/-- Build the canonical two-section finite marked family directly from a
+projective-section finite marked family whose projective pairs are the pairs
+assembled by the canonical two-section Bezout data. -/
+def ofProjectiveSectionFiniteMarkedFamily
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (twoSection s).toProjectiveLineSectionPair) :
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V :=
+  ofTrivializedLiftedEq
+    (IsUnitTrivializedProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily
+      projectiveFamily
+      (fun s => (twoSection s).toTrivializedIsUnitSectionRatioDataLifted)
+      (by
+        intro s
+        calc
+          projectiveFamily.pair s = (twoSection s).toProjectiveLineSectionPair :=
+            hpair s
+          _ = ((twoSection s).toTrivializedIsUnitSectionRatioDataLifted).toProjectiveLineSectionPair := by
+            exact
+              (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted_toProjectiveLineSectionPair
+                (D := twoSection s)).symm))
+    twoSection
+    (by
+      intro s
+      rfl)
+
+@[simp]
+theorem ofProjectiveSectionFiniteMarkedFamily_twoSection
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (twoSection s).toProjectiveLineSectionPair) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily twoSection hpair).twoSection =
+      twoSection := rfl
+
+@[simp]
+theorem ofProjectiveSectionFiniteMarkedFamily_map_apply
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (twoSection s).toProjectiveLineSectionPair)
+    (s : V) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily twoSection hpair).map s =
+      projectiveFamily.map s := rfl
+
+theorem ofProjectiveSectionFiniteMarkedFamily_trivialized_eq_lifted
+    (projectiveFamily : ProjectiveSectionFiniteMarkedFamily K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hpair :
+      ∀ s : V, projectiveFamily.pair s =
+        (twoSection s).toProjectiveLineSectionPair)
+    (s : V) :
+    (ofProjectiveSectionFiniteMarkedFamily projectiveFamily twoSection hpair).trivialized s =
+      (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := rfl
 
 theorem trivialized_evalData_eq_spec (s : V) :
     (F.trivialized s).evalData = (F.twoSection s).evalData :=
