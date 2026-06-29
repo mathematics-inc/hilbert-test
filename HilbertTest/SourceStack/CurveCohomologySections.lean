@@ -196,6 +196,148 @@ theorem exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteC
     E.toRiemannRochFiniteEvaluationPackage.exists_section_vanishing_on_complement_nonzero_at_of_nonemptyOpenFiniteComplement
       hU hxU
 
+section SchemeSupport
+
+open AlgebraicGeometry
+
+variable {C : Scheme.{u}}
+
+/-- Cohomological restricted evaluation surjectivity selects an actual
+canonical two-section finite marked Belyi map once that family is known to use
+the cohomological Riemann-Roch evaluation package. -/
+theorem twoSectionBezoutFamily_exists_for_finite_disjoint
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K := by
+  rcases E.exists_section_for_disjoint_finite_sets hS hT hdis with
+    ⟨s, hsS, hsT⟩
+  refine ⟨s, ?_, ?_⟩
+  · intro x hxS
+    exact F.eval_zero_to_marked s
+      (by
+        rw [heval]
+        exact hsS x hxS)
+  · intro x hxT
+    exact F.eval_nonzero_avoids_marked s
+      (by
+        rw [heval]
+        exact hsT x hxT)
+
+/-- Belyi-open form of the cohomological restricted-surjectivity handoff to a
+canonical two-section finite marked Belyi family. -/
+theorem twoSectionBezoutFamily_exists_map_belyiOpen_controls
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases E.twoSectionBezoutFamily_exists_for_finite_disjoint
+      F heval hS hT hdis with
+    ⟨s, hSmark, hTavoid⟩
+  refine ⟨s, ?_, ?_⟩
+  · intro x hxT
+    exact
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).2
+        (hTavoid x hxT)
+  · intro x hxOpen hxS
+    have hxNotMarked :
+        (F.map s).hom.base x ∉ markedSchemePointSet K :=
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).1 hxOpen
+    exact hxNotMarked (hSmark x hxS)
+
+/-- Combined marked-control, openness, and Belyi-open form of the
+cohomological restricted-surjectivity handoff to a canonical two-section
+finite marked Belyi family. -/
+theorem twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  rcases E.twoSectionBezoutFamily_exists_for_finite_disjoint
+      F heval hS hT hdis with
+    ⟨s, hSmark, hTavoid⟩
+  have hTopen :
+      T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) := by
+    intro x hxT
+    exact
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).2
+        (hTavoid x hxT)
+  have hopenS :
+      ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+    intro x hxOpen hxS
+    have hxNotMarked :
+        (F.map s).hom.base x ∉ markedSchemePointSet K :=
+      (SchemeBelyi.FiniteBelyiMap.mem_marked_belyiOpen_iff
+        (K := K) (hmarkedOpen := F.hmarkedOpen) (F.map s) x).1 hxOpen
+    exact hxNotMarked (hSmark x hxS)
+  exact
+    ⟨s, ⟨hSmark, hTavoid⟩, (F.map s).toBelyiMap.belyiOpen.2,
+      hTopen, hopenS⟩
+
+/-- Finite-complement-open form of the cohomological handoff to a canonical
+two-section finite marked Belyi family. -/
+theorem twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    {U T : Set C} (_hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  have hdis : Disjoint Uᶜ T := by
+    rw [Set.disjoint_left]
+    intro x hxU hxT
+    exact hxU (hTsub hxT)
+  rcases E.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+      F heval hUcompl hT hdis with
+    ⟨s, hcontrols, hopen, hTopen, hopenS⟩
+  exact ⟨s, hcontrols, hopen, hTopen, by simpa using hopenS⟩
+
+/-- Nonempty-open finite-complement topology form of the cohomological handoff
+to a canonical two-section finite marked Belyi family. -/
+theorem twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    (E : RestrictedEvaluationSurjectivityData K C V)
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    (F : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V)
+    (heval : F.evalPackage = E.toRiemannRochFiniteEvaluationPackage)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (F.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (F.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((F.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((F.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    E.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      F heval hU (finite_compl_of_isOpen_nonempty hU hUne) hT hTsub
+
+end SchemeSupport
+
 end RestrictedEvaluationSurjectivityData
 
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
