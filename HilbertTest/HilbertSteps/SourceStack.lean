@@ -3182,6 +3182,47 @@ theorem hilbert_projectiveSectionFiniteMarkedFamily_toSectionControlled_map_appl
   exact SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.toSectionControlledFiniteMarkedBelyiData_map_apply
     F s
 
+theorem hilbert_projectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_evalPackage
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        SCD.evalPackage.eval x s) :
+    (ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD pair hmap heval).evalPackage = SCD.evalPackage := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_evalPackage
+      SCD pair hmap heval
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_pair
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        SCD.evalPackage.eval x s)
+    (s : V) :
+    (ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD pair hmap heval).pair s = pair s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_pair
+      SCD pair hmap heval s
+
+theorem hilbert_projectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_map_apply
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        SCD.evalPackage.eval x s)
+    (s : V) :
+    (ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD pair hmap heval).map s = SCD.map s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_map_apply
+      SCD pair hmap heval s
+
 theorem hilbert_projectiveSectionFiniteMarkedFamily_map_finite_hom
     (s : V) :
     IsFinite (F.map s).hom := by
@@ -4893,6 +4934,48 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofProjective
   exact
     SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofProjectiveSectionFiniteMarkedFamily_trivialized_eq_lifted
       PF twoSection hpair s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_twoSection
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        SCD.evalPackage.eval x s) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD twoSection hmap heval).twoSection = twoSection := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_twoSection
+      SCD twoSection hmap heval
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_map_apply
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        SCD.evalPackage.eval x s)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD twoSection hmap heval).map s = SCD.map s := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_map_apply
+      SCD twoSection hmap heval s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofSectionControlledFiniteMarkedBelyiData_trivialized_eq_lifted
+    (SCD : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (SCD.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        SCD.evalPackage.eval x s)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      SCD twoSection hmap heval).trivialized s =
+        (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData_trivialized_eq_lifted
+      SCD twoSection hmap heval s
 
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
     TSF.evalPackage = TSF.isUnitFamily.evalPackage := by

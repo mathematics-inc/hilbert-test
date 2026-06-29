@@ -1706,6 +1706,62 @@ theorem toSectionControlledFiniteMarkedBelyiData_map_apply
     (s : V) :
     F.toSectionControlledFiniteMarkedBelyiData.map s = F.map s := rfl
 
+/-- Build a projective-section finite marked family from scheme-level
+section-controlled finite marked Belyi data, once projective-line section pairs
+are supplied whose underlying maps and section evaluations match that data. -/
+def ofSectionControlledFiniteMarkedBelyiData
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        D.evalPackage.eval x s) :
+    ProjectiveSectionFiniteMarkedFamily K C V where
+  evalPackage := D.evalPackage
+  hmarkedOpen := D.hmarkedOpen
+  pair := pair
+  map := D.map
+  map_base_eq_pair := hmap
+  pair_section0_eval_eq_index := heval
+  nonzero_avoids_marked := by
+    intro T s hs
+    exact D.nonzero_avoids_marked hs
+
+@[simp]
+theorem ofSectionControlledFiniteMarkedBelyiData_evalPackage
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        D.evalPackage.eval x s) :
+    (ofSectionControlledFiniteMarkedBelyiData D pair hmap heval).evalPackage =
+      D.evalPackage := rfl
+
+@[simp]
+theorem ofSectionControlledFiniteMarkedBelyiData_pair
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        D.evalPackage.eval x s)
+    (s : V) :
+    (ofSectionControlledFiniteMarkedBelyiData D pair hmap heval).pair s =
+      pair s := rfl
+
+@[simp]
+theorem ofSectionControlledFiniteMarkedBelyiData_map_apply
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (pair : V → ProjectiveLineSectionPair K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (pair s).hom.base x)
+    (heval :
+      ∀ s x, (pair s).evalData.eval x (pair s).section0 =
+        D.evalPackage.eval x s)
+    (s : V) :
+    (ofSectionControlledFiniteMarkedBelyiData D pair hmap heval).map s =
+      D.map s := rfl
+
 /-- Each projective-section finite marked family map is finite. -/
 theorem map_finite_hom
     (s : V) :
@@ -3738,6 +3794,67 @@ theorem ofProjectiveSectionFiniteMarkedFamily_trivialized_eq_lifted
         (twoSection s).toProjectiveLineSectionPair)
     (s : V) :
     (ofProjectiveSectionFiniteMarkedFamily projectiveFamily twoSection hpair).trivialized s =
+      (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := rfl
+
+/-- Build the canonical two-section finite marked family directly from
+section-controlled finite marked Belyi data, when each finite marked map agrees
+with the projective-line morphism assembled by the two-section package and the
+first-section evaluations match the section index. -/
+def ofSectionControlledFiniteMarkedBelyiData
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        D.evalPackage.eval x s) :
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V :=
+  ofProjectiveSectionFiniteMarkedFamily
+    (ProjectiveSectionFiniteMarkedFamily.ofSectionControlledFiniteMarkedBelyiData
+      D
+      (fun s => (twoSection s).toProjectiveLineSectionPair)
+      (by
+        intro s x
+        exact hmap s x)
+      (by
+        intro s x
+        exact heval s x))
+    twoSection
+    (by
+      intro s
+      rfl)
+
+@[simp]
+theorem ofSectionControlledFiniteMarkedBelyiData_twoSection
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        D.evalPackage.eval x s) :
+    (ofSectionControlledFiniteMarkedBelyiData D twoSection hmap heval).twoSection =
+      twoSection := rfl
+
+@[simp]
+theorem ofSectionControlledFiniteMarkedBelyiData_map_apply
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        D.evalPackage.eval x s)
+    (s : V) :
+    (ofSectionControlledFiniteMarkedBelyiData D twoSection hmap heval).map s =
+      D.map s := rfl
+
+theorem ofSectionControlledFiniteMarkedBelyiData_trivialized_eq_lifted
+    (D : SectionControlledFiniteMarkedBelyiData K C V)
+    (twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V)
+    (hmap : ∀ s x, (D.map s).hom.base x = (twoSection s).globalHom.base x)
+    (heval :
+      ∀ s x, (twoSection s).evalData.eval x (twoSection s).section0 =
+        D.evalPackage.eval x s)
+    (s : V) :
+    (ofSectionControlledFiniteMarkedBelyiData D twoSection hmap heval).trivialized s =
       (twoSection s).toTrivializedIsUnitSectionRatioDataLifted := rfl
 
 theorem trivialized_evalData_eq_spec (s : V) :
