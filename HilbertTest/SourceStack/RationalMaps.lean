@@ -43,6 +43,18 @@ theorem hom_toPartialMap_fromSpecStalkOfMem
       X.fromSpecStalk x ≫ f :=
   Scheme.PartialMap.fromSpecStalkOfMem_toPartialMap f x
 
+/-- An honest morphism over a base gives a partial map over the same base. -/
+theorem hom_toPartialMap_isOver
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] (f : X ⟶ Y) [f.IsOver S] :
+    f.toPartialMap.IsOver S := by
+  infer_instance
+
+/-- An honest morphism over a base gives a rational map over the same base. -/
+theorem hom_toRationalMap_isOver
+    {S : Scheme.{u}} [X.Over S] [Y.Over S] (f : X ⟶ Y) [f.IsOver S] :
+    f.toRationalMap.IsOver S := by
+  infer_instance
+
 /-- On the function field, the partial map associated to an honest morphism is
 the canonical generic stalk-spectrum map followed by the original morphism. -/
 theorem hom_toPartialMap_fromFunctionField
@@ -255,6 +267,22 @@ theorem partialMap_exists_restrict_isOver
     ∃ U hU hU', (f.restrict U hU hU').IsOver S :=
   Scheme.PartialMap.exists_restrict_isOver S f
 
+/-- Right-composition of an over partial map with an over morphism remains
+over the base. -/
+theorem partialMap_compHom_isOver
+    {S Z : Scheme.{u}} [X.Over S] [Y.Over S] [Z.Over S]
+    (f : X.PartialMap Y) (g : Y ⟶ Z) [f.IsOver S] [g.IsOver S] :
+    (f.compHom g).IsOver S := by
+  infer_instance
+
+/-- Right-composition of an over rational map with an over morphism remains
+over the base. -/
+theorem rationalMap_compHom_isOver
+    {S Z : Scheme.{u}} [X.Over S] [Y.Over S] [Z.Over S]
+    (f : X ⤏ Y) (g : Y ⟶ Z) [f.IsOver S] [g.IsOver S] :
+    (f.compHom g).IsOver S := by
+  infer_instance
+
 /-- A rational map is over the base exactly when composing it with the target
 structure morphism gives the source structure morphism as a rational map. -/
 theorem rationalMap_isOver_iff
@@ -291,6 +319,22 @@ theorem p1Hom_toPartialMap_domain
     (f : X ⟶ P1 K) :
     f.toPartialMap.domain = ⊤ :=
   hom_toPartialMap_domain f
+
+/-- An honest morphism to `P1 K` over a base gives a partial map over that
+base. -/
+theorem p1Hom_toPartialMap_isOver
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S]
+    (f : X ⟶ P1 K) [f.IsOver S] :
+    f.toPartialMap.IsOver S :=
+  hom_toPartialMap_isOver f
+
+/-- An honest morphism to `P1 K` over a base gives a rational map over that
+base. -/
+theorem p1Hom_toRationalMap_isOver
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S]
+    (f : X ⟶ P1 K) [f.IsOver S] :
+    f.toRationalMap.IsOver S :=
+  hom_toRationalMap_isOver f
 
 /-- On the function field, the partial map associated to an honest morphism to
 `P1 K` is the canonical generic stalk-spectrum map followed by the original
@@ -347,6 +391,46 @@ theorem p1RationalMap_toPartialMap_domain
     [IsReduced X] (f : X ⤏ P1 K) :
     f.toPartialMap.domain = f.domain :=
   rationalMap_toPartialMap_domain f
+
+/-- A partial map to `P1 K` is over a base exactly when its composition with
+the target structure morphism agrees with the source structure morphism on the
+dense domain. -/
+theorem p1PartialMap_isOver_iff
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S]
+    {f : X.PartialMap (P1 K)} :
+    f.IsOver S ↔ (f.compHom (P1 K ↘ S)).hom = f.domain.ι ≫ X ↘ S :=
+  partialMap_isOver_iff
+
+/-- A rational map to `P1 K` over a base has a partial-map representative over
+the same base. -/
+theorem p1RationalMap_exists_partialMap_over
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S]
+    (f : X ⤏ P1 K) [f.IsOver S] :
+    ∃ g : X.PartialMap (P1 K), g.IsOver S ∧ g.toRationalMap = f :=
+  rationalMap_exists_partialMap_over f
+
+/-- A rational map to `P1 K` is over the base exactly when composing with the
+target structure morphism gives the source structure rational map. -/
+theorem p1RationalMap_isOver_iff
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S] {f : X ⤏ P1 K} :
+    f.IsOver S ↔ f.compHom (P1 K ↘ S) = (X ↘ S).toRationalMap :=
+  rationalMap_isOver_iff
+
+/-- For a reduced source and separated base, a partial map to `P1 K` is over
+the base exactly when its rational-map class is over the base. -/
+theorem p1PartialMap_isOver_toRationalMap_iff_of_isSeparated
+    {S : Scheme.{u}} [X.Over S] [(P1 K).Over S] [IsReduced X] [S.IsSeparated]
+    {f : X.PartialMap (P1 K)} :
+    f.toRationalMap.IsOver S ↔ f.IsOver S :=
+  partialMap_isOver_toRationalMap_iff_of_isSeparated
+
+/-- The canonical partial-map representative of an over rational map to `P1 K`
+is over the base under the separatedness hypotheses. -/
+theorem p1RationalMap_toPartialMap_isOver
+    {S : Scheme.{u}} [IsReduced X] [S.IsSeparated] [X.Over S] [(P1 K).Over S]
+    (f : X ⤏ P1 K) [f.IsOver S] :
+    f.toPartialMap.IsOver S :=
+  rationalMap_toPartialMap_isOver f
 
 /-- Restricting a partial map to `P1 K` to a smaller dense open does not change
 its induced map from the function field. -/
