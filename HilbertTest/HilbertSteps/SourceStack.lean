@@ -5510,6 +5510,86 @@ theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofFiniteDomi
       evalPackage hmarkedOpen twoSection hFinite hDominant hEtale hevalData hsection0
       nonzero_avoids_marked s
 
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_explicitTwoSectionOfStructured_globalHom
+    (twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured
+      twoSection s).globalHom = (twoSection s).globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured_globalHom
+      twoSection s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_explicitTwoSectionOfStructured_evalData
+    (twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured
+      twoSection s).evalData = (twoSection s).evalData := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured_evalData
+      twoSection s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_explicitTwoSectionOfStructured_section0
+    (twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+    (s : V) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured
+      twoSection s).section0 = (twoSection s).section0 := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured_section0
+      twoSection s
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofStructuredFiniteDominantEtaleTwoSectionAligned_twoSection
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K) :
+    (TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofStructuredFiniteDominantEtaleTwoSectionAligned
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale hevalData hsection0
+      nonzero_avoids_marked).twoSection =
+      TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured
+        twoSection := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofStructuredFiniteDominantEtaleTwoSectionAligned_twoSection
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale hevalData hsection0
+      nonzero_avoids_marked
+
+theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_ofStructuredFiniteDominantEtaleTwoSectionAligned_map_hom
+    (evalPackage : SourceStack.CurveRiemannRoch.RiemannRochFiniteEvaluationPackage K C V)
+    (hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ)
+    (twoSection : V → TwoSectionBezoutStructuredTrivializedIsUnitData K C V)
+    (hFinite : ∀ s : V, IsFinite (twoSection s).globalHom)
+    (hDominant : ∀ s : V, IsDominant (twoSection s).globalHom)
+    (hEtale :
+      ∀ s : V, IsEtale
+        (((twoSection s).globalHom) ∣_
+          (SourceStack.SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen))
+    (hevalData :
+      ∀ s : V, (twoSection s).evalData = evalPackage.toEvaluationData)
+    (hsection0 : ∀ s : V, (twoSection s).section0 = s)
+    (nonzero_avoids_marked :
+      ∀ {T : Set C} {s : V},
+        evalPackage.toEvaluationData.nonzeroOnSet T s →
+          ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K)
+    (s : V) :
+    ((TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofStructuredFiniteDominantEtaleTwoSectionAligned
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale hevalData hsection0
+      nonzero_avoids_marked).map s).hom = (twoSection s).globalHom := by
+  exact
+    SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofStructuredFiniteDominantEtaleTwoSectionAligned_map_hom
+      evalPackage hmarkedOpen twoSection hFinite hDominant hEtale hevalData hsection0
+      nonzero_avoids_marked s
+
 theorem hilbert_twoSectionBezoutProjectiveSectionFiniteMarkedFamily_evalPackage :
     TSF.evalPackage = TSF.isUnitFamily.evalPackage := by
   rfl
@@ -7308,6 +7388,32 @@ theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_famil
   exact
     SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.family_map_hom
       D s
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_family_evalPackage
+    {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.evalPackage = D.restricted.toRiemannRochFiniteEvaluationPackage := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.family_evalPackage
+      D
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_family_hmarkedOpen
+    {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.hmarkedOpen = D.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.family_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_family_twoSection
+    {C : Scheme.{u}}
+    (D : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.twoSection =
+      TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.explicitTwoSectionOfStructured
+        D.twoSection := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData.family_twoSection
+      D
 
 theorem hilbert_cohomologicalStructuredFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_hmarkedOpen
     [Infinite K] {C : Scheme.{u}}
