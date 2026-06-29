@@ -399,6 +399,273 @@ end SchemeSupport
 
 end RestrictedEvaluationSurjectivityData
 
+section SchemeTwoSectionSource
+
+open AlgebraicGeometry
+
+variable {C : Scheme.{u}}
+
+/-- A direct cohomology-to-two-section finite marked source package.  This is
+the streamlined version of the paper's construction after the canonical
+two-section projective-line family has been built: restricted evaluation
+surjectivity supplies the sections, and the two-section family supplies the
+finite marked Belyi maps. -/
+structure CohomologicalTwoSectionFiniteMarkedSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  restricted : RestrictedEvaluationSurjectivityData K C V
+  family : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V
+  evalPackage_eq :
+    family.evalPackage = restricted.toRiemannRochFiniteEvaluationPackage
+
+namespace CohomologicalTwoSectionFiniteMarkedSourceData
+
+variable (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+
+/-- The paper-facing finite marked Belyi family obtained directly from
+cohomological restricted evaluation and the canonical two-section construction. -/
+noncomputable def toFiniteMarkedBelyiExistence
+    [Infinite K] : FiniteMarkedBelyiExistence K V C :=
+  D.restricted.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence
+    D.family D.evalPackage_eq
+
+theorem toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.family.hmarkedOpen := by
+  exact
+    D.restricted.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_hmarkedOpen
+      D.family D.evalPackage_eq
+
+theorem toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.family.map s := by
+  exact
+    D.restricted.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_map_apply
+      D.family D.evalPackage_eq s
+
+/-- Each finite marked Belyi map selected by the direct cohomological
+two-section source package is finite. -/
+theorem toFiniteMarkedBelyiExistence_map_finite_hom
+    [Infinite K] (s : V) :
+    IsFinite (D.toFiniteMarkedBelyiExistence.map s).hom := by
+  rw [D.toFiniteMarkedBelyiExistence_map_apply s]
+  exact D.family.map_finite_hom s
+
+/-- Each selected finite marked Belyi map is dominant. -/
+theorem toFiniteMarkedBelyiExistence_map_isDominant_hom
+    [Infinite K] (s : V) :
+    IsDominant (D.toFiniteMarkedBelyiExistence.map s).hom := by
+  rw [D.toFiniteMarkedBelyiExistence_map_apply s]
+  exact D.family.map_isDominant_hom s
+
+/-- Each selected finite marked Belyi map has dense range on the underlying
+topological spaces. -/
+theorem toFiniteMarkedBelyiExistence_map_denseRange_hom
+    [Infinite K] (s : V) :
+    DenseRange (D.toFiniteMarkedBelyiExistence.map s).hom.base := by
+  rw [D.toFiniteMarkedBelyiExistence_map_apply s]
+  exact D.family.map_denseRange_hom s
+
+/-- Belyi-open membership for the direct cohomological two-section package is
+exactly marked-branch avoidance for the concrete two-section finite map. -/
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.family.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    D.restricted.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      D.family D.evalPackage_eq s x
+
+/-- The noncritical Belyi open from the paper-facing family is the scheme-level
+Belyi open of the concrete two-section finite map. -/
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((D.family.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    D.restricted.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      D.family D.evalPackage_eq s
+
+/-- Direct finite disjoint-set conclusion from the cohomological two-section
+source package. -/
+theorem exists_for_finite_disjoint
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, (∀ x ∈ S, (D.family.map s).hom.base x ∈ markedSchemePointSet K) ∧
+      ∀ x ∈ T, (D.family.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    D.restricted.twoSectionBezoutFamily_exists_for_finite_disjoint
+      D.family D.evalPackage_eq hS hT hdis
+
+/-- Direct Belyi-open controls for finite disjoint sets from the cohomological
+two-section source package. -/
+theorem exists_map_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V, T ⊆ ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+      ((D.family.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    D.restricted.twoSectionBezoutFamily_exists_map_belyiOpen_controls
+      D.family D.evalPackage_eq hS hT hdis
+
+/-- Direct same-map marked, open, and Belyi-open controls for finite disjoint
+sets from the cohomological two-section source package. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_controls
+    [Infinite K] {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      ((∀ x ∈ S, (D.family.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.family.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.family.map s).toBelyiMap.belyiOpen : Set C) ⊆ Sᶜ := by
+  exact
+    D.restricted.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_controls
+      D.family D.evalPackage_eq hS hT hdis
+
+/-- Finite-complement-open form of the direct cohomological two-section
+source package, retaining marked controls. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.family.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.family.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.family.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    D.restricted.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      D.family D.evalPackage_eq hU hUcompl hT hTsub
+
+/-- Nonempty-open finite-complement form of the direct cohomological
+two-section source package. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.family.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.family.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.family.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    D.restricted.twoSectionBezoutFamily_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D.family D.evalPackage_eq hU hUne hT hTsub
+
+/-- The Belyi open attached to the section `s` in the paper-facing family. -/
+def belyiOpen
+    [Infinite K] (s : V) : Set C :=
+  ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+    D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)
+
+theorem mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ D.belyiOpen s ↔
+      (D.family.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact D.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff s x
+
+theorem belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    D.belyiOpen s = ((D.family.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact D.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi s
+
+/-- The Belyi opens attached to the direct cohomological two-section finite
+marked family. -/
+def belyiOpenSetFamily
+    [Infinite K] : Set (Set C) :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily
+
+/-- Corollary 1.2 in basis form, obtained directly from cohomological
+restricted evaluation plus the canonical two-section finite marked family. -/
+theorem belyiOpenSetFamily_isTopologicalBasis
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily_isTopologicalBasis
+
+/-- The direct cohomological two-section Belyi opens cover the source. -/
+theorem belyiOpen_cover_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    (Set.univ : Set C) ⊆ ⋃ s : V, D.belyiOpen s := by
+  exact FiniteMarkedBelyiExistence.belyiOpen_cover_univ
+    K V D.toFiniteMarkedBelyiExistence
+
+/-- One-point Belyi-open consequence from the direct cohomological two-section
+source package. -/
+theorem exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U : Set C} (hU : IsOpen U) {x : C} (hxU : x ∈ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        x ∈ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_inside_open_of_nonemptyOpenFiniteComplement
+      K V D.toFiniteMarkedBelyiExistence hU hxU
+
+/-- Finite-set Belyi-open consequence from the direct cohomological
+two-section source package. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      K V D.toFiniteMarkedBelyiExistence hU hUne hT hTsub
+
+/-- Compact-exhaustion cover bridge for the direct cohomological two-section
+source package. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (Kex : ∀ s : V, CompactExhaustion (D.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+            D.belyiOpen p.1) ∧
+          (Set.univ : Set C) ⊆
+            ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions
+      K V D.toFiniteMarkedBelyiExistence Kex
+
+/-- Compact-cover bridge for the direct cohomological two-section package,
+with compact exhaustions supplied by local compactness and second countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V, CompactExhaustion (D.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K V D.toFiniteMarkedBelyiExistence
+
+end CohomologicalTwoSectionFiniteMarkedSourceData
+
+end SchemeTwoSectionSource
+
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
 zero-section of the divisor line bundle. -/
 structure CohomologicalDivisorSectionData

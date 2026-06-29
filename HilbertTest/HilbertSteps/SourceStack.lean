@@ -6142,6 +6142,139 @@ theorem hilbert_restrictedEvaluationSurjectivity_twoSectionBezoutFamily_toFinite
     SourceStack.CurveCohomologySections.RestrictedEvaluationSurjectivityData.twoSectionBezoutFamily_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
       RE F heval s
 
+theorem hilbert_cohomologicalTwoSectionSource_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V) :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.family.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalTwoSectionSource_toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.family.map s := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_apply
+      D s
+
+theorem hilbert_cohomologicalTwoSectionSource_toFiniteMarkedBelyiExistence_map_finite_hom
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    (s : V) :
+    IsFinite (D.toFiniteMarkedBelyiExistence.map s).hom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_finite_hom
+      D s
+
+theorem hilbert_cohomologicalTwoSectionSource_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.family.map s).hom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      D s x
+
+theorem hilbert_cohomologicalTwoSectionSource_toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((D.family.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+      D s
+
+theorem hilbert_cohomologicalTwoSectionSource_exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.family.map s).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.family.map s).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.family.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.family.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub
+
+theorem hilbert_cohomologicalTwoSectionSource_belyiOpenSetFamily_isTopologicalBasis
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V) :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.belyiOpenSetFamily_isTopologicalBasis
+      D
+
+theorem hilbert_cohomologicalTwoSectionSource_belyiOpen_cover_univ
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V) :
+    (Set.univ : Set C) ⊆ ⋃ s : V, D.belyiOpen s := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.belyiOpen_cover_univ
+      D
+
+theorem hilbert_cohomologicalTwoSectionSource_exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      D hU hUne hT hTsub
+
+theorem hilbert_cohomologicalTwoSectionSource_finite_compact_cover_by_belyiOpen_exhaustions
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V)
+    (Kex : ∀ s : V, CompactExhaustion (D.belyiOpen s)) :
+    ∃ t : Finset (V × ℕ),
+      (∀ p ∈ t,
+        IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+        (∀ p ∈ t,
+          ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+            D.belyiOpen p.1) ∧
+          (Set.univ : Set C) ⊆
+            ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.finite_compact_cover_by_belyiOpen_exhaustions
+      D Kex
+
+theorem hilbert_cohomologicalTwoSectionSource_finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [Infinite K] [T1Space (P1 K)]
+    {C : Scheme.{u}} [SourceStack.NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C]
+    (D : CohomologicalTwoSectionFiniteMarkedSourceData K C V) :
+    ∃ Kex : ∀ s : V, CompactExhaustion (D.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      D
+
 variable (D : CohomologicalDivisorSectionData K X V)
 
 theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :
