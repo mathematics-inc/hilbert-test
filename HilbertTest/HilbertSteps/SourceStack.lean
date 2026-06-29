@@ -7698,6 +7698,38 @@ theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_named_belyiOpe
     SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_named_belyiOpen_eq_support_compl
       D S heval
 
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_named_belyiOpen_eq_of_support_eq_compl
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    S.belyiOpen D.zeroSection = U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_named_belyiOpen_eq_of_support_eq_compl
+      D S heval hsupport
+
+theorem hilbert_cohomologicalDivisor_structuredSource_zeroSection_named_belyiOpen_isOpen
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    IsOpen (S.belyiOpen D.zeroSection) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_zeroSection_named_belyiOpen_isOpen
+      D S
+
+theorem hilbert_cohomologicalDivisor_structuredSource_isOpen_of_support_eq_compl
+    [Infinite K] {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    IsOpen U := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalDivisorSectionData.structuredSource_isOpen_of_support_eq_compl
+      D S heval hsupport
+
 theorem hilbert_cohomologicalDivisor_twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     {C : Scheme.{u}} (D : CohomologicalDivisorSectionData K C V)
     (F : SourceStack.ProjectiveSectionMaps.TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V) :

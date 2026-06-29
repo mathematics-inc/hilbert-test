@@ -1605,6 +1605,46 @@ theorem structuredSource_zeroSection_named_belyiOpen_eq_support_compl
     D.structuredSource_toFiniteMarkedBelyiExistence_zeroSection_belyiOpen_eq_support_compl
       S heval
 
+/-- Named-open structured source form with a prescribed complement: if the
+cohomological divisor support is `Uᶜ`, then the zero-section noncritical Belyi
+open is exactly `U`. -/
+theorem structuredSource_zeroSection_named_belyiOpen_eq_of_support_eq_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K]
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    S.belyiOpen D.zeroSection = U := by
+  simpa [hsupport] using
+    D.structuredSource_zeroSection_named_belyiOpen_eq_support_compl S heval
+
+/-- The structured zero-section named Belyi open is open. -/
+theorem structuredSource_zeroSection_named_belyiOpen_isOpen
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K]
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V) :
+    IsOpen (S.belyiOpen D.zeroSection) := by
+  rw [S.belyiOpen_eq_schemeBelyi D.zeroSection]
+  exact (S.toFiniteMarkedBelyiExistence.map D.zeroSection).toBelyiMap.belyiOpen.2
+
+/-- If the cohomological divisor support is the complement of `U`, then `U`
+is open because it is realized as the structured zero-section named Belyi
+open. -/
+theorem structuredSource_isOpen_of_support_eq_compl
+    (D : CohomologicalDivisorSectionData K C V)
+    [Infinite K]
+    (S : CohomologicalStructuredFiniteDominantEtaleTwoSectionSourceData K C V)
+    (heval :
+      S.restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData =
+        D.evalSurjectivity.evalData)
+    {U : Set C} (hsupport : D.evalSurjectivity.support = Uᶜ) :
+    IsOpen U := by
+  rw [← D.structuredSource_zeroSection_named_belyiOpen_eq_of_support_eq_compl
+    S heval hsupport]
+  exact D.structuredSource_zeroSection_named_belyiOpen_isOpen S
+
 /-- The cohomological zero-section finite marked Belyi open is open. -/
 theorem twoSectionBezoutFamily_zeroSection_belyiOpen_isOpen
     (D : CohomologicalDivisorSectionData K C V)
