@@ -1224,6 +1224,61 @@ def twoSectionBezoutCover
     C.OpenCover :=
   Schemes.twoSectionBasicOpenCoverOfLinearCombination C s0 s1 a b h
 
+/-- Universe-lifted version of the two-element family.  Mathlib's scheme
+gluing API currently accepts covers whose index universe matches the scheme
+universe, while the canonical two-element cover is indexed by `Fin 2` in
+universe `0`. -/
+def twoElementFamilyLifted {R : Type*} (x y : R) : ULift.{u} (Fin 2) → R :=
+  fun i => Schemes.twoElementFamily x y i.down
+
+@[simp]
+theorem twoElementFamilyLifted_down {R : Type*}
+    (x y : R) (i : ULift.{u} (Fin 2)) :
+    twoElementFamilyLifted x y i = Schemes.twoElementFamily x y i.down := rfl
+
+/-- A lifted two-section family satisfying a Bezout identity still spans the
+unit ideal. -/
+theorem ideal_span_range_twoElementFamilyLifted_eq_top_of_linear_combination
+    {R : Type*} [CommSemiring R] (x y a b : R)
+    (h : a * x + b * y = 1) :
+    Ideal.span (Set.range (twoElementFamilyLifted x y :
+      ULift.{u} (Fin 2) → R)) = ⊤ := by
+  rw [Ideal.eq_top_iff_one]
+  rw [← h]
+  have hx :
+      x ∈ Ideal.span (Set.range (twoElementFamilyLifted x y :
+        ULift.{u} (Fin 2) → R)) :=
+    Ideal.subset_span ⟨ULift.up (0 : Fin 2), by
+      rfl⟩
+  have hy :
+      y ∈ Ideal.span (Set.range (twoElementFamilyLifted x y :
+        ULift.{u} (Fin 2) → R)) :=
+    Ideal.subset_span ⟨ULift.up (1 : Fin 2), by
+      rfl⟩
+  exact Ideal.add_mem _
+    (Ideal.mul_mem_left _ a hx)
+    (Ideal.mul_mem_left _ b hy)
+
+/-- The universe-lifted two-basic-open cover attached to a pair of global
+sections satisfying a Bezout equation. -/
+def twoSectionBasicOpenCoverOfLinearCombinationLifted
+    (X : Scheme.{u}) (s0 s1 a b : Γ(X, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    Scheme.OpenCover.{u, u} X :=
+  Schemes.basicOpenCoverOfSpanEqTop X (twoElementFamilyLifted s0 s1 :
+    ULift.{u} (Fin 2) → Γ(X, ⊤))
+    (ideal_span_range_twoElementFamilyLifted_eq_top_of_linear_combination
+      s0 s1 a b h)
+
+/-- Universe-lifted two-open Bezout cover.  This is definitionally the same
+basic-open family as `twoSectionBezoutCover`, but indexed by `ULift (Fin 2)`
+so that it can be passed to `Scheme.Cover.glueMorphisms`. -/
+def twoSectionBezoutCoverLifted
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    Scheme.OpenCover.{u, u} C :=
+  twoSectionBasicOpenCoverOfLinearCombinationLifted C s0 s1 a b h
+
 /-- Chart choices for the two basic opens of a two-section Bezout cover. -/
 def twoSectionRatioChart : Fin 2 → LocalSectionRatioChart
   | 0 => LocalSectionRatioChart.section0
@@ -1253,6 +1308,28 @@ def twoSectionLocalSection1
     Γ((twoSectionBezoutCover C s0 s1 a b h).obj i, ⊤) :=
   Schemes.basicOpenTopRestrict C (Schemes.twoElementFamily s0 s1 i) s1
 
+/-- The first global function restricted to a member of the universe-lifted
+two-section Bezout cover. -/
+def twoSectionLocalSection0Lifted
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : ULift.{u} (Fin 2)) :
+    Γ((twoSectionBezoutCoverLifted C s0 s1 a b h).obj i, ⊤) := by
+  simpa [twoSectionBezoutCoverLifted,
+    twoSectionBasicOpenCoverOfLinearCombinationLifted,
+    Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+    (Schemes.basicOpenTopRestrict C (Schemes.twoElementFamily s0 s1 i.down) s0)
+
+/-- The second global function restricted to a member of the universe-lifted
+two-section Bezout cover. -/
+def twoSectionLocalSection1Lifted
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : ULift.{u} (Fin 2)) :
+    Γ((twoSectionBezoutCoverLifted C s0 s1 a b h).obj i, ⊤) := by
+  simpa [twoSectionBezoutCoverLifted,
+    twoSectionBasicOpenCoverOfLinearCombinationLifted,
+    Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+    (Schemes.basicOpenTopRestrict C (Schemes.twoElementFamily s0 s1 i.down) s1)
+
 /-- On each member of the two-section Bezout cover, the selected denominator is
 a unit. -/
 theorem twoSectionLocal_denominator_isUnit
@@ -1272,6 +1349,20 @@ theorem twoSectionLocal_denominator_isUnit
     apply RingHom.isUnit_map
     simpa [Schemes.basicOpenTopRestrict] using
       Schemes.isUnit_basicOpenTopRestrict_self C s1
+
+/-- On each member of the universe-lifted two-section Bezout cover, the
+selected denominator is a unit. -/
+theorem twoSectionLocal_denominator_isUnit_lifted
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : ULift.{u} (Fin 2)) :
+    IsUnit (LocalSectionRatioChart.denominator (twoSectionRatioChart i.down)
+      (twoSectionLocalSection0Lifted C s0 s1 a b h i)
+      (twoSectionLocalSection1Lifted C s0 s1 a b h i)) := by
+  rcases i with ⟨i⟩
+  simpa [twoSectionLocalSection0Lifted, twoSectionLocalSection1Lifted,
+    twoSectionBezoutCoverLifted, twoSectionBasicOpenCoverOfLinearCombinationLifted,
+    twoElementFamilyLifted] using
+      twoSectionLocal_denominator_isUnit C s0 s1 a b h i
 
 /-- Canonical two-basic-open version of the denominator-is-unit
 projective-section package.  It fixes the cover, chart choices, and local
@@ -1434,6 +1525,128 @@ theorem toTrivialized_local_ratio_mul_denominator_eq_numerator (i : D.cover.J) :
         ((D.toTrivializedIsUnitSectionRatioData).localSection0 i)
         ((D.toTrivializedIsUnitSectionRatioData).localSection1 i) := by
   exact (D.toTrivializedIsUnitSectionRatioData).local_ratio_mul_denominator_eq_numerator i
+
+/-- Universe-lifted version of the canonical two-basic-open cover.  This is the
+same pair of basic opens as `D.cover`, with the index type lifted from `Fin 2`
+to `ULift (Fin 2)` so that Mathlib's gluing API can construct the global
+projective-line morphism. -/
+def coverLifted : Scheme.OpenCover.{u, u} C :=
+  twoSectionBezoutCoverLifted C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout
+
+/-- The chart selected on each member of the universe-lifted two-basic-open
+cover. -/
+def ratioChartLifted (i : D.coverLifted.J) : LocalSectionRatioChart :=
+  twoSectionRatioChart i.down
+
+/-- The first local section representative on each member of the
+universe-lifted canonical basic-open cover. -/
+def localSection0Lifted (i : D.coverLifted.J) : Γ(D.coverLifted.obj i, ⊤) :=
+  twoSectionLocalSection0Lifted C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The second local section representative on each member of the
+universe-lifted canonical basic-open cover. -/
+def localSection1Lifted (i : D.coverLifted.J) : Γ(D.coverLifted.obj i, ⊤) :=
+  twoSectionLocalSection1Lifted C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- The selected denominator is a unit on each member of the universe-lifted
+canonical basic-open cover. -/
+theorem denominator_isUnit_lifted (i : D.coverLifted.J) :
+    IsUnit (LocalSectionRatioChart.denominator (D.ratioChartLifted i)
+      (D.localSection0Lifted i) (D.localSection1Lifted i)) := by
+  exact twoSectionLocal_denominator_isUnit_lifted C D.globalSection0 D.globalSection1
+    D.bezoutCoeff0 D.bezoutCoeff1 D.bezout i
+
+/-- Assemble the canonical two-open data into the denominator-is-unit
+trivialized section-ratio package over the universe-lifted cover. -/
+def toTrivializedIsUnitSectionRatioDataLifted :
+    TrivializedIsUnitSectionRatioData K C V where
+  evalData := D.evalData
+  section0 := D.section0
+  section1 := D.section1
+  no_common_zero := D.no_common_zero
+  cover := D.coverLifted
+  ratioChart := D.ratioChartLifted
+  localSection0 := D.localSection0Lifted
+  localSection1 := D.localSection1Lifted
+  denominator_isUnit := D.denominator_isUnit_lifted
+  localChartRingHom := fun i => by
+    simpa [coverLifted, twoSectionBezoutCoverLifted,
+      twoSectionBasicOpenCoverOfLinearCombinationLifted,
+      Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+      D.localChartRingHom i.down
+  localChartCoordinate_eq_unitRatio := by
+    intro i
+    rcases i with ⟨i⟩
+    simpa [coverLifted, ratioChartLifted, localSection0Lifted,
+      localSection1Lifted, denominator_isUnit_lifted, twoSectionLocalSection0Lifted,
+      twoSectionLocalSection1Lifted, twoSectionBezoutCoverLifted,
+      twoSectionBasicOpenCoverOfLinearCombinationLifted,
+      Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+      D.localChartCoordinate_eq_unitRatio i
+  local_compat := by
+    intro i j
+    rcases i with ⟨i⟩
+    rcases j with ⟨j⟩
+    simpa [coverLifted, ratioChartLifted, twoSectionBezoutCoverLifted,
+      twoSectionBasicOpenCoverOfLinearCombinationLifted,
+      Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+      D.local_compat i j
+  local_zero_of_section0_vanishes := by
+    intro i x hx
+    rcases i with ⟨i⟩
+    simpa [coverLifted, twoSectionBezoutCoverLifted,
+      twoSectionBasicOpenCoverOfLinearCombinationLifted,
+      Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using
+      D.local_zero_of_section0_vanishes i x hx
+  local_section0_vanishes_of_zero := by
+    intro i x hx
+    rcases i with ⟨i⟩
+    exact D.local_section0_vanishes_of_zero i x (by
+      simpa [coverLifted, twoSectionBezoutCoverLifted,
+        twoSectionBasicOpenCoverOfLinearCombinationLifted,
+        Schemes.basicOpenCoverOfSpanEqTop, twoElementFamilyLifted] using hx)
+
+/-- The global projective-line morphism assembled from the canonical
+two-section Bezout data. -/
+def globalHom : C ⟶ P1 K :=
+  D.toTrivializedIsUnitSectionRatioDataLifted.globalHom
+
+theorem toTrivializedIsUnitSectionRatioDataLifted_globalHom :
+    D.toTrivializedIsUnitSectionRatioDataLifted.globalHom = D.globalHom := rfl
+
+/-- The projective-section pair extracted from the canonical two-section Bezout
+data. -/
+def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
+  D.toTrivializedIsUnitSectionRatioDataLifted.toProjectiveLineSectionPair
+
+theorem toTrivializedIsUnitSectionRatioDataLifted_toProjectiveLineSectionPair :
+    D.toTrivializedIsUnitSectionRatioDataLifted.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
+
+theorem toProjectiveLineSectionPair_hom :
+    D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
+
+/-- The first section vanishes exactly on the zero fiber of the two-section
+Bezout projective-line morphism. -/
+theorem section0_vanishes_iff_globalHom_eq_zero (x : C) :
+    D.evalData.eval x D.section0 = 0 ↔
+      D.globalHom.base x = schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_vanishes_iff_hom_eq_zero x
+
+/-- The first section is nonzero exactly away from the zero fiber of the
+two-section Bezout projective-line morphism. -/
+theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
+    D.evalData.eval x D.section0 ≠ 0 ↔
+      D.globalHom.base x ≠ schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact D.toProjectiveLineSectionPair.section0_nonzero_iff_hom_ne_zero x
+
+theorem toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : D.evalData.eval x D.section0 = 0) :
+    D.toProjectiveLineSectionPair.hom.base x ∈ markedSchemePointSet K := by
+  exact D.toProjectiveLineSectionPair.maps_section0_zero_to_marked hx
 
 end TwoSectionBezoutTrivializedIsUnitData
 

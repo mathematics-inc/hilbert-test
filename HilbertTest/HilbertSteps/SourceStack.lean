@@ -2927,6 +2927,28 @@ theorem hilbert_twoSectionBezoutCover_eq
         C s0 s1 a b h := by
   rfl
 
+theorem hilbert_twoElementFamilyLifted_down
+    {R : Type*} (x y : R) (i : ULift.{u} (Fin 2)) :
+    twoElementFamilyLifted x y i =
+      SourceStack.Schemes.twoElementFamily x y i.down := by
+  exact SourceStack.ProjectiveSectionMaps.twoElementFamilyLifted_down x y i
+
+theorem hilbert_ideal_span_range_twoElementFamilyLifted_eq_top_of_linear_combination
+    {R : Type*} [CommSemiring R] (x y a b : R)
+    (h : a * x + b * y = 1) :
+    Ideal.span (Set.range (twoElementFamilyLifted x y :
+      ULift.{u} (Fin 2) → R)) = ⊤ := by
+  exact
+    SourceStack.ProjectiveSectionMaps.ideal_span_range_twoElementFamilyLifted_eq_top_of_linear_combination
+      x y a b h
+
+theorem hilbert_twoSectionBezoutCoverLifted_eq
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) :
+    twoSectionBezoutCoverLifted C s0 s1 a b h =
+      twoSectionBasicOpenCoverOfLinearCombinationLifted C s0 s1 a b h := by
+  rfl
+
 theorem hilbert_twoSectionRatioChart_zero :
     twoSectionRatioChart 0 = LocalSectionRatioChart.section0 := by
   exact SourceStack.ProjectiveSectionMaps.twoSectionRatioChart_zero
@@ -2958,6 +2980,15 @@ theorem hilbert_twoSectionLocal_denominator_isUnit
       (twoSectionLocalSection0 C s0 s1 a b h i)
       (twoSectionLocalSection1 C s0 s1 a b h i)) := by
   exact SourceStack.ProjectiveSectionMaps.twoSectionLocal_denominator_isUnit
+    C s0 s1 a b h i
+
+theorem hilbert_twoSectionLocal_denominator_isUnit_lifted
+    (C : Scheme.{u}) (s0 s1 a b : Γ(C, ⊤))
+    (h : a * s0 + b * s1 = 1) (i : ULift.{u} (Fin 2)) :
+    IsUnit (LocalSectionRatioChart.denominator (twoSectionRatioChart i.down)
+      (twoSectionLocalSection0Lifted C s0 s1 a b h i)
+      (twoSectionLocalSection1Lifted C s0 s1 a b h i)) := by
+  exact SourceStack.ProjectiveSectionMaps.twoSectionLocal_denominator_isUnit_lifted
     C s0 s1 a b h i
 
 variable (TSD : TwoSectionBezoutTrivializedIsUnitData K C V)
@@ -3066,6 +3097,64 @@ theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivialized_local_ratio_
         ((TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioData TSD).localSection1 i) := by
   exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivialized_local_ratio_mul_denominator_eq_numerator
     TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_coverLifted :
+    TwoSectionBezoutTrivializedIsUnitData.coverLifted TSD =
+      twoSectionBezoutCoverLifted C TSD.globalSection0 TSD.globalSection1
+        TSD.bezoutCoeff0 TSD.bezoutCoeff1 TSD.bezout := by
+  rfl
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_denominator_isUnit_lifted
+    (i : (TwoSectionBezoutTrivializedIsUnitData.coverLifted TSD).J) :
+    IsUnit (LocalSectionRatioChart.denominator
+      (TwoSectionBezoutTrivializedIsUnitData.ratioChartLifted TSD i)
+      (TwoSectionBezoutTrivializedIsUnitData.localSection0Lifted TSD i)
+      (TwoSectionBezoutTrivializedIsUnitData.localSection1Lifted TSD i)) := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.denominator_isUnit_lifted
+    TSD i
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivializedLifted_globalHom :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted
+      TSD).globalHom =
+        TwoSectionBezoutTrivializedIsUnitData.globalHom TSD := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted_globalHom
+    TSD
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toTrivializedLifted_toProjectiveLineSectionPair :
+    (TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted
+      TSD).toProjectiveLineSectionPair =
+        TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toTrivializedIsUnitSectionRatioDataLifted_toProjectiveLineSectionPair
+    TSD
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair_hom :
+    (TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD).hom =
+      TwoSectionBezoutTrivializedIsUnitData.globalHom TSD := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_hom
+    TSD
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_section0_vanishes_iff_globalHom_eq_zero
+    (x : C) :
+    TSD.evalData.eval x TSD.section0 = 0 ↔
+      (TwoSectionBezoutTrivializedIsUnitData.globalHom TSD).base x =
+        schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.section0_vanishes_iff_globalHom_eq_zero
+    TSD x
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_section0_nonzero_iff_globalHom_ne_zero
+    (x : C) :
+    TSD.evalData.eval x TSD.section0 ≠ 0 ↔
+      (TwoSectionBezoutTrivializedIsUnitData.globalHom TSD).base x ≠
+        schemeCarrierPoint K MarkedPointLabel.zero := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.section0_nonzero_iff_globalHom_ne_zero
+    TSD x
+
+theorem hilbert_twoSectionBezoutTrivializedIsUnitData_toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    {x : C} (hx : TSD.evalData.eval x TSD.section0 = 0) :
+    (TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair TSD).hom.base x ∈
+      markedSchemePointSet K := by
+  exact SourceStack.ProjectiveSectionMaps.TwoSectionBezoutTrivializedIsUnitData.toProjectiveLineSectionPair_maps_section0_zero_to_marked
+    TSD hx
 
 variable (F : ProjectiveSectionFiniteMarkedFamily K C V)
 
