@@ -758,6 +758,16 @@ theorem toFiniteMarkedBelyiExistence_hmarkedOpen
           D.toCohomologicalTwoSectionFiniteMarkedSourceData
     _ = D.hmarkedOpen := D.family_hmarkedOpen
 
+theorem toFiniteMarkedBelyiExistence_map_apply
+    [Infinite K] (s : V) :
+    D.toFiniteMarkedBelyiExistence.map s = D.family.map s := by
+  change
+    D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s =
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s
+  exact
+    CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_apply
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData s
+
 theorem toFiniteMarkedBelyiExistence_map_hom
     [Infinite K] (s : V) :
     (D.toFiniteMarkedBelyiExistence.map s).hom =
@@ -770,6 +780,40 @@ theorem toFiniteMarkedBelyiExistence_map_hom
           (D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s).hom
       rw [CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_apply]
     _ = (D.twoSection s).globalHom := D.family_map_hom s
+
+theorem toFiniteMarkedBelyiExistence_map_finite_hom
+    [Infinite K] (s : V) :
+    IsFinite (D.toFiniteMarkedBelyiExistence.map s).hom := by
+  change
+    IsFinite
+      (D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s).hom
+  exact
+    CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_finite_hom
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData s
+
+/-- Each finite marked Belyi map selected by the direct finite/dominant/étale
+two-section source package is dominant. -/
+theorem toFiniteMarkedBelyiExistence_map_isDominant_hom
+    [Infinite K] (s : V) :
+    IsDominant (D.toFiniteMarkedBelyiExistence.map s).hom := by
+  change
+    IsDominant
+      (D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s).hom
+  exact
+    CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_isDominant_hom
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData s
+
+/-- Each selected finite marked Belyi map has dense range on the underlying
+topological spaces. -/
+theorem toFiniteMarkedBelyiExistence_map_denseRange_hom
+    [Infinite K] (s : V) :
+    DenseRange (D.toFiniteMarkedBelyiExistence.map s).hom.base := by
+  change
+    DenseRange
+      (D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s).hom.base
+  exact
+    CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_denseRange_hom
+      D.toCohomologicalTwoSectionFiniteMarkedSourceData s
 
 theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
     [Infinite K] (s : V) (x : C) :
@@ -788,6 +832,136 @@ theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
       change (D.family.map s).hom.base x ∉ markedSchemePointSet K ↔
         (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K
       rw [D.family_map_hom s]
+
+/-- The packaged noncritical Belyi open agrees with the scheme-level Belyi open
+of the selected finite marked Belyi map. -/
+theorem toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s =
+      ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact
+    FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence_belyiOpen_eq_schemeBelyi
+      K V D.toFiniteMarkedBelyiExistence s
+
+/-- Direct two-section form of the finite disjoint-set conclusion. -/
+theorem exists_twoSection_controls_for_finite_disjoint
+    [Infinite K]
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ s : V,
+      (∀ x ∈ S, (D.twoSection s).globalHom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  rcases D.toFiniteMarkedBelyiExistence.exists_for_finite_disjoint
+      hS hT hdis with
+    ⟨s, hSctrl, hTctrl⟩
+  refine ⟨s, ?_, ?_⟩
+  · intro x hx
+    simpa [D.toFiniteMarkedBelyiExistence_map_hom s] using hSctrl x hx
+  · intro x hx
+    simpa [D.toFiniteMarkedBelyiExistence_map_hom s] using hTctrl x hx
+
+/-- Direct two-section form of the open-containment conclusion in a
+finite-complement source topology. -/
+theorem exists_twoSection_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      ((∀ x ∈ Uᶜ, (D.twoSection s).globalHom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      CohomologicalTwoSectionFiniteMarkedSourceData.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+        D.toCohomologicalTwoSectionFiniteMarkedSourceData hU hUne hT hTsub with
+    ⟨s, hcontrols, hopen, hTopen, hopenU⟩
+  refine ⟨s, ?_, ?_, ?_, ?_⟩
+  · exact ⟨fun x hx => by
+        simpa [D.family_map_hom s] using hcontrols.1 x hx,
+      fun x hx => by
+        simpa [D.family_map_hom s] using hcontrols.2 x hx⟩
+  · simpa [D.toFiniteMarkedBelyiExistence_map_apply s] using hopen
+  · simpa [D.toFiniteMarkedBelyiExistence_map_apply s] using hTopen
+  · simpa [D.toFiniteMarkedBelyiExistence_map_apply s] using hopenU
+
+/-- The Belyi open attached to a direct finite/dominant/étale two-section source
+parameter. -/
+def belyiOpen
+    [Infinite K] (s : V) : Set C :=
+  ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+    D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s)
+
+theorem mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ D.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact D.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff s x
+
+theorem belyiOpen_eq_schemeBelyi
+    [Infinite K] (s : V) :
+    D.belyiOpen s =
+      ((D.toFiniteMarkedBelyiExistence.map s).toBelyiMap.belyiOpen : Set C) := by
+  exact D.toFiniteMarkedBelyiExistence_belyiOpen_eq_schemeBelyi s
+
+/-- The Belyi opens attached to the finite marked Belyi family selected from the
+direct finite/dominant/étale two-section source package. -/
+def belyiOpenSetFamily
+    [Infinite K] : Set (Set C) :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily
+
+/-- Corollary 1.2 in basis form directly from the direct finite/dominant/étale
+two-section source package. -/
+theorem belyiOpenSetFamily_isTopologicalBasis
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    TopologicalSpace.IsTopologicalBasis D.belyiOpenSetFamily :=
+  D.toFiniteMarkedBelyiExistence.belyiOpenSetFamily_isTopologicalBasis
+
+/-- The Belyi opens produced from the direct finite/dominant/étale two-section
+source package cover the source. -/
+theorem belyiOpen_cover_univ
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] :
+    (Set.univ : Set C) ⊆ ⋃ s : V, D.belyiOpen s := by
+  exact FiniteMarkedBelyiExistence.belyiOpen_cover_univ
+    K V D.toFiniteMarkedBelyiExistence
+
+/-- Finite-set Belyi-open consequence directly from the direct
+finite/dominant/étale two-section source package in the curve-style
+finite-complement topology form. -/
+theorem exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ s : V,
+      IsOpen ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+        T ⊆ ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+          D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ∧
+          ((FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+            D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s) ⊆ U := by
+  exact
+    FiniteMarkedBelyiExistence.exists_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      K V D.toFiniteMarkedBelyiExistence hU hUne hT hTsub
+
+/-- Compact-cover bridge for direct finite/dominant/étale two-section source
+Belyi opens, with compact exhaustions supplied by local compactness and second
+countability. -/
+theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+    [Infinite K] [T1Space (P1 K)] [NonemptyOpenFiniteComplement C] [CompactSpace C]
+    [LocallyCompactSpace C] [SecondCountableTopology C] :
+    ∃ Kex : ∀ s : V, CompactExhaustion (D.belyiOpen s),
+      ∃ t : Finset (V × ℕ),
+        (∀ p ∈ t,
+          IsCompact ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2))) ∧
+          (∀ p ∈ t,
+            ((Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2)) ⊆
+              D.belyiOpen p.1) ∧
+            (Set.univ : Set C) ⊆
+              ⋃ p ∈ t, (Subtype.val : D.belyiOpen p.1 → C) '' (Kex p.1 p.2) := by
+  exact
+    FiniteMarkedBelyiExistence.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
+      K V D.toFiniteMarkedBelyiExistence
 
 end CohomologicalFiniteDominantEtaleTwoSectionSourceData
 
