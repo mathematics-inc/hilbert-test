@@ -884,6 +884,41 @@ theorem partialMapMarkedCoverData_belyiOpen_subset_compl_of_sendsSetToBranch
     (partialMapMarkedCoverData K f).belyiOpen () ⊆ Sᶜ := by
   exact (partialMapMarkedCoverData K f).belyiOpen_subset_compl_of_sendsSetToBranch hS
 
+/-- Marked-cover data for the partial map attached to an honest morphism
+evaluates by first including the top-open domain into the source. -/
+theorem homToPartialMapMarkedCoverData_map_apply
+    (f : C ⟶ P1 K) (x : f.toPartialMap.domain) :
+    (partialMapMarkedCoverData K f.toPartialMap).map () x =
+      f.base (f.toPartialMap.domain.ι.base x) := by
+  rfl
+
+/-- Branch-forcing for the top-domain partial map attached to an honest
+morphism is the same pointwise marked-set condition after the top-open
+inclusion. -/
+theorem homToPartialMapMarkedCoverData_sendsSetToBranch_iff
+    (f : C ⟶ P1 K) (S : Set f.toPartialMap.domain) :
+    (partialMapMarkedCoverData K f.toPartialMap).sendsSetToBranch S () ↔
+      ∀ x ∈ S, f.base (f.toPartialMap.domain.ι.base x) ∈ markedSchemePointSet K := by
+  rfl
+
+/-- The Belyi open for the top-domain partial map attached to an honest
+morphism is the locus where the original morphism avoids the marked triple,
+after the top-open inclusion. -/
+theorem homToPartialMapMarkedCoverData_mem_belyiOpen_iff
+    (f : C ⟶ P1 K) (x : f.toPartialMap.domain) :
+    x ∈ (partialMapMarkedCoverData K f.toPartialMap).belyiOpen () ↔
+      f.base (f.toPartialMap.domain.ι.base x) ∉ markedSchemePointSet K := by
+  rfl
+
+/-- Set form of the Belyi open for the top-domain partial map attached to an
+honest morphism. -/
+theorem homToPartialMapMarkedCoverData_belyiOpen_eq
+    (f : C ⟶ P1 K) :
+    (partialMapMarkedCoverData K f.toPartialMap).belyiOpen () =
+      {x : f.toPartialMap.domain |
+        f.base (f.toPartialMap.domain.ι.base x) ∉ markedSchemePointSet K} := by
+  rfl
+
 /-- A rational map to `P1 K` from a reduced source gives one-map Belyi-cover
 data on its canonical dense domain. -/
 def rationalMapMarkedCoverData
