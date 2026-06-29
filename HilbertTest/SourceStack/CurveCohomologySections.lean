@@ -2808,6 +2808,34 @@ theorem exists_for_finite_disjoint
           markedSchemePointSet K :=
   D.toFiniteMarkedBelyiExistence.exists_for_finite_disjoint hS hT hdis
 
+/-- Theorem 2.5-style finite marked Belyi map package from the cohomological
+P1-reduction source: for finite disjoint `S,T`, one chosen map is finite,
+dominant, étale over the marked branch-complement, sends `S` to the marked
+branch set, and avoids the marked branch set on `T`. -/
+theorem theorem25_exists_finite_dominant_etale_marked_controls
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsFinite (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+        IsDominant (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+          IsEtale (((D.toFiniteMarkedBelyiExistence.map i).hom) ∣_
+            (SchemeBelyi.markedBelyiTarget K
+              D.toFiniteMarkedBelyiExistence.hmarkedOpen).branchOpen) ∧
+            (∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+              markedSchemePointSet K) ∧
+              ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+                markedSchemePointSet K := by
+  rcases D.exists_for_finite_disjoint hS hT hdis with ⟨i, hSmap, hTmap⟩
+  exact
+    ⟨i,
+      D.toFiniteMarkedBelyiExistence_map_finite_hom i,
+      D.toFiniteMarkedBelyiExistence_map_isDominant_hom i,
+      D.toFiniteMarkedBelyiExistence_map_isEtale_restrict_branchOpen i,
+      hSmap,
+      hTmap⟩
+
 /-- Direct scheme-Belyi-open form of the finite disjoint-set conclusion after
 choosing the cohomological reduction family. -/
 theorem exists_map_belyiOpen_controls
