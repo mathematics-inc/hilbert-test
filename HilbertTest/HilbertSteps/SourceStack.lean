@@ -6742,6 +6742,78 @@ theorem hilbert_cohomologicalTwoSectionSource_finite_compact_cover_by_belyiOpen_
     SourceStack.CurveCohomologySections.CohomologicalTwoSectionFiniteMarkedSourceData.finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
       D
 
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_family_evalPackage
+    {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.evalPackage = D.restricted.toRiemannRochFiniteEvaluationPackage := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.family_evalPackage
+      D
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_family_hmarkedOpen
+    {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.hmarkedOpen = D.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.family_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_family_twoSection
+    {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.family.twoSection = D.twoSection := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.family_twoSection
+      D
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_family_map_hom
+    {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    (D.family.map s).hom = (D.twoSection s).globalHom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.family_map_hom
+      D s
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_family_trivialized_eq_lifted
+    {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    D.family.trivialized s =
+      (D.twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.family_trivialized_eq_lifted
+      D s
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V) :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+      D
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_map_hom
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) :
+    (D.toFiniteMarkedBelyiExistence.map s).hom =
+      (D.twoSection s).globalHom := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_map_hom
+      D s
+
+theorem hilbert_cohomologicalFiniteDominantEtaleTwoSectionSource_toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] {C : Scheme.{u}}
+    (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V)
+    (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalFiniteDominantEtaleTwoSectionSourceData.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+      D s x
+
 variable (D : CohomologicalDivisorSectionData K X V)
 
 theorem hilbert_cohomologicalDivisor_toDivisorZeroSectionData_support :

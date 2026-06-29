@@ -664,6 +664,133 @@ theorem finite_compact_cover_by_belyiOpen_exhaustions_of_locallyCompact
 
 end CohomologicalTwoSectionFiniteMarkedSourceData
 
+/-- Cohomological source package with the finite marked two-section family
+constructed directly from finite/dominant/étale proofs for the canonical
+two-section morphisms.  The evaluation compatibility is reduced to structural
+alignment of the two-section data with the restricted evaluation package. -/
+structure CohomologicalFiniteDominantEtaleTwoSectionSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V] where
+  restricted : RestrictedEvaluationSurjectivityData K C V
+  hmarkedOpen : IsOpen (markedSchemePointSet K)ᶜ
+  twoSection : V → TwoSectionBezoutTrivializedIsUnitData K C V
+  hFinite : ∀ s : V, IsFinite (twoSection s).globalHom
+  hDominant : ∀ s : V, IsDominant (twoSection s).globalHom
+  hEtale :
+    ∀ s : V, IsEtale
+      (((twoSection s).globalHom) ∣_
+        (SchemeBelyi.markedBelyiTarget K hmarkedOpen).branchOpen)
+  evalData_eq :
+    ∀ s : V,
+      (twoSection s).evalData =
+        restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData
+  section0_eq : ∀ s : V, (twoSection s).section0 = s
+  nonzero_avoids_marked :
+    ∀ {T : Set C} {s : V},
+      restricted.toRiemannRochFiniteEvaluationPackage.toEvaluationData.nonzeroOnSet T s →
+        ∀ x ∈ T, (twoSection s).globalHom.base x ∉ markedSchemePointSet K
+
+namespace CohomologicalFiniteDominantEtaleTwoSectionSourceData
+
+variable (D : CohomologicalFiniteDominantEtaleTwoSectionSourceData K C V)
+
+/-- The canonical finite marked two-section family constructed from the direct
+finite/dominant/étale source data. -/
+noncomputable def family : TwoSectionBezoutProjectiveSectionFiniteMarkedFamily K C V :=
+  TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSectionAligned
+    D.restricted.toRiemannRochFiniteEvaluationPackage D.hmarkedOpen D.twoSection
+    D.hFinite D.hDominant D.hEtale D.evalData_eq D.section0_eq
+    D.nonzero_avoids_marked
+
+theorem family_evalPackage :
+    D.family.evalPackage = D.restricted.toRiemannRochFiniteEvaluationPackage := rfl
+
+theorem family_hmarkedOpen :
+    D.family.hmarkedOpen = D.hmarkedOpen := rfl
+
+theorem family_twoSection :
+    D.family.twoSection = D.twoSection := by
+  exact
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSectionAligned_twoSection
+      D.restricted.toRiemannRochFiniteEvaluationPackage D.hmarkedOpen D.twoSection
+      D.hFinite D.hDominant D.hEtale D.evalData_eq D.section0_eq
+      D.nonzero_avoids_marked
+
+theorem family_map_hom (s : V) :
+    (D.family.map s).hom = (D.twoSection s).globalHom := by
+  exact
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSectionAligned_map_hom
+      D.restricted.toRiemannRochFiniteEvaluationPackage D.hmarkedOpen D.twoSection
+      D.hFinite D.hDominant D.hEtale D.evalData_eq D.section0_eq
+      D.nonzero_avoids_marked s
+
+theorem family_trivialized_eq_lifted (s : V) :
+    D.family.trivialized s =
+      (D.twoSection s).toTrivializedIsUnitSectionRatioDataLifted := by
+  exact
+    TwoSectionBezoutProjectiveSectionFiniteMarkedFamily.ofFiniteDominantEtaleTwoSectionAligned_trivialized_eq_lifted
+      D.restricted.toRiemannRochFiniteEvaluationPackage D.hmarkedOpen D.twoSection
+      D.hFinite D.hDominant D.hEtale D.evalData_eq D.section0_eq
+      D.nonzero_avoids_marked s
+
+/-- Forget the direct finite/dominant/étale source package to the previously
+checked cohomological two-section source package. -/
+noncomputable def toCohomologicalTwoSectionFiniteMarkedSourceData :
+    CohomologicalTwoSectionFiniteMarkedSourceData K C V where
+  restricted := D.restricted
+  family := D.family
+  evalPackage_eq := D.family_evalPackage
+
+/-- The paper-facing finite marked Belyi family obtained from the direct
+finite/dominant/étale cohomological source package. -/
+noncomputable def toFiniteMarkedBelyiExistence
+    [Infinite K] : FiniteMarkedBelyiExistence K V C :=
+  D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence
+
+theorem toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K] :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = D.hmarkedOpen := by
+  calc
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen =
+        D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.hmarkedOpen := by
+      exact
+        CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+          D.toCohomologicalTwoSectionFiniteMarkedSourceData
+    _ = D.hmarkedOpen := D.family_hmarkedOpen
+
+theorem toFiniteMarkedBelyiExistence_map_hom
+    [Infinite K] (s : V) :
+    (D.toFiniteMarkedBelyiExistence.map s).hom =
+      (D.twoSection s).globalHom := by
+  calc
+    (D.toFiniteMarkedBelyiExistence.map s).hom =
+        (D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s).hom := by
+      change
+        (D.toCohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence.map s).hom =
+          (D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s).hom
+      rw [CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_map_apply]
+    _ = (D.twoSection s).globalHom := D.family_map_hom s
+
+theorem toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+    [Infinite K] (s : V) (x : C) :
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+      D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+      (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+  calc
+    x ∈ (FiniteMarkedBelyiExistence.toMarkedNoncriticalExistence K V
+        D.toFiniteMarkedBelyiExistence).toBelyiCoverData.belyiOpen s ↔
+        (D.toCohomologicalTwoSectionFiniteMarkedSourceData.family.map s).hom.base x ∉
+          markedSchemePointSet K := by
+      exact
+        CohomologicalTwoSectionFiniteMarkedSourceData.toFiniteMarkedBelyiExistence_mem_belyiOpen_iff
+          D.toCohomologicalTwoSectionFiniteMarkedSourceData s x
+    _ ↔ (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K := by
+      change (D.family.map s).hom.base x ∉ markedSchemePointSet K ↔
+        (D.twoSection s).globalHom.base x ∉ markedSchemePointSet K
+      rw [D.family_map_hom s]
+
+end CohomologicalFiniteDominantEtaleTwoSectionSourceData
+
 end SchemeTwoSectionSource
 
 /-- Cohomological divisor-section data: evaluation surjectivity plus the
