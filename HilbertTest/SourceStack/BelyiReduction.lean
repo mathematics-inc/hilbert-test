@@ -1288,6 +1288,53 @@ theorem exists_map_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFinite
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
       (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
 
+/-- Actual finite-map finite-set Belyi-open consequence retaining marked
+controls from a reduction family, with the finite complement supplied
+explicitly. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ Uᶜ, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUcompl hT hTsub with
+    ⟨i, hcontrols, hopen, hTopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hcontrols),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
+/-- Actual finite-map finite-set Belyi-open consequence retaining marked
+controls from a reduction family in the curve-style finite-complement topology
+form. -/
+theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [NonemptyOpenFiniteComplement C]
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ Uᶜ, (E.map i).hom.base x ∈ markedSchemePointSet K) ∧
+        ∀ x ∈ T, (E.map i).hom.base x ∉ markedSchemePointSet K) ∧
+        IsOpen ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((E.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((E.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  rcases
+      FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+        K (ReductionIndex C) E.toFiniteMarkedBelyiExistence hU hUne hT hTsub with
+    ⟨i, hcontrols, hopen, hTopen, hsub⟩
+  exact
+    ⟨i,
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hcontrols),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hTopen),
+      (by simpa [toFiniteMarkedBelyiExistence_map_apply] using hsub)⟩
+
 /-- Corollary 1.2-style one-point open consequence directly from a reduction
 family. -/
 theorem exists_belyiOpen_inside_complement
