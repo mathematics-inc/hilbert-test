@@ -323,6 +323,9 @@ their chart open immersions and gluing. -/
 def globalHom : C ⟶ P1 K :=
   D.toGluedProjectiveLineSectionData.globalHom
 
+theorem toGluedProjectiveLineSectionData_globalHom :
+    D.toGluedProjectiveLineSectionData.globalHom = D.globalHom := rfl
+
 @[reassoc]
 theorem cover_map_globalHom (i : D.cover.J) :
     D.cover.map i ≫ D.globalHom = D.localHom i := by
@@ -365,6 +368,10 @@ theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toGluedProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toGluedProjectiveLineSectionData_toProjectiveLineSectionPair :
+    D.toGluedProjectiveLineSectionData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
@@ -456,6 +463,9 @@ def toStandardChartProjectiveLineSectionData :
 def globalHom : C ⟶ P1 K :=
   D.toStandardChartProjectiveLineSectionData.globalHom
 
+theorem toStandardChartProjectiveLineSectionData_globalHom :
+    D.toStandardChartProjectiveLineSectionData.globalHom = D.globalHom := rfl
+
 @[reassoc]
 theorem cover_map_globalHom (i : D.cover.J) :
     D.cover.map i ≫ D.globalHom = D.localHom i := by
@@ -498,6 +508,10 @@ theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toStandardChartProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toStandardChartProjectiveLineSectionData_toProjectiveLineSectionPair :
+    D.toStandardChartProjectiveLineSectionData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
@@ -605,6 +619,9 @@ theorem localHom_eq (i : D.cover.J) :
 def globalHom : C ⟶ P1 K :=
   D.toStandardChartProjectiveLineSectionRingData.globalHom
 
+theorem toStandardChartProjectiveLineSectionRingData_globalHom :
+    D.toStandardChartProjectiveLineSectionRingData.globalHom = D.globalHom := rfl
+
 @[reassoc]
 theorem cover_map_globalHom (i : D.cover.J) :
     D.cover.map i ≫ D.globalHom = D.localHom i := by
@@ -647,6 +664,10 @@ theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toStandardChartProjectiveLineSectionRingData.toProjectiveLineSectionPair
+
+theorem toStandardChartProjectiveLineSectionRingData_toProjectiveLineSectionPair :
+    D.toStandardChartProjectiveLineSectionRingData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
@@ -852,6 +873,9 @@ def localHom (i : D.cover.J) : D.cover.obj i ⟶ P1 K :=
 def globalHom : C ⟶ P1 K :=
   D.toSectionRatioProjectiveLineSectionData.globalHom
 
+theorem toSectionRatioProjectiveLineSectionData_globalHom :
+    D.toSectionRatioProjectiveLineSectionData.globalHom = D.globalHom := rfl
+
 @[reassoc]
 theorem cover_map_globalHom (i : D.cover.J) :
     D.cover.map i ≫ D.globalHom = D.localHom i := by
@@ -894,6 +918,10 @@ theorem section0_nonzero_iff_globalHom_ne_zero (x : C) :
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair
+
+theorem toSectionRatioProjectiveLineSectionData_toProjectiveLineSectionPair :
+    D.toSectionRatioProjectiveLineSectionData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
@@ -1019,6 +1047,10 @@ theorem toTrivializedSectionRatioData_globalHom :
 
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toTrivializedSectionRatioData.toProjectiveLineSectionPair
+
+theorem toTrivializedSectionRatioData_toProjectiveLineSectionPair :
+    D.toTrivializedSectionRatioData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
@@ -1149,8 +1181,15 @@ theorem localChartCoordinate_eq_ratio (i : D.cover.J) :
 def globalHom : C ⟶ P1 K :=
   D.toTrivializedUnitSectionRatioData.globalHom
 
+theorem toTrivializedUnitSectionRatioData_globalHom :
+    D.toTrivializedUnitSectionRatioData.globalHom = D.globalHom := rfl
+
 def toProjectiveLineSectionPair : ProjectiveLineSectionPair K C V :=
   D.toTrivializedUnitSectionRatioData.toProjectiveLineSectionPair
+
+theorem toTrivializedUnitSectionRatioData_toProjectiveLineSectionPair :
+    D.toTrivializedUnitSectionRatioData.toProjectiveLineSectionPair =
+      D.toProjectiveLineSectionPair := rfl
 
 theorem toProjectiveLineSectionPair_hom :
     D.toProjectiveLineSectionPair.hom = D.globalHom := rfl
