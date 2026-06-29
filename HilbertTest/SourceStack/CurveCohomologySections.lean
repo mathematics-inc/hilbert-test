@@ -1632,6 +1632,46 @@ theorem exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_o
     FiniteMarkedBelyiExistence.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
       K (ReductionIndex C) D.toFiniteMarkedBelyiExistence hU hUne hT hTsub
 
+/-- Actual finite-map finite-set Belyi-open consequence retaining marked
+controls on the chosen `P1ReductionExistence` maps, with the finite complement
+supplied explicitly. -/
+theorem exists_p1Reduction_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+    [Infinite K]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUcompl : Uᶜ.Finite)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ Uᶜ, (D.toP1ReductionExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toP1ReductionExistence.map i).hom.base x ∉
+          markedSchemePointSet K) ∧
+        IsOpen ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  simpa [toFiniteMarkedBelyiExistence] using
+    D.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_finite_complement
+      hU hUcompl hT hTsub
+
+/-- Actual finite-map finite-set Belyi-open consequence retaining marked
+controls on the chosen `P1ReductionExistence` maps in the curve-style
+finite-complement topology form. -/
+theorem exists_p1Reduction_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+    [Infinite K] [NonemptyOpenFiniteComplement C]
+    (D : CohomologicalP1ReductionSourceData K C V F)
+    {U T : Set C} (hU : IsOpen U) (hUne : U.Nonempty)
+    (hT : T.Finite) (hTsub : T ⊆ U) :
+    ∃ i : ReductionIndex C,
+      ((∀ x ∈ Uᶜ, (D.toP1ReductionExistence.map i).hom.base x ∈
+        markedSchemePointSet K) ∧
+        ∀ x ∈ T, (D.toP1ReductionExistence.map i).hom.base x ∉
+          markedSchemePointSet K) ∧
+        IsOpen ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+          T ⊆ ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ∧
+            ((D.toP1ReductionExistence.map i).toBelyiMap.belyiOpen : Set C) ⊆ U := by
+  simpa [toFiniteMarkedBelyiExistence] using
+    D.exists_map_controls_and_isOpen_belyiOpen_containing_finite_inside_open_of_nonemptyOpenFiniteComplement
+      hU hUne hT hTsub
+
 /-- Corollary 1.2-style one-point Belyi-open consequence directly from the
 cohomological source package. -/
 theorem exists_belyiOpen_inside_complement
