@@ -275,6 +275,65 @@ noncomputable def projectivePair_toP1ReductionAuxiliaryData
     exact D.projectivePair_maps_support_to_zeroPoint P heval hsection0 x hx
   aux_etale_on_selected_belyiOpen := hAuxEtale
 
+/-- Bundled projective-line reduction source material for a divisor
+zero-section.  This packages the line-bundle upgrade from a basepoint-free
+section pair to a morphism `C -> P1`, together with the finite/dominant and
+auxiliary etaleness checks used by the P1-reduction step. -/
+structure ProjectivePairReductionFactory
+    (D : DivisorZeroSectionData K C V)
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (S : Set C) where
+  badValues : Set (P1 K)
+  badValues_finite : badValues.Finite
+  mkPair : ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+    ProjectiveLineSectionPair K C V
+  mkPair_eval : ∀ s1 hnc, (mkPair s1 hnc).evalData = D.evalData
+  mkPair_section0 : ∀ s1 hnc, (mkPair s1 hnc).section0 = D.zeroSection
+  mkPair_finite : ∀ s1 hnc, IsFinite (mkPair s1 hnc).hom
+  mkPair_dominant : ∀ s1 hnc, IsDominant (mkPair s1 hnc).hom
+  target_not_bad :
+    schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues
+  aux_etale :
+    ∀ s1 hnc φ,
+      ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+          (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
+        IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)
+
+/-- Bundled factory form of the divisor-to-reduction bridge: the divisor
+source data plus a projective-pair reduction factory gives auxiliary reduction
+data for `S` and the divisor support. -/
+theorem exists_p1ReductionAuxiliaryData_of_projectivePairReductionFactory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (hsupport : D.support.Finite) {S : Set C}
+    (hdis : Disjoint S D.support)
+    (A : ProjectivePairReductionFactory D F S) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S D.support) := by
+  rcases D.exists_second_section_no_common_zero hsupport with ⟨s1, hnc⟩
+  exact
+    ⟨s1, hnc, ⟨
+      D.projectivePair_toP1ReductionAuxiliaryData F hdis
+        (A.mkPair s1 hnc) (A.mkPair_eval s1 hnc)
+        (A.mkPair_section0 s1 hnc) A.badValues A.badValues_finite
+        (A.mkPair_finite s1 hnc) (A.mkPair_dominant s1 hnc)
+        A.target_not_bad (A.aux_etale s1 hnc)⟩⟩
+
+/-- Set-indexed bundled factory form: if the divisor support is the prescribed
+finite set `T`, the bundled projective-pair reduction factory gives auxiliary
+data for the reduction pair `S,T`. -/
+theorem exists_p1ReductionAuxiliaryData_for_sets_of_projectivePairReductionFactory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hT : T.Finite) (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (A : ProjectivePairReductionFactory D F S) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S T) := by
+  cases hsupport
+  exact D.exists_p1ReductionAuxiliaryData_of_projectivePairReductionFactory
+    F hT hdis A
+
 /-- Factory form of the divisor-section bridge: once the line-bundle
 construction upgrades every basepoint-free pair `(s0, s1)` to a projective-line
 section pair, the divisor source data supplies such a pair mapping the support

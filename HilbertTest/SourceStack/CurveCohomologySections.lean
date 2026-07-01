@@ -2154,6 +2154,32 @@ structure CohomologicalP1ReductionSourceData
           (reductionBadSet (mkPair i s1 hnc).hom i.1.1 (badValues i))ᶜ →
         IsEtale ((mkPair i s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)
 
+/-- Per-index cohomological P1-reduction source material with the
+projective-line construction bundled.  This is the source-material package for
+one finite disjoint pair `S,T`: a cohomological divisor with support `T`, plus
+a bundled projective-pair reduction factory for the complementary control set
+`S`. -/
+structure CohomologicalP1ReductionIndexSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (i : ReductionIndex C) where
+  divisor : CohomologicalDivisorSectionData K C V
+  support_eq : divisor.evalSurjectivity.support = i.1.2
+  factory :
+    DivisorZeroSectionData.ProjectivePairReductionFactory
+      divisor.toDivisorZeroSectionData F i.1.1
+
+/-- Cohomological P1-reduction source material with the per-index
+projective-line construction bundled instead of exposed as repeated fields. -/
+structure CohomologicalP1ReductionFactorySourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K)) where
+  atIndex :
+    ∀ i : ReductionIndex C,
+      CohomologicalP1ReductionIndexSourceData K C V F i
+
 namespace CohomologicalP1ReductionSourceData
 
 variable {Φ : Type z}
@@ -3389,6 +3415,111 @@ theorem finite_subcover_on_complement_forall_avoidance
     K (ReductionIndex C) D.toFiniteMarkedBelyiExistence κ hS
 
 end CohomologicalP1ReductionSourceData
+
+namespace CohomologicalP1ReductionIndexSourceData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+variable {i : ReductionIndex C}
+
+/-- The bundled per-index package has divisor support equal to the target
+finite set of the index after forgetting to divisor zero-section data. -/
+theorem toDivisorZeroSectionData_support
+    (D : CohomologicalP1ReductionIndexSourceData K C V F i) :
+    D.divisor.toDivisorZeroSectionData.support = i.1.2 := by
+  exact D.support_eq
+
+/-- The bundled per-index package supplies the auxiliary data required by the
+P1-reduction step for its indexed finite disjoint pair. -/
+theorem exists_p1ReductionAuxiliaryData
+    [Infinite K]
+    (D : CohomologicalP1ReductionIndexSourceData K C V F i) :
+    Nonempty (P1ReductionAuxiliaryData K C F i.1.1 i.1.2) := by
+  rcases
+      D.divisor.toDivisorZeroSectionData.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePairReductionFactory
+        F i.2.2.1 D.toDivisorZeroSectionData_support i.2.2.2 D.factory with
+    ⟨_s1, _hnc, haux⟩
+  exact haux
+
+end CohomologicalP1ReductionIndexSourceData
+
+namespace CohomologicalP1ReductionFactorySourceData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+
+/-- Forget the bundled factory-source interface to the older expanded
+cohomological P1-reduction source interface. -/
+noncomputable def toCohomologicalP1ReductionSourceData
+    (D : CohomologicalP1ReductionFactorySourceData K C V F) :
+    CohomologicalP1ReductionSourceData K C V F where
+  divisor := fun i => (D.atIndex i).divisor
+  support_eq := fun i => (D.atIndex i).support_eq
+  badValues := fun i => (D.atIndex i).factory.badValues
+  badValues_finite := fun i => (D.atIndex i).factory.badValues_finite
+  mkPair := fun i => (D.atIndex i).factory.mkPair
+  mkPair_eval := fun i => (D.atIndex i).factory.mkPair_eval
+  mkPair_section0 := fun i => (D.atIndex i).factory.mkPair_section0
+  mkPair_finite := fun i => (D.atIndex i).factory.mkPair_finite
+  mkPair_dominant := fun i => (D.atIndex i).factory.mkPair_dominant
+  target_not_bad := fun i => (D.atIndex i).factory.target_not_bad
+  aux_etale := fun i => (D.atIndex i).factory.aux_etale
+
+/-- The bundled factory source gives a per-pair auxiliary-data package for any
+finite disjoint reduction index. -/
+theorem atIndex_exists_p1ReductionAuxiliaryData
+    [Infinite K]
+    (D : CohomologicalP1ReductionFactorySourceData K C V F)
+    (i : ReductionIndex C) :
+    Nonempty (P1ReductionAuxiliaryData K C F i.1.1 i.1.2) :=
+  (D.atIndex i).exists_p1ReductionAuxiliaryData
+
+/-- The bundled factory source supplies the global P1-reduction family. -/
+theorem exists_p1ReductionExistence
+    [Infinite K]
+    (D : CohomologicalP1ReductionFactorySourceData K C V F) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact D.toCohomologicalP1ReductionSourceData.exists_p1ReductionExistence
+
+/-- The paper-facing finite marked Belyi family obtained from bundled
+cohomological P1-reduction source material. -/
+noncomputable def toFiniteMarkedBelyiExistence
+    [Infinite K]
+    (D : CohomologicalP1ReductionFactorySourceData K C V F) :
+    FiniteMarkedBelyiExistence K (ReductionIndex C) C :=
+  D.toCohomologicalP1ReductionSourceData.toFiniteMarkedBelyiExistence
+
+theorem toFiniteMarkedBelyiExistence_hmarkedOpen
+    [Infinite K]
+    (D : CohomologicalP1ReductionFactorySourceData K C V F) :
+    D.toFiniteMarkedBelyiExistence.hmarkedOpen = F.hmarkedOpen :=
+  D.toCohomologicalP1ReductionSourceData.toFiniteMarkedBelyiExistence_hmarkedOpen
+
+/-- Theorem 2.5-style finite marked Belyi map package from the bundled
+cohomological P1-reduction source: for finite disjoint `S,T`, one chosen map
+is finite, dominant, étale over the marked branch-complement, sends `S` to the
+marked branch set, and avoids the marked branch set on `T`. -/
+theorem theorem25_exists_finite_dominant_etale_marked_controls
+    [Infinite K]
+    (D : CohomologicalP1ReductionFactorySourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsFinite (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+        IsDominant (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+          IsEtale (((D.toFiniteMarkedBelyiExistence.map i).hom) ∣_
+            (SchemeBelyi.markedBelyiTarget K
+              D.toFiniteMarkedBelyiExistence.hmarkedOpen).branchOpen) ∧
+            (∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+              markedSchemePointSet K) ∧
+              ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+                markedSchemePointSet K := by
+  exact
+    D.toCohomologicalP1ReductionSourceData.theorem25_exists_finite_dominant_etale_marked_controls
+      hS hT hdis
+
+end CohomologicalP1ReductionFactorySourceData
 
 end SchemeReductionSource
 
