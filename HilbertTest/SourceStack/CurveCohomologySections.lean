@@ -2180,6 +2180,30 @@ structure CohomologicalP1ReductionFactorySourceData
     ∀ i : ReductionIndex C,
       CohomologicalP1ReductionIndexSourceData K C V F i
 
+/-- Per-index cohomological P1-reduction source material using structured
+two-section Bezout chart data instead of an already extracted projective-line
+section pair. -/
+structure CohomologicalStructuredP1ReductionIndexSourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (i : ReductionIndex C) where
+  divisor : CohomologicalDivisorSectionData K C V
+  support_eq : divisor.evalSurjectivity.support = i.1.2
+  structuredFactory :
+    DivisorZeroSectionData.StructuredProjectivePairReductionFactory
+      divisor.toDivisorZeroSectionData F i.1.1
+
+/-- Cohomological P1-reduction source material where every finite disjoint
+pair is supplied by structured two-section Bezout chart data. -/
+structure CohomologicalStructuredP1ReductionFactorySourceData
+    (K : Type u) [Field K] (C : Scheme.{u})
+    (V : Type w) [AddCommGroup V] [Module K V]
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K)) where
+  atIndex :
+    ∀ i : ReductionIndex C,
+      CohomologicalStructuredP1ReductionIndexSourceData K C V F i
+
 namespace CohomologicalP1ReductionSourceData
 
 variable {Φ : Type z}
@@ -3520,6 +3544,93 @@ theorem theorem25_exists_finite_dominant_etale_marked_controls
       hS hT hdis
 
 end CohomologicalP1ReductionFactorySourceData
+
+namespace CohomologicalStructuredP1ReductionIndexSourceData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+variable {i : ReductionIndex C}
+
+/-- Forget structured two-section Bezout chart data to the bundled per-index
+P1-reduction source interface. -/
+noncomputable def toCohomologicalP1ReductionIndexSourceData
+    (D : CohomologicalStructuredP1ReductionIndexSourceData K C V F i) :
+    CohomologicalP1ReductionIndexSourceData K C V F i where
+  divisor := D.divisor
+  support_eq := D.support_eq
+  factory := D.structuredFactory.toProjectivePairReductionFactory
+
+/-- The structured per-index package supplies the auxiliary data required by
+the P1-reduction step for its indexed finite disjoint pair. -/
+theorem exists_p1ReductionAuxiliaryData
+    [Infinite K]
+    (D : CohomologicalStructuredP1ReductionIndexSourceData K C V F i) :
+    Nonempty (P1ReductionAuxiliaryData K C F i.1.1 i.1.2) :=
+  D.toCohomologicalP1ReductionIndexSourceData.exists_p1ReductionAuxiliaryData
+
+end CohomologicalStructuredP1ReductionIndexSourceData
+
+namespace CohomologicalStructuredP1ReductionFactorySourceData
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+
+/-- Forget structured two-section Bezout chart data to the bundled
+cohomological P1-reduction factory-source interface. -/
+noncomputable def toCohomologicalP1ReductionFactorySourceData
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F) :
+    CohomologicalP1ReductionFactorySourceData K C V F where
+  atIndex := fun i =>
+    (D.atIndex i).toCohomologicalP1ReductionIndexSourceData
+
+/-- The structured factory source gives a per-pair auxiliary-data package for
+any finite disjoint reduction index. -/
+theorem atIndex_exists_p1ReductionAuxiliaryData
+    [Infinite K]
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F)
+    (i : ReductionIndex C) :
+    Nonempty (P1ReductionAuxiliaryData K C F i.1.1 i.1.2) :=
+  (D.atIndex i).exists_p1ReductionAuxiliaryData
+
+/-- The structured factory source supplies the global P1-reduction family. -/
+theorem exists_p1ReductionExistence
+    [Infinite K]
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    D.toCohomologicalP1ReductionFactorySourceData.exists_p1ReductionExistence
+
+/-- The paper-facing finite marked Belyi family obtained from structured
+cohomological P1-reduction source material. -/
+noncomputable def toFiniteMarkedBelyiExistence
+    [Infinite K]
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F) :
+    FiniteMarkedBelyiExistence K (ReductionIndex C) C :=
+  D.toCohomologicalP1ReductionFactorySourceData.toFiniteMarkedBelyiExistence
+
+/-- Theorem 2.5-style finite marked Belyi map package from structured
+cohomological P1-reduction source material. -/
+theorem theorem25_exists_finite_dominant_etale_marked_controls
+    [Infinite K]
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsFinite (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+        IsDominant (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+          IsEtale (((D.toFiniteMarkedBelyiExistence.map i).hom) ∣_
+            (SchemeBelyi.markedBelyiTarget K
+              D.toFiniteMarkedBelyiExistence.hmarkedOpen).branchOpen) ∧
+            (∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+              markedSchemePointSet K) ∧
+              ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+                markedSchemePointSet K := by
+  exact
+    D.toCohomologicalP1ReductionFactorySourceData.theorem25_exists_finite_dominant_etale_marked_controls
+      hS hT hdis
+
+end CohomologicalStructuredP1ReductionFactorySourceData
 
 end SchemeReductionSource
 

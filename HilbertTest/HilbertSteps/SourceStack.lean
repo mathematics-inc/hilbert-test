@@ -8169,6 +8169,26 @@ theorem hilbert_cohomologicalP1ReductionFactorySourceData_exists_p1ReductionExis
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionFactorySourceData.exists_p1ReductionExistence
       D
 
+theorem hilbert_cohomologicalStructuredP1ReductionIndexSourceData_exists_p1ReductionAuxiliaryData
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {i : ReductionIndex C}
+    (D : CohomologicalStructuredP1ReductionIndexSourceData K C V F i) :
+    Nonempty (P1ReductionAuxiliaryData K C F i.1.1 i.1.2) := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredP1ReductionIndexSourceData.exists_p1ReductionAuxiliaryData
+      D
+
+theorem hilbert_cohomologicalStructuredP1ReductionFactorySourceData_exists_p1ReductionExistence
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F) :
+    ∃ E : P1ReductionExistence K C,
+      E.hmarkedOpen = F.hmarkedOpen := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredP1ReductionFactorySourceData.exists_p1ReductionExistence
+      D
+
 open CategoryTheory in
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_composedMap_belyiOpen_controls_for_finite_disjoint
     [Infinite K] {C : Scheme.{u}} {Φ : Type z}
@@ -8801,6 +8821,26 @@ theorem hilbert_cohomologicalP1ReductionFactorySourceData_theorem25_exists_finit
                 markedSchemePointSet K := by
   exact
     SourceStack.CurveCohomologySections.CohomologicalP1ReductionFactorySourceData.theorem25_exists_finite_dominant_etale_marked_controls
+      D hS hT hdis
+
+theorem hilbert_cohomologicalStructuredP1ReductionFactorySourceData_theorem25_exists_finite_dominant_etale_marked_controls
+    [Infinite K] {C : Scheme.{u}} {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (D : CohomologicalStructuredP1ReductionFactorySourceData K C V F)
+    {S T : Set C} (hS : S.Finite) (hT : T.Finite)
+    (hdis : Disjoint S T) :
+    ∃ i : ReductionIndex C,
+      IsFinite (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+        IsDominant (D.toFiniteMarkedBelyiExistence.map i).hom ∧
+          IsEtale (((D.toFiniteMarkedBelyiExistence.map i).hom) ∣_
+            (SourceStack.SchemeBelyi.markedBelyiTarget K
+              D.toFiniteMarkedBelyiExistence.hmarkedOpen).branchOpen) ∧
+            (∀ x ∈ S, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∈
+              markedSchemePointSet K) ∧
+              ∀ x ∈ T, (D.toFiniteMarkedBelyiExistence.map i).hom.base x ∉
+                markedSchemePointSet K := by
+  exact
+    SourceStack.CurveCohomologySections.CohomologicalStructuredP1ReductionFactorySourceData.theorem25_exists_finite_dominant_etale_marked_controls
       D hS hT hdis
 
 theorem hilbert_cohomologicalP1ReductionSourceData_exists_map_belyiOpen_controls

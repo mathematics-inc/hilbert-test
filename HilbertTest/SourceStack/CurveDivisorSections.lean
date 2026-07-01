@@ -299,6 +299,79 @@ structure ProjectivePairReductionFactory
           (reductionBadSet (mkPair s1 hnc).hom S badValues)ᶜ →
         IsEtale ((mkPair s1 hnc).hom ∣_ (F.map φ).toBelyiMap.belyiOpen)
 
+/-- Structured version of `ProjectivePairReductionFactory` in which the
+projective-line section pair is not supplied directly: it is extracted from
+the structured two-section Bezout chart data already formalized in
+`ProjectiveSectionMaps`. -/
+structure StructuredProjectivePairReductionFactory
+    (D : DivisorZeroSectionData K C V)
+    {Φ : Type z} (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    (S : Set C) where
+  badValues : Set (P1 K)
+  badValues_finite : badValues.Finite
+  twoSection :
+    ∀ s1 : V, HasNoCommonZero D.evalData D.zeroSection s1 →
+      TwoSectionBezoutStructuredTrivializedIsUnitData K C V
+  twoSection_evalData : ∀ s1 hnc, (twoSection s1 hnc).evalData = D.evalData
+  twoSection_section0 : ∀ s1 hnc, (twoSection s1 hnc).section0 = D.zeroSection
+  twoSection_finite : ∀ s1 hnc, IsFinite (twoSection s1 hnc).globalHom
+  twoSection_dominant : ∀ s1 hnc, IsDominant (twoSection s1 hnc).globalHom
+  target_not_bad :
+    schemeCarrierPoint K MarkedPointLabel.zero ∉ badValues
+  aux_etale :
+    ∀ s1 hnc φ,
+      ((F.map φ).toBelyiMap.belyiOpen : Set (P1 K)) ⊆
+          (reductionBadSet (twoSection s1 hnc).globalHom S badValues)ᶜ →
+        IsEtale ((twoSection s1 hnc).globalHom ∣_
+          (F.map φ).toBelyiMap.belyiOpen)
+
+namespace StructuredProjectivePairReductionFactory
+
+variable {Φ : Type z}
+variable {F : FiniteMarkedBelyiExistence K Φ (P1 K)}
+variable {S : Set C}
+variable (A : StructuredProjectivePairReductionFactory D F S)
+
+/-- Forget structured two-section Bezout chart data to the bundled
+projective-pair reduction factory. -/
+noncomputable def toProjectivePairReductionFactory :
+    ProjectivePairReductionFactory D F S where
+  badValues := A.badValues
+  badValues_finite := A.badValues_finite
+  mkPair := fun s1 hnc => (A.twoSection s1 hnc).toProjectiveLineSectionPair
+  mkPair_eval := by
+    intro s1 hnc
+    calc
+      (A.twoSection s1 hnc).toProjectiveLineSectionPair.evalData =
+          (A.twoSection s1 hnc).evalData := by
+        exact (A.twoSection s1 hnc).toProjectiveLineSectionPair_evalData
+      _ = D.evalData := A.twoSection_evalData s1 hnc
+  mkPair_section0 := by
+    intro s1 hnc
+    calc
+      (A.twoSection s1 hnc).toProjectiveLineSectionPair.section0 =
+          (A.twoSection s1 hnc).section0 := by
+        exact (A.twoSection s1 hnc).toProjectiveLineSectionPair_section0
+      _ = D.zeroSection := A.twoSection_section0 s1 hnc
+  mkPair_finite := by
+    intro s1 hnc
+    rw [(A.twoSection s1 hnc).toProjectiveLineSectionPair_hom]
+    exact A.twoSection_finite s1 hnc
+  mkPair_dominant := by
+    intro s1 hnc
+    rw [(A.twoSection s1 hnc).toProjectiveLineSectionPair_hom]
+    exact A.twoSection_dominant s1 hnc
+  target_not_bad := A.target_not_bad
+  aux_etale := by
+    intro s1 hnc φ hsubset
+    rw [(A.twoSection s1 hnc).toProjectiveLineSectionPair_hom]
+    exact A.aux_etale s1 hnc φ
+      (by
+        simpa [(A.twoSection s1 hnc).toProjectiveLineSectionPair_hom] using
+          hsubset)
+
+end StructuredProjectivePairReductionFactory
+
 /-- Bundled factory form of the divisor-to-reduction bridge: the divisor
 source data plus a projective-pair reduction factory gives auxiliary reduction
 data for `S` and the divisor support. -/
@@ -333,6 +406,20 @@ theorem exists_p1ReductionAuxiliaryData_for_sets_of_projectivePairReductionFacto
   cases hsupport
   exact D.exists_p1ReductionAuxiliaryData_of_projectivePairReductionFactory
     F hT hdis A
+
+/-- Set-indexed structured factory form: if the divisor support is the
+prescribed finite set `T`, structured two-section Bezout chart data gives
+auxiliary data for the reduction pair `S,T`. -/
+theorem exists_p1ReductionAuxiliaryData_for_sets_of_structuredProjectivePairReductionFactory
+    [Infinite K] {Φ : Type z}
+    (F : FiniteMarkedBelyiExistence K Φ (P1 K))
+    {S T : Set C} (hT : T.Finite) (hsupport : D.support = T)
+    (hdis : Disjoint S T)
+    (A : StructuredProjectivePairReductionFactory D F S) :
+    ∃ s1 : V, ∃ _ : HasNoCommonZero D.evalData D.zeroSection s1,
+      Nonempty (P1ReductionAuxiliaryData K C F S T) := by
+  exact D.exists_p1ReductionAuxiliaryData_for_sets_of_projectivePairReductionFactory
+    F hT hsupport hdis A.toProjectivePairReductionFactory
 
 /-- Factory form of the divisor-section bridge: once the line-bundle
 construction upgrades every basepoint-free pair `(s0, s1)` to a projective-line
